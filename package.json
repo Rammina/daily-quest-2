@@ -38,6 +38,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jest": "^24.9.0",
+    "jest-css-modules": "^2.1.0",
     "jest-enzyme": "^7.1.1"
   },
   "jest": {

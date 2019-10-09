@@ -1,3 +1,10 @@
 .nav-menu.ui.sidebar.vertical {
-  width: 10rem !important;
+	width: 10rem !important;
+	border-left: 1px solid #beffff;
+	background-color: #333;
+}
+
+.ui.inverted.menu .item,
+.ui.inverted.menu .item > a:not(.ui) {
+	color: #beffff;
 }

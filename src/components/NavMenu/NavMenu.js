@@ -1,44 +1,52 @@
-import "./NavMenu.css";
+import './NavMenu.css';
 
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 class NavMenu extends React.Component {
-  state = {
-    menuClass: "ui inverted right vertical sidebar menu"
-  };
+	state = {
+		menuClass: 'right menu'
+	};
 
-  handleResize = () => {
-    if (this.state.menuClass) {
-      const menuClass =
-        window.innerWidth > 900
-          ? "right menu"
-          : "ui inverted right vertical sidebar menu";
-      if (menuClass !== this.state.menuClass) {
-        this.setState({ menuClass });
-      }
-    }
-  };
+	renderNavMenu = () => {
+		if (this.state.menuClass) {
+			const menuClass =
+				window.innerWidth > 900 ? 'right menu' : 'ui inverted right vertical sidebar menu';
+			if (menuClass !== this.state.menuClass) {
+				this.setState({ menuClass });
+			}
+		}
+	};
 
-  componentDidMount() {
-    window.addEventListener("resize", this.handleResize);
-  }
+	handleResize = () => {
+		this.renderNavMenu();
+	};
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize);
-  }
+	componentDidMount() {
+		window.addEventListener('resize', this.handleResize);
+		this.renderNavMenu();
+	}
 
-  render() {
-    return (
-      <div
-        data-test="component-nav-menu"
-        className={`nav-menu visible ${this.state.menuClass}`}
-      >
-        <a className="left item">Projects</a>
-        <a className="left item active">Due Today</a>
-        <a className="left item">Finished Tasks</a>
-      </div>
-    );
-  }
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.handleResize);
+	}
+
+	render() {
+		return (
+			<div data-test="component-nav-menu" className={`nav-menu visible ${this.state.menuClass}`}>
+				<p style={{ visibility: 'hidden' }}></p>
+				<Link data-test="projects" to="/projects" className="left item no-border">
+					Projects
+				</Link>
+				<Link data-test="due-today-link" to="/due-today" className="left item">
+					Due Today
+				</Link>
+				<Link data-test="finished-tasks-link" to="/finished-tasks" className="left item">
+					Finished Tasks
+				</Link>
+			</div>
+		);
+	}
 }
 
 export default NavMenu;
