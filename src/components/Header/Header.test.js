@@ -8,8 +8,6 @@ import { findByTestAttributes } from '../../test/testUtils';
 
 import Header from './Header';
 
-global.window = { location: { pathname: null }}
-
 const setup = (props = {}, state = null) => {
 	return shallow(<Header {...props} />);
 };
@@ -20,11 +18,11 @@ test('component renders without error', () => {
 	expect(headerComponent.length).toBe(1);
 });
 
-test('renders a link to the homepage of the application', () =>{
+test('renders a link to the homepage of the application', () => {
 	const wrapper = setup();
 	const link = wrapper.find('[data-test="home-link"][to="/"]');
 	expect(link.length).toBe(1);
-})
+});
 
 // test('Clicking the link should change the address bar URL to "/"', () =>{
 // 	const wrapper = setup();

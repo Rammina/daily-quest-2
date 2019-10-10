@@ -1,0 +1,9 @@
+.home-container {
+	padding-top: 3.3rem;
+	min-height: 100vh;
+	background-color: #444;
+}
+
+.home-welcome.ui.segment {
+	position: relative;
+}

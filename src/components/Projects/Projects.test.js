@@ -8,8 +8,6 @@ import { findByTestAttributes } from '../../test/testUtils';
 
 import Projects from './Projects';
 
-global.window = { location: { pathname: null }}
-
 const setup = (props = {}, state = null) => {
 	return shallow(<Projects {...props} />);
 };
@@ -19,4 +17,3 @@ test('component renders without error', () => {
 	const projectsComponent = findByTestAttributes(wrapper, 'component-projects');
 	expect(projectsComponent.length).toBe(1);
 });
-

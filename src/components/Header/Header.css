@@ -1,0 +1,8 @@
+.ui.secondary.pointing.menu.header {
+	z-index: 10;
+	position: fixed;
+	background-color: #222;
+	width: 100%;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}

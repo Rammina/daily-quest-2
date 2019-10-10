@@ -1,10 +1,13 @@
 .ui.container {
-	background-color: #222;
-	width: 100%;
-	margin-left: 1 !important;
+	margin-left: 0 !important;
 	margin-right: 0 !important;
+	width: 100%;
 }
 
 .ui.menu .item {
 	color: #beffff;
+}
+
+.ui.menu .item:hover {
+	color: #eeffff !important;
 }
