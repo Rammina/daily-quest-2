@@ -9,7 +9,9 @@ import { findByTestAttributes } from '../../test/testUtils';
 import Header from './Header';
 
 const setup = (props = {}, state = null) => {
-	return shallow(<Header {...props} />);
+	const wrapper = shallow(<Header {...props} />);
+	if(state) {wrapper.setState(state)}; 
+	return wrapper;
 };
 
 test('component renders without error', () => {
@@ -23,6 +25,27 @@ test('renders a link to the homepage of the application', () => {
 	const link = wrapper.find('[data-test="home-link"][to="/"]');
 	expect(link.length).toBe(1);
 });
+
+test('renders a hamburger button', () =>{
+	const wrapper = setup();
+	const hamburger = findByTestAttributes(wrapper, 'nav-hamburger');
+	expect(hamburger.length).toBe(1);
+})
+
+test('clicking the hamburger button toggles sidebar class', () =>{
+	const wrapper = setup();
+	const initialSidebarClass = wrapper.state('sidebarClassFromClick');
+	
+	const hamburger = findByTestAttributes(wrapper, 'nav-hamburger');
+	hamburger.simulate('click');
+	wrapper.update();
+
+	const currentSidebarClass = wrapper.state('sidebarClassFromClick');
+	expect(currentSidebarClass).not.toBe(initialSidebarClass);
+
+})
+
+
 
 // test('Clicking the link should change the address bar URL to "/"', () =>{
 // 	const wrapper = setup();

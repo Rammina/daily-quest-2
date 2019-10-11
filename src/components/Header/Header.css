@@ -1,8 +1,22 @@
 .ui.secondary.pointing.menu.header {
-	z-index: 10;
-	position: fixed;
-	background-color: #222;
-	width: 100%;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
+  z-index: 10;
+  position: fixed;
+  background-color: #222;
+  width: 100%;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+#nav-hamburger {
+  display: none;
+  position: relative;
+  padding: 0.5rem;
+  box-shadow: 0 0 0 1px #beffff;
+  border-radius: 3px;
+  bottom: 0.4rem;
+  right: 1.5rem;
+}
+
+#nav-hamburger.show {
+  display: block;
 }

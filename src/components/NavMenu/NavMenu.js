@@ -5,35 +5,14 @@ import { Link } from 'react-router-dom';
 
 class NavMenu extends React.Component {
 	state = {
-		menuClass: 'right menu'
+		
 	};
 
-	renderNavMenu = () => {
-		if (this.state.menuClass) {
-			const menuClass =
-				window.innerWidth > 900 ? 'right menu' : 'ui inverted right vertical sidebar menu';
-			if (menuClass !== this.state.menuClass) {
-				this.setState({ menuClass });
-			}
-		}
-	};
-
-	handleResize = () => {
-		this.renderNavMenu();
-	};
-
-	componentDidMount() {
-		window.addEventListener('resize', this.handleResize);
-		this.renderNavMenu();
-	}
-
-	componentWillUnmount() {
-		window.removeEventListener('resize', this.handleResize);
-	}
-
+	componentDidMount() {}
+		
 	render() {
 		return (
-			<div data-test="component-nav-menu" className={`nav-menu visible ${this.state.menuClass}`}>
+			<div data-test="component-nav-menu" className={`nav-menu ${this.props.menuClass} ${this.props.sidebarClassFromClick}`}>
 				<p style={{ visibility: 'hidden' }}></p>
 				<Link data-test="projects" to="/projects" className="left item no-border">
 					Projects

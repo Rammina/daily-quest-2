@@ -6,4 +6,9 @@
 
 .home-welcome.ui.segment {
 	position: relative;
+	width: 30vw;
+	min-width: 18rem;
+	min-height: 10rem;
+	margin: 0 auto;
+	top: calc(50vh - 8.5rem);
 }
