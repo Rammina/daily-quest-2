@@ -1,4 +1,5 @@
 .nav-menu.ui.sidebar.vertical {
+	z-index: 30;
 	width: 10rem !important;
 	border-left: 1px solid #beffff;
 	background-color: #333;
@@ -7,4 +8,27 @@
 .ui.inverted.menu .item,
 .ui.inverted.menu .item > a:not(.ui) {
 	color: #beffff;
+}
+
+#nav-menu-backdrop {
+	z-index: 20;
+	position: fixed;
+	display: none;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#nav-menu-backdrop.visible {
+	display: block;
+}
+
+#nav-menu-backdrop.invisible {
+	display: none;
+}
+
+@media screen and (min-width: 901px) {
+	#nav-menu-backdrop.visible {
+		display: none;
+	}
 }

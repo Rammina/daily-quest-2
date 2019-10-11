@@ -34,19 +34,31 @@ class Header extends React.Component {
     }
   };
 
+  showSidebar = () => {
+    this.setState({
+      hamburgerClicked: true,
+      sidebarClassFromClick: "visible"
+    });
+  }
+
+  hideSidebar = () => {
+    this.setState({
+      hamburgerClicked: false,
+      sidebarClassFromClick: "invisible"
+    });
+  }
+
   onHamburgerClick = () => {
     if (this.state.hamburgerClicked) {
-      this.setState({
-        hamburgerClicked: false,
-        sidebarClassFromClick: "invisible"
-      });
+      this.hideSidebar();
     } else {
-      this.setState({
-        hamburgerClicked: true,
-        sidebarClassFromClick: "visible"
-      });
+      this.showSidebar();
     }
   };
+
+  onBackdropClick = () => {
+    this.hideSidebar();
+	}
 
   handleResize = () => {
     this.updateNavMenuClasses();
@@ -80,7 +92,7 @@ class Header extends React.Component {
         >
           <i className="bars icon" />
         </button>
-        <NavMenu menuClass={this.state.menuClass} sidebarClassFromClick={this.state.sidebarClassFromClick}/>
+        <NavMenu menuClass={this.state.menuClass} sidebarClassFromClick={this.state.sidebarClassFromClick} onBackdropClick={this.onBackdropClick}/>
       </div>
     );
   }

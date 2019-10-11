@@ -1,14 +1,72 @@
 .home-container {
-	padding-top: 3.3rem;
-	min-height: 100vh;
-	background-color: #444;
+  padding-top: 3.3rem;
+  min-height: 100vh;
+  background-color: #444;
 }
 
 .home-welcome.ui.segment {
-	position: relative;
-	width: 30vw;
-	min-width: 18rem;
-	min-height: 10rem;
-	margin: 0 auto;
-	top: calc(50vh - 8.5rem);
+  position: relative;
+  width: 30vw;
+  min-width: 18rem;
+  min-height: 10rem;
+  margin: 0 auto;
+  top: calc(50vh - 8.5rem);
+  background-color: rgba(28, 52, 78, 0.95);
+  -webkit-box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #ffc9b8,
+    0px 0px 3px 2px #ffc580;
+  box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #ffc9b8,
+    0px 0px 3px 2px #ffc580;
+  border-radius: 20px;
+}
+
+#home-girl-container {
+  background: url("../../images/yumemi.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  position: relative;
+  margin: 0 auto;
+  width: 10rem;
+  height: 10rem;
+}
+/* girlContainer.style.background = `url(${RoboImage})`;
+girlContainer.style.backgroundSize = "contain";
+girlContainer.style.backgroundRepeat = "no-repeat";
+girlContainer.style.backgroundPosition = "50% 50%"; */
+
+#home-paragraph {
+  z-index: 2;
+  font-size: 1.15rem;
+  color: rgb(255, 254, 240);
+  padding: 0 0.5rem;
+  text-align: center;
+
+  /*text-shadow: 1px 1px 0px #111;*/
+}
+
+.home-paragraph-button {
+  color: #ffc580;
+  background-color: inherit;
+  outline: none;
+  border: none;
+  font-size: inherit;
+  font-family: "Raleway", sans-serif;
+  text-shadow: 0px 0px 0.5px #fff9b5;
+}
+
+.home-paragraph-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#home-button {
+  display: none;
+  font-size: 1.2rem;
+  background-color: rgba(10, 0, 0, 0.2);
+  border: 2px solid #111;
+  border-radius: 3px;
+  color: #111;
+  text-transform: uppercase;
+  padding: 0.8rem 1.5rem;
+  margin-bottom: 1rem;
 }
