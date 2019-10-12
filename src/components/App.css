@@ -1,14 +1,33 @@
+ul {
+  list-style-type: none;
+}
+
 .ui.container {
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	width: 100%;
-	min-height: 100vh;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .ui.menu .item {
-	color: #beffff;
+  color: #beffff;
 }
 
 .ui.menu .item:hover {
-	color: #eeffff !important;
+  color: #eeffff !important;
+}
+
+.todolist.ui.segment {
+  min-width: 17rem;
+  width: 60vw;
+  background-color: #eef;
+  margin: 0 auto;
+}
+
+.todolist.ui.segment .item {
+  /* background-color: #ffb; */
+}
+
+.item.list-header {
+  /* background-color: #555; */
 }

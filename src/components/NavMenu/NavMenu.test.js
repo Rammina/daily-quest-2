@@ -9,7 +9,9 @@ import { findByTestAttributes} from '../../test/testUtils';
 import NavMenu from './NavMenu';
 
 const setup = (props = {}, state = null) => {
-	return shallow(<NavMenu {...props} />);
+	const wrapper = shallow(<NavMenu {...props} />);
+	if(state) {wrapper.setState(state)}; 	
+	return wrapper;
 };
 
 test('component renders without error', () => {
@@ -17,6 +19,7 @@ test('component renders without error', () => {
 	const navMenuComponent = findByTestAttributes(wrapper, 'component-nav-menu');
 	expect(navMenuComponent.length).toBe(1);
 });
+
 
 test('Contains *links* to other *pages* of the application', () =>{
 	const wrapper = setup();

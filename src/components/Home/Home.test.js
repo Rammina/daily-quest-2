@@ -18,3 +18,14 @@ test('component renders without error', () => {
 	expect(homeComponent.length).toBe(1);
 });
 
+test('renders Link to projects page', () => {
+	const wrapper = setup();
+	const projectLink = wrapper.find('[data-test="home-projects-link"][to="/projects"]');
+	expect(projectLink.length).toBe(1);
+});
+
+test('renders Link to due today page', () => {
+	const wrapper = setup();
+	const dueTodayLink = wrapper.find('[data-test="home-due-today-link"][to="/due-today"]');
+	expect(dueTodayLink.length).toBe(1);
+});

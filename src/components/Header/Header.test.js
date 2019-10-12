@@ -45,7 +45,17 @@ test('clicking the hamburger button toggles sidebar class', () =>{
 
 })
 
+// test('clicking the backdrop toggles sidebar class', () =>{
+// 	const wrapper = setup({sidebarClassFromClick: 'visible', onBackdropClick}, null);
+// 	const initialSidebarClass = wrapper.prop('sidebarClassFromClick');
+	
+// 	const backdrop = findByTestAttributes(wrapper, 'nav-menu-backdrop');
+// 	backdrop.simulate('click');
+// 	wrapper.update();
 
+// 	const currentSidebarClass = wrapper.prop('sidebarClassFromClick');
+// 	expect(currentSidebarClass).not.toBe(initialSidebarClass);
+// });
 
 // test('Clicking the link should change the address bar URL to "/"', () =>{
 // 	const wrapper = setup();
