@@ -10,7 +10,20 @@ class Projects extends React.Component {
   	this.props.fetchProjects();
   }
 
+  renderProjects(){
+  	return this.props.projects.map(project => {
+  		return (
+  			<div className="item list-header" key={`${project.name}-${project.id}`}>
+              <div className="content">
+                <div className="header">{project.name}</div>                
+              </div>
+            </div>
+  		);
+  	});
+  }
+
   render() {
+  	console.log(this.props.projects);
     return (
       <div data-test="component-projects" className="projects-container">
         <div className="todolist ui segment">
@@ -30,6 +43,7 @@ class Projects extends React.Component {
                 <div className="header">Sample Project</div>                
               </div>
             </div>             
+            {this.renderProjects()}
           </div>
         </div>
       </div>
@@ -37,4 +51,7 @@ class Projects extends React.Component {
   }
 }
 
-export default connect(null, {fetchProjects})(Projects);
+const mapStateToProps = (state) =>{
+	return { projects: state.projects};
+}
+export default connect(mapStateToProps, {fetchProjects})(Projects);

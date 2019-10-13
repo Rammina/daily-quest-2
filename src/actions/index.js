@@ -1,17 +1,20 @@
-import firestore from "../apis/firestore";
+import firebasedatabase from "../apis/firebasedatabase";
 
 export const actionTypes = {
-  FETCH_PROJECTS: "FETCH_PROJECTS"
+	FETCH_PROJECTS: 'FETCH_PROJECTS',
 };
 
 export const fetchProjects = () => {
-  return async function(dispatch, getState) {
-    const response = await firestore.get("/");
+	return async function (dispatch, getState) {
 
-    console.log(response);
-    dispatch({
-      type: actionTypes.FETCH_PROJECTS,
-      payload: response
-    });
-  };
-};
+		const response = await firebasedatabase.get('/projects');
+
+		// under construction because I have to sort out the data
+		console.log(" finished getting: ");
+		console.log(response.data);
+		dispatch({
+			type: actionTypes.FETCH_PROJECTS,
+			payload: response.data
+		})
+	};
+}

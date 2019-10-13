@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
+import projectsReducer from './projectsReducer';
 
 export default combineReducers({
-	killme: () => 'remove me'
+	projects: projectsReducer
 })
