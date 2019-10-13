@@ -1,11 +1,14 @@
 import "./Projects.css";
 
 import React from "react";
+import {connect} from 'react-redux';
+import {fetchProjects} from '../../actions';
 
 class Projects extends React.Component {
-
 	
-  componentDidMount() {}
+  componentDidMount() {
+  	this.props.fetchProjects();
+  }
 
   render() {
     return (
@@ -34,4 +37,4 @@ class Projects extends React.Component {
   }
 }
 
-export default Projects;
+export default connect(null, {fetchProjects})(Projects);

@@ -40,5 +40,31 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    	<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-firestore.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCRSkIXcaeU0T0PSfiq6yTsxoq7kiaIZJo",
+    authDomain: "daily-quest-43108.firebaseapp.com",
+    databaseURL: "https://daily-quest-43108.firebaseio.com",
+    projectId: "daily-quest-43108",
+    storageBucket: "daily-quest-43108.appspot.com",
+    messagingSenderId: "62124849904",
+    appId: "1:62124849904:web:63ea79d9b11b7b422f6035",
+    measurementId: "G-FREFJVEN4L"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  db.settings({ timestampsInSnapshots: true})
+</script>
 	</body>
 </html>
