@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#000000" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-		/>
-		<meta name="description" content="Web site created using create-react-app" />
-		<link rel="apple-touch-icon" href="logo192.png" />
-		<!--
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-		<!--
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -25,12 +31,12 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-		<title>React App</title>
-	</head>
-	<body>
-		<noscript>You need to enable JavaScript to run this app.</noscript>
-		<div id="root"></div>
-		<!--
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -41,30 +47,30 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-    	<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-firestore.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+		     https://firebase.google.com/docs/web/setup#available-libraries -->
 
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-firestore.js"></script>
 
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCRSkIXcaeU0T0PSfiq6yTsxoq7kiaIZJo",
-    authDomain: "daily-quest-43108.firebaseapp.com",
-    databaseURL: "https://daily-quest-43108.firebaseio.com",
-    projectId: "daily-quest-43108",
-    storageBucket: "daily-quest-43108.appspot.com",
-    messagingSenderId: "62124849904",
-    appId: "1:62124849904:web:63ea79d9b11b7b422f6035",
-    measurementId: "G-FREFJVEN4L"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  db.settings({ timestampsInSnapshots: true})
-</script>
-	</body>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCumpHJHu_cHob8APU8ckGjvj87vtL0tG4",
+        authDomain: "daily-quest-255801.firebaseapp.com",
+        databaseURL: "https://daily-quest-255801.firebaseio.com",
+        projectId: "daily-quest-255801",
+        storageBucket: "daily-quest-255801.appspot.com",
+        messagingSenderId: "614367436290",
+        appId: "1:614367436290:web:e61a97bb560b68860ed11b",
+        measurementId: "G-RD0F4V0YWN"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      db.settings({ timestampsInSnapshots: true });
+    </script>
+  </body>
 </html>
