@@ -13,13 +13,17 @@ class Projects extends React.Component {
   }
 
   renderProjects() {
-    return this.props.projects.map((project, index) => {
-      return (
-        <Link to={`/projects/${index}`}>
-          <ProjectItem project={project} />
-        </Link>
-      );
-    });
+    if (this.props.projects) {
+      return this.props.projects.map((project, index) => {
+        return (
+          <Link to={`/projects/${project.id}`}>
+            <ProjectItem project={project} />
+          </Link>
+        );
+      });
+    } else {
+      return null;
+    }
   }
 
   render() {
