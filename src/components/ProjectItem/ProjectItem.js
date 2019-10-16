@@ -17,7 +17,7 @@ class ProjectItem extends React.Component {
       <React.Fragment>
         <button className="modal-close">x</button>
         <h1 className="modal-header">Edit a Project</h1>
-        <form id="edit-project-form">
+        <form id="edit-project-form" onSubmit={}>
           <div id="edit-project-field-div">
             <input
               id="edit-project-title-field"
@@ -27,7 +27,8 @@ class ProjectItem extends React.Component {
               placeholder="Project Title"
               maxlength="30"
               required="true"
-            />
+              value={this.props.project.name}
+            >
           </div>
 
           <input
