@@ -1,0 +1,139 @@
+#modal {
+  z-index: 2000;
+}
+
+.backdrop {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  z-index: 2000;
+  position: fixed;
+  /*display: none;*/
+  width: calc(100vw - (100vw - 100%));
+  height: 100vh;
+  padding: 0.5rem;
+  padding-top: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  right: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal-container {
+  position: relative;
+  /*display: none;*/
+  display: block;
+  /*position: fixed;*/
+
+  width: (100% - 1rem);
+  max-width: 40rem;
+  /*margin: calc(50vh - 13.4rem) calc(50vw - 50%);*/
+  margin: calc(35vh - 6.5rem) auto;
+  padding: 2rem 0.5rem;
+  background-color: #333;
+  -webkit-box-shadow: 0 0 0 3px #555;
+  box-shadow: 0 0 0 2px #beffff;
+  border-radius: 5px;
+  /*overflow: hidden;*/
+  overflow-y: auto;
+  max-height: calc(75vh);
+  color: aliceblue;
+  font-family: "Raleway", sans-serif;
+}
+
+#edit-project-content {
+  max-width: 35rem;
+}
+
+.modal-close {
+  /*z-index: 102;*/
+  display: inline-block;
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  right: 0;
+  font-family: "Raleway", sans-serif;
+  font-size: 2.2rem;
+  color: aliceblue;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  /*padding: 0.9rem;*/
+  /*margin-left: calc(95% - 2.7rem);*/
+  /*margin-right: 0;*/
+  margin-top: -2.2rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: rgb(184, 190, 197);
+}
+
+.modal-header {
+  /*display: inline-block; */
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: "Raleway", sans-serif;
+}
+
+.text-field {
+  position: relative;
+  display: block;
+  width: 85%;
+  max-width: 26rem;
+  height: 2.8rem;
+  margin: 0rem auto;
+  margin-bottom: 0.8rem;
+  background-color: white;
+  border: solid 1.5px #beffff;
+  border-radius: 5px;
+  padding-left: 0.6rem;
+  font-size: 1rem;
+  /*right: 0.5rem; */
+  font-family: "Raleway", sans-serif;
+}
+
+.text-field:disabled {
+  height: 2.8rem;
+}
+
+.text-field:focus {
+  background-color: #fcfae0;
+  -webkit-box-shadow: inset 0px 0px 0.5px 1px #ffffff,
+    inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000;
+  box-shadow: inset 0px 0px 0.5px 1px #ffffff, inset 0px 0px 1px 2px #969696,
+    inset 0px 0px 2px 3px #000000;
+}
+
+.text-field.invalid {
+  background-color: #fcc;
+}
+
+#edit-project-title-field {
+  margin-bottom: 2rem;
+  position: relative;
+  top: 0.5rem;
+  max-width: 20rem;
+}
+
+.form-submit {
+  display: block;
+  width: 82%;
+  max-width: 13rem;
+  height: 3rem;
+  font-size: 1.3rem;
+  font-family: "Raleway", sans-serif;
+  margin: 1rem auto;
+  background-color: #dfd;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 5px;
+}
+
+.form-submit:hover {
+  border: 1px solid #beffff;
+  background-color: rgb(175, 224, 175);
+  cursor: pointer;
+}
