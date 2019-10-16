@@ -6,7 +6,9 @@ import Modal from '../Modal/Modal';
 
 class ProjectItem extends React.Component {
   state={
-    modalOpened: false
+    modalOpened: false,
+    editModalOpened: false,
+    deleteModalOpened: false
   }
   componentDidMount() {
 
@@ -26,42 +28,61 @@ class ProjectItem extends React.Component {
     );
   }
 
-  renderModal = (target) =>{
+  onModalOpen = (target) =>{
     if(target.classList.contains('edit-button')) {    
-      if(!this.state.modalOpened) {
-        this.setState({modalOpened: true})
-      }      
+      if(!this.state.editModalOpened) {      
+        this.setState({editModalOpened: true});
+      }
+    }
+    else if(target.classList.contains('delete-button')) {    
+      else if(!this.state.deleteModalOpened) {              
+        this.setState({deleteModalOpened: true});
+      }
+    }
+    return null;
+  }
+
+  renderModal = () =>{
+    if(this.state.editModalOpened) {      
       return (
         <Modal 
           title="Edit Project"
           content={}
           action={}
+          onDismiss={}
         />
       );
     }
-    else if(target.classList.contains('delete-button')) {
-      if(!this.state.modalOpened) {
-        this.setState({modalOpened: true})
-      }
+    else if(this.state.deleteModalOpened) {              
       return (
         <Modal 
           title="Delete Project"
           content={}
           action={}
+          onDismiss={}
         />
       );
     }
-
     return null;
+  }
+
+  dismissModalHandler = () =>{
+    this.setState({
+      modalOpened: false,
+      editModalOpened: false,
+      deleteModalOpened: false
+    })
   }
 
   onButtonClick = (event) =>{    
     event.stopPropagation();
-    const target = event.target;
-    this.renderModal(target);
+    const target = event.target;    
+    this.onModalOpen(target);
   }
 
   render() {
+    const modalContent = this.renderModal();
+
     return (
       <div
         className="item list-header"
@@ -75,7 +96,7 @@ class ProjectItem extends React.Component {
           <button onClick={this.onButtonClick} className="project delete-button">delete</button>
         </div>
       </div>
-      {this.renderModal()}
+      {modalContent}
     );
   }
 }
