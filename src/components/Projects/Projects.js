@@ -16,7 +16,7 @@ class Projects extends React.Component {
     if (this.props.projects) {
       return this.props.projects.map((project, index) => {
         return (
-          <Link to={`/projects/${project.id}`}>
+          <Link to={`/projects/${project.id}`} key={index}>
             <ProjectItem project={project} />
           </Link>
         );

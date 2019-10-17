@@ -11,23 +11,20 @@ const Modal = props => {
     props.onDismiss();
   };
 
-  const onModalContentClick = event => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
   return ReactDOM.createPortal(
     <div onClick={onBackdropClick} className="backdrop">
-      //Get rid of this
       <section
-        onClick={onModalContentClick}
+        onClick={event => {
+          event.preventDefault();
+          event.stopPropagation();
+        }}
+        id={props.sectionId}
         className="modal-container"
-        id="edit-project-content"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-hidden="true"
       >
-        {props.content}
+        {props.content()}
       </section>
     </div>,
     document.getElementById("modal")

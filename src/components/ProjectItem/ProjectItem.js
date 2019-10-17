@@ -16,8 +16,8 @@ class ProjectItem extends React.Component {
     return (
       <React.Fragment>
         <button className="modal-close">x</button>
-        <h1 className="modal-header">Edit a Project</h1>
-        <form id="edit-project-form" onSubmit={}>
+        <h1 className="modal-header">Rename Project</h1>
+        <form id="edit-project-form">
           <div id="edit-project-field-div">
             <input
               id="edit-project-title-field"
@@ -25,47 +25,66 @@ class ProjectItem extends React.Component {
               type="text"
               name="project-title"
               placeholder="Project Title"
-              maxlength="30"
+              maxLength="30"
               required="true"
               value={this.props.project.name}
-            >
+            />
           </div>
 
-          <input
-            type="submit"
-            className="form-submit"
-            id="edit-project-submit"
-            value="Add This Project"
-          />
+          <div
+            className="two-buttons-container"
+            id="edit-project-buttons-container"
+          >
+            <button
+              className="modal-action-button cancel-button"
+              id="edit-project-cancel"
+            >
+              Cancel
+            </button>
+
+            <input
+              type="submit"
+              className="form-submit"
+              id="edit-project-submit"
+              value="Submit"
+            />
+          </div>
         </form>
       </React.Fragment>
     );
   };
 
   renderDeleteContent = () => {
+    console.log("Activated");
     return (
       <React.Fragment>
         <button className="modal-close">x</button>
-        <h1 className="modal-header">Delete a Project</h1>
+        <h1 className="modal-header">Delete Project</h1>
         <form id="delete-project-form">
-          <div id="delete-project-field-div">
-            <input
-              id="delete-project-title-field"
-              className="delete-project-modal required text-field"
-              type="text"
-              name="project-title"
-              placeholder="Project Title"
-              maxlength="30"
-              required="true"
-            />
-          </div>
+          <p className="modal-paragraph">
+            Would you like to delete this project?
+          </p>
+          <p className="modal-paragraph modal-warning">
+            WARNING: All deleted tasks' data cannot be recovered!
+          </p>
+          <p className="modal-paragraph delete-item-title">
+            {this.props.project.name}
+          </p>
+          <div
+            className="two-buttons-container"
+            id="delete-project-buttons-container"
+          >
+            <button
+              className="modal-action-button cancel-button"
+              id="delete-project-cancel"
+            >
+              Cancel
+            </button>
 
-          <input
-            type="submit"
-            className="form-submit"
-            id="delete-project-submit"
-            value="Add This Project"
-          />
+            <button className="modal-action-button delete-confirm-button">
+              Delete Project
+            </button>
+          </div>
         </form>
       </React.Fragment>
     );
@@ -89,7 +108,8 @@ class ProjectItem extends React.Component {
       return (
         <Modal
           title="Edit Project"
-          content={this.renderEditContent()}
+          sectionId="edit-project-content"
+          content={this.renderEditContent}
           onDismiss={this.dismissModalHandler}
         />
       );
@@ -97,8 +117,8 @@ class ProjectItem extends React.Component {
       return (
         <Modal
           title="Delete Project"
-          content={"."}
-          action={"."}
+          sectionId="delete-project-content"
+          content={this.renderDeleteContent}
           onDismiss={this.dismissModalHandler}
         />
       );

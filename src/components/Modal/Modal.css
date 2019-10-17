@@ -41,7 +41,8 @@
   font-family: "Raleway", sans-serif;
 }
 
-#edit-project-content {
+#edit-project-content,
+#delete-project-content {
   max-width: 35rem;
 }
 
@@ -75,6 +76,27 @@
   text-align: center;
   font-size: 1.6rem;
   font-family: "Raleway", sans-serif;
+}
+
+.modal-paragraph {
+  width: 85%;
+  max-width: 28.5rem;
+  margin: 1.3rem auto;
+  margin-top: 0;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.modal-warning {
+  position: relative;
+  bottom: 0.5rem;
+  color: #fbb;
+  font-size: 1rem;
+}
+
+.delete-item-title {
+  font-size: 1.6rem;
+  color: #fdb;
 }
 
 .text-field {
@@ -136,4 +158,64 @@
   border: 1px solid #beffff;
   background-color: rgb(175, 224, 175);
   cursor: pointer;
+}
+
+.two-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+#edit-project-buttons-container {
+  max-width: 23rem;
+}
+
+#delete-project-buttons-container {
+  max-width: 25rem;
+}
+
+.modal-action-button {
+  display: block;
+  width: 82%;
+  max-width: 11rem;
+  height: 3rem;
+  font-size: 1.3rem;
+  font-family: "Raleway", sans-serif;
+  margin: 1rem auto;
+  border: 1px solid rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 5px;
+  background-color: #fefefe;
+  color: #111;
+}
+
+.cancel-button {
+  background-color: rgb(187, 187, 187);
+  max-width: 7rem;
+}
+
+.cancel-button:hover {
+  background-color: rgb(210, 210, 210);
+  -webkit-box-shadow: 0px 0px 3px 2px #666666;
+  box-shadow: 0px 0px 3px 2px #666666;
+}
+
+.delete-confirm-button {
+  background-color: #b22;
+  color: white;
+}
+
+.delete-confirm-button:hover {
+  background-color: #c33;
+  /* background-color: rgb(195, 29, 29); */
+  color: white;
+  -webkit-box-shadow: 0px 0px 3px 2px #252525;
+  box-shadow: 0px 0px 3px 2px #252525;
+}
+
+#edit-project-submit {
+  max-width: 9rem;
 }

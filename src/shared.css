@@ -46,7 +46,9 @@ main {
   /*top: 3.5rem;*/
 }
 
-button {
+button:hover,
+input[type="submit"] {
+  cursor: pointer;
 }
 
 button:focus {
