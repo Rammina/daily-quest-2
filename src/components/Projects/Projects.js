@@ -16,7 +16,11 @@ class Projects extends React.Component {
     if (this.props.projects) {
       return this.props.projects.map((project, index) => {
         return (
-          <Link to={`/projects/${project.id}`} key={index}>
+          <Link
+            to={`/projects/${project.id}`}
+            key={index}
+            className="project item  list-header"
+          >
             <ProjectItem project={project} />
           </Link>
         );
@@ -32,18 +36,18 @@ class Projects extends React.Component {
       <div data-test="component-projects" className="projects-container">
         <div id="projects-list" className="todolist ui segment">
           <div className="ui relaxed divided list">
-            <div className="item list-header">
-              <div className="content">
+            <div className="project item  list-header">
+              <div className="project content">
                 <div className="header header-text project">My Projects</div>
               </div>
             </div>
-            <div className="item">
-              <div className="content">
+            <div className="project item ">
+              <div className="project content">
                 <div className="description-text project">Sample Project</div>
               </div>
             </div>
-            <div className="item">
-              <div className="content">
+            <div className="project item ">
+              <div className="project content">
                 <div className="description-text project">Sample Project</div>
               </div>
             </div>

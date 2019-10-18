@@ -8,6 +8,18 @@
   width: 40vw;
 }
 
+.project.item {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  width: 100%;
+  min-height: 3rem;
+}
+
+.project.content {
+  width: 100% !important;
+}
+
 .header-text.header.project {
   padding-bottom: 0.4rem;
   font-family: "Raleway", sans-serif !important;

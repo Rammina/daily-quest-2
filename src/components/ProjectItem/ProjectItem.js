@@ -1,8 +1,12 @@
 import "./ProjectItem.css";
+import PencilImg from "../../images/rename.png";
+import TrashImg from "../../images/trash.png";
 
 import React from "react";
 import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
+import ModalCloseButton from "../Modal/common/ModalCloseButton";
+import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 class ProjectItem extends React.Component {
   state = {
@@ -15,7 +19,7 @@ class ProjectItem extends React.Component {
   renderEditContent = () => {
     return (
       <React.Fragment>
-        <button className="modal-close">x</button>
+        <ModalCloseButton onClose={this.dismissModalHandler} />
         <h1 className="modal-header">Rename Project</h1>
         <form id="edit-project-form">
           <div id="edit-project-field-div">
@@ -35,12 +39,7 @@ class ProjectItem extends React.Component {
             className="two-buttons-container"
             id="edit-project-buttons-container"
           >
-            <button
-              className="modal-action-button cancel-button"
-              id="edit-project-cancel"
-            >
-              Cancel
-            </button>
+            <ModalCancelButton onClose={this.dismissModalHandler} />
 
             <input
               type="submit"
@@ -55,10 +54,9 @@ class ProjectItem extends React.Component {
   };
 
   renderDeleteContent = () => {
-    console.log("Activated");
     return (
       <React.Fragment>
-        <button className="modal-close">x</button>
+        <ModalCloseButton onClose={this.dismissModalHandler} />
         <h1 className="modal-header">Delete Project</h1>
         <form id="delete-project-form">
           <p className="modal-paragraph">
@@ -74,12 +72,7 @@ class ProjectItem extends React.Component {
             className="two-buttons-container"
             id="delete-project-buttons-container"
           >
-            <button
-              className="modal-action-button cancel-button"
-              id="delete-project-cancel"
-            >
-              Cancel
-            </button>
+            <ModalCancelButton onClose={this.dismissModalHandler} />
 
             <button className="modal-action-button delete-confirm-button">
               Delete Project
@@ -145,26 +138,33 @@ class ProjectItem extends React.Component {
     const modalContent = this.renderModal();
 
     return (
-      <div
-        className="item list-header"
-        key={`${this.props.project.name}-${this.props.project.id}`}
-      >
-        <div className="content">
-          <div className="description-text project">
-            {this.props.project.name}
+      <React.Fragment>
+        <div
+          className="project content"
+          key={`${this.props.project.name}-${this.props.project.id}`}
+        >
+          <div className="item-flex project">
+            <div className="description-text project">
+              {this.props.project.name}
+            </div>
+            <span className="project list-buttons-container">
+              <button
+                onClick={this.onButtonClick}
+                className="project edit-button icon-button"
+              >
+                <img className="icon-image" src={PencilImg} alt="Pencil" />
+              </button>
+              <button
+                onClick={this.onButtonClick}
+                className="project delete-button icon-button"
+              >
+                <img className="icon-image" src={TrashImg} alt="Trash Can" />
+              </button>
+            </span>
           </div>
-          <button onClick={this.onButtonClick} className="project edit-button">
-            edit
-          </button>
-          <button
-            onClick={this.onButtonClick}
-            className="project delete-button"
-          >
-            delete
-          </button>
         </div>
         {modalContent}
-      </div>
+      </React.Fragment>
     );
   }
 }

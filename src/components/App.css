@@ -18,7 +18,7 @@ ul {
 }
 
 .todolist.ui.segment {
-  min-width: 17rem;
+  min-width: 290px;
   width: 60vw;
   background-color: #eef;
   margin: 0 auto;
