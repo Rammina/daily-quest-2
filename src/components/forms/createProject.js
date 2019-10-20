@@ -1,12 +1,12 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import {connect} from "react-redux";
-// import {editProject} from "../../actions";
+import {createProject} from "../../actions";
 
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
-class EditProject extends React.Component {
+class AddProject extends React.Component {
 
 	renderError = ({error, touched}/*deconstructed meta object*/) => {
 		if(error && touched) {
@@ -18,8 +18,8 @@ class EditProject extends React.Component {
   renderInput = ({ input, meta }) =>{
     return (
       <input
-        id="edit-project-title-field"
-        className="edit-project-modal required text-field"
+        id="add-project-title-field"
+        className="add-project-modal required text-field"
         type="text"
         name="project-title"
         placeholder="Project Title"
@@ -33,29 +33,29 @@ class EditProject extends React.Component {
   }
 
   onSubmit = formValues => {
-  		
+    this.props.createProject(formValues);
   };
 
   render() {
     return (
       <form
         onSubmit={this.props.handleSubmit(this.onSubmit)}
-        id="edit-project-form"
+        id="add-project-form"
       >
-        <div id="edit-project-field-div">
+        <div id="add-project-field-div">
           <Field name="title" component={this.renderInput} />
         </div>
 
         <div
           className="two-buttons-container"
-          id="edit-project-buttons-container"
+          id="add-project-buttons-container"
         >
         	<ModalCancelButton onClose={this.props.onClose} />
           
           <input
             type="submit"
             className="form-submit"
-            id="edit-project-submit"
+            id="add-project-submit"
             value="Submit"
           />
         </div>
@@ -74,11 +74,11 @@ const validate = formValues => {
 };
 
 const formWrapped = reduxForm({
-  form: 'editProject',
+  form: 'addProject',
   validate
-})(EditProject);
+})(AddProject);
 
 export default connect(
-	null,
-	{editProject}
+  null,
+  {createProject}
 )(formWrapped);

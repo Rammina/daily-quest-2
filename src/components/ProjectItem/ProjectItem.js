@@ -83,7 +83,10 @@ class ProjectItem extends React.Component {
     );
   };
 
-  onModalOpen = target => {
+  onModalOpen = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.target;
     if (target.classList.contains("edit-button")) {
       if (!this.state.editModalOpened) {
         this.setState({ editModalOpened: true });
@@ -127,12 +130,6 @@ class ProjectItem extends React.Component {
     });
   };
 
-  onButtonClick = event => {
-    event.preventDefault();
-    event.stopPropagation();
-    const target = event.target;
-    this.onModalOpen(target);
-  };
 
   render() {
     const modalContent = this.renderModal();
@@ -149,13 +146,13 @@ class ProjectItem extends React.Component {
             </div>
             <span className="project list-buttons-container">
               <button
-                onClick={this.onButtonClick}
+                onClick={this.onModalOpen}
                 className="project edit-button icon-button"
               >
                 <img className="icon-image" src={PencilImg} alt="Pencil" />
               </button>
               <button
-                onClick={this.onButtonClick}
+                onClick={this.onModalOpen}
                 className="project delete-button icon-button"
               >
                 <img className="icon-image" src={TrashImg} alt="Trash Can" />

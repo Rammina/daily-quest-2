@@ -2,14 +2,23 @@ import "./Projects.css";
 
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProjects } from "../../actions";
+import { fetchProjects, createProject } from "../../actions";
 import { Link } from "react-router-dom";
 
 import ProjectItem from "../ProjectItem/ProjectItem.js";
 
 class Projects extends React.Component {
+	state = {
+		modalOpened: false,
+		createModalOpened: false,
+	}
+
   componentDidMount() {
     this.props.fetchProjects();
+  }
+
+  componentDidUpdate(){
+
   }
 
   renderProjects() {
@@ -19,7 +28,7 @@ class Projects extends React.Component {
           <Link
             to={`/projects/${project.id}`}
             key={index}
-            className="project item  list-header"
+            className="project item list-header"
           >
             <ProjectItem project={project} />
           </Link>
@@ -30,26 +39,27 @@ class Projects extends React.Component {
     }
   }
 
+  onRenderModal = (event) =>{  	
+  	event.preventDefault();
+  	event.stopPropagation();
+
+  }
+
   render() {
     console.log(this.props.projects);
     return (
       <div data-test="component-projects" className="projects-container">
         <div id="projects-list" className="todolist ui segment">
           <div className="ui relaxed divided list">
-            <div className="project item  list-header">
+            <div className="project item list-header">
               <div className="project content">
                 <div className="header header-text project">My Projects</div>
               </div>
-            </div>
-            <div className="project item ">
-              <div className="project content">
-                <div className="description-text project">Sample Project</div>
+              <div>
+              	<button onClick={onRenderModal}>+</button>
+
               </div>
-            </div>
-            <div className="project item ">
-              <div className="project content">
-                <div className="description-text project">Sample Project</div>
-              </div>
+              
             </div>
             {this.renderProjects()}
           </div>
@@ -60,9 +70,12 @@ class Projects extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { projects: state.projects };
+  return { projects: Object.values(state.projects) };
 };
 export default connect(
   mapStateToProps,
-  { fetchProjects }
+  { 
+  	fetchProjects,
+  	createProject
+  }
 )(Projects);
