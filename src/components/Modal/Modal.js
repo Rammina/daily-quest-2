@@ -3,6 +3,7 @@ import "./Modal.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import history from "../../history";
+import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
 const Modal = props => {
   const onBackdropClick = event => {
@@ -24,6 +25,7 @@ const Modal = props => {
         role="dialog"
         aria-hidden="true"
       >
+      	<ModalCloseButton onClose={props.onDismiss()} />
         {props.content()}
       </section>
     </div>,

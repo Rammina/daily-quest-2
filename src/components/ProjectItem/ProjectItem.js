@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
+import { deleteProject } from '../../actions';
 
 class ProjectItem extends React.Component {
   state = {
@@ -74,7 +75,10 @@ class ProjectItem extends React.Component {
           >
             <ModalCancelButton onClose={this.dismissModalHandler} />
 
-            <button className="modal-action-button delete-confirm-button">
+            <button 
+              className="modal-action-button delete-confirm-button"
+              onClick={() => this.props.deleteProject(this.project.id)}
+            >
               Delete Project
             </button>
           </div>
@@ -89,11 +93,11 @@ class ProjectItem extends React.Component {
     const target = event.target;
     if (target.classList.contains("edit-button")) {
       if (!this.state.editModalOpened) {
-        this.setState({ editModalOpened: true });
+        this.setState({ editModalOpened: true, modalOpened: true });
       }
     } else if (target.classList.contains("delete-button")) {
       if (!this.state.deleteModalOpened) {
-        this.setState({ deleteModalOpened: true });
+        this.setState({ deleteModalOpened: true, modalOpened: true });
       }
     }
     return null;
@@ -103,7 +107,6 @@ class ProjectItem extends React.Component {
     if (this.state.editModalOpened) {
       return (
         <Modal
-          title="Edit Project"
           sectionId="edit-project-content"
           content={this.renderEditContent}
           onDismiss={this.dismissModalHandler}
@@ -112,7 +115,6 @@ class ProjectItem extends React.Component {
     } else if (this.state.deleteModalOpened) {
       return (
         <Modal
-          title="Delete Project"
           sectionId="delete-project-content"
           content={this.renderDeleteContent}
           onDismiss={this.dismissModalHandler}
@@ -171,5 +173,5 @@ class ProjectItem extends React.Component {
 // };
 export default connect(
   null,
-  {}
+  {deleteProject}
 )(ProjectItem);

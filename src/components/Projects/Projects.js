@@ -6,11 +6,18 @@ import { fetchProjects, createProject } from "../../actions";
 import { Link } from "react-router-dom";
 
 import ProjectItem from "../ProjectItem/ProjectItem.js";
+import Modal from "../Modal/Modal";
+import ModalCloseButton from "../Modal/common/ModalCloseButton";
+import ModalCancelButton from "../Modal/common/ModalCancelButton";
+
+import {dismissModalHandler} from "../../helpers";
 
 class Projects extends React.Component {
 	state = {
-		modalOpened: false,
-		createModalOpened: false,
+		modalsOpened: {
+			anyModalOpened: false,
+			createModalOpened: false
+		}
 	}
 
   componentDidMount() {
@@ -21,13 +28,24 @@ class Projects extends React.Component {
 
   }
 
-  renderProjects() {
+  onModalOpen = (event) =>{  	
+
+  	event.preventDefault();
+  	event.stopPropagation();
+  	if (target.classList.contains("create-button")) {
+      if (!this.state.modalsOpened.createModalOpened) {
+        this.setState({modalsOpened: {modalOpened: true, createModalOpened: true}});
+      }
+  	}  
+  };
+
+  renderProjects = () => {
     if (this.props.projects) {
       return this.props.projects.map((project, index) => {
         return (
           <Link
             to={`/projects/${project.id}`}
-            key={index}
+            key={project.id}
             className="project item list-header"
           >
             <ProjectItem project={project} />
@@ -35,19 +53,68 @@ class Projects extends React.Component {
         );
       });
     } else {
-      return null;
+      <div>Loading...</div>
     }
   }
 
-  onRenderModal = (event) =>{  	
-  	event.preventDefault();
-  	event.stopPropagation();
 
+  renderCreateContent = () => {
+    return (
+      <React.Fragment>
+        <ModalCloseButton onClose={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}} />
+        <h1 className="modal-header">Create New Project</h1>
+        <form id="create-project-form">
+          <div id="create-project-field-div">
+            <input
+              id="create-project-title-field"
+              className="create-project-modal required text-field"
+              type="text"
+              name="project-title"
+              placeholder="Project Title"
+              maxLength="30"
+              required="true"
+              value=""
+            />
+          </div>
+
+          <div
+            className="two-buttons-container"
+            id="create-project-buttons-container"
+          >
+            <ModalCancelButton onClose={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}} />
+
+            <input
+              type="submit"
+              className="form-submit"
+              id="create-project-submit"
+              value="Submit"
+            />
+          </div>
+        </form>
+      </React.Fragment>
+    );
   }
 
+
+  renderModal =() =>{
+  	if(this.state.modalsOpened.createModalOpened) {
+  		return (
+  		<Modal 
+  		  sectionId="create-project-content"
+  		  content={this.renderCreateContent()}
+  		  onDismiss={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}}
+  		/>
+  		);
+  	}
+  	return null;
+  }
+ 
+
   render() {
+
     console.log(this.props.projects);
     return (
+    <React.Fragment>
       <div data-test="component-projects" className="projects-container">
         <div id="projects-list" className="todolist ui segment">
           <div className="ui relaxed divided list">
@@ -56,15 +123,17 @@ class Projects extends React.Component {
                 <div className="header header-text project">My Projects</div>
               </div>
               <div>
-              	<button onClick={onRenderModal}>+</button>
+              	<button className="create-button" onClick={onModalOpen}>+</button>
 
               </div>
               
             </div>
             {this.renderProjects()}
           </div>
-        </div>
+        </div>        
       </div>
+      {this.renderModal()}
+    <React.Fragment>
     );
   }
 }
