@@ -1,4 +1,4 @@
-import "./ProjectItem.css";
+import "./TaskItem.css";
 import PencilImg from "../../images/rename.png";
 import TrashImg from "../../images/trash.png";
 
@@ -7,9 +7,9 @@ import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
-import { deleteProject } from "../../actions";
+import { deleteTask } from "../../actions";
 
-class ProjectItem extends React.Component {
+class TaskItem extends React.Component {
   state = {
     modalOpened: false,
     editModalOpened: false,
@@ -17,69 +17,69 @@ class ProjectItem extends React.Component {
   };
   componentDidMount() {}
 
-  renderEditContent = () => {
-    return (
-      <React.Fragment>
-        <ModalCloseButton onClose={this.dismissModalHandler} />
-        <h1 className="modal-header">Rename Project</h1>
-        <form id="edit-project-form">
-          <div id="edit-project-field-div">
-            <input
-              id="edit-project-title-field"
-              className="edit-project-modal required text-field"
-              type="text"
-              name="project-title"
-              placeholder="Project Title"
-              maxLength="30"
-              required="true"
-              value={this.props.project.name}
-            />
-          </div>
+  // This would look completely different if it's a task you're editing
+  // renderEditContent = () => {
+  //   return (
+  //     <React.Fragment>
+  //       <ModalCloseButton onClose={this.dismissModalHandler} />
+  //       <h1 className="modal-header">Rename Task</h1>
+  //       <form id="edit-task-form">
+  //         <div id="edit-task-field-div">
+  //           <input
+  //             id="edit-task-title-field"
+  //             className="edit-task-modal required text-field"
+  //             type="text"
+  //             name="task-title"
+  //             placeholder="Task Title"
+  //             maxLength="30"
+  //             required="true"
+  //             value={this.props.task.name}
+  //           />
+  //         </div>
+  //
+  //         <div
+  //           className="two-buttons-container"
+  //           id="edit-task-buttons-container"
+  //         >
+  //           <ModalCancelButton onClose={this.dismissModalHandler} />
+  //
+  //           <input
+  //             type="submit"
+  //             className="form-submit"
+  //             id="edit-task-submit"
+  //             value="Submit"
+  //           />
+  //         </div>
+  //       </form>
+  //     </React.Fragment>
+  //   );
+  // };
 
-          <div
-            className="two-buttons-container"
-            id="edit-project-buttons-container"
-          >
-            <ModalCancelButton onClose={this.dismissModalHandler} />
-
-            <input
-              type="submit"
-              className="form-submit"
-              id="edit-project-submit"
-              value="Submit"
-            />
-          </div>
-        </form>
-      </React.Fragment>
-    );
-  };
-
+  // this can pass looking similar to the project version
   renderDeleteContent = () => {
     return (
       <React.Fragment>
         <ModalCloseButton onClose={this.dismissModalHandler} />
-        <h1 className="modal-header">Delete Project</h1>
-        <form id="delete-project-form">
-          <p className="modal-paragraph">
-            Would you like to delete this project?
-          </p>
+        <h1 className="modal-header">Delete Task</h1>
+        <form id="delete-task-form">
+          <p className="modal-paragraph">Would you like to delete this task?</p>
           <p className="modal-paragraph modal-warning">
             WARNING: All deleted tasks' data cannot be recovered!
           </p>
           <p className="modal-paragraph delete-item-title">
-            {this.props.project.name}
+            {this.props.task.name}
           </p>
           <div
             className="two-buttons-container"
-            id="delete-project-buttons-container"
+            id="delete-task-buttons-container"
           >
             <ModalCancelButton onClose={this.dismissModalHandler} />
 
             <button
               className="modal-action-button delete-confirm-button"
-              onClick={() => this.props.deleteProject(this.project.id)}
+              onClick={() => this.props.deleteTask(this.task.id)}
             >
-              Delete Project
+              Delete Task
             </button>
           </div>
         </form>
@@ -87,6 +87,7 @@ class ProjectItem extends React.Component {
     );
   };
 
+  // This honestly could be recycled instead as a general helper function
   onModalOpen = event => {
     event.preventDefault();
     event.stopPropagation();
@@ -103,11 +104,12 @@ class ProjectItem extends React.Component {
     return null;
   };
 
+  // This also could be recyclable
   renderModal = () => {
     if (this.state.editModalOpened) {
       return (
         <Modal
-          sectionId="edit-project-content"
+          sectionId="edit-task-content"
           content={this.renderEditContent}
           onDismiss={this.dismissModalHandler}
         />
@@ -115,7 +117,7 @@ class ProjectItem extends React.Component {
     } else if (this.state.deleteModalOpened) {
       return (
         <Modal
-          sectionId="delete-project-content"
+          sectionId="delete-task-content"
           content={this.renderDeleteContent}
           onDismiss={this.dismissModalHandler}
         />
@@ -124,6 +126,7 @@ class ProjectItem extends React.Component {
     return null;
   };
 
+  // We already recycle this
   dismissModalHandler = () => {
     this.setState({
       modalOpened: false,
@@ -138,23 +141,21 @@ class ProjectItem extends React.Component {
     return (
       <React.Fragment>
         <div
-          className="project content"
-          key={`${this.props.project.name}-${this.props.project.id}`}
+          className="task content"
+          key={`${this.props.task.name}-${this.props.task.id}`}
         >
-          <div className="item-flex project">
-            <div className="description-text project">
-              {this.props.project.name}
-            </div>
-            <span className="project list-buttons-container">
+          <div className="item-flex task">
+            <div className="description-text task">{this.props.task.name}</div>
+            <span className="task list-buttons-container">
               <button
                 onClick={this.onModalOpen}
-                className="project edit-button icon-button"
+                className="task edit-button icon-button"
               >
                 <img className="icon-image" src={PencilImg} alt="Pencil" />
               </button>
               <button
                 onClick={this.onModalOpen}
-                className="project delete-button icon-button"
+                className="task delete-button icon-button"
               >
                 <img className="icon-image" src={TrashImg} alt="Trash Can" />
               </button>
@@ -168,9 +169,9 @@ class ProjectItem extends React.Component {
 }
 
 // const mapStateToProps = state => {
-//   return { projects: state.projects };
+//   return { tasks: state.tasks };
 // };
 export default connect(
   null,
-  { deleteProject }
-)(ProjectItem);
+  { deleteTask }
+)(TaskItem);
