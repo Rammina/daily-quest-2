@@ -9,20 +9,20 @@ import { connect } from "react-redux";
 // import { fetchProject, createTask } from "../../actions";
 import { Link } from "react-router-dom";
 
-// import TaskItem from "../TaskItem/TaskItem.js";
+import TaskItem from "../TaskItem/TaskItem.js";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
-import {dismissModalHandler} from "../../helpers";
+import { dismissModalHandler } from "../../helpers";
 
 class Tasks extends React.Component {
-	state = {
-		modalsOpened: {
-			anyModalOpened: false,
-			createModalOpened: false
-		}
-	}
+  state = {
+    modalsOpened: {
+      anyModalOpened: false,
+      createModalOpened: false
+    }
+  };
 
   componentDidMount() {
     // this needs to be able to receive the ID property of the project in
@@ -30,24 +30,23 @@ class Tasks extends React.Component {
     // this.props.fetchProject(this.props.match.params.id);
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {}
 
-  }
-
-  onModalOpen = (event) =>{
-
-  	event.preventDefault();
-  	event.stopPropagation();
-  	if (target.classList.contains("create-button")) {
+  onModalOpen = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.target.classList.contains("create-button")) {
       if (!this.state.modalsOpened.createModalOpened) {
-        this.setState({modalsOpened: {modalOpened: true, createModalOpened: true}});
+        this.setState({
+          modalsOpened: { modalOpened: true, createModalOpened: true }
+        });
       }
-  	}
+    }
   };
 
   renderTasks = () => {
     const projectId = this.props.project.id;
-    const {tasks} = this.props.project;
+    const { tasks } = this.props.project;
     if (tasks) {
       return tasks.map((task, index) => {
         return (
@@ -61,15 +60,18 @@ class Tasks extends React.Component {
         );
       });
     } else {
-      <div>Loading...</div>
+      return <div>Loading...</div>;
     }
-  }
-
+  };
 
   renderCreateContent = () => {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}} />
+        <ModalCloseButton
+          onClose={() => {
+            dismissModalHandler(this.state.modalsOpened, this.setState);
+          }}
+        />
         <h1 className="modal-header">Create New Task</h1>
         <form id="create-project-form">
           <div id="create-project-field-div">
@@ -89,7 +91,11 @@ class Tasks extends React.Component {
             className="two-buttons-container"
             id="create-project-buttons-container"
           >
-            <ModalCancelButton onClose={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}} />
+            <ModalCancelButton
+              onClose={() => {
+                dismissModalHandler(this.state.modalsOpened, this.setState);
+              }}
+            />
 
             <input
               type="submit"
@@ -101,107 +107,58 @@ class Tasks extends React.Component {
         </form>
       </React.Fragment>
     );
-  }
+  };
 
-
-  renderModal =() =>{
-  	if(this.state.modalsOpened.createModalOpened) {
-  		return (
-  		<Modal
-  		  sectionId="create-project-content"
-  		  content={this.renderCreateContent()}
-  		  onDismiss={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}}
-  		/>
-  		);
-  	}
-  	return null;
-  }
-
+  renderModal = () => {
+    if (this.state.modalsOpened.createModalOpened) {
+      return (
+        <Modal
+          sectionId="create-project-content"
+          content={this.renderCreateContent()}
+          onDismiss={() => {
+            dismissModalHandler(this.state.modalsOpened, this.setState);
+          }}
+        />
+      );
+    }
+    return null;
+  };
 
   render() {
-
     console.log(this.props.project);
     return (
-    <React.Fragment>
-      <div data-test="component-tasks" className="tasks-container">
-        <div id="tasks-list" className="todolist ui segment">
-          <div className="ui relaxed divided list">
-            <div className="task item list-header">
-              <div className="task content">
-                <div className="header header-text task">My Tasks</div>
+      <React.Fragment>
+        <div data-test="component-tasks" className="tasks-container">
+          <div id="tasks-list" className="todolist ui segment">
+            <div className="ui relaxed divided list">
+              <div className="task item list-header">
+                <div className="task content">
+                  <div className="header header-text task">My Tasks</div>
+                </div>
+                <div>
+                  <button className="create-button" onClick={this.onModalOpen}>
+                    +
+                  </button>
+                </div>
               </div>
-              <div>
-              	<button className="create-button" onClick={onModalOpen}>+</button>
-
-              </div>
-
+              {this.renderTasks()}
             </div>
-            {this.renderTasks()}
           </div>
         </div>
-      </div>
-      {this.renderModal()}
-    <React.Fragment>
+        {this.renderModal()}
+      </React.Fragment>
     );
   }
 }
 
 // I currently don't know which
 // specific state properties to assign to this component
-// const mapStateToProps = state => {};
+const mapStateToProps = state => {};
 
 export default connect(
   mapStateToProps,
   {
-  	fetchProject,
-  	createProject
+    // fetchProject,
+    // createProject
   }
-)(Tasks);
-
-
-
-
-
-import React from "react";
-import { connect } from "react-redux";
-import { fetchProject } from "../../actions";
-
-class Tasks extends React.Component {
-  componentDidMount() {
-    this.props.fetchProject(this.props.match.params.id);
-  }
-
-  renderTasks = () =>{
-    if (this.props.selectedProject) {
-      const { tasks } = this.props.selectedProject;
-      return tasks.map((task, index) => {
-        return (
-          <div
-            className="item list-header"
-          	key={index}
-          >
-            <div className="content">
-              <div className="description-text">
-                task.taskName
-              </div>
-            </div>
-          </div>
-        );
-      });
-    }
-  }
-
-  render() {
-    console.log(this.props.match.params.id);
-    return <div data-test="component-tasks">Tasks</div>;
-  }
-}
-
-const mapStateToProps = state => {
-  return { selectedProject: state.selectedProject };
-};
-
-export default connect(
-  mapStateToProps,
-  { fetchProject }
 )(Tasks);

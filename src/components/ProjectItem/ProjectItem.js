@@ -31,8 +31,8 @@ class ProjectItem extends React.Component {
               name="project-title"
               placeholder="Project Title"
               maxLength="30"
-              required="true"
               value={this.props.project.name}
+              onChange={() => {}}
             />
           </div>
 
@@ -91,15 +91,29 @@ class ProjectItem extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     const target = event.target;
-    if (target.classList.contains("edit-button")) {
-      if (!this.state.editModalOpened) {
-        this.setState({ editModalOpened: true, modalOpened: true });
+
+    if (target.hasChildNodes()) {
+      if (target.classList.contains("edit-button")) {
+        if (!this.state.editModalOpened) {
+          this.setState({ editModalOpened: true, modalOpened: true });
+        }
+      } else if (target.classList.contains("delete-button")) {
+        if (!this.state.deleteModalOpened) {
+          this.setState({ deleteModalOpened: true, modalOpened: true });
+        }
       }
-    } else if (target.classList.contains("delete-button")) {
-      if (!this.state.deleteModalOpened) {
-        this.setState({ deleteModalOpened: true, modalOpened: true });
+    } else if (!target.hasChildNodes()) {
+      if (target.parentElement.classList.contains("edit-button")) {
+        if (!this.state.editModalOpened) {
+          this.setState({ editModalOpened: true, modalOpened: true });
+        }
+      } else if (target.parentElement.classList.contains("delete-button")) {
+        if (!this.state.deleteModalOpened) {
+          this.setState({ deleteModalOpened: true, modalOpened: true });
+        }
       }
     }
+
     return null;
   };
 

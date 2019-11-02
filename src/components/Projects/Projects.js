@@ -10,33 +10,32 @@ import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
-import {dismissModalHandler} from "../../helpers";
+import { dismissModalHandler } from "../../helpers";
 
 class Projects extends React.Component {
-	state = {
-		modalsOpened: {
-			anyModalOpened: false,
-			createModalOpened: false
-		}
-	}
+  state = {
+    modalsOpened: {
+      anyModalOpened: false,
+      createModalOpened: false
+    }
+  };
 
   componentDidMount() {
     this.props.fetchProjects();
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {}
 
-  }
-
-  onModalOpen = (event) =>{  	
-
-  	event.preventDefault();
-  	event.stopPropagation();
-  	if (target.classList.contains("create-button")) {
+  onModalOpen = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.target.classList.contains("create-button")) {
       if (!this.state.modalsOpened.createModalOpened) {
-        this.setState({modalsOpened: {modalOpened: true, createModalOpened: true}});
+        this.setState({
+          modalsOpened: { modalOpened: true, createModalOpened: true }
+        });
       }
-  	}  
+    }
   };
 
   renderProjects = () => {
@@ -53,15 +52,18 @@ class Projects extends React.Component {
         );
       });
     } else {
-      <div>Loading...</div>
+      return <div>Loading...</div>;
     }
-  }
-
+  };
 
   renderCreateContent = () => {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}} />
+        <ModalCloseButton
+          onClose={() => {
+            dismissModalHandler(this.state.modalsOpened, this.setState);
+          }}
+        />
         <h1 className="modal-header">Create New Project</h1>
         <form id="create-project-form">
           <div id="create-project-field-div">
@@ -81,7 +83,11 @@ class Projects extends React.Component {
             className="two-buttons-container"
             id="create-project-buttons-container"
           >
-            <ModalCancelButton onClose={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}} />
+            <ModalCancelButton
+              onClose={() => {
+                dismissModalHandler(this.state.modalsOpened, this.setState);
+              }}
+            />
 
             <input
               type="submit"
@@ -93,47 +99,46 @@ class Projects extends React.Component {
         </form>
       </React.Fragment>
     );
-  }
+  };
 
-
-  renderModal =() =>{
-  	if(this.state.modalsOpened.createModalOpened) {
-  		return (
-  		<Modal 
-  		  sectionId="create-project-content"
-  		  content={this.renderCreateContent()}
-  		  onDismiss={() => {dismissModalHandler(this.state.modalsOpened, this.setState)}}
-  		/>
-  		);
-  	}
-  	return null;
-  }
- 
+  renderModal = () => {
+    if (this.state.modalsOpened.createModalOpened) {
+      return (
+        <Modal
+          sectionId="create-project-content"
+          content={this.renderCreateContent()}
+          onDismiss={() => {
+            dismissModalHandler(this.state.modalsOpened, this.setState);
+          }}
+        />
+      );
+    }
+    return null;
+  };
 
   render() {
-
     console.log(this.props.projects);
     return (
-    <React.Fragment>
-      <div data-test="component-projects" className="projects-container">
-        <div id="projects-list" className="todolist ui segment">
-          <div className="ui relaxed divided list">
-            <div className="project item list-header">
-              <div className="project content">
-                <div className="header header-text project">My Projects</div>
+      <React.Fragment>
+        <div data-test="component-projects" className="projects-container">
+          <div id="projects-list" className="todolist ui segment">
+            <div className="ui relaxed divided list">
+              <div className="project item list-header">
+                <div className="project content">
+                  <div className="header header-text project">My Projects</div>
+                </div>
+                <div>
+                  <button className="create-button" onClick={this.onModalOpen}>
+                    +
+                  </button>
+                </div>
               </div>
-              <div>
-              	<button className="create-button" onClick={onModalOpen}>+</button>
-
-              </div>
-              
+              {this.renderProjects()}
             </div>
-            {this.renderProjects()}
           </div>
-        </div>        
-      </div>
-      {this.renderModal()}
-    <React.Fragment>
+        </div>
+        {this.renderModal()}
+      </React.Fragment>
     );
   }
 }
@@ -143,8 +148,8 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { 
-  	fetchProjects,
-  	createProject
+  {
+    fetchProjects,
+    createProject
   }
 )(Projects);

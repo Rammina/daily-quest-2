@@ -25,7 +25,7 @@ const Modal = props => {
         role="dialog"
         aria-hidden="true"
       >
-      	<ModalCloseButton onClose={props.onDismiss()} />
+        <ModalCloseButton onClose={props.onDismiss} />
         {props.content()}
       </section>
     </div>,

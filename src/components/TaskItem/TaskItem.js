@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
-import { deleteTask } from "../../actions";
+// import { deleteTask } from "../../actions";
 
 class TaskItem extends React.Component {
   state = {
@@ -172,6 +172,6 @@ class TaskItem extends React.Component {
 //   return { tasks: state.tasks };
 // };
 export default connect(
-  null,
-  { deleteTask }
+  null
+  // { deleteTask }
 )(TaskItem);

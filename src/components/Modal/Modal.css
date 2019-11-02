@@ -193,12 +193,12 @@
 }
 
 .cancel-button {
-  background-color: rgb(187, 187, 187);
+  background-color: rgb(216, 216, 216);
   max-width: 7rem;
 }
 
 .cancel-button:hover {
-  background-color: rgb(210, 210, 210);
+  background-color: rgb(189, 189, 189);
   -webkit-box-shadow: 0px 0px 3px 2px #666666;
   box-shadow: 0px 0px 3px 2px #666666;
 }
