@@ -15,7 +15,9 @@ class ProjectForm extends React.Component {
 
 
   renderInput = ({ input, meta }) =>{
+		console.log(this.props.initialValues);
     return (
+			<React.Fragment>
       <input
         id="project-form-title-field"
         className="project-form-modal required text-field"
@@ -23,10 +25,11 @@ class ProjectForm extends React.Component {
         name="project-title"
         placeholder="Project Title"
         maxLength="30"
-        required="true"
         autoComplete="off"
+				defaultValue={this.props.initialValues.title || ""}
       />
       {this.renderError(meta)}
+			</React.Fragment>
     );
   }
 
@@ -41,7 +44,7 @@ class ProjectForm extends React.Component {
         id="project-form-form"
       >
         <div id="project-form-field-div">
-          <Field name="title" component={this.renderInput} />
+          <Field name="title" component={this.renderInput} onChange={() =>{}}/>
         </div>
 
         <div
@@ -49,7 +52,7 @@ class ProjectForm extends React.Component {
           id="project-form-buttons-container"
         >
         	<ModalCancelButton onClose={this.props.onClose} />
-          
+
           <input
             type="submit"
             className="form-submit"
@@ -75,4 +78,3 @@ export default reduxForm({
   form: 'projectForm',
   validate
 })(ProjectForm);
-

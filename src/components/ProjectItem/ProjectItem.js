@@ -5,9 +5,11 @@ import TrashImg from "../../images/trash.png";
 import React from "react";
 import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
+
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import { deleteProject } from "../../actions";
+import EditProject from "../forms/EditProject";
 
 class ProjectItem extends React.Component {
   state = {
@@ -122,7 +124,7 @@ class ProjectItem extends React.Component {
       return (
         <Modal
           sectionId="edit-project-content"
-          content={this.renderEditContent}
+          content={() => <EditProject onClose={this.dismissModalHandler} project={this.props.project}/>}
           onDismiss={this.dismissModalHandler}
         />
       );
@@ -181,10 +183,11 @@ class ProjectItem extends React.Component {
   }
 }
 
-// const mapStateToProps = state => {
-//   return { projects: state.projects };
-// };
+const mapStateToProps = state => {
+  return { projects: state.projects };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { deleteProject }
 )(ProjectItem);
