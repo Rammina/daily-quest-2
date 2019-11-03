@@ -8,13 +8,12 @@ import ProjectForm from "./ProjectForm";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
 class EditProject extends React.Component {
-  onSubmit = formValues => {
-    console.log(formValues);
-    this.props.editProject(this.props.project.id, formValues);
+  onSubmit = async formValues => {
+    await this.props.editProject(this.props.project.id, formValues);
+    this.props.onClose();
   };
 
   render() {
-    console.log(this.props.project);
     return (
       <React.Fragment>
         <ModalCloseButton onClose={this.props.onClose} />
@@ -22,7 +21,7 @@ class EditProject extends React.Component {
         <ProjectForm
           onSubmit={this.onSubmit}
           onClose={this.props.onClose}
-          initialValues={_.pick(this.props.project, "name")}
+          initialValues={_.pick(this.props.project, "name", "id")}
         />
       </React.Fragment>
     );

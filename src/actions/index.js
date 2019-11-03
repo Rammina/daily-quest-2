@@ -32,7 +32,7 @@ export const fetchProject = id => {
 
 export const createProject = formValues => {
   return async function(dispatch, getState) {
-    const response = firebasedatabase.post("/projects.json", {
+    const response = await firebasedatabase.post("/projects.json", {
       ...formValues,
       tasks: {}
     });
@@ -47,19 +47,20 @@ export const createProject = formValues => {
 
 export const editProject = (id, formValues) => {
   return async function(dispatch, getState) {
-    const response = firebasedatabase.patch(`/projects/${id}.json`, formValues);
-    console.log(formValues);
-    console.log(response);
+    const response = await firebasedatabase.patch(
+      `/projects/${id}.json`,
+      formValues
+    );
     dispatch({
       type: actionTypes.EDIT_PROJECT,
-      payload: response.data
+      payload: { ...response.data, id }
     });
   };
 };
 
 export const deleteProject = id => {
   return async function(dispatch, getState) {
-    const response = firebasedatabase.delete(`/projects/${id}.json`);
+    const response = await firebasedatabase.delete(`/projects/${id}.json`);
     dispatch({
       type: actionTypes.DELETE_PROJECT,
       payload: id

@@ -12,7 +12,6 @@ class ProjectForm extends React.Component {
   };
 
   renderInput = ({ input, meta }) => {
-    console.log(this.props.initialValues);
     return (
       <React.Fragment>
         <input
@@ -22,7 +21,8 @@ class ProjectForm extends React.Component {
           placeholder="Project Name"
           maxLength="30"
           autoComplete="off"
-          defaultValue={this.props.initialValues.name || ""}
+          value={this.props.initialValues.name || ""}
+          {...input}
         />
         {this.renderError(meta)}
       </React.Fragment>
@@ -35,16 +35,9 @@ class ProjectForm extends React.Component {
 
   render() {
     return (
-      <form
-        onSubmit={this.props.onSubmit(this.onSubmit)}
-        id="project-form-form"
-      >
+      <form id="project-form-form">
         <div id="project-form-field-div">
-          <Field
-            name="title"
-            component={this.renderInput}
-            onChange={() => {}}
-          />
+          <Field name="name" component={this.renderInput} />
         </div>
 
         <div
@@ -58,6 +51,7 @@ class ProjectForm extends React.Component {
             className="form-submit"
             id="project-form-submit"
             value="Submit"
+            onClick={this.props.handleSubmit}
           />
         </div>
       </form>
@@ -67,8 +61,8 @@ class ProjectForm extends React.Component {
 
 const validate = formValues => {
   const errors = {};
-  if (!formValues.title) {
-    errors.title = "Please input a title for the project.";
+  if (!formValues.name) {
+    errors.name = "Please input a name for the project.";
   }
   return errors;
 };
