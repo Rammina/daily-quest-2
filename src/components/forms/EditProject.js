@@ -2,26 +2,27 @@ import _ from "lodash";
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import {fetchProject, editProject} from "../../actions";
+import { fetchProject, editProject } from "../../actions";
 import ProjectForm from "./ProjectForm";
 
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
-import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 class EditProject extends React.Component {
   onSubmit = formValues => {
-    this.props.editProject(this.props.index, formValues);
+    console.log(formValues);
+    this.props.editProject(this.props.project.id, formValues);
   };
 
   render() {
+    console.log(this.props.project);
     return (
       <React.Fragment>
         <ModalCloseButton onClose={this.props.onClose} />
-        <h1 className="modal-header">Edit Project</h1>
+        <h1 className="modal-header">Rename Project</h1>
         <ProjectForm
           onSubmit={this.onSubmit}
           onClose={this.props.onClose}
-          initialValues={_.pick(this.props.project, "title")}
+          initialValues={_.pick(this.props.project, "name")}
         />
       </React.Fragment>
     );

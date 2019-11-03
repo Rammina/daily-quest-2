@@ -132,7 +132,7 @@
   background-color: #fcc;
 }
 
-#edit-project-title-field {
+.project-form-title-field {
   margin-bottom: 2rem;
   position: relative;
   top: 0.5rem;
@@ -169,7 +169,7 @@
   margin: 0 auto;
 }
 
-#edit-project-buttons-container {
+#project-form-buttons-container {
   max-width: 23rem;
 }
 
@@ -216,6 +216,6 @@
   box-shadow: 0px 0px 3px 2px #252525;
 }
 
-#edit-project-submit {
+#project-form-submit {
   max-width: 9rem;
 }

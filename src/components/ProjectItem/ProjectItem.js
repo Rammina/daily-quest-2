@@ -19,43 +19,6 @@ class ProjectItem extends React.Component {
   };
   componentDidMount() {}
 
-  renderEditContent = () => {
-    return (
-      <React.Fragment>
-        <ModalCloseButton onClose={this.dismissModalHandler} />
-        <h1 className="modal-header">Rename Project</h1>
-        <form id="edit-project-form">
-          <div id="edit-project-field-div">
-            <input
-              id="edit-project-title-field"
-              className="edit-project-modal required text-field"
-              type="text"
-              name="project-title"
-              placeholder="Project Title"
-              maxLength="30"
-              value={this.props.project.name}
-              onChange={() => {}}
-            />
-          </div>
-
-          <div
-            className="two-buttons-container"
-            id="edit-project-buttons-container"
-          >
-            <ModalCancelButton onClose={this.dismissModalHandler} />
-
-            <input
-              type="submit"
-              className="form-submit"
-              id="edit-project-submit"
-              value="Submit"
-            />
-          </div>
-        </form>
-      </React.Fragment>
-    );
-  };
-
   renderDeleteContent = () => {
     return (
       <React.Fragment>
@@ -124,7 +87,12 @@ class ProjectItem extends React.Component {
       return (
         <Modal
           sectionId="edit-project-content"
-          content={() => <EditProject onClose={this.dismissModalHandler} project={this.props.project}/>}
+          content={() => (
+            <EditProject
+              onClose={this.dismissModalHandler}
+              project={this.props.project}
+            />
+          )}
           onDismiss={this.dismissModalHandler}
         />
       );
