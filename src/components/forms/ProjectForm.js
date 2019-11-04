@@ -11,6 +11,13 @@ class ProjectForm extends React.Component {
     return null;
   };
 
+  renderNameValue = () => {
+    if (this.props.initialValues) {
+      return this.props.initialValues.name;
+    }
+    return "";
+  };
+
   renderInput = ({ input, meta }) => {
     return (
       <React.Fragment>
@@ -21,7 +28,7 @@ class ProjectForm extends React.Component {
           placeholder="Project Name"
           maxLength="30"
           autoComplete="off"
-          value={this.props.initialValues.name || ""}
+          value={this.renderNameValue()}
           {...input}
         />
         {this.renderError(meta)}

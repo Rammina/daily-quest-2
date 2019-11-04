@@ -2,6 +2,7 @@ import "./TaskItem.css";
 import PencilImg from "../../images/rename.png";
 import TrashImg from "../../images/trash.png";
 
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
@@ -11,9 +12,11 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 class TaskItem extends React.Component {
   state = {
-    modalOpened: false,
-    editModalOpened: false,
-    deleteModalOpened: false
+    modalsOpened: {
+      any: false,
+      edit: false,
+      delete: false
+    }
   };
   componentDidMount() {}
 
@@ -93,12 +96,12 @@ class TaskItem extends React.Component {
     event.stopPropagation();
     const target = event.target;
     if (target.classList.contains("edit-button")) {
-      if (!this.state.editModalOpened) {
-        this.setState({ editModalOpened: true, modalOpened: true });
+      if (!this.state.modalOpened.edit) {
+        this.setState({ modalOpened: { any: true, edit: true } });
       }
     } else if (target.classList.contains("delete-button")) {
-      if (!this.state.deleteModalOpened) {
-        this.setState({ deleteModalOpened: true, modalOpened: true });
+      if (!this.state.modalOpened.delete) {
+        this.setState({ modalOpened: { any: true, delete: true } });
       }
     }
     return null;
@@ -106,7 +109,7 @@ class TaskItem extends React.Component {
 
   // This also could be recyclable
   renderModal = () => {
-    if (this.state.editModalOpened) {
+    if (this.state.modalOpened.edit) {
       return (
         <Modal
           sectionId="edit-task-content"
@@ -114,7 +117,7 @@ class TaskItem extends React.Component {
           onDismiss={this.dismissModalHandler}
         />
       );
-    } else if (this.state.deleteModalOpened) {
+    } else if (this.state.modalOpened.delete) {
       return (
         <Modal
           sectionId="delete-task-content"
@@ -128,10 +131,9 @@ class TaskItem extends React.Component {
 
   // We already recycle this
   dismissModalHandler = () => {
+    const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
     this.setState({
-      modalOpened: false,
-      editModalOpened: false,
-      deleteModalOpened: false
+      modalsOpened
     });
   };
 

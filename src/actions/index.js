@@ -36,6 +36,7 @@ export const createProject = formValues => {
       ...formValues,
       tasks: {}
     });
+    // const response = await firebasedatabase.post("/projects.json", formValues);
     dispatch({
       type: actionTypes.CREATE_PROJECT,
       payload: response.data

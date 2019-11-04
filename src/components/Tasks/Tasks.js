@@ -4,6 +4,7 @@
 
 // import "./Tasks.css";
 
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 // import { fetchProject, createTask } from "../../actions";
@@ -14,13 +15,11 @@ import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
-import { dismissModalHandler } from "../../helpers";
-
 class Tasks extends React.Component {
   state = {
     modalsOpened: {
-      anyModalOpened: false,
-      createModalOpened: false
+      any: false,
+      create: false
     }
   };
 
@@ -36,9 +35,9 @@ class Tasks extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if (event.target.classList.contains("create-button")) {
-      if (!this.state.modalsOpened.createModalOpened) {
+      if (!this.state.modalsOpened.create) {
         this.setState({
-          modalsOpened: { modalOpened: true, createModalOpened: true }
+          modalsOpened: { any: true, create: true }
         });
       }
     }
@@ -69,7 +68,7 @@ class Tasks extends React.Component {
       <React.Fragment>
         <ModalCloseButton
           onClose={() => {
-            dismissModalHandler(this.state.modalsOpened, this.setState);
+            this.dismissModalHandler();
           }}
         />
         <h1 className="modal-header">Create New Task</h1>
@@ -93,7 +92,7 @@ class Tasks extends React.Component {
           >
             <ModalCancelButton
               onClose={() => {
-                dismissModalHandler(this.state.modalsOpened, this.setState);
+                this.dismissModalHandler();
               }}
             />
 
@@ -110,18 +109,25 @@ class Tasks extends React.Component {
   };
 
   renderModal = () => {
-    if (this.state.modalsOpened.createModalOpened) {
+    if (this.state.modalsOpened.create) {
       return (
         <Modal
           sectionId="create-project-content"
           content={this.renderCreateContent()}
           onDismiss={() => {
-            dismissModalHandler(this.state.modalsOpened, this.setState);
+            this.dismissModalHandler();
           }}
         />
       );
     }
     return null;
+  };
+
+  dismissModalHandler = () => {
+    const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
+    this.setState({
+      modalsOpened
+    });
   };
 
   render() {

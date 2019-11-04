@@ -1,5 +1,6 @@
 import "./Projects.css";
 
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { fetchProjects, createProject } from "../../actions";
@@ -10,13 +11,13 @@ import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
-import { dismissModalHandler } from "../../helpers";
+import CreateProject from "../forms/CreateProject";
 
 class Projects extends React.Component {
   state = {
     modalsOpened: {
-      anyModalOpened: false,
-      createModalOpened: false
+      any: false,
+      create: false
     }
   };
 
@@ -30,9 +31,9 @@ class Projects extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if (event.target.classList.contains("create-button")) {
-      if (!this.state.modalsOpened.createModalOpened) {
+      if (!this.state.modalsOpened.create) {
         this.setState({
-          modalsOpened: { modalOpened: true, createModalOpened: true }
+          modalsOpened: { any: true, create: true }
         });
       }
     }
@@ -44,7 +45,7 @@ class Projects extends React.Component {
         return (
           <Link
             to={`/projects/${project.id}`}
-            key={project.id}
+            key={index}
             className="project item list-header"
           >
             <ProjectItem project={project} />
@@ -56,64 +57,77 @@ class Projects extends React.Component {
     }
   };
 
-  renderCreateContent = () => {
-    return (
-      <React.Fragment>
-        <ModalCloseButton
-          onClose={() => {
-            dismissModalHandler(this.state.modalsOpened, this.setState);
-          }}
-        />
-        <h1 className="modal-header">Create New Project</h1>
-        <form id="create-project-form">
-          <div id="create-project-field-div">
-            <input
-              id="create-project-title-field"
-              className="create-project-modal required text-field"
-              type="text"
-              name="project-title"
-              placeholder="Project Title"
-              maxLength="30"
-              required="true"
-              value=""
-            />
-          </div>
+  // renderCreateContent = () => {
+  //   return (
+  //     <React.Fragment>
+  //       <ModalCloseButton
+  //         onClose={() => {
+  //           dismissModalHandler(this.state.modalsOpened, this.setState);
+  //         }}
+  //       />
+  //       <h1 className="modal-header">Create New Project</h1>
+  //       <form id="create-project-form">
+  //         <div id="create-project-field-div">
+  //           <input
+  //             id="create-project-title-field"
+  //             className="create-project-modal required text-field"
+  //             type="text"
+  //             name="project-title"
+  //             placeholder="Project Title"
+  //             maxLength="30"
+  //             required="true"
+  //             value=""
+  //           />
+  //         </div>
 
-          <div
-            className="two-buttons-container"
-            id="create-project-buttons-container"
-          >
-            <ModalCancelButton
-              onClose={() => {
-                dismissModalHandler(this.state.modalsOpened, this.setState);
-              }}
-            />
+  //         <div
+  //           className="two-buttons-container"
+  //           id="create-project-buttons-container"
+  //         >
+  //           <ModalCancelButton
+  //             onClose={() => {
+  //               dismissModalHandler(this.state.modalsOpened, this.setState);
+  //             }}
+  //           />
 
-            <input
-              type="submit"
-              className="form-submit"
-              id="create-project-submit"
-              value="Submit"
-            />
-          </div>
-        </form>
-      </React.Fragment>
-    );
-  };
+  //           <input
+  //             type="submit"
+  //             className="form-submit"
+  //             id="create-project-submit"
+  //             value="Submit"
+  //           />
+  //         </div>
+  //       </form>
+  //     </React.Fragment>
+  //   );
+  // };
 
   renderModal = () => {
-    if (this.state.modalsOpened.createModalOpened) {
+    if (this.state.modalsOpened.create) {
       return (
         <Modal
           sectionId="create-project-content"
-          content={this.renderCreateContent()}
+          content={() => (
+            <CreateProject
+              onClose={() => {
+                this.dismissModalHandler();
+              }}
+            />
+          )}
           onDismiss={() => {
-            dismissModalHandler(this.state.modalsOpened, this.setState);
+            this.dismissModalHandler();
           }}
         />
       );
     }
     return null;
+  };
+
+  dismissModalHandler = () => {
+    const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
+    this.setState({
+      modalsOpened
+    });
   };
 
   render() {

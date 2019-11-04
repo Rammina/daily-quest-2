@@ -6,8 +6,9 @@ import ProjectForm from "./ProjectForm";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
 class CreateProject extends React.Component {
-  onSubmit = formValues => {
-    this.props.createProject(formValues);
+  onSubmit = async formValues => {
+    await this.props.createProject(formValues);
+    this.props.onClose();
   };
 
   render() {

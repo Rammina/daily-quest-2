@@ -2,6 +2,7 @@ import "./ProjectItem.css";
 import PencilImg from "../../images/rename.png";
 import TrashImg from "../../images/trash.png";
 
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
@@ -13,9 +14,11 @@ import EditProject from "../forms/EditProject";
 
 class ProjectItem extends React.Component {
   state = {
-    modalOpened: false,
-    editModalOpened: false,
-    deleteModalOpened: false
+    modalsOpened: {
+      any: false,
+      edit: false,
+      delete: false
+    }
   };
   componentDidMount() {}
 
@@ -59,22 +62,22 @@ class ProjectItem extends React.Component {
 
     if (target.hasChildNodes()) {
       if (target.classList.contains("edit-button")) {
-        if (!this.state.editModalOpened) {
-          this.setState({ editModalOpened: true, modalOpened: true });
+        if (!this.state.modalsOpened.edit) {
+          this.setState({ modalsOpened: { edit: true, any: true } });
         }
       } else if (target.classList.contains("delete-button")) {
-        if (!this.state.deleteModalOpened) {
-          this.setState({ deleteModalOpened: true, modalOpened: true });
+        if (!this.state.modalsOpened.delete) {
+          this.setState({ modalsOpened: { delete: true, any: true } });
         }
       }
     } else if (!target.hasChildNodes()) {
       if (target.parentElement.classList.contains("edit-button")) {
-        if (!this.state.editModalOpened) {
-          this.setState({ editModalOpened: true, modalOpened: true });
+        if (!this.state.modalsOpened.edit) {
+          this.setState({ modalsOpened: { edit: true, any: true } });
         }
       } else if (target.parentElement.classList.contains("delete-button")) {
-        if (!this.state.deleteModalOpened) {
-          this.setState({ deleteModalOpened: true, modalOpened: true });
+        if (!this.state.modalsOpened.delete) {
+          this.setState({ modalsOpened: { delete: true, any: true } });
         }
       }
     }
@@ -83,7 +86,7 @@ class ProjectItem extends React.Component {
   };
 
   renderModal = () => {
-    if (this.state.editModalOpened) {
+    if (this.state.modalsOpened.edit) {
       return (
         <Modal
           sectionId="edit-project-content"
@@ -96,7 +99,7 @@ class ProjectItem extends React.Component {
           onDismiss={this.dismissModalHandler}
         />
       );
-    } else if (this.state.deleteModalOpened) {
+    } else if (this.state.modalsOpened.delete) {
       return (
         <Modal
           sectionId="delete-project-content"
@@ -109,10 +112,9 @@ class ProjectItem extends React.Component {
   };
 
   dismissModalHandler = () => {
+    const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
     this.setState({
-      modalOpened: false,
-      editModalOpened: false,
-      deleteModalOpened: false
+      modalsOpened
     });
   };
 
