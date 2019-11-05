@@ -125,7 +125,7 @@ class ProjectItem extends React.Component {
       <React.Fragment>
         <div
           className="project content"
-          key={`${this.props.project.name}-${this.props.project.id}`}
+          // key={`${this.props.project.name}-${this.props.project.id}`}
         >
           <div className="item-flex project">
             <div className="description-text project">

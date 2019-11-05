@@ -13,6 +13,7 @@ export const actionTypes = {
 export const fetchProjects = () => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.get("/projects.json");
+    console.log(response.data);
     dispatch({
       type: actionTypes.FETCH_PROJECTS,
       payload: response.data

@@ -44,11 +44,11 @@ class Projects extends React.Component {
       return this.props.projects.map((project, index) => {
         return (
           <Link
-            to={`/projects/${project.id}`}
+            to={`/projects/${index}`}
             key={index}
             className="project item list-header"
           >
-            <ProjectItem project={project} />
+            <ProjectItem project={project} index={index} />
           </Link>
         );
       });
@@ -158,6 +158,7 @@ class Projects extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log(state.projects);
   return { projects: Object.values(state.projects) };
 };
 export default connect(

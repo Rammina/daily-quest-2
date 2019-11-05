@@ -58,7 +58,7 @@ class ProjectForm extends React.Component {
             className="form-submit"
             id="project-form-submit"
             value="Submit"
-            onClick={this.props.handleSubmit}
+            onClick={this.props.handleSubmit(this.onSubmit)}
           />
         </div>
       </form>
