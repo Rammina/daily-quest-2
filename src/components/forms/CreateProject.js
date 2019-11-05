@@ -6,11 +6,8 @@ import ProjectForm from "./ProjectForm";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
 class CreateProject extends React.Component {
-  onSubmit = async (formValues, id) => {
-    console.log(formValues);
-    const valuesWithId = { ...formValues, id };
-    console.log(valuesWithId);
-    await this.props.createProject(valuesWithId);
+  onSubmit = async formValues => {
+    await this.props.createProject(formValues);
     console.log("dismissed");
     this.props.onClose();
   };
@@ -26,7 +23,6 @@ class CreateProject extends React.Component {
             console.log("onClose dismissed");
             this.props.onClose();
           }}
-          id={this.props.id}
         />
       </React.Fragment>
     );

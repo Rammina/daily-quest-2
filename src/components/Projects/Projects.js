@@ -40,18 +40,23 @@ class Projects extends React.Component {
   };
 
   renderProjects = () => {
-    if (this.props.projects) {
-      return this.props.projects.map((project, index) => {
-        return (
-          <Link
-            to={`/projects/${project.id}`}
-            key={project.id}
-            className="project item list-header"
-          >
-            <ProjectItem project={project} id={project.id} />
-          </Link>
-        );
-      });
+    const projects = this.props.projects;
+    if (projects) {
+      const items = [];
+      for (let projectKey in projects) {
+        if (projects.hasOwnProperty(projectKey)) {
+          items.push(
+            <Link
+              to={`/projects/${projectKey}`}
+              key={projectKey}
+              className="project item list-header"
+            >
+              <ProjectItem project={projects[projectKey]} id={projectKey} />
+            </Link>
+          );
+        }
+      }
+      return items;
     } else {
       return <div>Loading...</div>;
     }
@@ -68,7 +73,6 @@ class Projects extends React.Component {
                 console.log("dismissed");
                 this.dismissModalHandler();
               }}
-              id={this.props.projects.length}
             />
           )}
           onDismiss={() => {
@@ -116,7 +120,8 @@ class Projects extends React.Component {
 
 const mapStateToProps = state => {
   console.log(state.projects);
-  return { projects: Object.values(state.projects) };
+  // return { projects: Object.values(state.projects) };
+  return { projects: state.projects };
 };
 export default connect(
   mapStateToProps,

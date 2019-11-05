@@ -36,9 +36,10 @@ export const createProject = formValues => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.post("/projects.json", formValues);
     console.log(response.data);
+    const valuesWithId = { ...formValues, id: response.data.name };
     dispatch({
       type: actionTypes.CREATE_PROJECT,
-      payload: formValues
+      payload: valuesWithId
     });
   };
 };
@@ -58,6 +59,7 @@ export const editProject = (id, formValues) => {
 
 export const deleteProject = id => {
   return async function(dispatch, getState) {
+    console.log(`deleting ${id}`);
     const response = await firebasedatabase.delete(`/projects/${id}.json`);
     dispatch({
       type: actionTypes.DELETE_PROJECT,

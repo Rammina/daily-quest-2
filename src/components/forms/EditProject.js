@@ -9,7 +9,7 @@ import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
 class EditProject extends React.Component {
   onSubmit = async formValues => {
-    await this.props.editProject(this.props.project.id, formValues);
+    await this.props.editProject(this.props.id, formValues);
     this.props.onClose();
   };
 
@@ -21,7 +21,7 @@ class EditProject extends React.Component {
         <ProjectForm
           onSubmit={this.onSubmit}
           onClose={this.props.onClose}
-          initialValues={_.pick(this.props.project, "name", "id")}
+          initialValues={_.pick(this.props.project, "name")}
         />
       </React.Fragment>
     );

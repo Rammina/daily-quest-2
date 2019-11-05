@@ -30,17 +30,21 @@ class ProjectForm extends React.Component {
           autoComplete="off"
           value={this.renderNameValue()}
           {...input}
-          // onKeyDown={event => {
-          //   event.stopPropagation();
-          // }}
+          onKeyDown={e => {
+            console.log(e.keyCode);
+            if (e.keyCode === 13) {
+              console.log("It's not submitting");
+              this.props.handleSubmit(this.onSubmit);
+            }
+          }}
         />
         {this.renderError(meta)}
       </React.Fragment>
     );
   };
 
-  onSubmit = (formValues, dispatch, props) => {
-    this.props.onSubmit(formValues, props.id);
+  onSubmit = formValues => {
+    this.props.onSubmit(formValues);
   };
 
   render() {
@@ -61,13 +65,14 @@ class ProjectForm extends React.Component {
             }}
           />
 
-          <input
+          <button
             type="submit"
             className="form-submit"
             id="project-form-submit"
-            value="Submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
-          />
+          >
+            Submit
+          </button>
         </div>
       </form>
     );
