@@ -32,18 +32,14 @@ export const fetchProject = id => {
 };
 
 export const createProject = formValues => {
+  console.log(formValues);
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.post("/projects.json", {
-      ...formValues,
-      tasks: {}
-    });
-    // const response = await firebasedatabase.post("/projects.json", formValues);
+    const response = await firebasedatabase.post("/projects.json", formValues);
+    console.log(response.data);
     dispatch({
       type: actionTypes.CREATE_PROJECT,
-      payload: response.data
+      payload: formValues
     });
-    // Use this to programmatically navigate the user
-    // history.push('/')
   };
 };
 

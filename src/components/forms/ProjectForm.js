@@ -30,14 +30,17 @@ class ProjectForm extends React.Component {
           autoComplete="off"
           value={this.renderNameValue()}
           {...input}
+          // onKeyDown={event => {
+          //   event.stopPropagation();
+          // }}
         />
         {this.renderError(meta)}
       </React.Fragment>
     );
   };
 
-  onSubmit = formValues => {
-    this.props.onSubmit(formValues);
+  onSubmit = (formValues, dispatch, props) => {
+    this.props.onSubmit(formValues, props.id);
   };
 
   render() {
@@ -51,7 +54,12 @@ class ProjectForm extends React.Component {
           className="two-buttons-container"
           id="project-form-buttons-container"
         >
-          <ModalCancelButton onClose={this.props.onClose} />
+          <ModalCancelButton
+            onClose={() => {
+              console.log("cancel dismissed");
+              this.props.onClose();
+            }}
+          />
 
           <input
             type="submit"

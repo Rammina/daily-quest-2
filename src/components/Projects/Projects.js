@@ -44,11 +44,11 @@ class Projects extends React.Component {
       return this.props.projects.map((project, index) => {
         return (
           <Link
-            to={`/projects/${index}`}
-            key={index}
+            to={`/projects/${project.id}`}
+            key={project.id}
             className="project item list-header"
           >
-            <ProjectItem project={project} index={index} />
+            <ProjectItem project={project} id={project.id} />
           </Link>
         );
       });
@@ -56,51 +56,6 @@ class Projects extends React.Component {
       return <div>Loading...</div>;
     }
   };
-
-  // renderCreateContent = () => {
-  //   return (
-  //     <React.Fragment>
-  //       <ModalCloseButton
-  //         onClose={() => {
-  //           dismissModalHandler(this.state.modalsOpened, this.setState);
-  //         }}
-  //       />
-  //       <h1 className="modal-header">Create New Project</h1>
-  //       <form id="create-project-form">
-  //         <div id="create-project-field-div">
-  //           <input
-  //             id="create-project-title-field"
-  //             className="create-project-modal required text-field"
-  //             type="text"
-  //             name="project-title"
-  //             placeholder="Project Title"
-  //             maxLength="30"
-  //             required="true"
-  //             value=""
-  //           />
-  //         </div>
-
-  //         <div
-  //           className="two-buttons-container"
-  //           id="create-project-buttons-container"
-  //         >
-  //           <ModalCancelButton
-  //             onClose={() => {
-  //               dismissModalHandler(this.state.modalsOpened, this.setState);
-  //             }}
-  //           />
-
-  //           <input
-  //             type="submit"
-  //             className="form-submit"
-  //             id="create-project-submit"
-  //             value="Submit"
-  //           />
-  //         </div>
-  //       </form>
-  //     </React.Fragment>
-  //   );
-  // };
 
   renderModal = () => {
     if (this.state.modalsOpened.create) {
@@ -110,8 +65,10 @@ class Projects extends React.Component {
           content={() => (
             <CreateProject
               onClose={() => {
+                console.log("dismissed");
                 this.dismissModalHandler();
               }}
+              id={this.props.projects.length}
             />
           )}
           onDismiss={() => {

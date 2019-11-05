@@ -9,6 +9,8 @@ export default (state = {}, action) => {
       return { ...state, [action.payload.id]: action.payload };
     case actionTypes.CREATE_PROJECT:
       console.log(" error occurs here because there is no ID ");
+      console.log(action.payload);
+      console.log(action.payload.id);
       return { ...state, [action.payload.id]: action.payload };
     case actionTypes.EDIT_PROJECT:
       return { ...state, [action.payload.id]: action.payload };
