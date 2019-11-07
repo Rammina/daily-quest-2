@@ -24,7 +24,7 @@ class ProjectForm extends React.Component {
         <input
           className="project-form-modal required text-field project-form-title-field"
           type="text"
-          name="project-title"
+          name="name"
           placeholder="Project Name"
           maxLength="30"
           autoComplete="off"
@@ -32,9 +32,8 @@ class ProjectForm extends React.Component {
           {...input}
           onKeyDown={e => {
             console.log(e.keyCode);
-            if (e.keyCode === 13) {
-              console.log("It's not submitting");
-              this.props.handleSubmit(this.onSubmit);
+            if (e.keyCode === 13 && e.target.value) {
+              this.onSubmit({ [e.target.name]: e.target.value });
             }
           }}
         />

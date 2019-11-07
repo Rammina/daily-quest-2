@@ -9,11 +9,7 @@ const ModalCancelButton = props => {
 
   return (
     <button
-      onClick={e => {
-        if (e.target === this) {
-          onCloseClick();
-        }
-      }}
+      onClick={onCloseClick}
       className="modal-action-button cancel-button"
       id="delete-project-cancel"
     >
