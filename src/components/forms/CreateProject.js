@@ -16,7 +16,7 @@ class CreateProject extends React.Component {
     return (
       <React.Fragment>
         <ModalCloseButton onClose={this.props.onClose} />
-        <h1 className="modal-header">Create New Project</h1>
+        <h1 className="modal-header">New Project</h1>
         <ProjectForm
           onSubmit={this.onSubmit}
           onClose={() => {

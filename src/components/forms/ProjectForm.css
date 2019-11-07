@@ -1,0 +1,11 @@
+.project.error {
+  color: #ffb0b0;
+  position: relative;
+  width: 80%;
+  max-width: 20rem;
+  margin: 0rem auto;
+  font-size: 1rem;
+  left: 0.4rem;
+  bottom: 0.85rem;
+  font-family: "Raleway", sans-serif;
+}

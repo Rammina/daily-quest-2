@@ -42,7 +42,8 @@
 }
 
 #edit-project-content,
-#delete-project-content {
+#delete-project-content,
+#create-project-content {
   max-width: 35rem;
 }
 
@@ -111,7 +112,7 @@
   border: solid 1.5px #beffff;
   border-radius: 5px;
   padding-left: 0.6rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
   /*right: 0.5rem; */
   font-family: "Raleway", sans-serif;
 }
@@ -139,12 +140,11 @@
   max-width: 20rem;
 }
 
-.form-submit {
+.form-submit.modal-action-button {
   display: block;
   width: 82%;
   max-width: 13rem;
   height: 3rem;
-  font-size: 1.3rem;
   font-family: "Raleway", sans-serif;
   margin: 1rem auto;
   background-color: #dfd;
@@ -154,7 +154,7 @@
   border-radius: 5px;
 }
 
-.form-submit:hover {
+.form-submit.modal-action-button:hover {
   border: 1px solid #beffff;
   background-color: rgb(175, 224, 175);
   cursor: pointer;
@@ -182,7 +182,7 @@
   width: 82%;
   max-width: 11rem;
   height: 3rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-family: "Raleway", sans-serif;
   margin: 1rem auto;
   border: 1px solid rgba(0, 0, 0, 0);
@@ -194,7 +194,7 @@
 
 .cancel-button {
   background-color: rgb(216, 216, 216);
-  max-width: 7rem;
+  max-width: 6.3rem;
 }
 
 .cancel-button:hover {
@@ -217,5 +217,5 @@
 }
 
 #project-form-submit {
-  max-width: 9rem;
+  max-width: 6.7rem;
 }

@@ -1,3 +1,5 @@
+import "./ProjectForm.css";
+
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 
@@ -6,7 +8,7 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 class ProjectForm extends React.Component {
   renderError = ({ error, touched } /*deconstructed meta object*/) => {
     if (error && touched) {
-      return <div>{error}</div>;
+      return <div className="project error">{error}</div>;
     }
     return null;
   };
@@ -32,8 +34,10 @@ class ProjectForm extends React.Component {
           {...input}
           onKeyDown={e => {
             console.log(e.keyCode);
-            if (e.keyCode === 13 && e.target.value) {
-              this.onSubmit({ [e.target.name]: e.target.value });
+            if (e.keyCode === 13) {
+              e.preventDefault();
+              e.stopPropagation();
+              this.props.handleSubmit(this.onSubmit)();
             }
           }}
         />
@@ -66,7 +70,7 @@ class ProjectForm extends React.Component {
 
           <button
             type="submit"
-            className="form-submit"
+            className="form-submit modal-action-button"
             id="project-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
           >
