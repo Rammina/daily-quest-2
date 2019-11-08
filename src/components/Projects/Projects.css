@@ -20,18 +20,25 @@
   width: 100% !important;
 }
 
+.project.list-header {
+  border-top-color: #deffff86 !important;
+}
+
 .header-text.header.project {
   padding-bottom: 0.4rem;
   font-family: "Raleway", sans-serif !important;
   font-size: 1.3rem;
   text-transform: uppercase;
+  color: #deffff !important;
+  opacity: 1;
 }
 
 .description-text.project {
   position: relative;
   left: 0.5rem;
   font-size: 1.1rem;
-  color: #000;
+  /* color: #deffff; */
+  color: #fff;
 }
 
 .create-button {
@@ -42,4 +49,9 @@
   border-radius: 50%;
   color: #beffff;
   font-size: 2rem;
+}
+
+.project.icon-button {
+  filter: invert(82%) sepia(0%) saturate(0%) hue-rotate(189deg) brightness(91%)
+    contrast(94%);
 }

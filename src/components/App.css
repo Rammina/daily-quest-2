@@ -20,7 +20,9 @@ ul {
 .todolist.ui.segment {
   min-width: 290px;
   width: 60vw;
-  background-color: #eef;
+  background-color: #222;
+  -webkit-box-shadow: 0px 0px 0px 1px #cfc, 0px 0px 0px 2px #beffff;
+  box-shadow: 0px 0px 0px 1px #cfc, 0px 0px 0px 2px #beffff;
   margin: 0 auto;
 }
 

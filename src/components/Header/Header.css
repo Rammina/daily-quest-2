@@ -5,6 +5,16 @@
   width: 100%;
   margin-left: 0 !important;
   margin-right: 0 !important;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#nav-title {
+  font-family: "Overlock", cursive;
+  font-size: 2rem;
+  height: 3.5rem;
+  padding: 0;
+  /* text-transform: uppercase; */
 }
 
 #nav-hamburger {
@@ -14,7 +24,7 @@
   box-shadow: 0 0 0 1px #beffff;
   border-radius: 3px;
   bottom: 0.4rem;
-  right: 1.5rem;
+  /* right: 1.5rem; */
 }
 
 #nav-hamburger.show {

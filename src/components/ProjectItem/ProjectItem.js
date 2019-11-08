@@ -47,7 +47,7 @@ class ProjectItem extends React.Component {
               className="modal-action-button delete-confirm-button"
               onClick={() => this.props.deleteProject(this.props.id)}
             >
-              Delete Project
+              Delete
             </button>
           </div>
         </form>

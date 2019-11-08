@@ -39,14 +39,14 @@ class Header extends React.Component {
       hamburgerClicked: true,
       sidebarClassFromClick: "visible"
     });
-  }
+  };
 
   hideSidebar = () => {
     this.setState({
       hamburgerClicked: false,
       sidebarClassFromClick: "invisible"
     });
-  }
+  };
 
   onHamburgerClick = () => {
     if (this.state.hamburgerClicked) {
@@ -58,7 +58,7 @@ class Header extends React.Component {
 
   onBackdropClick = () => {
     this.hideSidebar();
-	}
+  };
 
   handleResize = () => {
     this.updateNavMenuClasses();
@@ -80,7 +80,7 @@ class Header extends React.Component {
         data-test="component-header"
         className="ui secondary pointing menu header"
       >
-        <Link data-test="home-link" to="/" className="item">
+        <Link data-test="home-link" to="/" className="item" id="nav-title">
           Daily Quest
         </Link>
         <button
@@ -92,7 +92,11 @@ class Header extends React.Component {
         >
           <i className="bars icon" />
         </button>
-        <NavMenu menuClass={this.state.menuClass} sidebarClassFromClick={this.state.sidebarClassFromClick} onBackdropClick={this.onBackdropClick}/>
+        <NavMenu
+          menuClass={this.state.menuClass}
+          sidebarClassFromClick={this.state.sidebarClassFromClick}
+          onBackdropClick={this.onBackdropClick}
+        />
       </div>
     );
   }
