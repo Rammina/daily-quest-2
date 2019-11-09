@@ -96,12 +96,12 @@ class TaskItem extends React.Component {
     event.stopPropagation();
     const target = event.target;
     if (target.classList.contains("edit-button")) {
-      if (!this.state.modalOpened.edit) {
-        this.setState({ modalOpened: { any: true, edit: true } });
+      if (!this.state.modalsOpened.edit) {
+        this.setState({ modalsOpened: { any: true, edit: true } });
       }
     } else if (target.classList.contains("delete-button")) {
-      if (!this.state.modalOpened.delete) {
-        this.setState({ modalOpened: { any: true, delete: true } });
+      if (!this.state.modalsOpened.delete) {
+        this.setState({ modalsOpened: { any: true, delete: true } });
       }
     }
     return null;
@@ -109,7 +109,7 @@ class TaskItem extends React.Component {
 
   // This also could be recyclable
   renderModal = () => {
-    if (this.state.modalOpened.edit) {
+    if (this.state.modalsOpened.edit) {
       return (
         <Modal
           sectionId="edit-task-content"
@@ -117,7 +117,7 @@ class TaskItem extends React.Component {
           onDismiss={this.dismissModalHandler}
         />
       );
-    } else if (this.state.modalOpened.delete) {
+    } else if (this.state.modalsOpened.delete) {
       return (
         <Modal
           sectionId="delete-task-content"

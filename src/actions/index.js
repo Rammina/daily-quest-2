@@ -1,7 +1,7 @@
 import firebasedatabase from "../apis/firebasedatabase";
 import history from "../history";
 
-// List of action types be used
+// List of action types to be used
 export const actionTypes = {
   FETCH_PROJECTS: "FETCH_PROJECTS",
   FETCH_PROJECT: "FETCH_PROJECT",
@@ -13,7 +13,6 @@ export const actionTypes = {
 export const fetchProjects = () => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.get("/projects.json");
-    console.log(response.data);
     dispatch({
       type: actionTypes.FETCH_PROJECTS,
       payload: response.data
@@ -24,9 +23,10 @@ export const fetchProjects = () => {
 export const fetchProject = id => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.get(`/projects/${id}.json`);
+    const valuesWithId = { ...response.data, id };
     dispatch({
       type: actionTypes.FETCH_PROJECT,
-      payload: response.data
+      payload: valuesWithId
     });
   };
 };

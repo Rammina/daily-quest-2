@@ -27,7 +27,8 @@ class Projects extends React.Component {
 
   componentDidUpdate() {}
 
-  onModalOpen = event => {
+  onModalOpen = (event, hi) => {
+    console.log(hi);
     event.preventDefault();
     event.stopPropagation();
     if (event.target.classList.contains("create-button")) {
@@ -103,7 +104,10 @@ class Projects extends React.Component {
                   <div className="header header-text project">My Projects</div>
                 </div>
                 <div>
-                  <button className="create-button" onClick={this.onModalOpen}>
+                  <button
+                    className="create-button"
+                    onClick={e => this.onModalOpen(e, "hi")}
+                  >
                     +
                   </button>
                 </div>
@@ -119,8 +123,6 @@ class Projects extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.projects);
-  // return { projects: Object.values(state.projects) };
   return { projects: state.projects };
 };
 export default connect(

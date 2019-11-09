@@ -1,0 +1,63 @@
+.tasks-container {
+  padding-top: 7.3rem;
+  min-height: 100vh;
+  background-color: #444;
+}
+
+#tasks-list {
+  width: 40vw;
+}
+
+.task.item {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  width: 100%;
+  min-height: 3rem;
+}
+
+.task.item.list-header {
+  background-color: #0000;
+  /* border: none; */
+}
+
+.task.content {
+  width: 100% !important;
+}
+
+.task.list-header {
+  border-top-color: #deffff20 !important;
+}
+
+.header-text.header.task {
+  padding-bottom: 0.4rem;
+  font-family: "Overlock", cursive;
+  font-size: 1.3rem;
+  /* text-transform: uppercase; */
+  color: #deffff !important;
+  opacity: 1;
+}
+
+.description-text.task {
+  position: relative;
+  left: 0.5rem;
+  font-size: 1.1rem;
+  /* color: #deffff; */
+  color: #fff;
+  text-align: left;
+}
+
+.create-button {
+  width: 3rem;
+  height: 3rem;
+  background-color: #222;
+  border: none;
+  border-radius: 50%;
+  color: #beffff;
+  font-size: 2rem;
+}
+
+.task.icon-button {
+  filter: invert(82%) sepia(0%) saturate(0%) hue-rotate(189deg) brightness(91%)
+    contrast(94%);
+}

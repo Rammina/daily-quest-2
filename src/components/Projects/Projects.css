@@ -21,14 +21,14 @@
 }
 
 .project.list-header {
-  border-top-color: #deffff86 !important;
+  border-top-color: #deffff20 !important;
 }
 
 .header-text.header.project {
   padding-bottom: 0.4rem;
-  font-family: "Raleway", sans-serif !important;
+  font-family: "Overlock", cursive;
   font-size: 1.3rem;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #deffff !important;
   opacity: 1;
 }

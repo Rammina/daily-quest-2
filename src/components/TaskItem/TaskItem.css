@@ -1,15 +1,15 @@
-.project.description-text {
+.task.description-text {
   width: 70%;
   margin: 0;
 }
 
-.item-flex.project {
+.item-flex.task {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.project.list-buttons-container {
+.task.list-buttons-container {
   display: flex;
   justify-content: space-between;
   align-items: center;

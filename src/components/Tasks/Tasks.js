@@ -2,12 +2,12 @@
 // Chances are lines in comment don't function yet
 // However they might be intended to be used
 
-// import "./Tasks.css";
+import "./Tasks.css";
 
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-// import { fetchProject, createTask } from "../../actions";
+import { fetchProject, createTask } from "../../actions";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
@@ -15,10 +15,13 @@ import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
+import TaskDetails from "../forms/tasks/TaskDetails";
+
 class Tasks extends React.Component {
   state = {
     modalsOpened: {
       any: false,
+      details: false,
       create: false
     }
   };
@@ -26,15 +29,20 @@ class Tasks extends React.Component {
   componentDidMount() {
     // this needs to be able to receive the ID property of the project in
     // Preferably the URL parameter
-    // this.props.fetchProject(this.props.match.params.id);
+    this.props.fetchProject(this.props.match.params.id);
   }
 
   componentDidUpdate() {}
 
-  onModalOpen = event => {
+  onModalOpen = (event, task) => {
+    console.log(task);
     event.preventDefault();
     event.stopPropagation();
-    if (event.target.classList.contains("create-button")) {
+    if (event.target.classList.contains("task-item-details")) {
+      if (!this.state.modalsOpened.details) {
+        this.setState({ modalsOpened: { any: true, details: true } });
+      }
+    } else if (event.target.classList.contains("create-button")) {
       if (!this.state.modalsOpened.create) {
         this.setState({
           modalsOpened: { any: true, create: true }
@@ -49,13 +57,15 @@ class Tasks extends React.Component {
     if (tasks) {
       return tasks.map((task, index) => {
         return (
-          <Link
-            to={`/projects/${projectId}/tasks/${index}`}
+          <button
             key={index}
-            className="task item list-header"
+            className="task item list-header task-item-details"
+            onClick={e => {
+              this.onModalOpen(e, task);
+            }}
           >
             <TaskItem task={task} />
-          </Link>
+          </button>
         );
       });
     } else {
@@ -63,57 +73,26 @@ class Tasks extends React.Component {
     }
   };
 
-  renderCreateContent = () => {
-    return (
-      <React.Fragment>
-        <ModalCloseButton
-          onClose={() => {
+  renderModal = () => {
+    if (this.state.modalsOpened.details) {
+      return (
+        <Modal
+          sectionId="details-project-content"
+          content={() => {
+            // <TaskDetails onClose={this.dismissModalHandler()} />;
+          }}
+          onDismiss={() => {
             this.dismissModalHandler();
           }}
         />
-        <h1 className="modal-header">Create New Task</h1>
-        <form id="create-project-form">
-          <div id="create-project-field-div">
-            <input
-              id="create-project-title-field"
-              className="create-project-modal required text-field"
-              type="text"
-              name="project-title"
-              placeholder="Project Title"
-              maxLength="30"
-              required="true"
-              value=""
-            />
-          </div>
-
-          <div
-            className="two-buttons-container"
-            id="create-project-buttons-container"
-          >
-            <ModalCancelButton
-              onClose={() => {
-                this.dismissModalHandler();
-              }}
-            />
-
-            <input
-              type="submit"
-              className="form-submit"
-              id="create-project-submit"
-              value="Submit"
-            />
-          </div>
-        </form>
-      </React.Fragment>
-    );
-  };
-
-  renderModal = () => {
-    if (this.state.modalsOpened.create) {
+      );
+    } else if (this.state.modalsOpened.create) {
       return (
         <Modal
           sectionId="create-project-content"
-          content={this.renderCreateContent()}
+          content={() => {
+            // </>
+          }}
           onDismiss={() => {
             this.dismissModalHandler();
           }}
@@ -139,7 +118,9 @@ class Tasks extends React.Component {
             <div className="ui relaxed divided list">
               <div className="task item list-header">
                 <div className="task content">
-                  <div className="header header-text task">My Tasks</div>
+                  <div className="header header-text task">
+                    {this.props.project.name}
+                  </div>
                 </div>
                 <div>
                   <button className="create-button" onClick={this.onModalOpen}>
@@ -159,12 +140,15 @@ class Tasks extends React.Component {
 
 // I currently don't know which
 // specific state properties to assign to this component
-const mapStateToProps = state => {};
+const mapStateToProps = state => {
+  console.log(state.selectedProject);
+  return { project: state.selectedProject };
+};
 
 export default connect(
   mapStateToProps,
   {
-    // fetchProject,
+    fetchProject
     // createProject
   }
 )(Tasks);

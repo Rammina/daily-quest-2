@@ -46,6 +46,10 @@ main {
   /*top: 3.5rem;*/
 }
 
+button {
+  border: none;
+}
+
 button:hover,
 input[type="submit"] {
   cursor: pointer;

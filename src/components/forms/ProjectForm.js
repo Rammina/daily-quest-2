@@ -13,27 +13,21 @@ class ProjectForm extends React.Component {
     return null;
   };
 
-  renderNameValue = () => {
+  retrieveValue = inputName => {
     if (this.props.initialValues) {
-      return this.props.initialValues.name;
+      return this.props.initialValues[inputName];
     }
     return "";
   };
 
-  renderInput = ({ input, meta }) => {
+  renderInput = ({ input, meta, inputProps }) => {
     return (
       <React.Fragment>
         <input
-          className="project-form-modal required text-field project-form-title-field"
-          type="text"
-          name="name"
-          placeholder="Project Name"
-          maxLength="30"
-          autoComplete="off"
-          value={this.renderNameValue()}
+          value={this.retrieveValue(input.name)}
+          {...inputProps}
           {...input}
           onKeyDown={e => {
-            console.log(e.keyCode);
             if (e.keyCode === 13) {
               e.preventDefault();
               e.stopPropagation();
@@ -54,7 +48,19 @@ class ProjectForm extends React.Component {
     return (
       <form id="project-form-form">
         <div id="project-form-field-div">
-          <Field name="name" component={this.renderInput} />
+          <Field
+            name="name"
+            component={this.renderInput}
+            type="text"
+            props={{
+              inputProps: {
+                placeholder: "Project Name",
+                className: "text-field form-name-field",
+                maxLength: "30",
+                autoComplete: "off"
+              }
+            }}
+          />
         </div>
 
         <div
