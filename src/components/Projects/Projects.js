@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 
 import ProjectItem from "../ProjectItem/ProjectItem.js";
 import Modal from "../Modal/Modal";
-import ModalCloseButton from "../Modal/common/ModalCloseButton";
-import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 import CreateProject from "../forms/CreateProject";
 

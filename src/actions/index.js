@@ -1,5 +1,5 @@
 import firebasedatabase from "../apis/firebasedatabase";
-import history from "../history";
+// import history from "../history";
 
 // List of action types to be used
 export const actionTypes = {
@@ -60,7 +60,7 @@ export const editProject = (id, formValues) => {
 export const deleteProject = id => {
   return async function(dispatch, getState) {
     console.log(`deleting ${id}`);
-    const response = await firebasedatabase.delete(`/projects/${id}.json`);
+    await firebasedatabase.delete(`/projects/${id}.json`);
     dispatch({
       type: actionTypes.DELETE_PROJECT,
       payload: id

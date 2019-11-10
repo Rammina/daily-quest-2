@@ -35,6 +35,9 @@ class Tasks extends React.Component {
   componentDidUpdate() {}
 
   onModalOpen = (event, task) => {
+    console.log(event);
+    console.log(event.target);
+    // console.log();
     console.log(task);
     event.preventDefault();
     event.stopPropagation();
@@ -57,15 +60,16 @@ class Tasks extends React.Component {
     if (tasks) {
       return tasks.map((task, index) => {
         return (
-          <button
+          <div
             key={index}
+            tabIndex="0"
             className="task item list-header task-item-details"
             onClick={e => {
               this.onModalOpen(e, task);
             }}
           >
             <TaskItem task={task} />
-          </button>
+          </div>
         );
       });
     } else {
@@ -74,12 +78,13 @@ class Tasks extends React.Component {
   };
 
   renderModal = () => {
+    console.log(this.state.modalsOpened);
     if (this.state.modalsOpened.details) {
       return (
         <Modal
           sectionId="details-project-content"
           content={() => {
-            // <TaskDetails onClose={this.dismissModalHandler()} />;
+            return <TaskDetails onClose={this.dismissModalHandler()} />;
           }}
           onDismiss={() => {
             this.dismissModalHandler();

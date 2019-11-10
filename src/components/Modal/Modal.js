@@ -2,7 +2,6 @@ import "./Modal.css";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import history from "../../history";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
 const Modal = props => {

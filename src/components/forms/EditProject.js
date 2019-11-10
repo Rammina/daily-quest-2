@@ -1,6 +1,5 @@
 import _ from "lodash";
 import React from "react";
-import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { fetchProject, editProject } from "../../actions";
 import ProjectForm from "./ProjectForm";
