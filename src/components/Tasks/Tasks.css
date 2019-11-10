@@ -32,7 +32,7 @@
 .header-text.header.task {
   padding-bottom: 0.4rem;
   font-family: "Overlock", cursive;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   /* text-transform: uppercase; */
   color: #deffff !important;
   opacity: 1;
@@ -41,23 +41,13 @@
 .description-text.task {
   position: relative;
   left: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   /* color: #deffff; */
   color: #fff;
   text-align: left;
 }
 
-.create-button {
-  width: 3rem;
-  height: 3rem;
-  background-color: #222;
-  border: none;
-  border-radius: 50%;
-  color: #beffff;
-  font-size: 2rem;
-}
-
 .task.icon-button {
-  filter: invert(82%) sepia(0%) saturate(0%) hue-rotate(189deg) brightness(91%)
-    contrast(94%);
+  filter: invert(84%) sepia(97%) saturate(13%) hue-rotate(332deg)
+    brightness(116%) contrast(73%);
 }

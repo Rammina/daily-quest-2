@@ -99,7 +99,7 @@ class Projects extends React.Component {
         <div data-test="component-projects" className="projects-container">
           <div id="projects-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
-              <div className="project item list-header">
+              <div className="project item list-header first">
                 <div className="project content">
                   <div className="header header-text project">My Projects</div>
                 </div>

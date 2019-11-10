@@ -11,47 +11,67 @@
 .project.item {
   display: flex !important;
   align-items: center !important;
-  padding: 0 !important;
+  padding: 0.25rem 0 !important;
+
   width: 100%;
   min-height: 3rem;
 }
 
 .project.content {
   width: 100% !important;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .project.list-header {
-  border-top-color: #deffff20 !important;
+  border-top-color: #deffff00 !important;
+
+  width: calc(100%) !important;
+}
+
+.item.project.list-header.first {
+  z-index: 20;
+  background-color: rgb(197, 233, 194);
+  border: none !important;
+  border-radius: 5px 5px 0 0;
+
+  /* NEED TO DO SOMETHING ABOUT THIS */
+  /* position: fixed; */
+}
+
+.project.list-header:nth-of-type(even) {
+  background-color: rgba(200, 200, 255, 0.05);
 }
 
 .header-text.header.project {
-  padding-bottom: 0.4rem;
   font-family: "Overlock", cursive;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   /* text-transform: uppercase; */
-  color: #deffff !important;
+  color: #113 !important;
   opacity: 1;
 }
 
 .description-text.project {
   position: relative;
   left: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   /* color: #deffff; */
   color: #fff;
 }
 
 .create-button {
+  position: relative;
   width: 3rem;
   height: 3rem;
+  right: 0.75rem;
   background-color: #222;
   border: none;
   border-radius: 50%;
   color: #beffff;
-  font-size: 2rem;
+  font-size: 2.6rem;
 }
 
 .project.icon-button {
-  filter: invert(82%) sepia(0%) saturate(0%) hue-rotate(189deg) brightness(91%)
-    contrast(94%);
+  filter: invert(84%) sepia(97%) saturate(13%) hue-rotate(332deg)
+    brightness(116%) contrast(73%);
 }
