@@ -23,7 +23,8 @@ class Tasks extends React.Component {
       any: false,
       details: false,
       create: false
-    }
+    },
+    selectedTask: null
   };
 
   componentDidMount() {
@@ -35,17 +36,7 @@ class Tasks extends React.Component {
   componentDidUpdate() {}
 
   onModalOpen = (event, task) => {
-    console.log(event);
-    console.log(event.target);
-    // console.log();
-    console.log(task);
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.target.classList.contains("task-item-details")) {
-      if (!this.state.modalsOpened.details) {
-        this.setState({ modalsOpened: { any: true, details: true } });
-      }
-    } else if (event.target.classList.contains("create-button")) {
+    if (event.target.classList.contains("create-button")) {
       if (!this.state.modalsOpened.create) {
         this.setState({
           modalsOpened: { any: true, create: true }
@@ -65,7 +56,12 @@ class Tasks extends React.Component {
             tabIndex="0"
             className="task item list-header task-item-details"
             onClick={e => {
-              this.onModalOpen(e, task);
+              if (!this.state.modalsOpened.details) {
+                this.setState({
+                  modalsOpened: { any: true, details: true },
+                  selectedTask: task
+                });
+              }
             }}
           >
             <TaskItem task={task} />
@@ -84,7 +80,12 @@ class Tasks extends React.Component {
         <Modal
           sectionId="details-project-content"
           content={() => {
-            return <TaskDetails onClose={this.dismissModalHandler()} />;
+            return (
+              <TaskDetails
+                onClose={this.dismissModalHandler}
+                task={this.state.selectedTask}
+              />
+            );
           }}
           onDismiss={() => {
             this.dismissModalHandler();
