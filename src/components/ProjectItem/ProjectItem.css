@@ -23,6 +23,18 @@
   border: none;
 }
 
+.edit-button.icon-button:hover,
+.edit-button.icon-button:focus {
+  filter: invert(92%) sepia(6%) saturate(1213%) hue-rotate(80deg)
+    brightness(107%) contrast(112%);
+}
+
+.delete-button.icon-button:hover,
+.delete-button.icon-button:focus {
+  filter: invert(58%) sepia(30%) saturate(981%) hue-rotate(311deg)
+    brightness(109%) contrast(103%);
+}
+
 .icon-image {
   width: 2.5rem;
   height: 2.5rem;

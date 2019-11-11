@@ -1,12 +1,15 @@
 .projects-container {
-  padding-top: 7.3rem;
-  padding-bottom: 3.5rem;
+  padding-top: 3.9rem;
+  padding-bottom: 5.5rem;
   min-height: 100vh;
   background-color: #444;
 }
 
 #projects-list {
-  width: 40vw;
+  position: relative;
+  /* width: 40vw; */
+  width: calc(100vw - (100vw - 100%));
+  top: 3.5rem;
 }
 
 .project.item {
@@ -26,22 +29,22 @@
 
 .project.list-header {
   border-top-color: #deffff00 !important;
-
-  width: calc(100%) !important;
+  width: calc(100%);
 }
 
 .item.project.list-header.first {
-  z-index: 20;
+  z-index: 10;
   background-color: rgb(197, 233, 194);
   border: none !important;
-  border-radius: 5px 5px 0 0;
-
+  border-top: 1rem solid #444 !important;
+  top: 2.9rem;
+  width: calc(100vw - (100vw - 100%));
   /* NEED TO DO SOMETHING ABOUT THIS */
-  /* position: fixed; */
+  position: fixed;
 }
 
 .project.list-header:nth-of-type(even) {
-  background-color: rgba(200, 200, 255, 0.05);
+  background-color: rgba(200, 200, 255, 0.06);
 }
 
 .header-text.header.project {
@@ -68,11 +71,44 @@
   background-color: #222;
   border: none;
   border-radius: 50%;
-  color: #beffff;
+  color: rgb(164, 255, 155);
   font-size: 2.6rem;
 }
 
 .project.icon-button {
   filter: invert(84%) sepia(97%) saturate(13%) hue-rotate(332deg)
     brightness(116%) contrast(73%);
+}
+
+@media screen and (min-width: 450px) {
+  #projects-list {
+    width: 50vw;
+    min-width: 310px;
+    border-radius: 0 0 4px 4px;
+    -webkit-box-shadow: inset -1px 0px 0px 0px rgba(221, 255, 221, 0.8),
+      inset 1px 0px 0px 0px rgba(221, 255, 221, 0.8),
+      0px 1px 0px 0px rgba(221, 255, 221, 0.8);
+    box-shadow: inset -1px 0px 0px 0px rgba(221, 255, 221, 0.8),
+      inset 1px 0px 0px 0px rgba(221, 255, 221, 0.8),
+      0px 1px 0px 0px rgba(221, 255, 221, 0.8);
+  }
+  .item.project.list-header.first {
+    width: 50vw;
+    min-width: 310px;
+    border-bottom: none;
+  }
+}
+
+@media screen and (min-width: 650px) {
+  .projects-container {
+    padding-top: 7.3rem;
+  }
+  #projects-list {
+    width: 40vw;
+  }
+  .item.project.list-header.first {
+    width: 40vw;
+    border-top: 5rem solid #444 !important;
+    top: 2.3rem;
+  }
 }

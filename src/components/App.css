@@ -21,12 +21,10 @@ ul {
   min-width: 280px;
   width: 60vw;
   background-color: #222;
-  -webkit-box-shadow: 0px 0px 0px 1px #cfc, 0px 0px 0px 2px #beffff;
-  box-shadow: 0px 0px 0px 1px #cfc, 0px 0px 0px 2px #beffff;
   margin: 0 auto;
   padding: 0;
-  border: 1px solid rgba(70, 70, 70, 0.698);
-  border-radius: 5px;
+  border: none;
+  /* border-radius: 5px; */
 }
 
 .todolist.ui.segment .item {
@@ -36,4 +34,11 @@ ul {
 
 .item.list-header {
   /* background-color: #555; */
+}
+
+@media screen and (min-width: 450px) {
+  .todolist.ui.segment {
+    /* -webkit-box-shadow: 0px 0px 0px 0.5px #cfc, 0px 0px 0px 1px #beffff7e;
+    box-shadow: 0px 0px 0px 0.5px #cfc, 0px 0px 0px 1px #beffff7e; */
+  }
 }
