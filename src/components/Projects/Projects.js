@@ -68,14 +68,14 @@ class Projects extends React.Component {
           sectionId="create-project-content"
           content={() => (
             <CreateProject
-              onClose={() => {
+              onClose={(backdrop, delay) => {
                 console.log("dismissed");
-                this.dismissModalHandler();
+                this.dismissModalHandler(backdrop, delay);
               }}
             />
           )}
-          onDismiss={() => {
-            this.dismissModalHandler();
+          onDismiss={(backdrop, delay) => {
+            this.dismissModalHandler(backdrop, delay);
           }}
         />
       );
@@ -83,11 +83,14 @@ class Projects extends React.Component {
     return null;
   };
 
-  dismissModalHandler = () => {
-    const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+  dismissModalHandler = (backdrop, delay) => {
+    backdrop.classList.add("closed");
+    setTimeout(() => {
+      const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
+      this.setState({
+        modalsOpened
+      });
+    }, delay);
   };
 
   render() {

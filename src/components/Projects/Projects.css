@@ -29,7 +29,14 @@
 
 .project.list-header {
   border-top-color: #deffff00 !important;
-  width: calc(100%);
+  width: calc(100% - 2px);
+  margin-left: 1px;
+}
+
+.item.project.list-header:hover,
+.item.project.list-header:focus {
+  /* color: #beffff !important; */
+  background-color: #304035;
 }
 
 .item.project.list-header.first {
@@ -39,7 +46,7 @@
   border-top: 1rem solid #444 !important;
   top: 2.9rem;
   width: calc(100vw - (100vw - 100%));
-  /* NEED TO DO SOMETHING ABOUT THIS */
+  margin-left: 0px;
   position: fixed;
 }
 
@@ -73,6 +80,12 @@
   border-radius: 50%;
   color: rgb(164, 255, 155);
   font-size: 2.6rem;
+}
+
+.create-button:hover,
+.create-button:focus {
+  background-color: #444;
+  color: rgb(180, 255, 180);
 }
 
 .project.icon-button {

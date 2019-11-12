@@ -25,7 +25,11 @@ class ProjectItem extends React.Component {
   renderDeleteContent = () => {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={this.dismissModalHandler} />
+        <ModalCloseButton
+          onClose={(backdrop, delay) =>
+            this.dismissModalHandler(backdrop, delay)
+          }
+        />
         <h1 className="modal-header">Delete Project</h1>
         <form id="delete-project-form">
           <p className="modal-paragraph">
@@ -41,7 +45,11 @@ class ProjectItem extends React.Component {
             className="two-buttons-container"
             id="delete-project-buttons-container"
           >
-            <ModalCancelButton onClose={this.dismissModalHandler} />
+            <ModalCancelButton
+              onClose={(backdrop, delay) =>
+                this.dismissModalHandler(backdrop, delay)
+              }
+            />
 
             <button
               className="modal-action-button delete-confirm-button"
@@ -92,11 +100,15 @@ class ProjectItem extends React.Component {
           sectionId="edit-project-content"
           content={() => (
             <EditProject
-              onClose={this.dismissModalHandler}
+              onClose={(backdrop, delay) =>
+                this.dismissModalHandler(backdrop, delay)
+              }
               project={this.props.project}
             />
           )}
-          onDismiss={this.dismissModalHandler}
+          onDismiss={(backdrop, delay) =>
+            this.dismissModalHandler(backdrop, delay)
+          }
         />
       );
     } else if (this.state.modalsOpened.delete) {
@@ -104,14 +116,16 @@ class ProjectItem extends React.Component {
         <Modal
           sectionId="delete-project-content"
           content={this.renderDeleteContent}
-          onDismiss={this.dismissModalHandler}
+          onDismiss={(backdrop, delay) =>
+            this.dismissModalHandler(backdrop, delay)
+          }
         />
       );
     }
     return null;
   };
 
-  dismissModalHandler = () => {
+  dismissModalHandler = (backdrop, delay) => {
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
     this.setState({
       modalsOpened

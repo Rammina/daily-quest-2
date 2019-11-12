@@ -25,8 +25,8 @@
 
 .edit-button.icon-button:hover,
 .edit-button.icon-button:focus {
-  filter: invert(92%) sepia(6%) saturate(1213%) hue-rotate(80deg)
-    brightness(107%) contrast(112%);
+  filter: invert(86%) sepia(10%) saturate(1332%) hue-rotate(68deg)
+    brightness(105%) contrast(102%);
 }
 
 .delete-button.icon-button:hover,
