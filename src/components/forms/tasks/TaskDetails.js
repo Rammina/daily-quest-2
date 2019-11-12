@@ -23,6 +23,7 @@ class TaskDetails extends React.Component {
           onClose={this.props.onClose}
           initialValues={{ ...this.props.task }}
           disabled="true"
+          hideButtons="true"
         />
       </React.Fragment>
     );

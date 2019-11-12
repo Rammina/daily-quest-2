@@ -15,7 +15,10 @@ class TaskForm extends React.Component {
   retrieveValue = inputName => {
     const values = this.props.initialValues;
     if (values) {
+      console.log(values);
       if (inputName === "date" || inputName === "time") {
+        console.log(values.deadline);
+        console.log(values.deadline[inputName]);
         return values.deadline[inputName];
       }
       return values[inputName];
@@ -28,7 +31,6 @@ class TaskForm extends React.Component {
     return (
       <React.Fragment>
         <input
-          value={this.retrieveValue(input.name)}
           {...componentProps}
           {...input}
           disabled={disabled || false}
@@ -39,6 +41,7 @@ class TaskForm extends React.Component {
               this.props.handleSubmit(this.onSubmit)();
             }
           }}
+          value={this.retrieveValue(input.name)}
         />
         {this.renderError(meta)}
       </React.Fragment>
@@ -65,6 +68,41 @@ class TaskForm extends React.Component {
         {this.renderError(meta)}
       </React.Fragment>
     );
+  };
+
+  renderSelect = ({ input, meta, componentProps }) => {
+    const { disabled } = this.props;
+    return (
+      <React.Fragment>
+        <select
+          {...componentProps}
+          {...input}
+          disabled={disabled || false}
+          onKeyDown={e => {
+            if (e.keyCode === 13) {
+              e.preventDefault();
+              e.stopPropagation();
+              this.props.handleSubmit(this.onSubmit)();
+            }
+          }}
+          value={this.retrieveValue(input.name)}
+        >
+          <option value="">--Priority Level--</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        {this.renderError(meta)}
+      </React.Fragment>
+    );
+  };
+
+  // Hides buttons for detail display ( used only by non-action modals )
+  hideButtons = () => {
+    if (this.props.hideButtons) {
+      return { display: "none" };
+    }
+    return {};
   };
 
   onSubmit = formValues => {
@@ -142,12 +180,28 @@ class TaskForm extends React.Component {
             }}
           />
         </div>
+        <div className="task-form-field-div">
+          <label htmlFor="task-name-field">Task Priority</label>
+          <Field
+            name="priority"
+            component={this.renderSelect}
+            props={{
+              componentProps: {
+                placeholder: "Task Priority",
+                className: "text-field form-priority-field",
+                id: "task-priority-field"
+              }
+            }}
+          />
+        </div>
+
         <div className="two-buttons-container" id="task-form-buttons-container">
           <ModalCancelButton
             onClose={() => {
               console.log("cancel dismissed");
               this.props.onClose();
             }}
+            hideButtons={this.hideButtons()}
           />
 
           <button
@@ -155,6 +209,7 @@ class TaskForm extends React.Component {
             className="form-submit modal-action-button"
             id="task-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
+            style={this.hideButtons()}
           >
             Submit
           </button>
@@ -176,3 +231,16 @@ export default reduxForm({
   form: "taskForm",
   validate
 })(TaskForm);
+
+// Format for date database retrieval
+// YYYY-MM-DD
+// format for date input From form field
+// MM/DD/YYYY
+
+// The output needs to be changed to database format before posting it to firebase
+
+// Format for time database retrieval
+// HH:mm (military time)
+
+// format for time input from form field
+// HH:mmA
