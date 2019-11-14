@@ -171,7 +171,7 @@ class TaskItem extends React.Component {
 }
 
 // const mapStateToProps = state => {
-//   return { tasks: state.tasks };
+// return {  };
 // };
 export default connect(
   null

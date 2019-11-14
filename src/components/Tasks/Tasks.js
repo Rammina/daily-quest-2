@@ -16,6 +16,7 @@ import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 import TaskDetails from "../forms/tasks/TaskDetails";
+import CreateTask from "../forms/tasks/CreateTask";
 
 class Tasks extends React.Component {
   state = {
@@ -64,7 +65,7 @@ class Tasks extends React.Component {
               }
             }}
           >
-            <TaskItem task={task} />
+            <TaskItem task={task} url={this.props.match.params.id} />
           </div>
         );
       });
@@ -97,7 +98,14 @@ class Tasks extends React.Component {
         <Modal
           sectionId="create-project-content"
           content={() => {
-            // </>
+            // this.props.match.url should be given to create project so it does not lose track
+            // of where the URL address is
+            return (
+              <CreateTask
+                onClose={this.dismissModalHandler}
+                url={this.props.match.params.id}
+              />
+            );
           }}
           onDismiss={() => {
             this.dismissModalHandler();
@@ -117,6 +125,7 @@ class Tasks extends React.Component {
 
   render() {
     console.log(this.props.project);
+    console.log(this.props.match.params.id);
     return (
       <React.Fragment>
         <div data-test="component-tasks" className="tasks-container">

@@ -67,14 +67,17 @@ export const deleteProject = id => {
     });
   };
 };
-
-export const createTask = (projectId, formValues) => {
+export const createTask = (id, formValues) => {
   return async function(dispatch, getState) {
-    // Under construction
-    // const response = firebasedatabase.push(``, {...formValues, });
+    const response = await firebasedatabase.post(
+      `/projects/${id}.json`,
+      formValues
+    );
+    console.log(response.data);
+    const valuesWithId = { ...formValues, id: response.data.name };
     dispatch({
-      type: actionTypes.CREATE_TASK
-      // payload: response.data
+      type: actionTypes.CREATE_TASK,
+      payload: valuesWithId
     });
   };
 };

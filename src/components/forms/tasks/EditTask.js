@@ -2,14 +2,14 @@ import _ from "lodash";
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { fetchProject, editProject } from "../../actions";
-import ProjectForm from "./ProjectForm";
+import { fetchTask, editTask } from "../../actions";
+import TaskForm from "./TaskForm";
 
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 
-class EditProject extends React.Component {
+class EditTask extends React.Component {
   onSubmit = async formValues => {
-    await this.props.editProject(this.props.id, formValues);
+    await this.props.editTask(this.props.id, formValues);
     this.props.onClose();
   };
 
@@ -17,11 +17,11 @@ class EditProject extends React.Component {
     return (
       <React.Fragment>
         <ModalCloseButton onClose={this.props.onClose} />
-        <h1 className="modal-header">Rename Project</h1>
-        <ProjectForm
+        <h1 className="modal-header">Edit Task</h1>
+        <TaskForm
           onSubmit={this.onSubmit}
           onClose={this.props.onClose}
-          initialValues={_.pick(this.props.project, "name")}
+          initialValues={{ ...this.props.task }}
         />
       </React.Fragment>
     );
@@ -30,5 +30,5 @@ class EditProject extends React.Component {
 
 export default connect(
   null,
-  { editProject, fetchProject }
-)(EditProject);
+  { editTask, fetchTask }
+)(EditTask);
