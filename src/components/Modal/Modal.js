@@ -13,7 +13,7 @@ class Modal extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    this.props.onDismiss(this.modalBackdrop.current, 200);
+    this.props.onDismiss();
   };
 
   render() {
@@ -34,11 +34,7 @@ class Modal extends React.Component {
           role="dialog"
           aria-hidden="true"
         >
-          <ModalCloseButton
-            onClose={() =>
-              this.props.onDismiss(this.modalBackdrop.current, 200)
-            }
-          />
+          <ModalCloseButton onClose={() => this.props.onDismiss()} />
           {this.props.content()}
         </section>
       </div>,

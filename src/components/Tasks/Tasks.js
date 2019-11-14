@@ -131,7 +131,7 @@ class Tasks extends React.Component {
         <div data-test="component-tasks" className="tasks-container">
           <div id="tasks-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
-              <div className="task item list-header">
+              <div className="task item list-header first">
                 <div className="task content">
                   <div className="header header-text task">
                     {this.props.project.name}
@@ -160,10 +160,7 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProject
-    // createProject
-  }
-)(Tasks);
+export default connect(mapStateToProps, {
+  fetchProject
+  // createProject
+})(Tasks);

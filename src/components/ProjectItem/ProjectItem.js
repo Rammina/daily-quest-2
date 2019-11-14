@@ -25,11 +25,7 @@ class ProjectItem extends React.Component {
   renderDeleteContent = () => {
     return (
       <React.Fragment>
-        <ModalCloseButton
-          onClose={(backdrop, delay) =>
-            this.dismissModalHandler(backdrop, delay)
-          }
-        />
+        <ModalCloseButton onClose={() => this.dismissModalHandler()} />
         <h1 className="modal-header">Delete Project</h1>
         <form id="delete-project-form">
           <p className="modal-paragraph">
@@ -45,11 +41,7 @@ class ProjectItem extends React.Component {
             className="two-buttons-container"
             id="delete-project-buttons-container"
           >
-            <ModalCancelButton
-              onClose={(backdrop, delay) =>
-                this.dismissModalHandler(backdrop, delay)
-              }
-            />
+            <ModalCancelButton onClose={() => this.dismissModalHandler()} />
 
             <button
               className="modal-action-button delete-confirm-button"
@@ -100,15 +92,11 @@ class ProjectItem extends React.Component {
           sectionId="edit-project-content"
           content={() => (
             <EditProject
-              onClose={(backdrop, delay) =>
-                this.dismissModalHandler(backdrop, delay)
-              }
+              onClose={() => this.dismissModalHandler()}
               project={this.props.project}
             />
           )}
-          onDismiss={(backdrop, delay) =>
-            this.dismissModalHandler(backdrop, delay)
-          }
+          onDismiss={() => this.dismissModalHandler()}
         />
       );
     } else if (this.state.modalsOpened.delete) {
@@ -116,16 +104,14 @@ class ProjectItem extends React.Component {
         <Modal
           sectionId="delete-project-content"
           content={this.renderDeleteContent}
-          onDismiss={(backdrop, delay) =>
-            this.dismissModalHandler(backdrop, delay)
-          }
+          onDismiss={() => this.dismissModalHandler()}
         />
       );
     }
     return null;
   };
 
-  dismissModalHandler = (backdrop, delay) => {
+  dismissModalHandler = () => {
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
     this.setState({
       modalsOpened
@@ -171,7 +157,4 @@ const mapStateToProps = state => {
   return { projects: state.projects };
 };
 
-export default connect(
-  mapStateToProps,
-  { deleteProject }
-)(ProjectItem);
+export default connect(mapStateToProps, { deleteProject })(ProjectItem);

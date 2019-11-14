@@ -44,7 +44,7 @@ girlContainer.style.backgroundPosition = "50% 50%"; */
 
 #home-paragraph {
   z-index: 2;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: rgb(255, 254, 240);
   padding: 0 0.5rem;
   text-align: center;
@@ -69,7 +69,7 @@ girlContainer.style.backgroundPosition = "50% 50%"; */
 
 #home-button {
   display: none;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   background-color: rgba(10, 0, 0, 0.2);
   border: 2px solid #111;
   border-radius: 3px;

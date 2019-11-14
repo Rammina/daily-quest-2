@@ -17,7 +17,7 @@ class TaskDetails extends React.Component {
     return (
       <React.Fragment>
         <ModalCloseButton onClose={this.props.onClose} />
-        <h1 className="modal-header">{this.props.task.name}</h1>
+
         <TaskForm
           // onSubmit={this.onSubmit}
           onClose={this.props.onClose}
