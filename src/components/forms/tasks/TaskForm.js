@@ -12,25 +12,13 @@ class TaskForm extends React.Component {
     }
     return null;
   };
-  retrieveValue = inputName => {
-    const values = this.props.initialValues;
-    if (values) {
-      console.log(values);
-      if (inputName === "date" || inputName === "time") {
-        console.log(values.deadline);
-        console.log(values.deadline[inputName]);
-        return values.deadline[inputName];
-      }
-      return values[inputName];
-    }
-    return "";
-  };
 
   renderInput = ({ input, meta, componentProps }) => {
     const { disabled } = this.props;
     return (
       <React.Fragment>
         <input
+          // value={this.retrieveValue(input.name)}
           {...componentProps}
           {...input}
           disabled={disabled || false}
@@ -41,7 +29,6 @@ class TaskForm extends React.Component {
               this.props.handleSubmit(this.onSubmit)();
             }
           }}
-          value={this.retrieveValue(input.name)}
         />
         {this.renderError(meta)}
       </React.Fragment>
@@ -53,7 +40,7 @@ class TaskForm extends React.Component {
     return (
       <React.Fragment>
         <textarea
-          value={this.retrieveValue(input.name)}
+          // value={this.retrieveValue(input.name)}
           {...componentProps}
           {...input}
           disabled={disabled || false}
@@ -75,17 +62,10 @@ class TaskForm extends React.Component {
     return (
       <React.Fragment>
         <select
+          // value={this.retrieveValue(input.name)}
           {...componentProps}
           {...input}
           disabled={disabled || false}
-          onKeyDown={e => {
-            if (e.keyCode === 13) {
-              e.preventDefault();
-              e.stopPropagation();
-              this.props.handleSubmit(this.onSubmit)();
-            }
-          }}
-          value={this.retrieveValue(input.name)}
         >
           <option value="">--Priority Level--</option>
           <option value="high">High</option>
@@ -229,6 +209,8 @@ const validate = formValues => {
 
 export default reduxForm({
   form: "taskForm",
+  keepDirtyOnReinitialize: true,
+  enableReinitialize: true,
   validate
 })(TaskForm);
 

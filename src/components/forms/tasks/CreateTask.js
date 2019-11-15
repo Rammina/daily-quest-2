@@ -1,3 +1,4 @@
+import { format, endOfYesterday, isBefore } from "date-fns";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
@@ -8,8 +9,9 @@ import ModalCloseButton from "../../Modal/common/ModalCloseButton";
 
 class CreateTask extends React.Component {
   onSubmit = async formValues => {
-    // Need to find a way to tell firebase the address of the project
-    await this.props.createTask(this.props.url, formValues);
+    const date = format(formValues.date, "YYYY-MM-DD");
+    const reformattedValues = { ...formValues };
+    await this.props.createTask(this.props.url, reformattedValues);
     this.props.onClose();
   };
 
