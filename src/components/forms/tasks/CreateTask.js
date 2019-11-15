@@ -1,4 +1,9 @@
 import { format, endOfYesterday, isBefore } from "date-fns";
+import {
+  getCurrentDate,
+  getCurrentTime,
+  toMilitaryTime
+} from "../../../helpers";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
@@ -9,9 +14,15 @@ import ModalCloseButton from "../../Modal/common/ModalCloseButton";
 
 class CreateTask extends React.Component {
   onSubmit = async formValues => {
-    const date = format(formValues.date, "YYYY-MM-DD");
-    const reformattedValues = { ...formValues };
-    await this.props.createTask(this.props.url, reformattedValues);
+    console.log(formValues);
+    const date = format(new Date(formValues.date), "YYYY-MM-DD");
+    console.log(date);
+    const time = format(
+      new Date(`${getCurrentDate}T${formValues.time}`),
+      "hh:mmA"
+    );
+    const reformattedValues = { ...formValues, date, time };
+    await this.props.createTask(this.props.id, reformattedValues);
     this.props.onClose();
   };
 

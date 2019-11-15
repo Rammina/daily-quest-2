@@ -6,6 +6,10 @@ import { Field, reduxForm } from "redux-form";
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class TaskForm extends React.Component {
+  state = {
+    finished: this.props.initialValues.finished || false
+  };
+
   renderError = ({ error, touched } /*deconstructed meta object*/) => {
     if (error && touched) {
       return <div className="task error">{error}</div>;
@@ -15,13 +19,15 @@ class TaskForm extends React.Component {
 
   renderInput = ({ input, meta, componentProps }) => {
     const { disabled } = this.props;
+    console.log(input.name);
+    console.log(input.checked);
     return (
       <React.Fragment>
         <input
           // value={this.retrieveValue(input.name)}
+          disabled={disabled || false}
           {...componentProps}
           {...input}
-          disabled={disabled || false}
           onKeyDown={e => {
             if (e.keyCode === 13) {
               e.preventDefault();
@@ -29,6 +35,7 @@ class TaskForm extends React.Component {
               this.props.handleSubmit(this.onSubmit)();
             }
           }}
+          checked={this.state.finished}
         />
         {this.renderError(meta)}
       </React.Fragment>
@@ -90,6 +97,7 @@ class TaskForm extends React.Component {
   };
 
   render() {
+    console.log(this.props.initialValues);
     const { disabled } = this.props;
     return (
       <form id="task-form-form">
@@ -173,7 +181,28 @@ class TaskForm extends React.Component {
             }}
           />
         </div>
-
+        <div className="task-form-field-div">
+          <label htmlFor="task-date-field">Finished</label>
+          <Field
+            name="finished"
+            component={this.renderInput}
+            type="checkbox"
+            props={{
+              componentProps: {
+                className: "text-field form-checkbox",
+                id: "task-checkbox",
+                type: "checkbox",
+                disabled: false,
+                // checked: this.state.finished,
+                onClick: () => {
+                  console.log("detected");
+                  this.setState({ finished: !this.state.finished });
+                  console.log(this.state.finished);
+                }
+              }
+            }}
+          />
+        </div>
         <div className="two-buttons-container" id="task-form-buttons-container">
           <ModalCancelButton
             onClose={() => {
@@ -201,8 +230,21 @@ class TaskForm extends React.Component {
 const validate = formValues => {
   const errors = {};
   if (!formValues.name) {
-    errors.name = "Please input a name for the task.";
+    errors.name = "Please input a name.";
   }
+  if (!formValues.description) {
+    errors.name = "Please input a description.";
+  }
+  if (!formValues.date) {
+    errors.name = "Please input a date deadline.";
+  }
+  if (!formValues.time) {
+    errors.name = "Please input a time limit.";
+  }
+  if (!formValues.priority) {
+    errors.name = "Please input a priority level";
+  }
+
   return errors;
 };
 

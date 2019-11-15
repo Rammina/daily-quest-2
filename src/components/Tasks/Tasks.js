@@ -103,7 +103,7 @@ class Tasks extends React.Component {
             return (
               <CreateTask
                 onClose={this.dismissModalHandler}
-                url={this.props.match.params.id}
+                id={this.props.match.params.id}
               />
             );
           }}
@@ -160,7 +160,10 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 
-export default connect(mapStateToProps, {
-  fetchProject
-  // createProject
-})(Tasks);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProject
+    // createProject
+  }
+)(Tasks);

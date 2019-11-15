@@ -22,7 +22,7 @@ class TaskDetails extends React.Component {
           // onSubmit={this.onSubmit}
           onClose={this.props.onClose}
           initialValues={{ ...this.props.task }}
-          disabled="true"
+          disabled={true}
           hideButtons="true"
         />
       </React.Fragment>
