@@ -2,7 +2,27 @@
   z-index: 30;
   width: 10rem !important;
   border-left: 1px solid #beffff;
-  background-color: #333;
+  background-color: #222528;
+  -webkit-box-shadow: -1px 0px 1px 0px rgba(206, 255, 255, 0.8),
+    -2px 0px 3px 0px rgba(206, 255, 255, 0.6),
+    -3px 0px 3px 0px rgba(206, 255, 255, 0.5),
+    -4px 0px 4px 0px rgba(206, 255, 255, 0.3);
+  box-shadow: -1px 0px 1px 0px rgba(206, 255, 255, 0.8),
+    -2px 0px 3px 0px rgba(206, 255, 255, 0.6),
+    -3px 0px 3px 0px rgba(206, 255, 255, 0.5),
+    -4px 0px 4px 0px rgba(206, 255, 255, 0.3);
+}
+
+.nav-menu.ui.sidebar.vertical .item {
+  position: relative;
+  width: 100%;
+  margin: 0.5rem 0;
+  bottom: 0.9rem;
+}
+
+.nav-menu.ui.sidebar.vertical:hover .item:hover,
+.nav-menu.ui.sidebar.vertical .item:focus {
+  background-color: #fff2;
 }
 
 .ui.inverted.menu .item,
@@ -13,6 +33,10 @@
 #nav-menu-backdrop {
   z-index: 20;
   position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
   display: none;
   width: 100vw;
   height: 100vh;
@@ -31,6 +55,27 @@
   font-family: "Raleway", sans-serif;
   font-size: 1.4rem;
   height: 3.5rem;
+}
+
+.nav-item:focus {
+  outline: none;
+  -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
+    0px 0px 2px 3px #000000 !important;
+  box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
+    0px 0px 2px 3px #000000 !important;
+}
+
+@media screen and (min-width: 450px) {
+  .nav-menu.ui.sidebar.vertical {
+    width: 35vw !important;
+    max-width: 14.19rem;
+  }
+}
+
+@media screen and (min-width: 650px) {
+  .nav-menu.ui.sidebar.vertical .item {
+    padding-left: 1.85rem;
+  }
 }
 
 @media screen and (min-width: 901px) {

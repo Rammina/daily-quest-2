@@ -1,5 +1,6 @@
 #modal {
   z-index: 2000;
+  /* position: fixed; */
 }
 
 .backdrop {

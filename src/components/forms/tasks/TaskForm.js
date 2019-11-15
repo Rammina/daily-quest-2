@@ -137,10 +137,9 @@ class TaskForm extends React.Component {
                 placeholder: "Date",
                 className: "text-field form-date-field",
                 id: "task-date-field",
-                autoComplete: "off",
+                // autoComplete: "off",
                 type: "date"
                 // min: today
-                // <input id="add-task-date-field" class="add-task-modal-required datetime-field text-field" type="text" placeholder="Date (optional)" name="task-date" onfocus="(this.type='date')" required="true" min="${today}">
               }
             }}
           />
