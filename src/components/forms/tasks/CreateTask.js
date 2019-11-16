@@ -15,11 +15,11 @@ import ModalCloseButton from "../../Modal/common/ModalCloseButton";
 class CreateTask extends React.Component {
   onSubmit = async formValues => {
     console.log(formValues);
-    const date = format(new Date(formValues.date), "YYYY-MM-DD");
+    const date = format(new Date(formValues.date), "yyyy-MM-dd");
     console.log(date);
     const time = format(
       new Date(`${getCurrentDate}T${formValues.time}`),
-      "hh:mmA"
+      "hh:mm"
     );
     const reformattedValues = { ...formValues, date, time };
     await this.props.createTask(this.props.id, reformattedValues);

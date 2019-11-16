@@ -4,7 +4,7 @@ import { format, endOfYesterday, isBefore } from "date-fns";
 // Helper functions
 
 export const getCurrentDate = () => {
-  return format(new Date(), "YYYY-MM-DD");
+  return format(new Date(), "yyyy-MM-dd");
 };
 
 export const getCurrentTime = () => {

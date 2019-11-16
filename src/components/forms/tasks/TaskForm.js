@@ -2,17 +2,15 @@
 
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { getCurrentDate } from "../../../helpers";
 
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class TaskForm extends React.Component {
   state = {
-    finished: (() => {
-      if (this.props.initialValues) {
-        return this.props.initialValues.finished || false;
-      }
-      return false;
-    })()
+    finished: this.props.initialValues
+      ? this.props.initialValues.finished
+      : false
   };
 
   renderError = ({ error, touched } /*deconstructed meta object*/) => {
@@ -34,7 +32,6 @@ class TaskForm extends React.Component {
     return (
       <React.Fragment>
         <input
-          // value={this.retrieveValue(input.name)}
           disabled={disabled || false}
           {...componentProps}
           {...input}
@@ -57,7 +54,6 @@ class TaskForm extends React.Component {
     return (
       <React.Fragment>
         <textarea
-          // value={this.retrieveValue(input.name)}
           {...componentProps}
           {...input}
           disabled={disabled || false}
@@ -78,12 +74,7 @@ class TaskForm extends React.Component {
     const { disabled } = this.props;
     return (
       <React.Fragment>
-        <select
-          // value={this.retrieveValue(input.name)}
-          {...componentProps}
-          {...input}
-          disabled={disabled || false}
-        >
+        <select {...componentProps} {...input} disabled={disabled || false}>
           <option value="">--Priority Level--</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
@@ -155,9 +146,8 @@ class TaskForm extends React.Component {
                 placeholder: "Date",
                 className: "text-field form-date-field",
                 id: "task-date-field",
-                // autoComplete: "off",
-                type: "date"
-                // min: today
+                type: "date",
+                min: getCurrentDate()
               }
             }}
           />
@@ -211,7 +201,6 @@ class TaskForm extends React.Component {
                     target.focus();
                   }, 0);
                 }
-                // checked: this.state.finished,
               }
             }}
           />
