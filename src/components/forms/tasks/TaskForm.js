@@ -7,7 +7,12 @@ import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class TaskForm extends React.Component {
   state = {
-    finished: this.props.initialValues.finished || false
+    finished: (() => {
+      if (this.props.initialValues) {
+        return this.props.initialValues.finished || false;
+      }
+      return false;
+    })()
   };
 
   renderError = ({ error, touched } /*deconstructed meta object*/) => {
@@ -17,10 +22,15 @@ class TaskForm extends React.Component {
     return null;
   };
 
+  retrieveChecked = inputName => {
+    if (inputName === "finished") {
+      return this.state.finished;
+    }
+    return undefined;
+  };
+
   renderInput = ({ input, meta, componentProps }) => {
     const { disabled } = this.props;
-    console.log(input.name);
-    console.log(input.checked);
     return (
       <React.Fragment>
         <input
@@ -35,7 +45,7 @@ class TaskForm extends React.Component {
               this.props.handleSubmit(this.onSubmit)();
             }
           }}
-          checked={this.state.finished}
+          checked={this.retrieveChecked(input.name)}
         />
         {this.renderError(meta)}
       </React.Fragment>
@@ -193,12 +203,15 @@ class TaskForm extends React.Component {
                 id: "task-checkbox",
                 type: "checkbox",
                 disabled: false,
-                // checked: this.state.finished,
-                onClick: () => {
-                  console.log("detected");
+                onClick: e => {
+                  const target = e.target;
                   this.setState({ finished: !this.state.finished });
-                  console.log(this.state.finished);
+                  target.blur();
+                  setTimeout(() => {
+                    target.focus();
+                  }, 0);
                 }
+                // checked: this.state.finished,
               }
             }}
           />
