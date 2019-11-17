@@ -16,7 +16,6 @@ class EditTask extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={this.props.onClose} />
         <h1 className="modal-header">Edit Task</h1>
         <TaskForm
           onSubmit={this.onSubmit}
@@ -28,7 +27,4 @@ class EditTask extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  { editTask, fetchTask }
-)(EditTask);
+export default connect(null, { editTask, fetchTask })(EditTask);

@@ -107,6 +107,42 @@
   color: #fdb;
 }
 
+.form-label {
+  display: inline-block;
+  position: relative;
+  font-size: 1.15rem;
+  bottom: 0rem;
+  margin-bottom: 0.4rem;
+  position: relative;
+  left: 0.5rem;
+  text-shadow: 0px 1px 0px #beffff80;
+}
+
+.block.form-label {
+  display: block;
+  width: 87%;
+  margin: 0 auto;
+  max-width: 27rem;
+  margin-bottom: 0.3rem;
+}
+
+#task-form-checkbox-div {
+  display: block;
+  width: 87%;
+  margin: 0 auto;
+  max-width: 27rem;
+  margin-bottom: 0.3rem;
+}
+
+.form-label.checkbox-label {
+  display: inline-block;
+}
+
+#task-form-checkbox-label {
+  position: relative;
+  bottom: 1.15rem;
+}
+
 .text-field {
   position: relative;
   display: block;
@@ -149,11 +185,22 @@
   background-color: #fcc;
 }
 
-.form-name-field {
+#task-name-field {
+  word-break: break-word;
+}
+
+.project.form-name-field {
   margin-bottom: 2rem;
   position: relative;
   top: 0.5rem;
   max-width: 20rem;
+}
+
+#task-form-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  left: 1.5rem;
 }
 
 .form-submit.modal-action-button {

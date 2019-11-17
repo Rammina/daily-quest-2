@@ -55,7 +55,7 @@ class ProjectForm extends React.Component {
             props={{
               inputProps: {
                 placeholder: "Project Name",
-                className: "text-field form-name-field",
+                className: "text-field project form-name-field",
                 maxLength: "30",
                 autoComplete: "off"
               }

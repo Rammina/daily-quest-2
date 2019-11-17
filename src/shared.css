@@ -95,6 +95,13 @@ li {
   list-style-type: none;
 }
 
+select:disabled {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+}
+
 .no-display.hide-png {
   display: none;
 }

@@ -25,7 +25,6 @@ class ProjectItem extends React.Component {
   renderDeleteContent = () => {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={() => this.dismissModalHandler()} />
         <h1 className="modal-header">Delete Project</h1>
         <form id="delete-project-form">
           <p className="modal-paragraph">

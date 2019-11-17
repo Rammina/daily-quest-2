@@ -15,7 +15,6 @@ class EditProject extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={this.props.onClose} />
         <h1 className="modal-header">Rename Project</h1>
         <ProjectForm
           onSubmit={this.onSubmit}
@@ -27,7 +26,4 @@ class EditProject extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  { editProject, fetchProject }
-)(EditProject);
+export default connect(null, { editProject, fetchProject })(EditProject);

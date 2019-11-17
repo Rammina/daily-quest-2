@@ -39,7 +39,9 @@ class TaskForm extends React.Component {
             if (e.keyCode === 13) {
               e.preventDefault();
               e.stopPropagation();
-              this.props.handleSubmit(this.onSubmit)();
+              if (input.name !== "finished") {
+                this.props.handleSubmit(this.onSubmit)();
+              }
             }
           }}
           checked={this.retrieveChecked(input.name)}
@@ -85,6 +87,13 @@ class TaskForm extends React.Component {
     );
   };
 
+  renderNameField = () => {
+    if (this.props.disabled) {
+      return this.renderTextArea;
+    }
+    return this.renderInput;
+  };
+
   // Hides buttons for detail display ( used only by non-action modals )
   hideButtons = () => {
     if (this.props.hideButtons) {
@@ -103,10 +112,12 @@ class TaskForm extends React.Component {
     return (
       <form id="task-form-form">
         <div className="task-form-field-div">
-          <label htmlFor="task-name-field">Task Name</label>
+          <label htmlFor="task-name-field" className="form-label block">
+            Task Name
+          </label>
           <Field
             name="name"
-            component={this.renderInput}
+            component={this.renderNameField}
             type="text"
             props={{
               componentProps: {
@@ -120,7 +131,9 @@ class TaskForm extends React.Component {
           />
         </div>
         <div className="task-form-field-div">
-          <label htmlFor="task-description-field">Task Description</label>
+          <label htmlFor="task-description-field" className="form-label block">
+            Task Description
+          </label>
           <Field
             name="description"
             component={this.renderTextArea}
@@ -137,7 +150,9 @@ class TaskForm extends React.Component {
           />
         </div>
         <div className="task-form-field-div">
-          <label htmlFor="task-date-field">Date</label>
+          <label htmlFor="task-date-field" className="form-label block">
+            Date
+          </label>
           <Field
             name="date"
             component={this.renderInput}
@@ -151,7 +166,9 @@ class TaskForm extends React.Component {
               }
             }}
           />
-          <label htmlFor="task-time-field">Time</label>
+          <label htmlFor="task-time-field" className="form-label block">
+            Time
+          </label>
           <Field
             name="time"
             component={this.renderInput}
@@ -168,7 +185,9 @@ class TaskForm extends React.Component {
           />
         </div>
         <div className="task-form-field-div">
-          <label htmlFor="task-name-field">Task Priority</label>
+          <label htmlFor="task-name-field" className="form-label block">
+            Task Priority
+          </label>
           <Field
             name="priority"
             component={this.renderSelect}
@@ -181,8 +200,14 @@ class TaskForm extends React.Component {
             }}
           />
         </div>
-        <div className="task-form-field-div">
-          <label htmlFor="task-date-field">Finished</label>
+        <div className="task-form-field-div" id="task-form-checkbox-div">
+          <label
+            htmlFor="task-date-field"
+            className="form-label checkbox-label"
+            id="task-form-checkbox-label"
+          >
+            Finished
+          </label>
           <Field
             name="finished"
             component={this.renderInput}
@@ -190,7 +215,7 @@ class TaskForm extends React.Component {
             props={{
               componentProps: {
                 className: "text-field form-checkbox",
-                id: "task-checkbox",
+                id: "task-form-checkbox",
                 type: "checkbox",
                 disabled: false,
                 onClick: e => {

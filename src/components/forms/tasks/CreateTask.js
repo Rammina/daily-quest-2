@@ -29,7 +29,6 @@ class CreateTask extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <ModalCloseButton onClose={this.props.onClose} />
         <h1 className="modal-header">Create Task</h1>
         <TaskForm onSubmit={this.onSubmit} onClose={this.props.onClose} />
       </React.Fragment>
@@ -37,7 +36,4 @@ class CreateTask extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  { createTask }
-)(CreateTask);
+export default connect(null, { createTask })(CreateTask);

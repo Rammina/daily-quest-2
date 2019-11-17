@@ -48,10 +48,15 @@
   width: calc(100vw - (100vw - 100%));
   margin-left: 0px;
   position: fixed;
+  border-radius: 0;
 }
 
 .task.list-header:nth-of-type(even) {
   background-color: rgba(200, 200, 255, 0.06);
+}
+
+.task.list-header:last-of-type {
+  border-radius: 0 0 4px 4px;
 }
 
 .header-text.header.task {
@@ -68,6 +73,7 @@
   font-size: 1.2rem;
   /* color: #deffff; */
   color: #fff;
+  word-break: break-word;
 }
 
 .create-button {
