@@ -33,6 +33,11 @@ export const standardToMilitary = function standardToMilitary(time) {
   return `${hour}:${minute}`;
 };
 
+export const autoGrow = function(element) {
+  element.style.height = "5px";
+  element.style.height = element.scrollHeight + 3.7813 + "px";
+};
+
 // This function didn't work
 // export const dismissModalHandler = (modalsOpened, setStateCallback) => {
 //   modalsOpened = _.mapValues(modalsOpened, () => false);

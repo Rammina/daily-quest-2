@@ -63,7 +63,8 @@ button:focus {
     0px 0px 2px 3px #000000;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
   -webkit-box-shadow: inset 0px 0px 0.5px 1px #ffffff,
     inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000;
@@ -100,6 +101,11 @@ select:disabled {
   -moz-appearance: none;
   text-indent: 1px;
   text-overflow: "";
+}
+
+textarea {
+  resize: none;
+  overflow: hidden;
 }
 
 .no-display.hide-png {

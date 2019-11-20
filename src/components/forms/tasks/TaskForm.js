@@ -2,7 +2,8 @@
 
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { getCurrentDate } from "../../../helpers";
+import { getCurrentDate, autoGrow } from "../../../helpers";
+import warningImg from "../../../images/warning.png";
 
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
@@ -15,7 +16,23 @@ class TaskForm extends React.Component {
 
   renderError = ({ error, touched } /*deconstructed meta object*/) => {
     if (error && touched) {
-      return <div className="task error">{error}</div>;
+      return (
+        <div className="task error">
+          <img
+            className="error-image"
+            src={warningImg}
+            alt="warning sign"
+          ></img>
+          {error}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  renderClassError = ({ error, touched }) => {
+    if (error && touched) {
+      return "error";
     }
     return null;
   };
@@ -66,6 +83,8 @@ class TaskForm extends React.Component {
               this.props.handleSubmit(this.onSubmit)();
             }
           }}
+          // onLoad={e => autoGrow(e.target)}
+          onInput={e => autoGrow(e.target)}
         ></textarea>
         {this.renderError(meta)}
       </React.Fragment>
@@ -113,11 +132,11 @@ class TaskForm extends React.Component {
       <form id="task-form-form">
         <div className="task-form-field-div">
           <label htmlFor="task-name-field" className="form-label block">
-            Task Name
+            Task Name *
           </label>
           <Field
             name="name"
-            component={this.renderNameField}
+            component={this.renderNameField()}
             type="text"
             props={{
               componentProps: {
@@ -143,7 +162,8 @@ class TaskForm extends React.Component {
                 className: "text-field form-description-field",
                 id: "task-description-field",
                 maxLength: "100",
-                rows: "4",
+                rows: "1",
+
                 autoComplete: "off"
               }
             }}
@@ -258,18 +278,6 @@ const validate = formValues => {
   const errors = {};
   if (!formValues.name) {
     errors.name = "Please input a name.";
-  }
-  if (!formValues.description) {
-    errors.name = "Please input a description.";
-  }
-  if (!formValues.date) {
-    errors.name = "Please input a date deadline.";
-  }
-  if (!formValues.time) {
-    errors.name = "Please input a time limit.";
-  }
-  if (!formValues.priority) {
-    errors.name = "Please input a priority level";
   }
 
   return errors;
