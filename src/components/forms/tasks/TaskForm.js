@@ -1,107 +1,125 @@
 // import "./TaskForm.css";
+import warningImg from "../../../images/warning.png";
 
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { getCurrentDate, autoGrow } from "../../../helpers";
-import warningImg from "../../../images/warning.png";
+import {
+  getCurrentDate,
+  autoGrow,
+  renderError,
+  getErrorClass
+} from "../../../helpers";
 
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class TaskForm extends React.Component {
-  state = {
-    finished: this.props.initialValues
-      ? this.props.initialValues.finished
-      : false
-  };
-
-  renderError = ({ error, touched } /*deconstructed meta object*/) => {
-    if (error && touched) {
-      return (
-        <div className="task error">
-          <img
-            className="error-image"
-            src={warningImg}
-            alt="warning sign"
-          ></img>
-          {error}
-        </div>
-      );
+  constructor(props) {
+    super(props);
+    this.textAreaElement = React.createRef();
+    this.state = {
+      finished: this.props.initialValues
+        ? this.props.initialValues.finished
+        : false
+    };
+  }
+  handleEnterKeyOnField = e => {
+    // This prevents submission bugging or refreshing upon pressing enter
+    // in an input field inside a form
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.target.type !== "checkbox") {
+        this.props.handleSubmit(this.onSubmit)();
+      }
     }
-    return null;
-  };
-
-  renderClassError = ({ error, touched }) => {
-    if (error && touched) {
-      return "error";
-    }
-    return null;
   };
 
   retrieveChecked = inputName => {
-    if (inputName === "finished") {
-      return this.state.finished;
-    }
-    return undefined;
+    return inputName === "finished" ? this.state.finished : undefined;
   };
 
-  renderInput = ({ input, meta, componentProps }) => {
+  renderInput = ({ input, meta, inputProps, labelProps }) => {
     const { disabled } = this.props;
+    const errorClass = getErrorClass(meta);
+    const labelClass = labelProps.class || null;
+    const labelId = labelProps.id || null;
+
     return (
       <React.Fragment>
+        <label
+          htmlFor={inputProps.id}
+          className={`${errorClass} ${labelClass}`}
+          id={labelId}
+        >
+          {labelProps.text}
+        </label>
         <input
           disabled={disabled || false}
-          {...componentProps}
+          {...inputProps}
           {...input}
+          className={`${inputProps.className} ${errorClass}`}
           onKeyDown={e => {
-            if (e.keyCode === 13) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (input.name !== "finished") {
-                this.props.handleSubmit(this.onSubmit)();
-              }
-            }
+            this.handleEnterKeyOnField(e, input);
           }}
           checked={this.retrieveChecked(input.name)}
         />
-        {this.renderError(meta)}
+        {renderError(meta, "task")}
       </React.Fragment>
     );
   };
 
-  renderTextArea = ({ input, meta, componentProps }) => {
+  renderTextArea = ({ input, meta, inputProps, labelProps }) => {
     const { disabled } = this.props;
+    const errorClass = getErrorClass(meta);
+
     return (
       <React.Fragment>
+        <label
+          htmlFor={inputProps.id}
+          className={`form-label block ${errorClass}`}
+        >
+          {labelProps.text}
+        </label>
         <textarea
-          {...componentProps}
+          ref={this.textAreaElement}
+          {...inputProps}
           {...input}
+          className={`${inputProps.className} ${errorClass}`}
           disabled={disabled || false}
           onKeyDown={e => {
-            if (e.keyCode === 13) {
-              e.preventDefault();
-              e.stopPropagation();
-              this.props.handleSubmit(this.onSubmit)();
-            }
+            this.handleEnterKeyOnField(e, input);
           }}
-          // onLoad={e => autoGrow(e.target)}
           onInput={e => autoGrow(e.target)}
         ></textarea>
-        {this.renderError(meta)}
+
+        {renderError(meta, "task")}
       </React.Fragment>
     );
   };
 
-  renderSelect = ({ input, meta, componentProps }) => {
+  renderSelect = ({ input, meta, inputProps, labelProps }) => {
     const { disabled } = this.props;
+    const errorClass = getErrorClass(meta);
     return (
       <React.Fragment>
-        <select {...componentProps} {...input} disabled={disabled || false}>
+        <label
+          htmlFor={inputProps.id}
+          className={`form-label block ${errorClass}`}
+        >
+          {labelProps.text}
+        </label>
+        <select
+          {...inputProps}
+          {...input}
+          className={`${inputProps.className} ${errorClass}`}
+          disabled={disabled || false}
+        >
           <option value="">--Priority Level--</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
-        {this.renderError(meta)}
+        {renderError(meta, "task")}
       </React.Fragment>
     );
   };
@@ -126,38 +144,35 @@ class TaskForm extends React.Component {
   };
 
   render() {
-    console.log(this.props.initialValues);
     const { disabled } = this.props;
     return (
       <form id="task-form-form">
         <div className="task-form-field-div">
-          <label htmlFor="task-name-field" className="form-label block">
-            Task Name *
-          </label>
           <Field
             name="name"
             component={this.renderNameField()}
             type="text"
             props={{
-              componentProps: {
+              inputProps: {
                 placeholder: "Task Name",
                 className: "text-field form-name-field",
                 id: "task-name-field",
                 maxLength: "30",
                 autoComplete: "off"
+              },
+              labelProps: {
+                text: "Task Name *",
+                class: "form-label block"
               }
             }}
           />
         </div>
         <div className="task-form-field-div">
-          <label htmlFor="task-description-field" className="form-label block">
-            Task Description
-          </label>
           <Field
             name="description"
             component={this.renderTextArea}
             props={{
-              componentProps: {
+              inputProps: {
                 placeholder: "Task Description",
                 className: "text-field form-description-field",
                 id: "task-description-field",
@@ -165,75 +180,74 @@ class TaskForm extends React.Component {
                 rows: "1",
 
                 autoComplete: "off"
+              },
+              labelProps: {
+                text: "Task Description",
+                class: "form-label block"
               }
             }}
           />
         </div>
         <div className="task-form-field-div">
-          <label htmlFor="task-date-field" className="form-label block">
-            Date
-          </label>
           <Field
             name="date"
             component={this.renderInput}
             props={{
-              componentProps: {
+              inputProps: {
                 placeholder: "Date",
                 className: "text-field form-date-field",
                 id: "task-date-field",
                 type: "date",
                 min: getCurrentDate()
+              },
+              labelProps: {
+                text: "Date",
+                class: "form-label block"
               }
             }}
           />
-          <label htmlFor="task-time-field" className="form-label block">
-            Time
-          </label>
           <Field
             name="time"
             component={this.renderInput}
             props={{
-              componentProps: {
+              inputProps: {
                 placeholder: "Time",
                 className: "text-field form-time-field",
                 id: "task-time-field",
                 type: "time",
                 autoComplete: "off"
-                // disabled: disabled || false
+              },
+              labelProps: {
+                text: "Time",
+                class: "form-label block"
               }
             }}
           />
         </div>
         <div className="task-form-field-div">
-          <label htmlFor="task-name-field" className="form-label block">
-            Task Priority
-          </label>
           <Field
             name="priority"
             component={this.renderSelect}
             props={{
-              componentProps: {
+              inputProps: {
                 placeholder: "Task Priority",
                 className: "text-field form-priority-field",
                 id: "task-priority-field"
+              },
+              labelProps: {
+                text: "Task Priority",
+                class: "form-label block"
               }
             }}
           />
         </div>
         <div className="task-form-field-div" id="task-form-checkbox-div">
-          <label
-            htmlFor="task-date-field"
-            className="form-label checkbox-label"
-            id="task-form-checkbox-label"
-          >
-            Finished
-          </label>
           <Field
             name="finished"
             component={this.renderInput}
             type="checkbox"
             props={{
-              componentProps: {
+              inputProps: {
                 className: "text-field form-checkbox",
                 id: "task-form-checkbox",
                 type: "checkbox",
@@ -246,6 +260,11 @@ class TaskForm extends React.Component {
                     target.focus();
                   }, 0);
                 }
+              },
+              labelProps: {
+                text: "Finished",
+                class: "form-label checkbox-label",
+                id: "task-form-checkbox-label"
               }
             }}
           />
@@ -253,7 +272,6 @@ class TaskForm extends React.Component {
         <div className="two-buttons-container" id="task-form-buttons-container">
           <ModalCancelButton
             onClose={() => {
-              console.log("cancel dismissed");
               this.props.onClose();
             }}
             hideButtons={this.hideButtons()}

@@ -1,41 +1,47 @@
 import "./ProjectForm.css";
+import warningImg from "../../images/warning.png";
 
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { renderError, getErrorClass } from "../../helpers";
 
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 class ProjectForm extends React.Component {
-  renderError = ({ error, touched } /*deconstructed meta object*/) => {
-    if (error && touched) {
-      return <div className="project error">{error}</div>;
+  handleEnterKeyOnField = e => {
+    // This prevents submission bugging or refreshing upon pressing enter
+    // in an input field inside a form
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.target.type !== "checkbox") {
+        this.props.handleSubmit(this.onSubmit)();
+      }
     }
-    return null;
   };
 
-  retrieveValue = inputName => {
-    if (this.props.initialValues) {
-      return this.props.initialValues[inputName];
-    }
-    return "";
-  };
-
-  renderInput = ({ input, meta, inputProps }) => {
+  renderInput = ({ input, meta, inputProps, labelProps }) => {
+    const errorClass = getErrorClass(meta);
+    const labelClass = labelProps.class || null;
+    const labelId = labelProps.id || null;
     return (
       <React.Fragment>
+        <label
+          htmlFor={inputProps.id}
+          className={`${errorClass} ${labelClass}`}
+          id={labelId}
+        >
+          {labelProps.text}
+        </label>
         <input
-          value={this.retrieveValue(input.name)}
           {...inputProps}
           {...input}
+          className={`${inputProps.className} ${errorClass}`}
           onKeyDown={e => {
-            if (e.keyCode === 13) {
-              e.preventDefault();
-              e.stopPropagation();
-              this.props.handleSubmit(this.onSubmit)();
-            }
+            this.handleEnterKeyOnField(e);
           }}
         />
-        {this.renderError(meta)}
+        {renderError(meta, "project")}
       </React.Fragment>
     );
   };
@@ -55,9 +61,15 @@ class ProjectForm extends React.Component {
             props={{
               inputProps: {
                 placeholder: "Project Name",
-                className: "text-field project form-name-field",
+                className: "text-field form-name-field",
                 maxLength: "30",
-                autoComplete: "off"
+                autoComplete: "off",
+                id: "project-form-name-field"
+              },
+              labelProps: {
+                class: "form-label block",
+                text: "Project Name *",
+                id: "project-form-name-label"
               }
             }}
           />

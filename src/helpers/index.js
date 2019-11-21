@@ -1,8 +1,12 @@
+import warningImg from "../images/warning.png";
+
 import _ from "lodash";
 import React from "react";
 import { format, endOfYesterday, isBefore } from "date-fns";
+
 // Helper functions
 
+// date-time functions
 export const getCurrentDate = () => {
   return format(new Date(), "yyyy-MM-dd");
 };
@@ -33,11 +37,30 @@ export const standardToMilitary = function standardToMilitary(time) {
   return `${hour}:${minute}`;
 };
 
+// styling functions
 export const autoGrow = function(element) {
   element.style.height = "5px";
   element.style.height = element.scrollHeight + 3.7813 + "px";
 };
 
+// error display functions
+export const renderError = (meta, sectionName) => {
+  const { error, touched } = meta;
+  // Creates an error message if there is an error in the input field is touched
+  if (error && touched) {
+    return (
+      <div className={`${sectionName} error`}>
+        <img className="error-image" src={warningImg} alt="warning sign"></img>
+        {error}
+      </div>
+    );
+  }
+  return null;
+};
+
+export const getErrorClass = ({ error, touched }) => {
+  return error && touched ? "error" : null;
+};
 // This function didn't work
 // export const dismissModalHandler = (modalsOpened, setStateCallback) => {
 //   modalsOpened = _.mapValues(modalsOpened, () => false);

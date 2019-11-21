@@ -170,9 +170,9 @@ class TaskItem extends React.Component {
   }
 }
 
-// const mapStateToProps = state => {
-// return {  };
-// };
+const mapStateToProps = state => {
+  return { project: state.selectedProject };
+};
 export default connect(
   null
   // { deleteTask }

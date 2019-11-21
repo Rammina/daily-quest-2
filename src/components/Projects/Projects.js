@@ -57,7 +57,7 @@ class Projects extends React.Component {
       }
       return items;
     } else {
-      return <div>Loading...</div>;
+      return <div style={{ color: "white" }}>Loading...</div>;
     }
   };
 
@@ -123,7 +123,10 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(mapStateToProps, {
-  fetchProjects,
-  createProject
-})(Projects);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProjects,
+    createProject
+  }
+)(Projects);

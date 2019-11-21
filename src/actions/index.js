@@ -7,7 +7,10 @@ export const actionTypes = {
   FETCH_PROJECT: "FETCH_PROJECT",
   CREATE_PROJECT: "CREATE_PROJECT",
   EDIT_PROJECT: "EDIT_PROJECT",
-  DELETE_PROJECT: "DELETE_PROJECT"
+  DELETE_PROJECT: "DELETE_PROJECT",
+  CREATE_TASK: "CREATE_TASK",
+  EDIT_TASK: "EDIT_TASK",
+  DELETE_TASK: "DELETE_TASK"
 };
 
 export const fetchProjects = () => {
@@ -70,10 +73,12 @@ export const deleteProject = id => {
 export const createTask = (id, formValues) => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.post(
-      `/projects/${id}.json`,
+      `/projects/${id}/tasks.json`,
       formValues
     );
+    console.log("response from server");
     console.log(response.data);
+    console.log(response.data.name);
     const valuesWithId = { ...formValues, id: response.data.name };
     dispatch({
       type: actionTypes.CREATE_TASK,

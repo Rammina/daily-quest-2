@@ -45,32 +45,60 @@ class Tasks extends React.Component {
       }
     }
   };
-
+  // renderProjects = () => {
+  //   const projects = this.props.projects;
+  //   if (projects) {
+  //     const items = [];
+  //     for (let projectKey in projects) {
+  //       if (projects.hasOwnProperty(projectKey)) {
+  //         items.push(
+  //           <Link
+  //             to={`/projects/${projectKey}`}
+  //             key={projectKey}
+  //             className="project item list-header"
+  //           >
+  //             <ProjectItem project={projects[projectKey]} id={projectKey} />
+  //           </Link>
+  //         );
+  //       }
+  //     }
+  //     return items;
+  //   } else {
+  //     return <div>Loading...</div>;
+  //   }
+  // };
   renderTasks = () => {
     const projectId = this.props.project.id;
-    const { tasks } = this.props.project;
+    const tasks = this.props.project.tasks;
     if (tasks) {
-      return tasks.map((task, index) => {
-        return (
-          <div
-            key={index}
-            tabIndex="0"
-            className="task item list-header task-item-details"
-            onClick={e => {
-              if (!this.state.modalsOpened.details) {
-                this.setState({
-                  modalsOpened: { any: true, details: true },
-                  selectedTask: task
-                });
-              }
-            }}
-          >
-            <TaskItem task={task} url={this.props.match.params.id} />
-          </div>
-        );
-      });
+      const items = [];
+      for (let taskKey in tasks) {
+        if (tasks.hasOwnProperty(taskKey)) {
+          items.push(
+            <div
+              key={taskKey}
+              tabIndex="0"
+              className="task item list-header task-item-details"
+              onClick={e => {
+                if (!this.state.modalsOpened.details) {
+                  this.setState({
+                    modalsOpened: { any: true, details: true },
+                    selectedTask: tasks[taskKey]
+                  });
+                }
+              }}
+            >
+              <TaskItem
+                task={tasks[taskKey]}
+                url={this.props.match.params.id}
+              />
+            </div>
+          );
+        }
+      }
+      return items;
     } else {
-      return <div>Loading...</div>;
+      return <div style={{ color: "white" }}>Loading...</div>;
     }
   };
 

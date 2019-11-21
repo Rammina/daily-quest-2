@@ -64,7 +64,8 @@ button:focus {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   -webkit-box-shadow: inset 0px 0px 0.5px 1px #ffffff,
     inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000;
