@@ -20,8 +20,7 @@
   bottom: 0.9rem;
 }
 
-.nav-menu.ui.sidebar.vertical:hover .item:hover,
-.nav-menu.ui.sidebar.vertical .item:focus {
+.nav-menu.ui.sidebar.vertical:hover .item:hover {
   background-color: #fff2;
 }
 

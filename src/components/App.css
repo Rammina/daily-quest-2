@@ -36,6 +36,46 @@ ul {
   /* background-color: #555; */
 }
 
+.create-button {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  right: 0.75rem;
+  background-color: #222;
+  border: none;
+  border-radius: 50%;
+  color: rgb(164, 255, 155);
+  font-size: 2.6rem;
+}
+
+.create-button:hover {
+  background-color: #444;
+  color: rgb(180, 255, 180);
+}
+
+.icon-button {
+  width: 3rem;
+  height: 3rem;
+  background-color: #0000;
+  border: none;
+}
+
+.edit-button.icon-button:hover {
+  filter: invert(86%) sepia(10%) saturate(1332%) hue-rotate(68deg)
+    brightness(105%) contrast(102%);
+}
+
+.delete-button.icon-button:hover {
+  filter: invert(58%) sepia(30%) saturate(981%) hue-rotate(311deg)
+    brightness(109%) contrast(103%);
+}
+
+.icon-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.25rem;
+}
+
 @media screen and (min-width: 450px) {
   .todolist.ui.segment {
     /* -webkit-box-shadow: 0px 0px 0px 0.5px #cfc, 0px 0px 0px 1px #beffff7e;

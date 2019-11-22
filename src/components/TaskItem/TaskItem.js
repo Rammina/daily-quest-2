@@ -147,6 +147,13 @@ class TaskItem extends React.Component {
           key={`${this.props.task.name}-${this.props.task.id}`}
         >
           <div className="item-flex task">
+            <input
+              className="task list-checkbox"
+              type="checkbox"
+              onClick={e => {
+                e.stopPropagation();
+              }}
+            ></input>
             <div className="description-text task">{this.props.task.name}</div>
             <span className="task list-buttons-container">
               <button

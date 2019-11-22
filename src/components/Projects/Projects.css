@@ -33,8 +33,7 @@
   margin-left: 1px;
 }
 
-.item.project.list-header:hover,
-.item.project.list-header:focus {
+.item.project.list-header:hover {
   /* color: #beffff !important; */
   background-color: #304035;
 }
@@ -73,24 +72,6 @@
   font-size: 1.2rem;
   /* color: #deffff; */
   color: #fff;
-}
-
-.create-button {
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  right: 0.75rem;
-  background-color: #222;
-  border: none;
-  border-radius: 50%;
-  color: rgb(164, 255, 155);
-  font-size: 2.6rem;
-}
-
-.create-button:hover,
-.create-button:focus {
-  background-color: #444;
-  color: rgb(180, 255, 180);
 }
 
 .project.icon-button {

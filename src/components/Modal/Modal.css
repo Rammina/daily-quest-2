@@ -168,7 +168,8 @@
   font-family: "Raleway", sans-serif;
 }
 
-.text-field:disabled {
+.text-field:disabled,
+.text-field.disabled {
   background-color: #333;
   color: #eee;
   border: none;
@@ -180,6 +181,12 @@
   /*text-align: center; */
   resize: none;
   font-size: 1.25rem;
+}
+
+.text-field.disabled {
+  word-break: break-word;
+  padding-bottom: 0.7rem;
+  padding-top: 0.7rem;
 }
 
 .text-field:focus {
@@ -199,7 +206,8 @@ textarea.text-field {
   padding: 0.6rem;
 }
 
-textarea.text-field:disabled {
+textarea.text-field:disabled,
+div.text-field.disabled {
   min-height: 2.3rem;
 }
 
@@ -355,7 +363,8 @@ textarea.text-field:disabled {
   .text-field {
     font-size: 1.3rem;
   }
-  .text-field:disabled {
+  .text-field:disabled,
+  .text-field.disabled {
     font-size: 1.4rem;
   }
   #project-form-submit {

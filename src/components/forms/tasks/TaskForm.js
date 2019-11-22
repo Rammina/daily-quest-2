@@ -6,6 +6,7 @@ import { Field, reduxForm } from "redux-form";
 import {
   getCurrentDate,
   autoGrow,
+  autoGrowValue,
   renderError,
   getErrorClass
 } from "../../../helpers";
@@ -72,29 +73,45 @@ class TaskForm extends React.Component {
     const { disabled } = this.props;
     const errorClass = getErrorClass(meta);
 
-    return (
-      <React.Fragment>
-        <label
-          htmlFor={inputProps.id}
-          className={`form-label block ${errorClass}`}
-        >
-          {labelProps.text}
-        </label>
-        <textarea
-          ref={this.textAreaElement}
-          {...inputProps}
-          {...input}
-          className={`${inputProps.className} ${errorClass}`}
-          disabled={disabled || false}
-          onKeyDown={e => {
-            this.handleEnterKeyOnField(e, input);
-          }}
-          onInput={e => autoGrow(e.target)}
-        ></textarea>
+    if (!disabled) {
+      return (
+        <React.Fragment>
+          <label
+            htmlFor={inputProps.id}
+            className={`form-label block ${errorClass}`}
+          >
+            {labelProps.text}
+          </label>
+          <textarea
+            {...inputProps}
+            {...input}
+            rows={1}
+            className={`${inputProps.className} ${errorClass}`}
+            disabled={disabled || false}
+            onKeyDown={e => {
+              this.handleEnterKeyOnField(e, input);
+            }}
+            onInput={e => autoGrow(e.target)}
+          ></textarea>
 
-        {renderError(meta, "task")}
-      </React.Fragment>
-    );
+          {renderError(meta, "task")}
+        </React.Fragment>
+      );
+    } else if (disabled) {
+      return (
+        <React.Fragment>
+          <label
+            htmlFor={inputProps.id}
+            className={`form-label block ${errorClass}`}
+          >
+            {labelProps.text}
+          </label>
+          <div className={`text-field disabled`}>{input.value}</div>
+
+          {renderError(meta, "task")}
+        </React.Fragment>
+      );
+    }
   };
 
   renderSelect = ({ input, meta, inputProps, labelProps }) => {
@@ -177,8 +194,6 @@ class TaskForm extends React.Component {
                 className: "text-field form-description-field",
                 id: "task-description-field",
                 maxLength: "100",
-                rows: "1",
-
                 autoComplete: "off"
               },
               labelProps: {

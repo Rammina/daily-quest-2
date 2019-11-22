@@ -43,6 +43,13 @@ export const autoGrow = function(element) {
   element.style.height = element.scrollHeight + 3.7813 + "px";
 };
 
+export const autoGrowValue = function(element) {
+  if (!element) {
+    return "0px";
+  }
+  return element.offsetHeight + 3.7813 + "px";
+};
+
 // error display functions
 export const renderError = (meta, sectionName) => {
   const { error, touched } = meta;

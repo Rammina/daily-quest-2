@@ -18,7 +18,7 @@ class CreateTask extends React.Component {
     const description = formValues.description || "No description provided.";
     const date = formValues.date || getCurrentDate();
     const time =
-      formValues.time || format(new Date(`${getCurrentDate()}T23:59`), "hh:mm");
+      formValues.time || format(new Date(`${getCurrentDate()}T23:59`), "HH:mm");
     const priority = formValues.priority || "medium";
     const finished = formValues.finished || false;
     return { ...formValues, description, date, time, priority, finished };
@@ -29,7 +29,7 @@ class CreateTask extends React.Component {
     const date = format(new Date(processedValues.date), "yyyy-MM-dd");
     const time = format(
       new Date(`${getCurrentDate()}T${processedValues.time}`),
-      "hh:mm"
+      "HH:mm"
     );
     const reformattedValues = { ...processedValues, date, time };
     await this.props.createTask(this.props.id, reformattedValues);
@@ -47,7 +47,4 @@ class CreateTask extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  { createTask }
-)(CreateTask);
+export default connect(null, { createTask })(CreateTask);

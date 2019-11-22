@@ -33,8 +33,7 @@
   margin-left: 1px;
 }
 
-.item.task.list-header:hover,
-.item.task.list-header:focus {
+.item.task.list-header:hover {
   /* color: #beffff !important; */
   background-color: #304035;
 }
@@ -67,6 +66,13 @@
   opacity: 1;
 }
 
+.task.list-checkbox {
+  width: 3rem;
+  height: 3rem;
+  font-family: "Raleway", sans-serif;
+  background: none;
+}
+
 .description-text.task {
   position: relative;
   left: 0.5rem;
@@ -74,24 +80,6 @@
   /* color: #deffff; */
   color: #fff;
   word-break: break-word;
-}
-
-.create-button {
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  right: 0.75rem;
-  background-color: #222;
-  border: none;
-  border-radius: 50%;
-  color: rgb(164, 255, 155);
-  font-size: 2.6rem;
-}
-
-.create-button:hover,
-.create-button:focus {
-  background-color: #444;
-  color: rgb(180, 255, 180);
 }
 
 .task.icon-button {

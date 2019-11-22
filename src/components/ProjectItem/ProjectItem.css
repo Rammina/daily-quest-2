@@ -15,28 +15,3 @@
   align-items: center;
   /* width: 30%; */
 }
-
-.icon-button {
-  width: 3rem;
-  height: 3rem;
-  background-color: #0000;
-  border: none;
-}
-
-.edit-button.icon-button:hover,
-.edit-button.icon-button:focus {
-  filter: invert(86%) sepia(10%) saturate(1332%) hue-rotate(68deg)
-    brightness(105%) contrast(102%);
-}
-
-.delete-button.icon-button:hover,
-.delete-button.icon-button:focus {
-  filter: invert(58%) sepia(30%) saturate(981%) hue-rotate(311deg)
-    brightness(109%) contrast(103%);
-}
-
-.icon-image {
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0.25rem;
-}
