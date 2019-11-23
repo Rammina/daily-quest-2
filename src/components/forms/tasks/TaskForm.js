@@ -73,6 +73,12 @@ class TaskForm extends React.Component {
     const { disabled } = this.props;
     const errorClass = getErrorClass(meta);
 
+    // get rid of description placeholders
+    if (input.name === "description" && !disabled) {
+      input.value =
+        input.value !== "No description provided." ? input.value : "";
+    }
+
     if (!disabled) {
       return (
         <React.Fragment>

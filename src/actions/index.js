@@ -10,6 +10,7 @@ export const actionTypes = {
   DELETE_PROJECT: "DELETE_PROJECT",
   CREATE_TASK: "CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
+  TOGGLE_TASK_CHECK: "TOGGLE_TASK_CHECK",
   DELETE_TASK: "DELETE_TASK"
 };
 
@@ -83,6 +84,47 @@ export const createTask = (id, formValues) => {
     dispatch({
       type: actionTypes.CREATE_TASK,
       payload: valuesWithId
+    });
+  };
+};
+
+export const editTask = (projectId, taskId, formValues) => {
+  return async function(dispatch, getState) {
+    const response = await firebasedatabase.patch(
+      `/projects/${projectId}/tasks/${taskId}.json`,
+      formValues
+    );
+    console.log(response.data);
+    dispatch({
+      type: actionTypes.EDIT_TASK,
+      payload: { ...response.data, id: taskId }
+    });
+  };
+};
+
+export const toggleTaskCheck = (projectId, taskId, checkValue) => {
+  return async function(dispatch, getState) {
+    const response = await firebasedatabase.patch(
+      `/projects/${projectId}/tasks/${taskId}.json`,
+      { finished: checkValue }
+    );
+    console.log(response.data);
+    dispatch({
+      type: actionTypes.TOGGLE_TASK_CHECK,
+      payload: { ...response.data, id: taskId }
+    });
+  };
+};
+
+export const deleteTask = (projectId, taskId) => {
+  return async function(dispatch, getState) {
+    console.log(`deleting ${taskId}`);
+    await firebasedatabase.delete(
+      `/projects/${projectId}/tasks/${taskId}.json`
+    );
+    dispatch({
+      type: actionTypes.DELETE_TASK,
+      payload: taskId
     });
   };
 };

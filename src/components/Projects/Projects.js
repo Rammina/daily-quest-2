@@ -57,7 +57,11 @@ class Projects extends React.Component {
       }
       return items;
     } else {
-      return <div style={{ color: "white" }}>Loading...</div>;
+      return (
+        <div style={{ color: "white", textAlign: "center" }}>
+          There are no projects found.
+        </div>
+      );
     }
   };
 

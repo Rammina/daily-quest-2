@@ -45,28 +45,6 @@ class Tasks extends React.Component {
       }
     }
   };
-  // renderProjects = () => {
-  //   const projects = this.props.projects;
-  //   if (projects) {
-  //     const items = [];
-  //     for (let projectKey in projects) {
-  //       if (projects.hasOwnProperty(projectKey)) {
-  //         items.push(
-  //           <Link
-  //             to={`/projects/${projectKey}`}
-  //             key={projectKey}
-  //             className="project item list-header"
-  //           >
-  //             <ProjectItem project={projects[projectKey]} id={projectKey} />
-  //           </Link>
-  //         );
-  //       }
-  //     }
-  //     return items;
-  //   } else {
-  //     return <div>Loading...</div>;
-  //   }
-  // };
   renderTasks = () => {
     const projectId = this.props.project.id;
     const tasks = this.props.project.tasks;
@@ -90,7 +68,8 @@ class Tasks extends React.Component {
             >
               <TaskItem
                 task={tasks[taskKey]}
-                url={this.props.match.params.id}
+                taskId={taskKey}
+                projectId={this.props.match.params.id}
               />
             </div>
           );
@@ -98,7 +77,11 @@ class Tasks extends React.Component {
       }
       return items;
     } else {
-      return <div style={{ color: "white" }}>Loading...</div>;
+      return (
+        <div style={{ color: "white", textAlign: "center" }}>
+          There are no tasks found.
+        </div>
+      );
     }
   };
 

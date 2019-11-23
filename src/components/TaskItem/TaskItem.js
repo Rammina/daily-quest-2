@@ -8,7 +8,8 @@ import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
-// import { deleteTask } from "../../actions";
+import EditTask from "../forms/tasks/EditTask";
+import { toggleTaskCheck, deleteTask } from "../../actions";
 
 class TaskItem extends React.Component {
   state = {
@@ -20,45 +21,6 @@ class TaskItem extends React.Component {
   };
   componentDidMount() {}
 
-  // This would look completely different if it's a task you're editing
-  // renderEditContent = () => {
-  //   return (
-  //     <React.Fragment>
-  //       <ModalCloseButton onClose={this.dismissModalHandler} />
-  //       <h1 className="modal-header">Rename Task</h1>
-  //       <form id="edit-task-form">
-  //         <div id="edit-task-field-div">
-  //           <input
-  //             id="edit-task-title-field"
-  //             className="edit-task-modal required text-field"
-  //             type="text"
-  //             name="task-title"
-  //             placeholder="Task Title"
-  //             maxLength="30"
-  //             required="true"
-  //             value={this.props.task.name}
-  //           />
-  //         </div>
-  //
-  //         <div
-  //           className="two-buttons-container"
-  //           id="edit-task-buttons-container"
-  //         >
-  //           <ModalCancelButton onClose={this.dismissModalHandler} />
-  //
-  //           <input
-  //             type="submit"
-  //             className="form-submit"
-  //             id="edit-task-submit"
-  //             value="Submit"
-  //           />
-  //         </div>
-  //       </form>
-  //     </React.Fragment>
-  //   );
-  // };
-
-  // this can pass looking similar to the project version
   renderDeleteContent = () => {
     return (
       <React.Fragment>
@@ -80,7 +42,10 @@ class TaskItem extends React.Component {
 
             <button
               className="modal-action-button delete-confirm-button"
-              onClick={() => this.props.deleteTask(this.task.id)}
+              onClick={() => {
+                this.props.deleteTask(this.props.projectId, this.props.taskId);
+                this.dismissModalHandler();
+              }}
             >
               Delete Task
             </button>
@@ -91,19 +56,34 @@ class TaskItem extends React.Component {
   };
 
   // This honestly could be recycled instead as a general helper function
+  // on second thought it's harder than it seems
   onModalOpen = event => {
     event.preventDefault();
     event.stopPropagation();
     const target = event.target;
-    if (target.classList.contains("edit-button")) {
-      if (!this.state.modalsOpened.edit) {
-        this.setState({ modalsOpened: { any: true, edit: true } });
+
+    if (target.hasChildNodes()) {
+      if (target.classList.contains("edit-button")) {
+        if (!this.state.modalsOpened.edit) {
+          this.setState({ modalsOpened: { edit: true, any: true } });
+        }
+      } else if (target.classList.contains("delete-button")) {
+        if (!this.state.modalsOpened.delete) {
+          this.setState({ modalsOpened: { delete: true, any: true } });
+        }
       }
-    } else if (target.classList.contains("delete-button")) {
-      if (!this.state.modalsOpened.delete) {
-        this.setState({ modalsOpened: { any: true, delete: true } });
+    } else if (!target.hasChildNodes()) {
+      if (target.parentElement.classList.contains("edit-button")) {
+        if (!this.state.modalsOpened.edit) {
+          this.setState({ modalsOpened: { edit: true, any: true } });
+        }
+      } else if (target.parentElement.classList.contains("delete-button")) {
+        if (!this.state.modalsOpened.delete) {
+          this.setState({ modalsOpened: { delete: true, any: true } });
+        }
       }
     }
+
     return null;
   };
 
@@ -113,7 +93,16 @@ class TaskItem extends React.Component {
       return (
         <Modal
           sectionId="edit-task-content"
-          content={this.renderEditContent}
+          content={() => {
+            return (
+              <EditTask
+                task={this.props.task}
+                onClose={this.dismissModalHandler}
+                projectId={this.props.projectId}
+                taskId={this.props.taskId}
+              />
+            );
+          }}
           onDismiss={this.dismissModalHandler}
         />
       );
@@ -150,8 +139,15 @@ class TaskItem extends React.Component {
             <input
               className="task list-checkbox"
               type="checkbox"
+              defaultChecked={this.props.task.finished || false}
               onClick={e => {
                 e.stopPropagation();
+                const target = e.target;
+                this.props.toggleTaskCheck(
+                  this.props.projectId,
+                  this.props.taskId,
+                  target.checked
+                );
               }}
             ></input>
             <div className="description-text task">{this.props.task.name}</div>
@@ -181,6 +177,6 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 export default connect(
-  null
-  // { deleteTask }
+  null,
+  { deleteTask, toggleTaskCheck }
 )(TaskItem);

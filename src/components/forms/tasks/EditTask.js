@@ -1,16 +1,44 @@
+import { format, endOfYesterday, isBefore } from "date-fns";
+import {
+  getCurrentDate,
+  getCurrentTime,
+  toMilitaryTime
+} from "../../../helpers";
 import _ from "lodash";
+
 import React from "react";
-import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { fetchTask, editTask } from "../../actions";
+import { editTask } from "../../../actions";
 import TaskForm from "./TaskForm";
 
-import ModalCloseButton from "../Modal/common/ModalCloseButton";
+import ModalCloseButton from "../../Modal/common/ModalCloseButton";
 
 class EditTask extends React.Component {
+  processEmptyOptionals = formValues => {
+    const description = formValues.description || "No description provided.";
+    const date = formValues.date || getCurrentDate();
+    const time =
+      formValues.time || format(new Date(`${getCurrentDate()}T23:59`), "HH:mm");
+    const priority = formValues.priority || "medium";
+    const finished = formValues.finished || false;
+    return { ...formValues, description, date, time, priority, finished };
+  };
+
   onSubmit = async formValues => {
-    await this.props.editTask(this.props.id, formValues);
+    const processedValues = this.processEmptyOptionals(formValues);
+    const date = format(new Date(processedValues.date), "yyyy-MM-dd");
+    const time = format(
+      new Date(`${getCurrentDate()}T${processedValues.time}`),
+      "HH:mm"
+    );
+    const reformattedValues = { ...processedValues, date, time };
+    await this.props.editTask(
+      this.props.projectId,
+      this.props.taskId,
+      reformattedValues
+    );
     this.props.onClose();
+    // this.props.fetchProject(this.props.match.params.id);
   };
 
   render() {
@@ -27,4 +55,7 @@ class EditTask extends React.Component {
   }
 }
 
-export default connect(null, { editTask, fetchTask })(EditTask);
+export default connect(
+  null,
+  { editTask }
+)(EditTask);

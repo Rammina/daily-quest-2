@@ -156,4 +156,7 @@ const mapStateToProps = state => {
   return { projects: state.projects };
 };
 
-export default connect(mapStateToProps, { deleteProject })(ProjectItem);
+export default connect(
+  mapStateToProps,
+  { deleteProject }
+)(ProjectItem);
