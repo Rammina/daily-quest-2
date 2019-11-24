@@ -11,8 +11,6 @@ const ModalCancelButton = props => {
     <button
       onClick={onCloseClick}
       className="modal-action-button cancel-button"
-      id="delete-project-cancel"
-      style={props.hideButtons}
     >
       Cancel
     </button>

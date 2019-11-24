@@ -15,14 +15,12 @@ import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
-import TaskDetails from "../forms/tasks/TaskDetails";
 import CreateTask from "../forms/tasks/CreateTask";
 
 class Tasks extends React.Component {
   state = {
     modalsOpened: {
       any: false,
-      details: false,
       create: false
     },
     selectedTask: null
@@ -36,13 +34,11 @@ class Tasks extends React.Component {
 
   componentDidUpdate() {}
 
-  onModalOpen = (event, task) => {
-    if (event.target.classList.contains("create-button")) {
-      if (!this.state.modalsOpened.create) {
-        this.setState({
-          modalsOpened: { any: true, create: true }
-        });
-      }
+  onModalOpen = modalType => {
+    if (!this.state.modalsOpened.any) {
+      this.setState({
+        modalsOpened: { any: true, [modalType]: true }
+      });
     }
   };
   renderTasks = () => {
@@ -57,14 +53,6 @@ class Tasks extends React.Component {
               key={taskKey}
               tabIndex="0"
               className="task item list-header task-item-details"
-              onClick={e => {
-                if (!this.state.modalsOpened.details) {
-                  this.setState({
-                    modalsOpened: { any: true, details: true },
-                    selectedTask: tasks[taskKey]
-                  });
-                }
-              }}
             >
               <TaskItem
                 task={tasks[taskKey]}
@@ -87,24 +75,8 @@ class Tasks extends React.Component {
 
   renderModal = () => {
     console.log(this.state.modalsOpened);
-    if (this.state.modalsOpened.details) {
-      return (
-        <Modal
-          sectionId="details-task-content"
-          content={() => {
-            return (
-              <TaskDetails
-                onClose={this.dismissModalHandler}
-                task={this.state.selectedTask}
-              />
-            );
-          }}
-          onDismiss={() => {
-            this.dismissModalHandler();
-          }}
-        />
-      );
-    } else if (this.state.modalsOpened.create) {
+
+    if (this.state.modalsOpened.create) {
       return (
         <Modal
           sectionId="create-task-content"
@@ -149,7 +121,12 @@ class Tasks extends React.Component {
                   </div>
                 </div>
                 <div>
-                  <button className="create-button" onClick={this.onModalOpen}>
+                  <button
+                    className="create-button"
+                    onClick={() => {
+                      this.onModalOpen("create");
+                    }}
+                  >
                     +
                   </button>
                 </div>
@@ -171,7 +148,10 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 
-export default connect(mapStateToProps, {
-  fetchProject
-  // createProject
-})(Tasks);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProject
+    // createProject
+  }
+)(Tasks);

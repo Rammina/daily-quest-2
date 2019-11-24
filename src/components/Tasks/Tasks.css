@@ -15,22 +15,20 @@
 .task.item {
   display: flex !important;
   align-items: center !important;
-  padding: 0.25rem 0 !important;
-
+  padding: 0 !important;
   width: 100%;
   min-height: 3rem;
 }
 
 .task.content {
   width: 100% !important;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0.25rem 1rem !important;
 }
 
 .task.list-header {
   border-top-color: #deffff00 !important;
-  width: calc(100% - 2px);
-  margin-left: 1px;
+  width: calc(100% - 3px);
+  margin-left: 1.5px;
 }
 
 .item.task.list-header:hover {
@@ -48,6 +46,7 @@
   margin-left: 0px;
   position: fixed;
   border-radius: 0;
+  padding: 0.25rem 0 !important;
 }
 
 .task.list-header:nth-of-type(even) {

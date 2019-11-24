@@ -1,4 +1,5 @@
 // import "./TaskForm.css";
+
 import warningImg from "../../../images/warning.png";
 import submitImg from "../../../images/submit.png";
 
@@ -156,9 +157,17 @@ class TaskForm extends React.Component {
     return this.renderInput;
   };
 
-  // Hides buttons for detail display ( used only by non-action modals )
+  // Hides buttons for details display ( used only by non-action modals )
   hideButtons = () => {
     if (this.props.hideButtons) {
+      return { display: "none" };
+    }
+    return {};
+  };
+
+  // This is the opposite of hidebuttons, show only when form is disabled
+  showIfDisabled = () => {
+    if (!this.props.hideButtons) {
       return { display: "none" };
     }
     return {};
@@ -277,7 +286,7 @@ class TaskForm extends React.Component {
             type="checkbox"
             props={{
               inputProps: {
-                className: "text-field form-checkbox",
+                className: "form-checkbox",
                 id: "task-form-checkbox",
                 type: "checkbox",
                 onClick: e => {
@@ -298,12 +307,15 @@ class TaskForm extends React.Component {
             }}
           />
         </div>
-        <div className="two-buttons-container" id="task-form-buttons-container">
+        <div
+          className="two-buttons-container"
+          id="task-form-buttons-container"
+          style={this.hideButtons()}
+        >
           <ModalCancelButton
             onClose={() => {
               this.props.onClose();
             }}
-            hideButtons={this.hideButtons()}
           />
 
           <button
@@ -311,7 +323,6 @@ class TaskForm extends React.Component {
             className="form-submit modal-action-button"
             id="task-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
-            style={this.hideButtons()}
           >
             {/* <img
               src={submitImg}

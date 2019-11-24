@@ -28,13 +28,9 @@
 
 .modal-container {
   position: relative;
-  /*display: none;*/
   display: block;
-  /*position: fixed;*/
-
   width: (100% - 1rem);
   max-width: 40rem;
-  /*margin: calc(50vh - 13.4rem) calc(50vw - 50%);*/
   margin: calc(35vh - 6.5rem) auto;
   padding: 2rem 0.5rem;
   background-color: #333;
@@ -46,6 +42,14 @@
   max-height: calc(75vh);
   color: aliceblue;
   font-family: "Raleway", sans-serif;
+}
+
+.modal-container:focus {
+  outline: none;
+  -webkit-box-shadow: 0px 0px 0.5px 1px #000, 0px 0px 1px 2px #66a6b6,
+    0px 0px 2px 4px #ffffff;
+  box-shadow: 0px 0px 0.5px 1px #000, 0px 0px 1px 2px #66a6b6,
+    0px 0px 2px 4px #fff;
 }
 
 #edit-project-content,
@@ -226,7 +230,14 @@ div.text-field.disabled {
   position: relative;
   display: inline-block;
   width: 3rem;
+  height: 3rem;
   left: 1.5rem;
+}
+
+#task-form-checkbox:focus {
+  outline: none;
+  -webkit-box-shadow: 0px 0px 0.5px 1px #000, 0px 0px 1px 2px #fff;
+  box-shadow: 0px 0px 0.5px 1px #000, 0px 0px 1px 2px #fff;
 }
 
 .form-submit.modal-action-button {
@@ -271,6 +282,10 @@ div.text-field.disabled {
   max-width: 26rem;
 }
 
+#task-details-buttons-container {
+  max-width: 27rem;
+}
+
 .modal-action-button {
   display: block;
   width: 82%;
@@ -284,6 +299,10 @@ div.text-field.disabled {
   border-radius: 2px;
   background-color: #fefefe;
   color: #111;
+}
+
+.details.modal-action-button {
+  max-width: 11rem;
 }
 
 .cancel-button {
@@ -371,6 +390,18 @@ div.text-field.disabled {
   right: 0.45rem;
   filter: invert(93%) sepia(11%) saturate(6781%) hue-rotate(297deg)
     brightness(112%) contrast(105%);
+}
+
+.modal-button-image {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: -1rem;
+}
+
+.modal-button-text {
+  position: relative;
+  left: 0.8rem;
 }
 
 .submit-icon-image {

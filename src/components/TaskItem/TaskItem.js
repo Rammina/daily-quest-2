@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
+
+import TaskDetails from "../forms/tasks/TaskDetails";
 import EditTask from "../forms/tasks/EditTask";
 import { toggleTaskCheck, deleteTask } from "../../actions";
 
@@ -16,7 +18,8 @@ class TaskItem extends React.Component {
     modalsOpened: {
       any: false,
       edit: false,
-      delete: false
+      delete: false,
+      details: false
     }
   };
   componentDidMount() {}
@@ -57,39 +60,43 @@ class TaskItem extends React.Component {
 
   // This honestly could be recycled instead as a general helper function
   // on second thought it's harder than it seems
-  onModalOpen = event => {
-    event.preventDefault();
-    event.stopPropagation();
-    const target = event.target;
-
-    if (target.hasChildNodes()) {
-      if (target.classList.contains("edit-button")) {
-        if (!this.state.modalsOpened.edit) {
-          this.setState({ modalsOpened: { edit: true, any: true } });
-        }
-      } else if (target.classList.contains("delete-button")) {
-        if (!this.state.modalsOpened.delete) {
-          this.setState({ modalsOpened: { delete: true, any: true } });
-        }
-      }
-    } else if (!target.hasChildNodes()) {
-      if (target.parentElement.classList.contains("edit-button")) {
-        if (!this.state.modalsOpened.edit) {
-          this.setState({ modalsOpened: { edit: true, any: true } });
-        }
-      } else if (target.parentElement.classList.contains("delete-button")) {
-        if (!this.state.modalsOpened.delete) {
-          this.setState({ modalsOpened: { delete: true, any: true } });
-        }
-      }
+  // It's pretty easy
+  onModalOpen = modalType => {
+    if (!this.state.modalsOpened.any) {
+      this.setState({ modalsOpened: { [modalType]: true, any: true } });
     }
+  };
 
-    return null;
+  switchModalHandler = modalType => {
+    this.dismissModalHandler();
+    setTimeout(() => {
+      this.setState({ modalsOpened: { [modalType]: true, any: true } });
+    }, 50);
   };
 
   // This also could be recyclable
   renderModal = () => {
-    if (this.state.modalsOpened.edit) {
+    if (this.state.modalsOpened.details) {
+      return (
+        <Modal
+          sectionId="details-task-content"
+          content={() => {
+            return (
+              <TaskDetails
+                onClose={this.dismissModalHandler}
+                task={this.props.task}
+                projectId={this.props.projectId}
+                taskId={this.props.taskId}
+                switchModal={this.switchModalHandler}
+              />
+            );
+          }}
+          onDismiss={() => {
+            this.dismissModalHandler();
+          }}
+        />
+      );
+    } else if (this.state.modalsOpened.edit) {
       return (
         <Modal
           sectionId="edit-task-content"
@@ -134,6 +141,14 @@ class TaskItem extends React.Component {
         <div
           className="task content"
           key={`${this.props.task.name}-${this.props.task.id}`}
+          onClick={e => {
+            if (!this.state.modalsOpened.details) {
+              this.setState({
+                modalsOpened: { any: true, details: true },
+                selectedTask: this.props.task
+              });
+            }
+          }}
         >
           <div className="item-flex task">
             <input
@@ -153,13 +168,21 @@ class TaskItem extends React.Component {
             <div className="description-text task">{this.props.task.name}</div>
             <span className="task list-buttons-container">
               <button
-                onClick={this.onModalOpen}
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.onModalOpen("edit");
+                }}
                 className="task edit-button icon-button"
               >
                 <img className="icon-image" src={PencilImg} alt="Pencil" />
               </button>
               <button
-                onClick={this.onModalOpen}
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.onModalOpen("delete");
+                }}
                 className="task delete-button icon-button"
               >
                 <img className="icon-image" src={TrashImg} alt="Trash Can" />
@@ -176,4 +199,7 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(null, { deleteTask, toggleTaskCheck })(TaskItem);
+export default connect(
+  null,
+  { deleteTask, toggleTaskCheck }
+)(TaskItem);
