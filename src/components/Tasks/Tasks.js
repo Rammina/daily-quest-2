@@ -90,7 +90,7 @@ class Tasks extends React.Component {
     if (this.state.modalsOpened.details) {
       return (
         <Modal
-          sectionId="details-project-content"
+          sectionId="details-task-content"
           content={() => {
             return (
               <TaskDetails
@@ -107,7 +107,7 @@ class Tasks extends React.Component {
     } else if (this.state.modalsOpened.create) {
       return (
         <Modal
-          sectionId="create-project-content"
+          sectionId="create-task-content"
           content={() => {
             // this.props.match.url should be given to create project so it does not lose track
             // of where the URL address is
@@ -171,10 +171,7 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProject
-    // createProject
-  }
-)(Tasks);
+export default connect(mapStateToProps, {
+  fetchProject
+  // createProject
+})(Tasks);

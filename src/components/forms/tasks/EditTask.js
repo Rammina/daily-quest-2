@@ -55,7 +55,4 @@ class EditTask extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  { editTask }
-)(EditTask);
+export default connect(null, { editTask })(EditTask);

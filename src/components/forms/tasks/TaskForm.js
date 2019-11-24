@@ -1,5 +1,6 @@
 // import "./TaskForm.css";
 import warningImg from "../../../images/warning.png";
+import submitImg from "../../../images/submit.png";
 
 import React from "react";
 import { Field, reduxForm } from "redux-form";
@@ -91,13 +92,14 @@ class TaskForm extends React.Component {
           <textarea
             {...inputProps}
             {...input}
-            rows={1}
+            rows={7}
             className={`${inputProps.className} ${errorClass}`}
             disabled={disabled || false}
             onKeyDown={e => {
               this.handleEnterKeyOnField(e, input);
             }}
             onInput={e => autoGrow(e.target)}
+            // onFocus={e => autoGrow(e.target)}
           ></textarea>
 
           {renderError(meta, "task")}
@@ -209,41 +211,47 @@ class TaskForm extends React.Component {
             }}
           />
         </div>
-        <div className="task-form-field-div">
-          <Field
-            name="date"
-            component={this.renderInput}
-            props={{
-              inputProps: {
-                placeholder: "Date",
-                className: "text-field form-date-field",
-                id: "task-date-field",
-                type: "date",
-                min: getCurrentDate()
-              },
-              labelProps: {
-                text: "Date",
-                class: "form-label block"
-              }
-            }}
-          />
-          <Field
-            name="time"
-            component={this.renderInput}
-            props={{
-              inputProps: {
-                placeholder: "Time",
-                className: "text-field form-time-field",
-                id: "task-time-field",
-                type: "time",
-                autoComplete: "off"
-              },
-              labelProps: {
-                text: "Time",
-                class: "form-label block"
-              }
-            }}
-          />
+        <div className="task-form-field-div" id="date-time-flex">
+          <div className="date-time-flex-item">
+            <Field
+              name="date"
+              component={this.renderInput}
+              props={{
+                inputProps: {
+                  placeholder: "Date",
+                  className: "text-field form-date-field",
+                  id: "task-date-field",
+                  type: "date",
+                  min: getCurrentDate(),
+                  required: true
+                },
+                labelProps: {
+                  text: "Date",
+                  class: "form-label block"
+                }
+              }}
+            />
+          </div>
+          <div className="date-time-flex-item">
+            <Field
+              name="time"
+              component={this.renderInput}
+              props={{
+                inputProps: {
+                  placeholder: "Time",
+                  className: "text-field form-time-field",
+                  id: "task-time-field",
+                  type: "time",
+                  autoComplete: "off",
+                  required: true
+                },
+                labelProps: {
+                  text: "Time",
+                  class: "form-label block"
+                }
+              }}
+            />
+          </div>
         </div>
         <div className="task-form-field-div">
           <Field
@@ -272,10 +280,10 @@ class TaskForm extends React.Component {
                 className: "text-field form-checkbox",
                 id: "task-form-checkbox",
                 type: "checkbox",
-                disabled: false,
                 onClick: e => {
                   const target = e.target;
                   this.setState({ finished: !this.state.finished });
+                  // if(this.props.toggleCheckbox) {}
                   target.blur();
                   setTimeout(() => {
                     target.focus();
@@ -305,7 +313,12 @@ class TaskForm extends React.Component {
             onClick={this.props.handleSubmit(this.onSubmit)}
             style={this.hideButtons()}
           >
-            Submit
+            {/* <img
+              src={submitImg}
+              alt="Submit Logo"
+              className="submit-icon-image"
+            ></img> */}
+            <span className="submit-button-text">Submit</span>{" "}
           </button>
         </div>
       </form>

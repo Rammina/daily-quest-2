@@ -47,7 +47,7 @@ class TaskItem extends React.Component {
                 this.dismissModalHandler();
               }}
             >
-              Delete Task
+              Delete
             </button>
           </div>
         </form>
@@ -176,7 +176,4 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(
-  null,
-  { deleteTask, toggleTaskCheck }
-)(TaskItem);
+export default connect(null, { deleteTask, toggleTaskCheck })(TaskItem);
