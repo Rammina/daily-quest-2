@@ -46,7 +46,13 @@ class ProjectItem extends React.Component {
               className="modal-action-button delete-confirm-button"
               onClick={() => this.props.deleteProject(this.props.id)}
             >
-              Delete
+              <img
+                id="delete-trash-icon"
+                className="trash modal-button-image"
+                src={TrashImg}
+                alt="Trashcan"
+              />
+              <span className="modal-button-text">Delete</span>
             </button>
           </div>
         </form>
@@ -156,7 +162,4 @@ const mapStateToProps = state => {
   return { projects: state.projects };
 };
 
-export default connect(
-  mapStateToProps,
-  { deleteProject }
-)(ProjectItem);
+export default connect(mapStateToProps, { deleteProject })(ProjectItem);

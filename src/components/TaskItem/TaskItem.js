@@ -50,7 +50,13 @@ class TaskItem extends React.Component {
                 this.dismissModalHandler();
               }}
             >
-              Delete
+              <img
+                id="delete-trash-icon"
+                className="trash modal-button-image"
+                src={TrashImg}
+                alt="Trashcan"
+              />
+              <span className="modal-button-text">Delete</span>
             </button>
           </div>
         </form>
@@ -165,7 +171,16 @@ class TaskItem extends React.Component {
                 );
               }}
             ></input>
-            <div className="description-text task">{this.props.task.name}</div>
+            <div className="description-text task">
+              {this.props.task.name}{" "}
+              <span className="date-time-span">
+                <span className="tasklist-date">{this.props.task.date} </span>
+                <span className="time-hide-mobile tasklist-time">
+                  {" "}
+                  - {this.props.task.time}
+                </span>
+              </span>
+            </div>
             <span className="task list-buttons-container">
               <button
                 onClick={e => {
@@ -199,7 +214,4 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(
-  null,
-  { deleteTask, toggleTaskCheck }
-)(TaskItem);
+export default connect(null, { deleteTask, toggleTaskCheck })(TaskItem);

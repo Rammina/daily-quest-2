@@ -37,6 +37,15 @@
   background-color: #304035;
 }
 
+.item.list-header {
+  cursor: pointer;
+}
+
+.item.list-header.first {
+  word-break: break-word;
+  cursor: auto;
+}
+
 .item.project.list-header.first {
   z-index: 10;
   background-color: rgb(197, 233, 194);
@@ -64,6 +73,10 @@
   /* text-transform: uppercase; */
   color: #113 !important;
   opacity: 1;
+}
+
+.description-text {
+  word-break: break-word;
 }
 
 .description-text.project {

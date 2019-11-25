@@ -98,6 +98,7 @@
   margin-top: 0;
   font-size: 1.1rem;
   text-align: center;
+  word-break: break-word;
 }
 
 .modal-warning {
@@ -283,7 +284,9 @@ div.text-field.disabled {
 }
 
 #task-details-buttons-container {
-  max-width: 27rem;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 15rem;
 }
 
 .modal-action-button {
@@ -303,6 +306,7 @@ div.text-field.disabled {
 
 .details.modal-action-button {
   max-width: 11rem;
+  margin: 0.75rem auto;
 }
 
 .cancel-button {
@@ -327,6 +331,27 @@ div.text-field.disabled {
   color: white;
   -webkit-box-shadow: 0px 0px 3px 2px #252525;
   box-shadow: 0px 0px 3px 2px #252525;
+}
+
+.details.modal-action-button.delete-confirm-button {
+  position: relative;
+  right: 0rem;
+  background-color: #0000;
+  max-width: 7.5rem;
+  color: #faa;
+}
+
+.details.modal-action-button.delete-confirm-button:hover {
+  box-shadow: none;
+  color: #fcc;
+}
+
+.details.modal-action-button.edit-modal-button {
+  /* max-width: 9rem; */
+}
+
+.details.modal-action-button.edit-modal-button:hover {
+  background-color: #ddd;
 }
 
 #project-form-submit,
@@ -397,11 +422,27 @@ div.text-field.disabled {
   width: 1.5rem;
   height: 1.5rem;
   margin-left: -1rem;
+  margin-top: -0.15rem;
+}
+
+#edit-wrench-icon {
+  filter: invert(0%) sepia(5%) saturate(2922%) hue-rotate(325deg)
+    brightness(93%) contrast(87%);
+}
+
+#delete-trash-icon {
+  filter: invert(100%) sepia(0%) saturate(1237%) hue-rotate(55deg)
+    brightness(122%) contrast(108%);
 }
 
 .modal-button-text {
   position: relative;
   left: 0.8rem;
+}
+
+#details-button-delete-text {
+  left: 0;
+  color: #faa;
 }
 
 .submit-icon-image {
@@ -416,10 +457,21 @@ div.text-field.disabled {
   #details-task-content {
     margin: calc(12.5vh) auto;
   }
+  #task-details-buttons-container {
+    justify-content: space-between;
+    width: 90%;
+    max-width: 26rem;
+  }
   #delete-project-buttons-container,
   #delete-task-buttons-container {
     position: relative;
     left: 0.3rem;
+  }
+  .details.modal-action-button {
+    margin: 1rem 0;
+  }
+  .details.modal-action-button.delete-confirm-button {
+    right: 0.6rem;
   }
 }
 
@@ -471,6 +523,14 @@ div.text-field.disabled {
   }
   .delete-confirm-button {
     max-width: 8rem;
+  }
+}
+
+@media screen and (min-height: 450px) {
+  #create-task-content,
+  #edit-task-content,
+  #details-task-content {
+    margin: calc(12.5vh) auto;
   }
 }
 

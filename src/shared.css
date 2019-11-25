@@ -73,6 +73,10 @@ select:focus {
     inset 0px 0px 2px 3px #000000;
 }
 
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
 input[type="date"]::-webkit-inner-spin-button,
 input[type="time"]::-webkit-inner-spin-button {
   -webkit-appearance: none;

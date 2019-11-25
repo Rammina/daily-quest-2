@@ -1,5 +1,5 @@
-import trashImg from "../../../images/trash.png";
-import wrenchImg from "../../../images/wrench.png";
+import TrashImg from "../../../images/trash.png";
+import WrenchImg from "../../../images/wrench.png";
 
 import _ from "lodash";
 import React from "react";
@@ -7,8 +7,6 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 // import { fetchProject, editProject } from "../../actions";
 import TaskForm from "./TaskForm";
-
-import ModalCloseButton from "../../Modal/common/ModalCloseButton";
 
 class TaskDetails extends React.Component {
   onSubmit = async formValues => {
@@ -31,30 +29,33 @@ class TaskDetails extends React.Component {
           id="task-details-buttons-container"
         >
           <button
+            className="details modal-action-button delete-confirm-button"
+            onClick={() => {
+              this.props.switchModal("delete");
+            }}
+          >
+            {/* <img
+              id="delete-trash-icon"
+              className="trash modal-button-image"
+              src={TrashImg}
+              alt="Trashcan"
+            /> */}
+            Delete Task
+          </button>
+
+          <button
             className="details modal-action-button edit-modal-button"
             onClick={() => {
               this.props.switchModal("edit");
             }}
           >
             <img
+              id="edit-wrench-icon"
               className="wrench modal-button-image"
-              src={wrenchImg}
+              src={WrenchImg}
               alt="Wrench"
             />
             <span className="modal-button-text">Edit Task</span>
-          </button>
-          <button
-            className="details modal-action-button delete-confirm-button"
-            onClick={() => {
-              this.props.switchModal("delete");
-            }}
-          >
-            <img
-              className="trash modal-button-image"
-              src={trashImg}
-              alt="Trashcan"
-            />
-            <span className="modal-button-text">Delete Task</span>
           </button>
         </div>
       </React.Fragment>
