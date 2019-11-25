@@ -5,6 +5,7 @@ import TrashImg from "../../images/trash.png";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
+
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
@@ -12,6 +13,7 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import TaskDetails from "../forms/tasks/TaskDetails";
 import EditTask from "../forms/tasks/EditTask";
 import { toggleTaskCheck, deleteTask } from "../../actions";
+import { toStandardTime } from "../../helpers";
 
 class TaskItem extends React.Component {
   state = {
@@ -23,6 +25,10 @@ class TaskItem extends React.Component {
     }
   };
   componentDidMount() {}
+
+  hideActionButtons = () => {
+    return this.props.hideActionButtons ? { visibility: "hidden" } : {};
+  };
 
   renderDeleteContent = () => {
     return (
@@ -177,11 +183,14 @@ class TaskItem extends React.Component {
                 <span className="tasklist-date">{this.props.task.date} </span>
                 <span className="time-hide-mobile tasklist-time">
                   {" "}
-                  - {this.props.task.time}
+                  - {toStandardTime(this.props.task.time)}
                 </span>
               </span>
             </div>
-            <span className="task list-buttons-container">
+            <span
+              style={this.hideActionButtons()}
+              className="task list-buttons-container"
+            >
               <button
                 onClick={e => {
                   e.preventDefault();
@@ -214,4 +223,7 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(null, { deleteTask, toggleTaskCheck })(TaskItem);
+export default connect(
+  null,
+  { deleteTask, toggleTaskCheck }
+)(TaskItem);

@@ -12,11 +12,15 @@ export const getCurrentDate = () => {
 };
 
 export const getCurrentTime = () => {
-  return format(new Date(), "hh:mmA");
+  return format(new Date(), "hh:mma");
 };
 
 export const toMilitaryTime = datetime => {
   return format(datetime, "HH:mm");
+};
+
+export const toStandardTime = time => {
+  return format(new Date(`${getCurrentDate()}T${time}`), "hh:mma");
 };
 
 export const standardToMilitary = function standardToMilitary(time) {

@@ -11,7 +11,8 @@ export const actionTypes = {
   CREATE_TASK: "CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
   TOGGLE_TASK_CHECK: "TOGGLE_TASK_CHECK",
-  DELETE_TASK: "DELETE_TASK"
+  DELETE_TASK: "DELETE_TASK",
+  FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS"
 };
 
 export const fetchProjects = () => {
@@ -125,6 +126,39 @@ export const deleteTask = (projectId, taskId) => {
     dispatch({
       type: actionTypes.DELETE_TASK,
       payload: taskId
+    });
+  };
+};
+
+export const fetchFinishedTasks = () => {
+  return async function(dispatch, getState) {
+    // Retrieve all projects first from the database
+    const response = await firebasedatabase.get("/projects.json");
+
+    const projects = response.data;
+    let finishedTasks = [];
+    console.log(projects);
+    // Process each project and retrieve each task
+    // First check that the project contains a task to avoid undefined errors
+    for (let key in projects) {
+      if (projects.hasOwnProperty(key)) {
+        if (projects[key].tasks) {
+          console.log(projects[key].tasks);
+          const tasks = projects[key].tasks;
+          // Check each task and retrieve only those that have finished as true
+          for (let key in tasks) {
+            if (tasks.hasOwnProperty(key) && tasks[key].finished) {
+              console.log(tasks[key].finished);
+              finishedTasks = [...finishedTasks, tasks[key]];
+            }
+          }
+        }
+      }
+    }
+    console.log(finishedTasks);
+    dispatch({
+      type: actionTypes.FETCH_FINISHED_TASKS,
+      payload: finishedTasks
     });
   };
 };

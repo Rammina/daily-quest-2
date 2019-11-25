@@ -1,7 +1,3 @@
-// Since this is still under construction,
-// Chances are lines in comment don't function yet
-// However they might be intended to be used
-
 import "./Tasks.css";
 
 import _ from "lodash";

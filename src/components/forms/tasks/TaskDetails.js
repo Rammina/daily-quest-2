@@ -9,21 +9,9 @@ import { connect } from "react-redux";
 import TaskForm from "./TaskForm";
 
 class TaskDetails extends React.Component {
-  onSubmit = async formValues => {
-    // await this.props.editProject(this.props.id, formValues);
-    this.props.onClose();
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <TaskForm
-          // onSubmit={this.onSubmit}
-          onClose={this.props.onClose}
-          initialValues={{ ...this.props.task }}
-          disabled={true}
-          hideButtons="true"
-        />
+  renderActionButtons = () => {
+    if (!this.props.hideActionButtons) {
+      return (
         <div
           className="two-buttons-container"
           id="task-details-buttons-container"
@@ -58,6 +46,27 @@ class TaskDetails extends React.Component {
             <span className="modal-button-text">Edit Task</span>
           </button>
         </div>
+      );
+    }
+    return null;
+  };
+
+  onSubmit = async formValues => {
+    // await this.props.editProject(this.props.id, formValues);
+    this.props.onClose();
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <TaskForm
+          // onSubmit={this.onSubmit}
+          onClose={this.props.onClose}
+          initialValues={{ ...this.props.task }}
+          disabled={true}
+          hideButtons="true"
+        />
+        {this.renderActionButtons()}
       </React.Fragment>
     );
   }
