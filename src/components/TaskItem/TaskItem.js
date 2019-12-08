@@ -13,7 +13,7 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import TaskDetails from "../forms/tasks/TaskDetails";
 import EditTask from "../forms/tasks/EditTask";
 import { toggleTaskCheck, deleteTask } from "../../actions";
-import { toStandardTime } from "../../helpers";
+import { convertToMDY, toStandardTime } from "../../helpers";
 
 class TaskItem extends React.Component {
   state = {
@@ -28,6 +28,28 @@ class TaskItem extends React.Component {
 
   hideActionButtons = () => {
     return this.props.hideActionButtons ? { visibility: "hidden" } : {};
+  };
+
+  renderCheckbox = () => {
+    if (this.props.hideCheckbox) {
+      return null;
+    }
+    return (
+      <input
+        className="task list-checkbox"
+        type="checkbox"
+        defaultChecked={this.props.task.finished || false}
+        onClick={e => {
+          e.stopPropagation();
+          const target = e.target;
+          this.props.toggleTaskCheck(
+            this.props.projectId,
+            this.props.taskId,
+            target.checked
+          );
+        }}
+      ></input>
+    );
   };
 
   renderDeleteContent = () => {
@@ -163,24 +185,13 @@ class TaskItem extends React.Component {
           }}
         >
           <div className="item-flex task">
-            <input
-              className="task list-checkbox"
-              type="checkbox"
-              defaultChecked={this.props.task.finished || false}
-              onClick={e => {
-                e.stopPropagation();
-                const target = e.target;
-                this.props.toggleTaskCheck(
-                  this.props.projectId,
-                  this.props.taskId,
-                  target.checked
-                );
-              }}
-            ></input>
+            {this.renderCheckbox()}
             <div className="description-text task">
               {this.props.task.name}{" "}
               <span className="date-time-span">
-                <span className="tasklist-date">{this.props.task.date} </span>
+                <span className="tasklist-date">
+                  {convertToMDY(this.props.task.date)}{" "}
+                </span>
                 <span className="time-hide-mobile tasklist-time">
                   {" "}
                   - {toStandardTime(this.props.task.time)}

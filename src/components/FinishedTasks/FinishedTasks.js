@@ -33,25 +33,20 @@ class FinishedTasks extends React.Component {
   renderTasks = () => {
     const tasks = this.props.finishedTasks;
     if (tasks) {
-      const items = [];
-      for (let taskKey in tasks) {
-        if (tasks.hasOwnProperty(taskKey)) {
-          items.push(
-            <div
-              key={taskKey}
-              tabIndex="0"
-              className="task item list-header task-item-details"
-            >
-              <TaskItem
-                task={tasks[taskKey]}
-                taskId={taskKey}
-                hideActionButtons={true}
-              />
-            </div>
-          );
-        }
-      }
-      return items;
+      return tasks.map(task => (
+        <div
+          key={task.id}
+          tabIndex="0"
+          className="task item list-header task-item-details"
+        >
+          <TaskItem
+            hideCheckbox={true}
+            task={task}
+            taskId={task.id}
+            hideActionButtons={true}
+          />
+        </div>
+      ));
     } else {
       return (
         <div style={{ color: "white", textAlign: "center" }}>
@@ -62,8 +57,6 @@ class FinishedTasks extends React.Component {
   };
 
   render() {
-    // return <div />;
-
     return (
       <React.Fragment>
         <div data-test="component-tasks" className="tasks-container">

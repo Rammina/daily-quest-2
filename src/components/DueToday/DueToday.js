@@ -1,28 +1,24 @@
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProject, createTask } from "../../actions";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
 import Modal from "../Modal/Modal";
-import ModalCloseButton from "../Modal/common/ModalCloseButton";
-import ModalCancelButton from "../Modal/common/ModalCancelButton";
-
-import CreateTask from "../forms/tasks/CreateTask";
+import { fetchDueToday } from "../../actions";
 
 class DueToday extends React.Component {
   state = {
     modalsOpened: {
       any: false,
-      create: false
+      details: false
     },
     selectedTask: null
   };
 
   componentDidMount() {
     // This should call fetch due today
-    // this.props.fetchDueToday()
+    this.props.fetchDueToday();
   }
 
   componentDidUpdate() {}
@@ -34,29 +30,23 @@ class DueToday extends React.Component {
       });
     }
   };
-  /*renderTasks = () => {
-    const projectId = this.props.project.id;
-    const tasks = this.props.project.tasks;
+  renderTasks = () => {
+    const tasks = this.props.dueToday;
     if (tasks) {
-      const items = [];
-      for (let taskKey in tasks) {
-        if (tasks.hasOwnProperty(taskKey)) {
-          items.push(
-            <div
-              key={taskKey}
-              tabIndex="0"
-              className="task item list-header task-item-details"
-            >
-              <TaskItem
-                task={tasks[taskKey]}
-                taskId={taskKey}
-                projectId={this.props.match.params.id}
-              />
-            </div>
-          );
-        }
-      }
-      return items;
+      return tasks.map(task => (
+        <div
+          key={task.id}
+          tabIndex="0"
+          className="task item list-header task-item-details"
+        >
+          <TaskItem
+            hideCheckbox={true}
+            task={task}
+            taskId={task.id}
+            hideActionButtons={true}
+          />
+        </div>
+      ));
     } else {
       return (
         <div style={{ color: "white", textAlign: "center" }}>
@@ -64,61 +54,23 @@ class DueToday extends React.Component {
         </div>
       );
     }
-  };*/
-
-  /*renderModal = () => {
-    console.log(this.state.modalsOpened);
-
-    if (this.state.modalsOpened.create) {
-      return (
-        <Modal
-          sectionId="create-task-content"
-          content={() => {
-            // this.props.match.url should be given to create project so it does not lose track
-            // of where the URL address is
-            return (
-              <CreateTask
-                onClose={this.dismissModalHandler}
-                id={this.props.match.params.id}
-              />
-            );
-          }}
-          onDismiss={() => {
-            this.dismissModalHandler();
-          }}
-        />
-      );
-    }
-    return null;
-  };*/
-
-  dismissModalHandler = () => {
-    const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
   };
 
   render() {
-    return <div />;
-
-    /*return (
+    return (
       <React.Fragment>
         <div data-test="component-tasks" className="tasks-container">
           <div id="tasks-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
               <div className="task item list-header first">
                 <div className="task content">
-                  <div className="header header-text task">
-                    {this.props.project.name}
-                  </div>
+                  <div className="header header-text task">DUE TODAY</div>
                 </div>
                 <div>
                   <button
+                    style={{ visibility: "hidden" }}
+                    disabled={true}
                     className="create-button"
-                    onClick={() => {
-                      this.onModalOpen("create");
-                    }}
                   >
                     +
                   </button>
@@ -128,23 +80,19 @@ class DueToday extends React.Component {
             </div>
           </div>
         </div>
-        {this.renderModal()}
       </React.Fragment>
-    );*/
+    );
   }
 }
 
-// I currently don't know which
-// specific state properties to assign to this component
-/*const mapStateToProps = state => {
-  console.log(state.selectedProject);
-  return { project: state.selectedProject };
-};*/
+const mapStateToProps = state => {
+  return { dueToday: state.dueToday };
+};
 
 export default connect(
-  null, // mapStateToProps,
+  mapStateToProps,
   {
+    fetchDueToday
     // fetchProject
-    // createProject
   }
 )(DueToday);

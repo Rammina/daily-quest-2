@@ -1,4 +1,6 @@
 import firebasedatabase from "../apis/firebasedatabase";
+import { compareValues } from "../helpers";
+import isToday from "date-fns/isToday";
 // import history from "../history";
 
 // List of action types to be used
@@ -12,7 +14,8 @@ export const actionTypes = {
   EDIT_TASK: "EDIT_TASK",
   TOGGLE_TASK_CHECK: "TOGGLE_TASK_CHECK",
   DELETE_TASK: "DELETE_TASK",
-  FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS"
+  FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS",
+  FETCH_DUE_TODAY: "FETCH_DUE_TODAY"
 };
 
 export const fetchProjects = () => {
@@ -140,25 +143,76 @@ export const fetchFinishedTasks = () => {
     console.log(projects);
     // Process each project and retrieve each task
     // First check that the project contains a task to avoid undefined errors
-    for (let key in projects) {
-      if (projects.hasOwnProperty(key)) {
-        if (projects[key].tasks) {
-          console.log(projects[key].tasks);
-          const tasks = projects[key].tasks;
+    for (let projectKey in projects) {
+      if (projects.hasOwnProperty(projectKey)) {
+        if (projects[projectKey].tasks) {
+          console.log(projects[projectKey].tasks);
+          const tasks = projects[projectKey].tasks;
           // Check each task and retrieve only those that have finished as true
-          for (let key in tasks) {
-            if (tasks.hasOwnProperty(key) && tasks[key].finished) {
-              console.log(tasks[key].finished);
-              finishedTasks = [...finishedTasks, tasks[key]];
+          for (let taskKey in tasks) {
+            if (tasks.hasOwnProperty(taskKey) && tasks[taskKey].finished) {
+              console.log(tasks[taskKey].finished);
+              tasks[taskKey].id = taskKey;
+              tasks[taskKey].projectId = projectKey;
+              finishedTasks = [...finishedTasks, tasks[taskKey]];
             }
           }
         }
       }
     }
-    console.log(finishedTasks);
+
+    // Sort the array items
+    const sortedFinishedTasks = finishedTasks.sort(compareValues("name"));
+    console.log(sortedFinishedTasks);
     dispatch({
       type: actionTypes.FETCH_FINISHED_TASKS,
-      payload: finishedTasks
+      payload: sortedFinishedTasks
+    });
+  };
+};
+
+export const fetchDueToday = () => {
+  return async function(dispatch, getState) {
+    // Retrieve all projects first from the database
+    const response = await firebasedatabase.get("/projects.json");
+
+    const projects = response.data;
+    let dueToday = [];
+    console.log(projects);
+    // Process each project and retrieve each task
+    // First check that the project contains a task to avoid undefined errors
+    for (let projectKey in projects) {
+      if (projects.hasOwnProperty(projectKey)) {
+        if (projects[projectKey].tasks) {
+          console.log(projects[projectKey].tasks);
+          const tasks = projects[projectKey].tasks;
+          // Check each task and retrieve only those that have
+          // today as their deadline
+          for (let taskKey in tasks) {
+            console.log(tasks[taskKey].date);
+            console.log(new Date(tasks[taskKey].date));
+            console.log(isToday(new Date(tasks[taskKey].date)));
+            if (
+              tasks.hasOwnProperty(taskKey) &&
+              isToday(new Date(tasks[taskKey].date))
+            ) {
+              console.log(tasks[taskKey].date);
+              tasks[taskKey].id = taskKey;
+              tasks[taskKey].projectId = projectKey;
+              dueToday = [...dueToday, tasks[taskKey]];
+            }
+          }
+        }
+      }
+    }
+
+    // Sort the array items
+    console.log(dueToday);
+    const sortedDueToday = dueToday.sort(compareValues("name"));
+    console.log(sortedDueToday);
+    dispatch({
+      type: actionTypes.FETCH_DUE_TODAY,
+      payload: sortedDueToday
     });
   };
 };
