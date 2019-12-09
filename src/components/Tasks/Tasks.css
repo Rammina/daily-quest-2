@@ -81,7 +81,7 @@
   word-break: break-word;
 }
 
-.date-time-span {
+.project-date-time-span {
   display: none;
   background-color: #befff431;
   margin: 0;
@@ -142,7 +142,7 @@
   .description-text.task {
     line-height: 1.75rem;
   }
-  .date-time-span {
+  .project-date-time-span {
     display: inline-block;
     padding: 0 0.25rem;
   }

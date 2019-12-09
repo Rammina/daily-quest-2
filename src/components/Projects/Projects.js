@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import ProjectItem from "../ProjectItem/ProjectItem.js";
 import Modal from "../Modal/Modal";
 
-import CreateProject from "../forms/CreateProject";
+import CreateProject from "../forms/projects/CreateProject";
 
 class Projects extends React.Component {
   state = {
@@ -127,10 +127,7 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(
-  mapStateToProps,
-  {
-    fetchProjects,
-    createProject
-  }
-)(Projects);
+export default connect(mapStateToProps, {
+  fetchProjects,
+  createProject
+})(Projects);

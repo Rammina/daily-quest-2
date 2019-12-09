@@ -52,6 +52,45 @@ class TaskItem extends React.Component {
     );
   };
 
+  renderInfoBubble = () => {
+    const renderProjectName = () => {
+      if (this.props.hideProjectName) {
+        return null;
+      }
+      return (
+        <span className="tasklist-project-name">{this.props.projectName}</span>
+      );
+    };
+    const renderDate = () => {
+      if (this.props.hideDate) {
+        return null;
+      }
+      return (
+        <span className="tasklist-date">
+          {convertToMDY(this.props.task.date)}{" "}
+        </span>
+      );
+    };
+    const renderTime = () => {
+      if (this.props.hideTime) {
+        return null;
+      }
+      return (
+        <span className="time-hide-mobile tasklist-time">
+          {" "}
+          - {toStandardTime(this.props.task.time)}
+        </span>
+      );
+    };
+    return (
+      <span className="project-date-time-span">
+        {renderProjectName()}
+        {renderDate()}
+        {renderTime()}
+      </span>
+    );
+  };
+
   renderDeleteContent = () => {
     return (
       <React.Fragment>
@@ -187,17 +226,9 @@ class TaskItem extends React.Component {
           <div className="item-flex task">
             {this.renderCheckbox()}
             <div className="description-text task">
-              {this.props.task.name}{" "}
-              <span className="date-time-span">
-                <span className="tasklist-date">
-                  {convertToMDY(this.props.task.date)}{" "}
-                </span>
-                <span className="time-hide-mobile tasklist-time">
-                  {" "}
-                  - {toStandardTime(this.props.task.time)}
-                </span>
-              </span>
+              {this.props.task.name} {this.renderInfoBubble()}
             </div>
+
             <span
               style={this.hideActionButtons()}
               className="task list-buttons-container"
@@ -234,7 +265,4 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(
-  null,
-  { deleteTask, toggleTaskCheck }
-)(TaskItem);
+export default connect(null, { deleteTask, toggleTaskCheck })(TaskItem);

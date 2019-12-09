@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import TaskItem from "../TaskItem/TaskItem.js";
 import Modal from "../Modal/Modal";
 import { fetchFinishedTasks } from "../../actions";
+import { ellipsifyString } from "../../helpers/index.js";
 
 class FinishedTasks extends React.Component {
   state = {
@@ -40,9 +41,13 @@ class FinishedTasks extends React.Component {
           className="task item list-header task-item-details"
         >
           <TaskItem
+            hideDate={true}
+            hideTime={true}
             hideCheckbox={true}
             task={task}
             taskId={task.id}
+            projectId={task.projectId}
+            projectName={ellipsifyString(task.projectName, 13)}
             hideActionButtons={true}
           />
         </div>
@@ -89,10 +94,7 @@ const mapStateToProps = state => {
   return { finishedTasks: state.finishedTasks };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchFinishedTasks
-    // fetchProject
-  }
-)(FinishedTasks);
+export default connect(mapStateToProps, {
+  fetchFinishedTasks
+  // fetchProject
+})(FinishedTasks);

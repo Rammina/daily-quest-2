@@ -81,10 +81,9 @@ export const createTask = (id, formValues) => {
       `/projects/${id}/tasks.json`,
       formValues
     );
-    console.log("response from server");
-    console.log(response.data);
-    console.log(response.data.name);
+
     const valuesWithId = { ...formValues, id: response.data.name };
+    console.log(valuesWithId);
     dispatch({
       type: actionTypes.CREATE_TASK,
       payload: valuesWithId
@@ -154,6 +153,7 @@ export const fetchFinishedTasks = () => {
               console.log(tasks[taskKey].finished);
               tasks[taskKey].id = taskKey;
               tasks[taskKey].projectId = projectKey;
+              tasks[taskKey].projectName = projects[projectKey].name;
               finishedTasks = [...finishedTasks, tasks[taskKey]];
             }
           }
@@ -189,16 +189,14 @@ export const fetchDueToday = () => {
           // Check each task and retrieve only those that have
           // today as their deadline
           for (let taskKey in tasks) {
-            console.log(tasks[taskKey].date);
-            console.log(new Date(tasks[taskKey].date));
-            console.log(isToday(new Date(tasks[taskKey].date)));
             if (
               tasks.hasOwnProperty(taskKey) &&
-              isToday(new Date(tasks[taskKey].date))
+              isToday(new Date(tasks[taskKey].date.replace(/-/g, "/")))
             ) {
               console.log(tasks[taskKey].date);
               tasks[taskKey].id = taskKey;
               tasks[taskKey].projectId = projectKey;
+              tasks[taskKey].projectName = projects[projectKey].name;
               dueToday = [...dueToday, tasks[taskKey]];
             }
           }

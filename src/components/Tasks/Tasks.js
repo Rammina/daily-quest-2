@@ -51,6 +51,7 @@ class Tasks extends React.Component {
               className="task item list-header task-item-details"
             >
               <TaskItem
+                hideProjectName={true}
                 task={tasks[taskKey]}
                 taskId={taskKey}
                 projectId={this.props.match.params.id}
@@ -144,10 +145,7 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProject
-    // createProject
-  }
-)(Tasks);
+export default connect(mapStateToProps, {
+  fetchProject
+  // createProject
+})(Tasks);

@@ -10,7 +10,7 @@ import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import { deleteProject } from "../../actions";
-import EditProject from "../forms/EditProject";
+import EditProject from "../forms/projects/EditProject";
 
 class ProjectItem extends React.Component {
   state = {
@@ -99,6 +99,7 @@ class ProjectItem extends React.Component {
             <EditProject
               onClose={() => this.dismissModalHandler()}
               project={this.props.project}
+              id={this.props.id}
             />
           )}
           onDismiss={() => this.dismissModalHandler()}

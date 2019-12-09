@@ -17,6 +17,7 @@ class CreateTask extends React.Component {
   processEmptyOptionals = formValues => {
     const description = formValues.description || "No description provided.";
     const date = formValues.date || getCurrentDate();
+    console.log(date);
     const time =
       formValues.time || format(new Date(`${getCurrentDate()}T23:59`), "HH:mm");
     const priority = formValues.priority || "medium";
@@ -26,7 +27,13 @@ class CreateTask extends React.Component {
 
   onSubmit = async formValues => {
     const processedValues = this.processEmptyOptionals(formValues);
-    const date = format(new Date(processedValues.date), "yyyy-MM-dd");
+    const date = format(
+      new Date(processedValues.date.replace(/-/g, "/")),
+      "yyyy-MM-dd"
+    );
+
+    console.log(processedValues.date);
+    console.log(date);
     const time = format(
       new Date(`${getCurrentDate()}T${processedValues.time}`),
       "HH:mm"

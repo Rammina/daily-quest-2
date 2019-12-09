@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import TaskItem from "../TaskItem/TaskItem.js";
 import Modal from "../Modal/Modal";
 import { fetchDueToday } from "../../actions";
+import { ellipsifyString } from "../../helpers/index.js";
 
 class DueToday extends React.Component {
   state = {
@@ -40,9 +41,14 @@ class DueToday extends React.Component {
           className="task item list-header task-item-details"
         >
           <TaskItem
+            hideDate={true}
+            // hideTime={true}
+            // Find a way to make checkbox toggle work
             hideCheckbox={true}
             task={task}
             taskId={task.id}
+            projectId={task.projectId}
+            projectName={ellipsifyString(task.projectName, 13)}
             hideActionButtons={true}
           />
         </div>
@@ -89,10 +95,7 @@ const mapStateToProps = state => {
   return { dueToday: state.dueToday };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchDueToday
-    // fetchProject
-  }
-)(DueToday);
+export default connect(mapStateToProps, {
+  fetchDueToday
+  // fetchProject
+})(DueToday);

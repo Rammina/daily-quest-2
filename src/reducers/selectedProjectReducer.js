@@ -4,7 +4,7 @@ import { actionTypes } from "../actions";
 export default (state = {}, action) => {
   switch (action.type) {
     case actionTypes.FETCH_PROJECT:
-      return { ...state, ...action.payload };
+      return { ...action.payload };
     case actionTypes.CREATE_TASK:
       return {
         ...state,

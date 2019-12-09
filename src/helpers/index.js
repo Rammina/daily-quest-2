@@ -8,6 +8,7 @@ import { format, endOfYesterday, isBefore } from "date-fns";
 
 // date-time functions
 export const getCurrentDate = () => {
+  console.log(format(new Date(), "yyyy-MM-dd"));
   return format(new Date(), "yyyy-MM-dd");
 };
 
@@ -16,7 +17,7 @@ export const getCurrentTime = () => {
 };
 
 export const convertToMDY = date => {
-  return format(new Date(date), "MM/dd/yyyy");
+  return format(new Date(date.replace(/-/g, "/")), "MM/dd/yyyy");
 };
 
 export const toMilitaryTime = datetime => {
@@ -101,6 +102,15 @@ export const compareValues = (key, order = "asc") => {
 };
 // // usage: array is sorted by band, in ascending order by default:
 // // //singers.sort(compareValues('band'));
+
+//String functions
+export const ellipsifyString = (string, length = 10) => {
+  if (string.length > length) {
+    return `${string.substring(0, length)}...
+    `;
+  }
+  return string;
+};
 
 // This function didn't work
 // export const dismissModalHandler = (modalsOpened, setStateCallback) => {
