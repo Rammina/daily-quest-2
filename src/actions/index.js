@@ -5,17 +5,23 @@ import isToday from "date-fns/isToday";
 
 // List of action types to be used
 export const actionTypes = {
+  // Project actions
   FETCH_PROJECTS: "FETCH_PROJECTS",
   FETCH_PROJECT: "FETCH_PROJECT",
   CREATE_PROJECT: "CREATE_PROJECT",
   EDIT_PROJECT: "EDIT_PROJECT",
   DELETE_PROJECT: "DELETE_PROJECT",
+  // TASK ACTIONS
   CREATE_TASK: "CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
   TOGGLE_TASK_CHECK: "TOGGLE_TASK_CHECK",
   DELETE_TASK: "DELETE_TASK",
+  // Finished task actions
   FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS",
-  FETCH_DUE_TODAY: "FETCH_DUE_TODAY"
+  DELETE_FINISHED_TASK: "DELETE_FINISHED_TASK",
+  // due today actions
+  FETCH_DUE_TODAY: "FETCH_DUE_TODAY",
+  DELETE_DUE_TODAY_TASK: "DELETE_DUE_TODAY_TASK"
 };
 
 export const fetchProjects = () => {
@@ -171,6 +177,16 @@ export const fetchFinishedTasks = () => {
   };
 };
 
+export const deleteFinishedTask = taskIndex => {
+  console.log(taskIndex);
+  return async function(dispatch, getState) {
+    dispatch({
+      type: actionTypes.DELETE_FINISHED_TASK,
+      payload: taskIndex
+    });
+  };
+};
+
 export const fetchDueToday = () => {
   return async function(dispatch, getState) {
     // Retrieve all projects first from the database
@@ -203,7 +219,6 @@ export const fetchDueToday = () => {
         }
       }
     }
-
     // Sort the array items
     console.log(dueToday);
     const sortedDueToday = dueToday.sort(compareValues("name"));
@@ -211,6 +226,15 @@ export const fetchDueToday = () => {
     dispatch({
       type: actionTypes.FETCH_DUE_TODAY,
       payload: sortedDueToday
+    });
+  };
+};
+
+export const deleteDueTodayTask = taskIndex => {
+  return async function(dispatch, getState) {
+    dispatch({
+      type: actionTypes.DELETE_DUE_TODAY_TASK,
+      payload: taskIndex
     });
   };
 };

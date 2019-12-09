@@ -12,7 +12,12 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
 import TaskDetails from "../forms/tasks/TaskDetails";
 import EditTask from "../forms/tasks/EditTask";
-import { toggleTaskCheck, deleteTask } from "../../actions";
+import {
+  toggleTaskCheck,
+  deleteTask,
+  deleteFinishedTask,
+  deleteDueTodayTask
+} from "../../actions";
 import { convertToMDY, toStandardTime } from "../../helpers";
 
 class TaskItem extends React.Component {
@@ -28,6 +33,52 @@ class TaskItem extends React.Component {
 
   hideActionButtons = () => {
     return this.props.hideActionButtons ? { visibility: "hidden" } : {};
+  };
+
+  renderActionButtons = () => {
+    const renderEdit = () => {
+      if (this.props.hideEditButton) {
+        return null;
+      }
+      return (
+        <button
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.onModalOpen("edit");
+          }}
+          className="task edit-button icon-button"
+        >
+          <img className="icon-image" src={PencilImg} alt="Pencil" />
+        </button>
+      );
+    };
+    const renderDelete = () => {
+      if (this.props.hideDeleteButton) {
+        return null;
+      }
+      return (
+        <button
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.onModalOpen("delete");
+          }}
+          className="task delete-button icon-button"
+        >
+          <img className="icon-image" src={TrashImg} alt="Trash Can" />
+        </button>
+      );
+    };
+    return (
+      <span
+        style={this.hideActionButtons()}
+        className="task list-buttons-container"
+      >
+        {renderEdit()}
+        {renderDelete()}
+      </span>
+    );
   };
 
   renderCheckbox = () => {
@@ -114,6 +165,13 @@ class TaskItem extends React.Component {
               className="modal-action-button delete-confirm-button"
               onClick={() => {
                 this.props.deleteTask(this.props.projectId, this.props.taskId);
+                // indexes for both finished and today
+                if (this.props.finishedIndex) {
+                  this.props.deleteFinishedTask(this.props.finishedIndex);
+                }
+                if (this.props.dueTodayIndex) {
+                  this.props.deleteDueTodayTask(this.props.dueTodayIndex);
+                }
                 this.dismissModalHandler();
               }}
             >
@@ -229,31 +287,7 @@ class TaskItem extends React.Component {
               {this.props.task.name} {this.renderInfoBubble()}
             </div>
 
-            <span
-              style={this.hideActionButtons()}
-              className="task list-buttons-container"
-            >
-              <button
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this.onModalOpen("edit");
-                }}
-                className="task edit-button icon-button"
-              >
-                <img className="icon-image" src={PencilImg} alt="Pencil" />
-              </button>
-              <button
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this.onModalOpen("delete");
-                }}
-                className="task delete-button icon-button"
-              >
-                <img className="icon-image" src={TrashImg} alt="Trash Can" />
-              </button>
-            </span>
+            {this.renderActionButtons()}
           </div>
         </div>
         {modalContent}
@@ -265,4 +299,7 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(null, { deleteTask, toggleTaskCheck })(TaskItem);
+export default connect(
+  null,
+  { deleteTask, toggleTaskCheck, deleteFinishedTask, deleteDueTodayTask }
+)(TaskItem);

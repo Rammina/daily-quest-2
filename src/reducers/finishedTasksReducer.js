@@ -5,6 +5,8 @@ export default (state = [], action) => {
   switch (action.type) {
     case actionTypes.FETCH_FINISHED_TASKS:
       return [...action.payload];
+    case actionTypes.DELETE_FINISHED_TASK:
+      return state.filter((e, index) => index !== Number(action.payload));
     default:
       return state;
   }

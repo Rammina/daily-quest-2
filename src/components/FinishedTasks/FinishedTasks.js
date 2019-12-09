@@ -33,8 +33,10 @@ class FinishedTasks extends React.Component {
   };
   renderTasks = () => {
     const tasks = this.props.finishedTasks;
+    console.log("tasks is");
+    console.log(tasks);
     if (tasks) {
-      return tasks.map(task => (
+      return tasks.map((task, index) => (
         <div
           key={task.id}
           tabIndex="0"
@@ -46,9 +48,11 @@ class FinishedTasks extends React.Component {
             hideCheckbox={true}
             task={task}
             taskId={task.id}
+            finishedIndex={index + ""}
             projectId={task.projectId}
             projectName={ellipsifyString(task.projectName, 13)}
-            hideActionButtons={true}
+            // hideActionButtons={true}
+            hideEditButton={true}
           />
         </div>
       ));
@@ -94,7 +98,10 @@ const mapStateToProps = state => {
   return { finishedTasks: state.finishedTasks };
 };
 
-export default connect(mapStateToProps, {
-  fetchFinishedTasks
-  // fetchProject
-})(FinishedTasks);
+export default connect(
+  mapStateToProps,
+  {
+    fetchFinishedTasks
+    // fetchProject
+  }
+)(FinishedTasks);
