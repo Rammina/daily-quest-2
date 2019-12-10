@@ -8,7 +8,7 @@ import _ from "lodash";
 
 import React from "react";
 import { connect } from "react-redux";
-import { editTask } from "../../../actions";
+import { editTask, editDueTodayTask } from "../../../actions";
 import TaskForm from "./TaskForm";
 
 import ModalCloseButton from "../../Modal/common/ModalCloseButton";
@@ -37,6 +37,13 @@ class EditTask extends React.Component {
       this.props.taskId,
       reformattedValues
     );
+    if (this.props.dueTodayIndex) {
+      await this.props.editDueTodayTask(
+        this.props.dueTodayIndex,
+        reformattedValues
+      );
+    }
+
     this.props.onClose();
     // this.props.fetchProject(this.props.match.params.id);
   };
@@ -55,4 +62,7 @@ class EditTask extends React.Component {
   }
 }
 
-export default connect(null, { editTask })(EditTask);
+export default connect(
+  null,
+  { editTask, editDueTodayTask }
+)(EditTask);

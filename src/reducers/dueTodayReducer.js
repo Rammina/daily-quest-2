@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { actionTypes } from "../actions";
+import { replaceAt } from "../helpers";
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -7,6 +8,8 @@ export default (state = [], action) => {
       return [...action.payload];
     case actionTypes.DELETE_DUE_TODAY_TASK:
       return state.filter((e, index) => index !== Number(action.payload));
+    case actionTypes.EDIT_DUE_TODAY_TASK:
+      return replaceAt(state, action.payload.taskIndex, action.payload);
     default:
       return state;
   }

@@ -1,4 +1,5 @@
 import "./Projects.css";
+import TrashImg from "../../images/trash.png";
 
 import _ from "lodash";
 import React from "react";
@@ -40,7 +41,7 @@ class Projects extends React.Component {
 
   renderProjects = () => {
     const projects = this.props.projects;
-    if (projects) {
+    if (Object.keys(projects).length >= 1) {
       const items = [];
       for (let projectKey in projects) {
         if (projects.hasOwnProperty(projectKey)) {
@@ -105,12 +106,22 @@ class Projects extends React.Component {
                 <div className="project content">
                   <div className="header header-text project">My Projects</div>
                 </div>
-                <div>
+                <div style={{ width: "9rem" }}>
                   <button
                     className="create-button"
                     onClick={e => this.onModalOpen(e, "hi")}
                   >
                     +
+                  </button>
+                  <button
+                    onClick={this.onModalOpen}
+                    className="project delete-button icon-button black"
+                  >
+                    <img
+                      className="icon-image black"
+                      src={TrashImg}
+                      alt="Trash Can"
+                    />
                   </button>
                 </div>
               </div>
@@ -127,7 +138,10 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(mapStateToProps, {
-  fetchProjects,
-  createProject
-})(Projects);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProjects,
+    createProject
+  }
+)(Projects);

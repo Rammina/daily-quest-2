@@ -21,7 +21,8 @@ export const actionTypes = {
   DELETE_FINISHED_TASK: "DELETE_FINISHED_TASK",
   // due today actions
   FETCH_DUE_TODAY: "FETCH_DUE_TODAY",
-  DELETE_DUE_TODAY_TASK: "DELETE_DUE_TODAY_TASK"
+  DELETE_DUE_TODAY_TASK: "DELETE_DUE_TODAY_TASK",
+  EDIT_DUE_TODAY_TASK: "EDIT_DUE_TODAY_TASK"
 };
 
 export const fetchProjects = () => {
@@ -235,6 +236,15 @@ export const deleteDueTodayTask = taskIndex => {
     dispatch({
       type: actionTypes.DELETE_DUE_TODAY_TASK,
       payload: taskIndex
+    });
+  };
+};
+
+export const editDueTodayTask = (taskIndex, formValues) => {
+  return async function(dispatch, getState) {
+    dispatch({
+      type: actionTypes.EDIT_DUE_TODAY_TASK,
+      payload: { ...{ ...formValues }, taskIndex }
     });
   };
 };

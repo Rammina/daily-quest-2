@@ -33,8 +33,8 @@ class DueToday extends React.Component {
   };
   renderTasks = () => {
     const tasks = this.props.dueToday;
-    if (tasks) {
-      return tasks.map(task => (
+    if (Object.keys(tasks).length >= 1) {
+      return tasks.map((task, index) => (
         <div
           key={task.id}
           tabIndex="0"
@@ -47,19 +47,20 @@ class DueToday extends React.Component {
             hideCheckbox={true}
             task={task}
             taskId={task.id}
+            dueTodayIndex={index + ""}
             projectId={task.projectId}
             projectName={ellipsifyString(task.projectName, 13)}
-            hideActionButtons={true}
+            // hideActionButtons={true}
           />
         </div>
       ));
-    } else {
-      return (
-        <div style={{ color: "white", textAlign: "center" }}>
-          There are no tasks found.
-        </div>
-      );
     }
+
+    return (
+      <div style={{ color: "white", textAlign: "center" }}>
+        There are no tasks found.
+      </div>
+    );
   };
 
   render() {
@@ -95,7 +96,10 @@ const mapStateToProps = state => {
   return { dueToday: state.dueToday };
 };
 
-export default connect(mapStateToProps, {
-  fetchDueToday
-  // fetchProject
-})(DueToday);
+export default connect(
+  mapStateToProps,
+  {
+    fetchDueToday
+    // fetchProject
+  }
+)(DueToday);

@@ -238,6 +238,7 @@ class TaskItem extends React.Component {
                 onClose={this.dismissModalHandler}
                 projectId={this.props.projectId}
                 taskId={this.props.taskId}
+                dueTodayIndex={this.props.dueTodayIndex}
               />
             );
           }}

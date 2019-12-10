@@ -112,6 +112,14 @@ export const ellipsifyString = (string, length = 10) => {
   return string;
 };
 
+// array functions
+export const replaceAt = (array, index, value) => {
+  const ret = array.slice(0);
+  ret[index] = value;
+  return ret;
+};
+// usage: const newArray = replaceAt(items, index, "J");
+
 // This function didn't work
 // export const dismissModalHandler = (modalsOpened, setStateCallback) => {
 //   modalsOpened = _.mapValues(modalsOpened, () => false);

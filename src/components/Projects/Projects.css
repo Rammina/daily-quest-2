@@ -92,6 +92,22 @@
     brightness(116%) contrast(73%);
 }
 
+.project.icon-button.black {
+  /* Warning this caused the headers size height to increase */
+  /* Please adjust all paddings and margins accordingly */
+  /* Look at the first project item it slightly cut at the top */
+  /* display: none; */
+  position: relative;
+  top: 0.35rem;
+  filter: invert(15%) sepia(3%) saturate(0%) hue-rotate(178deg) brightness(88%)
+    contrast(100%);
+}
+.icon-image.black {
+  width: 2.8rem;
+  height: 2.8rem;
+  padding: 0.1rem;
+}
+
 @media screen and (min-width: 450px) {
   #projects-list {
     width: 50vw;

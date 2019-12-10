@@ -33,9 +33,7 @@ class FinishedTasks extends React.Component {
   };
   renderTasks = () => {
     const tasks = this.props.finishedTasks;
-    console.log("tasks is");
-    console.log(tasks);
-    if (tasks) {
+    if (Object.keys(tasks).length >= 1) {
       return tasks.map((task, index) => (
         <div
           key={task.id}
