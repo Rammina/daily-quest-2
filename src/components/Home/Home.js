@@ -23,8 +23,9 @@ class Home extends React.Component {
                 {" "}
                 Projects
               </Link>{" "}
-              for tasks you have to finish.{" "}
-              <br className="linebreak-hide-mobile" /> The{" "}
+              for tasks you <br className="home-lb-1400-1700" />
+              have to finish. <br className="home-lb-600-900" />{" "}
+              <br className="home-lb-min-1700" /> The{" "}
               <Link
                 data-test="home-due-today-link"
                 to="/due-today"
@@ -33,8 +34,10 @@ class Home extends React.Component {
               >
                 Due Today
               </Link>{" "}
-              section contains urgent tasks.{" "}
-              <br className="linebreak-hide-mobile" /> Do your best!
+              section <br className="home-lb-1400-1700" />
+              contains urgent tasks. <br className="home-lb-max-1200" />{" "}
+              <br className="home-lb-min-1700" />
+              Do your best!
             </p>
           </div>
         </div>
