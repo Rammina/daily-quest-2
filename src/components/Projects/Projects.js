@@ -4,11 +4,12 @@ import TrashImg from "../../images/trash.png";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProjects, createProject } from "../../actions";
+import { fetchProjects, createProject, deleteAllProjects } from "../../actions";
 import { Link } from "react-router-dom";
 
 import ProjectItem from "../ProjectItem/ProjectItem.js";
 import Modal from "../Modal/Modal";
+import DeleteAll from "../forms/commonModals/DeleteAll";
 
 import CreateProject from "../forms/projects/CreateProject";
 
@@ -16,7 +17,8 @@ class Projects extends React.Component {
   state = {
     modalsOpened: {
       any: false,
-      create: false
+      create: false,
+      delete: false
     }
   };
 
@@ -26,17 +28,18 @@ class Projects extends React.Component {
 
   componentDidUpdate() {}
 
-  onModalOpen = (event, hi) => {
-    console.log(hi);
+  // No need to pass a key because all projects will be deleted
+  // If this was a specific project, then it requires the key
+  handleDeleteAll = () => {
+    this.props.deleteAllProjects();
+  };
+
+  onModalOpen = (event, modalType) => {
     event.preventDefault();
     event.stopPropagation();
-    if (event.target.classList.contains("create-button")) {
-      if (!this.state.modalsOpened.create) {
-        this.setState({
-          modalsOpened: { any: true, create: true }
-        });
-      }
-    }
+    this.setState({
+      modalsOpened: { any: true, [modalType]: true }
+    });
   };
 
   renderProjects = () => {
@@ -84,6 +87,26 @@ class Projects extends React.Component {
           }}
         />
       );
+    } else if (this.state.modalsOpened.delete) {
+      return (
+        <Modal
+          sectionId="delete-all-project-content"
+          content={() => (
+            <DeleteAll
+              itemName="projects"
+              dataObject={this.props.projects}
+              onClose={() => {
+                this.dismissModalHandler();
+              }}
+              deleteFunction={async () => {
+                await this.props.deleteAllProjects();
+                this.dismissModalHandler();
+              }}
+            />
+          )}
+          onDismiss={() => this.dismissModalHandler()}
+        />
+      );
     }
     return null;
   };
@@ -109,12 +132,12 @@ class Projects extends React.Component {
                 <div style={{ width: "9rem" }}>
                   <button
                     className="create-button"
-                    onClick={e => this.onModalOpen(e, "hi")}
+                    onClick={e => this.onModalOpen(e, "create")}
                   >
                     +
                   </button>
                   <button
-                    onClick={this.onModalOpen}
+                    onClick={e => this.onModalOpen(e, "delete")}
                     className="project delete-button icon-button black"
                   >
                     <img
@@ -142,6 +165,7 @@ export default connect(
   mapStateToProps,
   {
     fetchProjects,
-    createProject
+    createProject,
+    deleteAllProjects
   }
 )(Projects);

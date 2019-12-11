@@ -11,6 +11,7 @@ export const actionTypes = {
   CREATE_PROJECT: "CREATE_PROJECT",
   EDIT_PROJECT: "EDIT_PROJECT",
   DELETE_PROJECT: "DELETE_PROJECT",
+  DELETE_ALL_PROJECTS: "DELETE_ALL_PROJECTS",
   // TASK ACTIONS
   CREATE_TASK: "CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
@@ -82,6 +83,15 @@ export const deleteProject = id => {
     });
   };
 };
+export const deleteAllProjects = () => {
+  return async function(dispatch, getState) {
+    await firebasedatabase.delete(`/projects.json`);
+    dispatch({
+      type: actionTypes.DELETE_ALL_PROJECTS
+    });
+  };
+};
+// task action creators
 export const createTask = (id, formValues) => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.post(

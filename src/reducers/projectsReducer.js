@@ -13,6 +13,8 @@ export default (state = {}, action) => {
       return { ...state, [action.payload.id]: action.payload };
     case actionTypes.DELETE_PROJECT:
       return _.omit(state, action.payload);
+    case actionTypes.DELETE_ALL_PROJECTS:
+      return {};
     default:
       return state;
   }

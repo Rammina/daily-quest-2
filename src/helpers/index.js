@@ -112,6 +112,10 @@ export const ellipsifyString = (string, length = 10) => {
   return string;
 };
 
+export const capitalizeFirstLetter = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 // array functions
 export const replaceAt = (array, index, value) => {
   const ret = array.slice(0);
