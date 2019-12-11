@@ -18,7 +18,7 @@ class Projects extends React.Component {
     modalsOpened: {
       any: false,
       create: false,
-      delete: false
+      deleteAll: false
     }
   };
 
@@ -87,7 +87,7 @@ class Projects extends React.Component {
           }}
         />
       );
-    } else if (this.state.modalsOpened.delete) {
+    } else if (this.state.modalsOpened.deleteAll) {
       return (
         <Modal
           sectionId="delete-all-project-content"
@@ -137,7 +137,7 @@ class Projects extends React.Component {
                     +
                   </button>
                   <button
-                    onClick={e => this.onModalOpen(e, "delete")}
+                    onClick={e => this.onModalOpen(e, "deleteAll")}
                     className="project delete-button icon-button black"
                   >
                     <img

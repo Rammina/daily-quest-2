@@ -17,6 +17,7 @@ export const actionTypes = {
   EDIT_TASK: "EDIT_TASK",
   TOGGLE_TASK_CHECK: "TOGGLE_TASK_CHECK",
   DELETE_TASK: "DELETE_TASK",
+  DELETE_ALL_TASKS: "DELETE_ALL_TASKS",
   // Finished task actions
   FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS",
   DELETE_FINISHED_TASK: "DELETE_FINISHED_TASK",
@@ -26,6 +27,7 @@ export const actionTypes = {
   EDIT_DUE_TODAY_TASK: "EDIT_DUE_TODAY_TASK"
 };
 
+// project action creators
 export const fetchProjects = () => {
   return async function(dispatch, getState) {
     const response = await firebasedatabase.get("/projects.json");
@@ -149,6 +151,16 @@ export const deleteTask = (projectId, taskId) => {
   };
 };
 
+export const deleteAllTasks = projectId => {
+  return async function(dispatch, getState) {
+    await firebasedatabase.delete(`/projects/${projectId}/tasks.json`);
+    dispatch({
+      type: actionTypes.DELETE_ALL_TASKS
+    });
+  };
+};
+
+// finished tasks action creators
 export const fetchFinishedTasks = () => {
   return async function(dispatch, getState) {
     // Retrieve all projects first from the database
@@ -193,6 +205,16 @@ export const deleteFinishedTask = taskIndex => {
   return async function(dispatch, getState) {
     dispatch({
       type: actionTypes.DELETE_FINISHED_TASK,
+      payload: taskIndex
+    });
+  };
+};
+
+export const deleteAllFinishedTasks = taskIndex => {
+  console.log(taskIndex);
+  return async function(dispatch, getState) {
+    dispatch({
+      type: actionTypes.DELETE_ALL_FINISHED_TASKS,
       payload: taskIndex
     });
   };

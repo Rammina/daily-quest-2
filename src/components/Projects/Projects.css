@@ -92,7 +92,8 @@
     brightness(116%) contrast(73%);
 }
 
-.project.icon-button.black {
+.project.icon-button.black,
+.task.icon-button.black {
   /* Warning this caused the headers size height to increase */
   /* Please adjust all paddings and margins accordingly */
   /* Look at the first project item it slightly cut at the top */

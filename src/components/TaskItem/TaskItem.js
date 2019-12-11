@@ -163,8 +163,11 @@ class TaskItem extends React.Component {
 
             <button
               className="modal-action-button delete-confirm-button"
-              onClick={() => {
-                this.props.deleteTask(this.props.projectId, this.props.taskId);
+              onClick={async () => {
+                await this.props.deleteTask(
+                  this.props.projectId,
+                  this.props.taskId
+                );
                 // indexes for both finished and today
                 if (this.props.finishedIndex) {
                   this.props.deleteFinishedTask(this.props.finishedIndex);

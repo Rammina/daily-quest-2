@@ -28,6 +28,8 @@ export default (state = {}, action) => {
       };
     case actionTypes.DELETE_TASK:
       return { ...state, tasks: _.omit(state.tasks, action.payload) };
+    case actionTypes.DELETE_ALL_TASKS:
+      return {};
     default:
       return state;
   }

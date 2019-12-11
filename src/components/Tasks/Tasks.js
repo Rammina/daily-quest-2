@@ -1,12 +1,14 @@
 import "./Tasks.css";
+import TrashImg from "../../images/trash.png";
 
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProject, createTask } from "../../actions";
+import { fetchProject, createTask, deleteAllTasks } from "../../actions";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
+import DeleteAll from "../forms/commonModals/DeleteAll";
 import Modal from "../Modal/Modal";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
@@ -17,7 +19,8 @@ class Tasks extends React.Component {
   state = {
     modalsOpened: {
       any: false,
-      create: false
+      create: false,
+      deleteAll: false
     },
     selectedTask: null
   };
@@ -92,6 +95,26 @@ class Tasks extends React.Component {
           }}
         />
       );
+    } else if (this.state.modalsOpened.deleteAll) {
+      return (
+        <Modal
+          sectionId="delete-all-task-content"
+          content={() => (
+            <DeleteAll
+              itemName="tasks"
+              dataObject={this.props.project}
+              onClose={() => {
+                this.dismissModalHandler();
+              }}
+              deleteFunction={async () => {
+                await this.props.deleteAllTasks(this.props.project.id);
+                this.dismissModalHandler();
+              }}
+            />
+          )}
+          onDismiss={() => this.dismissModalHandler()}
+        />
+      );
     }
     return null;
   };
@@ -117,7 +140,7 @@ class Tasks extends React.Component {
                     {this.props.project.name}
                   </div>
                 </div>
-                <div>
+                <div style={{ width: "9rem" }}>
                   <button
                     className="create-button"
                     onClick={() => {
@@ -125,6 +148,16 @@ class Tasks extends React.Component {
                     }}
                   >
                     +
+                  </button>
+                  <button
+                    onClick={e => this.onModalOpen(e, "deleteAll")}
+                    className="task delete-button icon-button black"
+                  >
+                    <img
+                      className="icon-image black"
+                      src={TrashImg}
+                      alt="Trash Can"
+                    />
                   </button>
                 </div>
               </div>
@@ -145,7 +178,11 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 
-export default connect(mapStateToProps, {
-  fetchProject
-  // createProject
-})(Tasks);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProject,
+    deleteAllTasks
+    // createProject
+  }
+)(Tasks);
