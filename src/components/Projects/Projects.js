@@ -129,7 +129,11 @@ class Projects extends React.Component {
                 <div className="project content">
                   <div className="header header-text project">My Projects</div>
                 </div>
-                <div style={{ width: "9rem" }}>
+                <div
+                  style={{
+                    width: "9rem"
+                  }} /*className="action-button-container"*/
+                >
                   <button
                     className="create-button"
                     onClick={e => this.onModalOpen(e, "create")}
@@ -161,11 +165,8 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(
-  mapStateToProps,
-  {
-    fetchProjects,
-    createProject,
-    deleteAllProjects
-  }
-)(Projects);
+export default connect(mapStateToProps, {
+  fetchProjects,
+  createProject,
+  deleteAllProjects
+})(Projects);

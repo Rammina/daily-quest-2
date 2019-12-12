@@ -10,6 +10,8 @@ export default (state = [], action) => {
       return state.filter((e, index) => index !== Number(action.payload));
     case actionTypes.EDIT_DUE_TODAY_TASK:
       return replaceAt(state, action.payload.taskIndex, action.payload);
+    case actionTypes.DELETE_ALL_DUE_TODAY_TASKS:
+      return [];
     default:
       return state;
   }

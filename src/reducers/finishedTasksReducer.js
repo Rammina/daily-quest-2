@@ -7,6 +7,8 @@ export default (state = [], action) => {
       return [...action.payload];
     case actionTypes.DELETE_FINISHED_TASK:
       return state.filter((e, index) => index !== Number(action.payload));
+    case actionTypes.DELETE_ALL_FINISHED_TASKS:
+      return [];
     default:
       return state;
   }

@@ -21,10 +21,12 @@ export const actionTypes = {
   // Finished task actions
   FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS",
   DELETE_FINISHED_TASK: "DELETE_FINISHED_TASK",
+  DELETE_ALL_FINISHED_TASKS: "DELETE_ALL_FINISHED_TASKS",
   // due today actions
   FETCH_DUE_TODAY: "FETCH_DUE_TODAY",
   DELETE_DUE_TODAY_TASK: "DELETE_DUE_TODAY_TASK",
-  EDIT_DUE_TODAY_TASK: "EDIT_DUE_TODAY_TASK"
+  EDIT_DUE_TODAY_TASK: "EDIT_DUE_TODAY_TASK",
+  DELETE_ALL_DUE_TODAY_TASKS: "DELETE_ALL_DUE_TODAY_TASKS"
 };
 
 // project action creators
@@ -210,12 +212,10 @@ export const deleteFinishedTask = taskIndex => {
   };
 };
 
-export const deleteAllFinishedTasks = taskIndex => {
-  console.log(taskIndex);
+export const deleteAllFinishedTasks = () => {
   return async function(dispatch, getState) {
     dispatch({
-      type: actionTypes.DELETE_ALL_FINISHED_TASKS,
-      payload: taskIndex
+      type: actionTypes.DELETE_ALL_FINISHED_TASKS
     });
   };
 };
@@ -277,6 +277,14 @@ export const editDueTodayTask = (taskIndex, formValues) => {
     dispatch({
       type: actionTypes.EDIT_DUE_TODAY_TASK,
       payload: { ...{ ...formValues }, taskIndex }
+    });
+  };
+};
+
+export const deleteAllDueTodayTasks = () => {
+  return async function(dispatch, getState) {
+    dispatch({
+      type: actionTypes.DELETE_ALL_DUE_TODAY_TASKS
     });
   };
 };

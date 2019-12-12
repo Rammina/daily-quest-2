@@ -8,7 +8,12 @@ import { Link } from "react-router-dom";
 import TaskItem from "../TaskItem/TaskItem.js";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import Modal from "../Modal/Modal";
-import { fetchFinishedTasks } from "../../actions";
+import {
+  fetchFinishedTasks,
+  deleteTask,
+  deleteFinishedTask,
+  deleteAllFinishedTasks
+} from "../../actions";
 import { ellipsifyString } from "../../helpers/index.js";
 
 class FinishedTasks extends React.Component {
@@ -29,11 +34,10 @@ class FinishedTasks extends React.Component {
   componentDidUpdate() {}
 
   onModalOpen = modalType => {
-    if (!this.state.modalsOpened.any) {
-      this.setState({
-        modalsOpened: { any: true, [modalType]: true }
-      });
-    }
+    console.log("setting state");
+    this.setState({
+      modalsOpened: { any: true, [modalType]: true }
+    });
   };
   renderTasks = () => {
     const tasks = this.props.finishedTasks;
@@ -74,7 +78,7 @@ class FinishedTasks extends React.Component {
           sectionId="delete-all-finished-tasks-content"
           content={() => (
             <DeleteAll
-              itemName="finished tasks"
+              itemName="Finished Tasks"
               dataObject={this.props.finishedTasks}
               onClose={() => {
                 this.dismissModalHandler();
@@ -84,10 +88,11 @@ class FinishedTasks extends React.Component {
                 const deleteAllFinishedTasks = async () => {
                   for (let task of tasks) {
                     await this.props.deleteTask(task.projectId, task.id);
-                    this.props.deleteFinishedTask(task.id);
+                    // this.props.deleteFinishedTask(task.id);
                   }
                 };
                 await deleteAllFinishedTasks();
+                await this.props.deleteAllFinishedTasks();
                 this.dismissModalHandler();
               }}
             />
@@ -118,7 +123,10 @@ class FinishedTasks extends React.Component {
                 </div>
                 <div style={{ width: "6rem" }}>
                   <button
-                    onClick={e => this.onModalOpen(e, "deleteAll")}
+                    onClick={e => {
+                      this.onModalOpen("deleteAll");
+                      console.log("Modal is open");
+                    }}
                     className="task delete-button icon-button black"
                   >
                     <img
@@ -143,10 +151,9 @@ const mapStateToProps = state => {
   return { finishedTasks: state.finishedTasks };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchFinishedTasks
-    // fetchProject
-  }
-)(FinishedTasks);
+export default connect(mapStateToProps, {
+  fetchFinishedTasks,
+  deleteTask,
+  deleteFinishedTask,
+  deleteAllFinishedTasks
+})(FinishedTasks);

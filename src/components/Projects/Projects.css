@@ -48,6 +48,7 @@
 
 .item.project.list-header.first {
   z-index: 10;
+  min-height: 4.5rem;
   background-color: rgb(197, 233, 194);
   border: none !important;
   border-top: 1rem solid #444 !important;
@@ -65,6 +66,11 @@
 
 .project.list-header:last-of-type {
   border-radius: 0 0 4px 4px;
+}
+
+.action-button-container {
+  position: fixed;
+  width: 9rem;
 }
 
 .header-text.header.project {
@@ -137,6 +143,7 @@
   }
   .item.project.list-header.first {
     width: 40vw;
+    min-height: 8.5rem;
     border-top: 5rem solid #444 !important;
     top: 2.3rem;
   }
