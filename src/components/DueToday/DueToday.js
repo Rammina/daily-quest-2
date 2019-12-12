@@ -48,9 +48,8 @@ class DueToday extends React.Component {
         >
           <TaskItem
             hideDate={true}
-            // hideTime={true}
             // Find a way to make checkbox toggle work
-            hideCheckbox={true}
+            // hideCheckbox={true}
             task={task}
             taskId={task.id}
             dueTodayIndex={index + ""}
@@ -149,8 +148,11 @@ const mapStateToProps = state => {
   return { dueToday: state.dueToday };
 };
 
-export default connect(mapStateToProps, {
-  fetchDueToday,
-  deleteTask,
-  deleteAllDueTodayTasks
-})(DueToday);
+export default connect(
+  mapStateToProps,
+  {
+    fetchDueToday,
+    deleteTask,
+    deleteAllDueTodayTasks
+  }
+)(DueToday);

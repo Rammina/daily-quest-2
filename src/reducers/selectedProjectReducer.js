@@ -16,6 +16,9 @@ export default (state = {}, action) => {
         tasks: { ...state.tasks, [action.payload.id]: action.payload }
       };
     case actionTypes.TOGGLE_TASK_CHECK:
+      // preventing errors in due today
+      if (!state.tasks) return state;
+
       return {
         ...state,
         tasks: {

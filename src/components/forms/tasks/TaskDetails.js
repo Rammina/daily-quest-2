@@ -10,6 +10,8 @@ import TaskForm from "./TaskForm";
 
 class TaskDetails extends React.Component {
   renderActionButtons = () => {
+    // Instead of both, should be able to pick buttons One by one
+    // Use different conditions for each button rendering
     if (!this.props.hideActionButtons) {
       return (
         <div

@@ -26,6 +26,7 @@ export const actionTypes = {
   FETCH_DUE_TODAY: "FETCH_DUE_TODAY",
   DELETE_DUE_TODAY_TASK: "DELETE_DUE_TODAY_TASK",
   EDIT_DUE_TODAY_TASK: "EDIT_DUE_TODAY_TASK",
+  TOGGLE_DUE_TODAY_TASK_CHECK: "TOGGLE_DUE_TODAY_TASK_CHECK",
   DELETE_ALL_DUE_TODAY_TASKS: "DELETE_ALL_DUE_TODAY_TASKS"
 };
 
@@ -274,9 +275,25 @@ export const deleteDueTodayTask = taskIndex => {
 
 export const editDueTodayTask = (taskIndex, formValues) => {
   return async function(dispatch, getState) {
+    if (!isToday(formValues.date)) {
+      dispatch({
+        type: actionTypes.DELETE_DUE_TODAY_TASK,
+        payload: taskIndex
+      });
+    } else {
+      dispatch({
+        type: actionTypes.EDIT_DUE_TODAY_TASK,
+        payload: { ...{ ...formValues }, taskIndex }
+      });
+    }
+  };
+};
+
+export const toggleDueTodayTaskCheck = (taskIndex, checkValue) => {
+  return async function(dispatch, getState) {
     dispatch({
-      type: actionTypes.EDIT_DUE_TODAY_TASK,
-      payload: { ...{ ...formValues }, taskIndex }
+      type: actionTypes.TOGGLE_DUE_TODAY_TASK_CHECK,
+      payload: { checkValue, taskIndex }
     });
   };
 };

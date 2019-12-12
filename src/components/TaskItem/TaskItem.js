@@ -16,7 +16,8 @@ import {
   toggleTaskCheck,
   deleteTask,
   deleteFinishedTask,
-  deleteDueTodayTask
+  deleteDueTodayTask,
+  toggleDueTodayTaskCheck
 } from "../../actions";
 import { convertToMDY, toStandardTime } from "../../helpers";
 
@@ -93,11 +94,18 @@ class TaskItem extends React.Component {
         onClick={e => {
           e.stopPropagation();
           const target = e.target;
+          console.log(this.props.taskId);
           this.props.toggleTaskCheck(
             this.props.projectId,
             this.props.taskId,
             target.checked
           );
+          if (this.props.dueTodayIndex) {
+            this.props.toggleDueTodayTaskCheck(
+              this.props.dueTodayIndex,
+              target.checked
+            );
+          }
         }}
       ></input>
     );
@@ -305,5 +313,11 @@ const mapStateToProps = state => {
 };
 export default connect(
   null,
-  { deleteTask, toggleTaskCheck, deleteFinishedTask, deleteDueTodayTask }
+  {
+    deleteTask,
+    toggleTaskCheck,
+    deleteFinishedTask,
+    deleteDueTodayTask,
+    toggleDueTodayTaskCheck
+  }
 )(TaskItem);
