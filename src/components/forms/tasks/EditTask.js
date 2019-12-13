@@ -26,7 +26,10 @@ class EditTask extends React.Component {
 
   onSubmit = async formValues => {
     const processedValues = this.processEmptyOptionals(formValues);
-    const date = format(new Date(processedValues.date), "yyyy-MM-dd");
+    const date = format(
+      new Date(processedValues.date.replace(/-/g, "/")),
+      "yyyy-MM-dd"
+    );
     const time = format(
       new Date(`${getCurrentDate()}T${processedValues.time}`),
       "HH:mm"
@@ -62,7 +65,4 @@ class EditTask extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  { editTask, editDueTodayTask }
-)(EditTask);
+export default connect(null, { editTask, editDueTodayTask })(EditTask);

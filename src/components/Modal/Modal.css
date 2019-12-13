@@ -354,6 +354,16 @@ div.text-field.disabled {
   background-color: #ddd;
 }
 
+.modal-action-button.delete-confirm-button.no-edit {
+  max-width: 11rem;
+}
+
+.trash.modal-button-image.no-edit {
+  position: relative;
+  right: 0.05rem;
+  top: 0.2rem;
+}
+
 #project-form-submit,
 #task-form-submit {
   max-width: 6.7rem;

@@ -230,6 +230,7 @@ class TaskItem extends React.Component {
                 projectId={this.props.projectId}
                 taskId={this.props.taskId}
                 switchModal={this.switchModalHandler}
+                hideActionEdit={this.props.hideEditButton}
               />
             );
           }}
@@ -311,13 +312,10 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(
-  null,
-  {
-    deleteTask,
-    toggleTaskCheck,
-    deleteFinishedTask,
-    deleteDueTodayTask,
-    toggleDueTodayTaskCheck
-  }
-)(TaskItem);
+export default connect(null, {
+  deleteTask,
+  toggleTaskCheck,
+  deleteFinishedTask,
+  deleteDueTodayTask,
+  toggleDueTodayTaskCheck
+})(TaskItem);
