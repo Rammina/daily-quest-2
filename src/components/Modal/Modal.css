@@ -14,7 +14,7 @@
   height: 100vh;
   padding: 0.5rem;
   padding-top: 1rem;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(20, 25, 30, 0.7);
   bottom: 0;
   right: 0;
   transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;

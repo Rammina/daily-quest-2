@@ -42,10 +42,12 @@ class Header extends React.Component {
   };
 
   hideSidebar = () => {
-    this.setState({
-      hamburgerClicked: false,
-      sidebarClassFromClick: "invisible"
-    });
+    setTimeout(() => {
+      this.setState({
+        hamburgerClicked: false,
+        sidebarClassFromClick: "invisible"
+      });
+    }, 200);
   };
 
   onHamburgerClick = () => {

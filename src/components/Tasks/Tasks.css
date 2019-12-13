@@ -2,7 +2,7 @@
   padding-top: 4.5rem;
   padding-bottom: 5.5rem;
   min-height: 100vh;
-  background-color: #444;
+  background-color: #343947;
 }
 
 #tasks-list {
@@ -40,7 +40,7 @@
   z-index: 10;
   background-color: rgb(197, 233, 194);
   border: none !important;
-  border-top: 1rem solid #444 !important;
+  border-top: 1rem solid #343947 !important;
   top: 3.5rem;
   width: calc(100vw - (100vw - 100%));
   margin-left: 0px;
@@ -133,7 +133,7 @@
   }
   .item.task.list-header.first {
     width: 60vw;
-    border-top: 5rem solid #444 !important;
+    border-top: 5rem solid #343947 !important;
     top: 2.3rem;
   }
 }

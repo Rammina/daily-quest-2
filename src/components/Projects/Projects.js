@@ -8,6 +8,7 @@ import { fetchProjects, createProject, deleteAllProjects } from "../../actions";
 import { Link } from "react-router-dom";
 
 import ProjectItem from "../ProjectItem/ProjectItem.js";
+import Settings from "../Settings/Settings";
 import Modal from "../Modal/Modal";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 
@@ -140,16 +141,19 @@ class Projects extends React.Component {
                   >
                     +
                   </button>
-                  <button
-                    onClick={e => this.onModalOpen(e, "deleteAll")}
-                    className="project delete-button icon-button black"
-                  >
-                    <img
-                      className="icon-image black"
-                      src={TrashImg}
-                      alt="Trash Can"
-                    />
-                  </button>
+                  <Settings />
+                  {
+                    // <button
+                    //   onClick={e => this.onModalOpen(e, "deleteAll")}
+                    //   className="project delete-button icon-button black"
+                    // >
+                    //   <img
+                    //     className="icon-image black"
+                    //     src={TrashImg}
+                    //     alt="Trash Can"
+                    //   />
+                    // </button>
+                  }
                 </div>
               </div>
               {this.renderProjects()}
@@ -165,8 +169,11 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(mapStateToProps, {
-  fetchProjects,
-  createProject,
-  deleteAllProjects
-})(Projects);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProjects,
+    createProject,
+    deleteAllProjects
+  }
+)(Projects);

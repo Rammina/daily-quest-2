@@ -36,6 +36,8 @@
   right: 0;
   left: 0;
   top: 0;
+  /* opacity: 1; */
+  /* transition: opacity 0.19s ease-in; */
   display: none;
   width: 100vw;
   height: 100vh;
@@ -48,6 +50,7 @@
 
 #nav-menu-backdrop.invisible {
   display: none;
+  /* opacity: 0; */
 }
 
 .nav-item {

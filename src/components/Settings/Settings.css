@@ -1,0 +1,47 @@
+.settings.icon-button {
+  position: absolute;
+  right: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.25rem;
+}
+.icon-image.black {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.backdrop.settings.close {
+  opacity: 0;
+}
+
+.settings.modal-container {
+  position: relative;
+  display: block;
+  width: (100% - 1rem);
+  max-width: 25rem;
+  margin: calc(35vh - 6.5rem) auto;
+  padding: 2rem 0.5rem;
+  background-color: #333;
+  webkit-box-shadow: 0 0 0 1.5px #beffff;
+  box-shadow: 0 0 0 1.5px #beffff;
+  border-radius: 3px;
+  /*overflow: hidden;*/
+  overflow-y: auto;
+  max-height: calc(75vh);
+  color: aliceblue;
+  font-family: "Raleway", sans-serif;
+}
+
+@media screen and (min-width: 900px) {
+  .backdrop.settings {
+    background-color: #0000;
+  }
+  #settings-submenu {
+    position: fixed;
+    margin: 0;
+    left: 70.5vw;
+    top: 9rem;
+    padding: 1rem 0.5rem;
+    width: 15rem;
+  }
+}

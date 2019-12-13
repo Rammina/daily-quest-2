@@ -2,7 +2,7 @@
   padding-top: 4.5rem;
   padding-bottom: 5.5rem;
   min-height: 100vh;
-  background-color: #444;
+  background-color: #343947;
 }
 
 #projects-list {
@@ -51,7 +51,7 @@
   min-height: 4.5rem;
   background-color: rgb(197, 233, 194);
   border: none !important;
-  border-top: 1rem solid #444 !important;
+  border-top: 1rem solid #343947 !important;
   top: 3.5rem;
   width: calc(100vw - (100vw - 100%));
   margin-left: 0px;
@@ -144,7 +144,7 @@
   .item.project.list-header.first {
     width: 40vw;
     min-height: 8.5rem;
-    border-top: 5rem solid #444 !important;
+    border-top: 5rem solid #343947 !important;
     top: 2.3rem;
   }
 }
