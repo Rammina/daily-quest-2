@@ -36,21 +36,23 @@
   right: 0;
   left: 0;
   top: 0;
-  /* opacity: 1; */
-  /* transition: opacity 0.19s ease-in; */
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.19s ease-in, visibility 0.19s ease-in;
+  display: block;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 #nav-menu-backdrop.visible {
-  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 #nav-menu-backdrop.invisible {
-  display: none;
-  /* opacity: 0; */
+  opacity: 0;
+  visibility: hidden;
 }
 
 .nav-item {

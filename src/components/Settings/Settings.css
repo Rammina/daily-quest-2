@@ -18,18 +18,47 @@
   position: relative;
   display: block;
   width: (100% - 1rem);
-  max-width: 25rem;
+  max-width: 18rem;
   margin: calc(35vh - 6.5rem) auto;
-  padding: 2rem 0.5rem;
+  padding: 0.8rem 0;
   background-color: #333;
-  webkit-box-shadow: 0 0 0 1.5px #beffff;
-  box-shadow: 0 0 0 1.5px #beffff;
+  webkit-box-shadow: 0 0 0 1px #beffff;
+  box-shadow: 0 0 0 1px #beffff;
   border-radius: 3px;
   /*overflow: hidden;*/
   overflow-y: auto;
   max-height: calc(75vh);
   color: aliceblue;
+  font-size: 1.15rem;
   font-family: "Raleway", sans-serif;
+}
+.settings-submenu-items {
+  /* padding: 0 0.3rem; */
+}
+
+.settings-submenu-item {
+  border-bottom: solid #eef4 1px !important;
+}
+.settings-submenu-item:last-of-type {
+  border-bottom: none !important;
+}
+.settings-submenu-button {
+  height: 3rem !important;
+  width: 100% !important;
+  background-color: #0000 !important;
+  border-bottom: solid #eef4 1px !important;
+  color: aliceblue !important;
+  text-align: left;
+  padding: 0.2rem 1rem;
+  font-family: "Raleway", sans-serif !important;
+}
+.settings-submenu-button:last-of-type {
+  border-bottom: none !important;
+}
+
+.settings-submenu-item:hover {
+  color: white !important;
+  background-color: #ddf3 !important;
 }
 
 @media screen and (min-width: 900px) {
@@ -41,7 +70,9 @@
     margin: 0;
     left: 70.5vw;
     top: 9rem;
-    padding: 1rem 0.5rem;
+    padding: 0.6rem 0rem;
     width: 15rem;
+  }
+  .settings-submenu-item {
   }
 }

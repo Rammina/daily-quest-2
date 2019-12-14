@@ -126,7 +126,7 @@ class ProjectItem extends React.Component {
 
   render() {
     const modalContent = this.renderModal();
-
+    const { project } = this.props;
     return (
       <React.Fragment>
         <div
@@ -135,7 +135,10 @@ class ProjectItem extends React.Component {
         >
           <div className="item-flex project">
             <div className="description-text project">
-              {this.props.project.name}
+              {project.name}
+              <span className="project-count-span">
+                {project.tasks ? Object.keys(project.tasks).length : 0}
+              </span>
             </div>
             <span className="project list-buttons-container">
               <button

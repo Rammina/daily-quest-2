@@ -92,7 +92,15 @@
   /* color: #deffff; */
   color: #fff;
 }
-
+.project-count-span {
+  display: none;
+  background-color: #befff431;
+  margin: 0;
+  margin-left: 1rem;
+  border: 1px solid rgba(225, 255, 230, 0.301);
+  /* border-radius: 45%; */
+  border-radius: 25%;
+}
 .project.icon-button {
   filter: invert(84%) sepia(97%) saturate(13%) hue-rotate(332deg)
     brightness(116%) contrast(73%);
@@ -146,5 +154,16 @@
     min-height: 8.5rem;
     border-top: 5rem solid #343947 !important;
     top: 2.3rem;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .description-text.task {
+    line-height: 1.75rem;
+  }
+  .project-count-span {
+    display: inline-block;
+    padding: 0.3rem 0.3rem;
+    padding-top: 0.2rem;
   }
 }

@@ -37,10 +37,47 @@ class Settings extends React.Component {
             aria-hidden="true"
           >
             {this.props.content || null}
-            <ul>
-              <li>Delete All {this.props.dataType || null}</li>
-              <li>Sort ascending</li>
-              <li>Sort descending</li>
+            <ul className="settings-submenu-items">
+              <li className="settings-submenu-item">
+                <button
+                  onClick={() => {
+                    if (typeof this.props.deleteFunction === "function") {
+                      this.props.deleteFunction();
+                    }
+                  }}
+                  className="settings-submenu-button"
+                >
+                  Delete all {this.props.dataType || null}
+                </button>
+              </li>
+              <li className="settings-submenu-item">
+                <button
+                  onClick={() => {
+                    if (
+                      typeof this.props.sortAscendingFunction === "function"
+                    ) {
+                      this.props.sortAscendingFunction();
+                    }
+                  }}
+                  className="settings-submenu-button"
+                >
+                  Sort ascending (name)
+                </button>
+              </li>
+              <li className="settings-submenu-item">
+                <button
+                  onClick={() => {
+                    if (
+                      typeof this.props.sortDescendingFunction === "function"
+                    ) {
+                      this.props.sortDescendingFunction();
+                    }
+                  }}
+                  className="settings-submenu-button"
+                >
+                  Sort descending (name)
+                </button>
+              </li>
             </ul>
           </section>
         </div>,

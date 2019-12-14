@@ -141,7 +141,7 @@ class Projects extends React.Component {
                   >
                     +
                   </button>
-                  <Settings />
+                  <Settings dataType="projects" />
                   {
                     // <button
                     //   onClick={e => this.onModalOpen(e, "deleteAll")}
