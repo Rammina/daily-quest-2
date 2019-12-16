@@ -22,7 +22,8 @@ class Tasks extends React.Component {
       create: false,
       deleteAll: false
     },
-    selectedTask: null
+    selectedTask: null,
+    backdropClass: null
   };
 
   componentDidMount() {
@@ -79,6 +80,7 @@ class Tasks extends React.Component {
     if (this.state.modalsOpened.create) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="create-task-content"
           content={() => {
             // this.props.match.url should be given to create project so it does not lose track
@@ -98,6 +100,7 @@ class Tasks extends React.Component {
     } else if (this.state.modalsOpened.deleteAll) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="delete-all-task-content"
           content={() => (
             <DeleteAll
@@ -120,10 +123,14 @@ class Tasks extends React.Component {
   };
 
   dismissModalHandler = () => {
+    this.setState({ backdropClass: "closed" });
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+    setTimeout(() => {
+      this.setState({
+        modalsOpened,
+        backdropClass: null
+      });
+    }, 201);
   };
 
   render() {

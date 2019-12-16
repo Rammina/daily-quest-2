@@ -22,7 +22,8 @@ class DueToday extends React.Component {
       details: false,
       deleteAll: false
     },
-    selectedTask: null
+    selectedTask: null,
+    backdropClass: null
   };
 
   componentDidMount() {
@@ -72,6 +73,7 @@ class DueToday extends React.Component {
     if (this.state.modalsOpened.deleteAll) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="delete-all-due-today-content"
           content={() => (
             <DeleteAll
@@ -102,10 +104,14 @@ class DueToday extends React.Component {
   };
 
   dismissModalHandler = () => {
+    this.setState({ backdropClass: "closed" });
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+    setTimeout(() => {
+      this.setState({
+        modalsOpened,
+        backdropClass: null
+      });
+    }, 201);
   };
 
   render() {

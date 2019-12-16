@@ -4,7 +4,13 @@ import TrashImg from "../../images/trash.png";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProjects, createProject, deleteAllProjects } from "../../actions";
+import {
+  fetchProjects,
+  createProject,
+  deleteAllProjects,
+  sortProjectsByName
+} from "../../actions";
+import { objectToArray } from "../../helpers";
 import { Link } from "react-router-dom";
 
 import ProjectItem from "../ProjectItem/ProjectItem.js";
@@ -20,7 +26,8 @@ class Projects extends React.Component {
       any: false,
       create: false,
       deleteAll: false
-    }
+    },
+    backdropClass: null
   };
 
   componentDidMount() {
@@ -47,6 +54,15 @@ class Projects extends React.Component {
     const projects = this.props.projects;
     if (Object.keys(projects).length >= 1) {
       const items = [];
+      return projects.map(project => (
+        <Link
+          to={`/projects/${project.id}`}
+          key={project.id}
+          className="project item list-header"
+        >
+          <ProjectItem project={project} id={project.id} />
+        </Link>
+      ));
       for (let projectKey in projects) {
         if (projects.hasOwnProperty(projectKey)) {
           items.push(
@@ -75,6 +91,7 @@ class Projects extends React.Component {
       return (
         <Modal
           sectionId="create-project-content"
+          backdropClass={this.state.backdropClass}
           content={() => (
             <CreateProject
               onClose={() => {
@@ -92,6 +109,7 @@ class Projects extends React.Component {
       return (
         <Modal
           sectionId="delete-all-project-content"
+          backdropClass={this.state.backdropClass}
           content={() => (
             <DeleteAll
               itemName="projects"
@@ -113,10 +131,14 @@ class Projects extends React.Component {
   };
 
   dismissModalHandler = () => {
+    this.setState({ backdropClass: "closed" });
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+    setTimeout(() => {
+      this.setState({
+        modalsOpened,
+        backdropClass: null
+      });
+    }, 201);
   };
 
   render() {
@@ -141,10 +163,22 @@ class Projects extends React.Component {
                   >
                     +
                   </button>
-                  <Settings dataType="projects" />
+                  <Settings
+                    dataType="projects"
+                    deleteFunction={e => this.onModalOpen(e, "deleteAll")}
+                    sortAscendingFunction={() =>
+                      this.props.sortProjectsByName(this.props.projects)
+                    }
+                    sortDescendingFunction={() =>
+                      this.props.sortProjectsByName(
+                        this.props.projects,
+                        "descending"
+                      )
+                    }
+                  />
                   {
                     // <button
-                    //   onClick={e => this.onModalOpen(e, "deleteAll")}
+                    // onClick={e => this.onModalOpen(e, "deleteAll")}
                     //   className="project delete-button icon-button black"
                     // >
                     //   <img
@@ -174,6 +208,7 @@ export default connect(
   {
     fetchProjects,
     createProject,
-    deleteAllProjects
+    deleteAllProjects,
+    sortProjectsByName
   }
 )(Projects);

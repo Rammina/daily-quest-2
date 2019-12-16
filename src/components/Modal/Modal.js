@@ -21,7 +21,7 @@ class Modal extends React.Component {
       <div
         ref={this.modalBackdrop}
         onClick={e => this.onBackdropClick(e)}
-        className="backdrop"
+        className={`backdrop ${this.props.backdropClass || null}`}
       >
         <section
           onClick={event => {

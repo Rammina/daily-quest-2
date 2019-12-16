@@ -124,6 +124,23 @@ export const replaceAt = (array, index, value) => {
 };
 // usage: const newArray = replaceAt(items, index, "J");
 
+export const objectToArray = (
+  object,
+  keyAsProp /*string(optional)
+            ---name of a property in which the original object key will be stored */
+) => {
+  let array = [];
+  for (let objectKey in object) {
+    if (object.hasOwnProperty(objectKey)) {
+      if (keyAsProp) {
+        object[objectKey][keyAsProp] = objectKey;
+      }
+      array.push(object[objectKey]);
+    }
+  }
+  return array;
+};
+
 // This function didn't work
 // export const dismissModalHandler = (modalsOpened, setStateCallback) => {
 //   modalsOpened = _.mapValues(modalsOpened, () => false);

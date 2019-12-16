@@ -8,6 +8,7 @@
 		"date-fns": "^2.7.0",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.15.0",
+		"firebase": "^7.6.0",
 		"jest": "^24.9.0",
 		"jest-css-modules": "^2.1.0",
 		"jest-enzyme": "^7.1.1",
@@ -18,7 +19,7 @@
 		"react-dom": "^16.10.2",
 		"react-redux": "^7.1.1",
 		"react-router-dom": "^5.1.2",
-		"react-scripts": "3.2.0",
+		"react-scripts": "^3.3.0",
 		"redux": "^4.0.4",
 		"redux-form": "^8.2.6",
 		"redux-thunk": "^2.3.0"

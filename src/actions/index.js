@@ -1,5 +1,5 @@
-import firebasedatabase from "../apis/firebasedatabase";
-import { compareValues } from "../helpers";
+import firebaseDbRest from "../apis/firebaseDbRest";
+import { compareValues, objectToArray } from "../helpers";
 import isToday from "date-fns/isToday";
 // import history from "../history";
 
@@ -12,6 +12,8 @@ export const actionTypes = {
   EDIT_PROJECT: "EDIT_PROJECT",
   DELETE_PROJECT: "DELETE_PROJECT",
   DELETE_ALL_PROJECTS: "DELETE_ALL_PROJECTS",
+  //   sorting functions for projects
+  SORT_PROJECTS_BY_NAME: "SORT_PROJECTS_BY_NAME",
   // TASK ACTIONS
   CREATE_TASK: "CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
@@ -33,17 +35,19 @@ export const actionTypes = {
 // project action creators
 export const fetchProjects = () => {
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.get("/projects.json");
+    const response = await firebaseDbRest.get("/projects.json");
+    console.log(response.data);
+
     dispatch({
       type: actionTypes.FETCH_PROJECTS,
-      payload: response.data
+      payload: objectToArray(response.data, "id")
     });
   };
 };
 
 export const fetchProject = id => {
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.get(`/projects/${id}.json`);
+    const response = await firebaseDbRest.get(`/projects/${id}.json`);
     const valuesWithId = { ...response.data, id };
     dispatch({
       type: actionTypes.FETCH_PROJECT,
@@ -55,9 +59,9 @@ export const fetchProject = id => {
 export const createProject = formValues => {
   console.log(formValues);
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.post("/projects.json", formValues);
+    const response = await firebaseDbRest.post("/projects.json", formValues);
     console.log(response.data);
-    const valuesWithId = { ...formValues, id: response.data.name };
+    const valuesWithId = [{ ...formValues, id: response.data.name }];
     dispatch({
       type: actionTypes.CREATE_PROJECT,
       payload: valuesWithId
@@ -67,7 +71,7 @@ export const createProject = formValues => {
 
 export const editProject = (id, formValues) => {
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.patch(
+    const response = await firebaseDbRest.patch(
       `/projects/${id}.json`,
       formValues
     );
@@ -81,7 +85,7 @@ export const editProject = (id, formValues) => {
 export const deleteProject = id => {
   return async function(dispatch, getState) {
     console.log(`deleting ${id}`);
-    await firebasedatabase.delete(`/projects/${id}.json`);
+    await firebaseDbRest.delete(`/projects/${id}.json`);
     dispatch({
       type: actionTypes.DELETE_PROJECT,
       payload: id
@@ -90,16 +94,36 @@ export const deleteProject = id => {
 };
 export const deleteAllProjects = () => {
   return async function(dispatch, getState) {
-    await firebasedatabase.delete(`/projects.json`);
+    await firebaseDbRest.delete(`/projects.json`);
     dispatch({
       type: actionTypes.DELETE_ALL_PROJECTS
     });
   };
 };
+// SORT PROJECT FUNCTIONS
+
+export const sortProjectsByName = (projects, order = "ascending") => {
+  // projects - array/object containing Projects
+  // order - string - which can have the value of either "ascending" or "descending"
+  return async function(dispatch) {
+    if (!Array.isArray(projects) && typeof projects === "object") {
+      projects = objectToArray(projects);
+    }
+    let sortedProjects = projects.sort(compareValues("name"));
+    if (order === "descending") {
+      sortedProjects.reverse();
+    }
+    dispatch({
+      type: actionTypes.SORT_PROJECTS_BY_NAME,
+      payload: sortedProjects
+    });
+  };
+};
+
 // task action creators
 export const createTask = (id, formValues) => {
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.post(
+    const response = await firebaseDbRest.post(
       `/projects/${id}/tasks.json`,
       formValues
     );
@@ -115,7 +139,7 @@ export const createTask = (id, formValues) => {
 
 export const editTask = (projectId, taskId, formValues) => {
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.patch(
+    const response = await firebaseDbRest.patch(
       `/projects/${projectId}/tasks/${taskId}.json`,
       formValues
     );
@@ -129,7 +153,7 @@ export const editTask = (projectId, taskId, formValues) => {
 
 export const toggleTaskCheck = (projectId, taskId, checkValue) => {
   return async function(dispatch, getState) {
-    const response = await firebasedatabase.patch(
+    const response = await firebaseDbRest.patch(
       `/projects/${projectId}/tasks/${taskId}.json`,
       { finished: checkValue }
     );
@@ -144,9 +168,7 @@ export const toggleTaskCheck = (projectId, taskId, checkValue) => {
 export const deleteTask = (projectId, taskId) => {
   return async function(dispatch, getState) {
     console.log(`deleting ${taskId}`);
-    await firebasedatabase.delete(
-      `/projects/${projectId}/tasks/${taskId}.json`
-    );
+    await firebaseDbRest.delete(`/projects/${projectId}/tasks/${taskId}.json`);
     dispatch({
       type: actionTypes.DELETE_TASK,
       payload: taskId
@@ -156,7 +178,7 @@ export const deleteTask = (projectId, taskId) => {
 
 export const deleteAllTasks = projectId => {
   return async function(dispatch, getState) {
-    await firebasedatabase.delete(`/projects/${projectId}/tasks.json`);
+    await firebaseDbRest.delete(`/projects/${projectId}/tasks.json`);
     dispatch({
       type: actionTypes.DELETE_ALL_TASKS
     });
@@ -167,7 +189,7 @@ export const deleteAllTasks = projectId => {
 export const fetchFinishedTasks = () => {
   return async function(dispatch, getState) {
     // Retrieve all projects first from the database
-    const response = await firebasedatabase.get("/projects.json");
+    const response = await firebaseDbRest.get("/projects.json");
 
     const projects = response.data;
     let finishedTasks = [];
@@ -224,7 +246,7 @@ export const deleteAllFinishedTasks = () => {
 export const fetchDueToday = () => {
   return async function(dispatch, getState) {
     // Retrieve all projects first from the database
-    const response = await firebasedatabase.get("/projects.json");
+    const response = await firebaseDbRest.get("/projects.json");
 
     const projects = response.data;
     let dueToday = [];

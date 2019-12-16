@@ -23,7 +23,8 @@ class FinishedTasks extends React.Component {
       details: false,
       deleteAll: false
     },
-    selectedTask: null
+    selectedTask: null,
+    backdropClass: null
   };
 
   componentDidMount() {
@@ -75,6 +76,7 @@ class FinishedTasks extends React.Component {
     if (this.state.modalsOpened.deleteAll) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="delete-all-finished-tasks-content"
           content={() => (
             <DeleteAll
@@ -105,10 +107,14 @@ class FinishedTasks extends React.Component {
   };
 
   dismissModalHandler = () => {
+    this.setState({ backdropClass: "closed" });
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+    setTimeout(() => {
+      this.setState({
+        modalsOpened,
+        backdropClass: null
+      });
+    }, 201);
   };
 
   render() {
@@ -151,9 +157,12 @@ const mapStateToProps = state => {
   return { finishedTasks: state.finishedTasks };
 };
 
-export default connect(mapStateToProps, {
-  fetchFinishedTasks,
-  deleteTask,
-  deleteFinishedTask,
-  deleteAllFinishedTasks
-})(FinishedTasks);
+export default connect(
+  mapStateToProps,
+  {
+    fetchFinishedTasks,
+    deleteTask,
+    deleteFinishedTask,
+    deleteAllFinishedTasks
+  }
+)(FinishedTasks);

@@ -28,7 +28,8 @@ class TaskItem extends React.Component {
       edit: false,
       delete: false,
       details: false
-    }
+    },
+    backdropClass: null
   };
   componentDidMount() {}
 
@@ -221,6 +222,7 @@ class TaskItem extends React.Component {
     if (this.state.modalsOpened.details) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="details-task-content"
           content={() => {
             return (
@@ -242,6 +244,7 @@ class TaskItem extends React.Component {
     } else if (this.state.modalsOpened.edit) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="edit-task-content"
           content={() => {
             return (
@@ -260,6 +263,7 @@ class TaskItem extends React.Component {
     } else if (this.state.modalsOpened.delete) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="delete-task-content"
           content={this.renderDeleteContent}
           onDismiss={this.dismissModalHandler}
@@ -271,10 +275,14 @@ class TaskItem extends React.Component {
 
   // We already recycle this
   dismissModalHandler = () => {
+    this.setState({ backdropClass: "closed" });
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+    setTimeout(() => {
+      this.setState({
+        modalsOpened,
+        backdropClass: null
+      });
+    }, 201);
   };
 
   render() {
@@ -312,10 +320,13 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
-export default connect(null, {
-  deleteTask,
-  toggleTaskCheck,
-  deleteFinishedTask,
-  deleteDueTodayTask,
-  toggleDueTodayTaskCheck
-})(TaskItem);
+export default connect(
+  null,
+  {
+    deleteTask,
+    toggleTaskCheck,
+    deleteFinishedTask,
+    deleteDueTodayTask,
+    toggleDueTodayTaskCheck
+  }
+)(TaskItem);

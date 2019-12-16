@@ -20,8 +20,14 @@ class Settings extends React.Component {
       return ReactDOM.createPortal(
         <div
           onClick={e => {
+            // const x = e.clientX;
+            // const y = e.clientY;
             e.target.classList.add("closed");
             this.closeMenu();
+            // setTimeout(() => {
+            // document.elementFromPoint(x, y).click();
+            // }, 201);
+            // document.elementFromPoint(x, y).click();
           }}
           className="backdrop settings"
         >
@@ -38,18 +44,6 @@ class Settings extends React.Component {
           >
             {this.props.content || null}
             <ul className="settings-submenu-items">
-              <li className="settings-submenu-item">
-                <button
-                  onClick={() => {
-                    if (typeof this.props.deleteFunction === "function") {
-                      this.props.deleteFunction();
-                    }
-                  }}
-                  className="settings-submenu-button"
-                >
-                  Delete all {this.props.dataType || null}
-                </button>
-              </li>
               <li className="settings-submenu-item">
                 <button
                   onClick={() => {
@@ -78,6 +72,19 @@ class Settings extends React.Component {
                   Sort descending (name)
                 </button>
               </li>
+              <li className="settings-submenu-item">
+                <button
+                  onClick={e => {
+                    if (typeof this.props.deleteFunction === "function") {
+                      this.props.deleteFunction(e);
+                      this.closeMenu();
+                    }
+                  }}
+                  className="settings-submenu-button"
+                >
+                  Delete all {this.props.dataType || null}
+                </button>
+              </li>
             </ul>
           </section>
         </div>,
@@ -92,7 +99,14 @@ class Settings extends React.Component {
       <React.Fragment>
         <button
           // Should open a modal on mobile and a drop-down on desktop view
-          onClick={e => this.setState({ modalsOpened: { settings: true } })}
+          onClick={e => {
+            console.log(this.state.modalsOpened.settings);
+            if (this.state.modalsOpened.settings) {
+              this.closeMenu();
+            } else {
+              this.setState({ modalsOpened: { settings: true } });
+            }
+          }}
           className="settings icon-button"
         >
           <img

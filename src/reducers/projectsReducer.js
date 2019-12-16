@@ -1,20 +1,25 @@
 import _ from "lodash";
 import { actionTypes } from "../actions";
 
-export default (state = {}, action) => {
+export default (state = [], action) => {
   switch (action.type) {
     case actionTypes.FETCH_PROJECTS:
-      return { ...action.payload };
-    case actionTypes.FETCH_PROJECT:
-      return { ...state, [action.payload.id]: action.payload };
+      return [...action.payload];
     case actionTypes.CREATE_PROJECT:
-      return { ...state, [action.payload.id]: action.payload };
+      return [].concat(state, action.payload);
     case actionTypes.EDIT_PROJECT:
-      return { ...state, [action.payload.id]: action.payload };
+      return state.map(item => {
+        if (item.id === action.payload.id) {
+          item.name = action.payload.name;
+        }
+        return item;
+      });
     case actionTypes.DELETE_PROJECT:
-      return _.omit(state, action.payload);
+      return state.filter(item => item.id !== action.payload);
     case actionTypes.DELETE_ALL_PROJECTS:
-      return {};
+      return [];
+    case actionTypes.SORT_PROJECTS_BY_NAME:
+      return [...action.payload];
     default:
       return state;
   }

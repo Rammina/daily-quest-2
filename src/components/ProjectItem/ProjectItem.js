@@ -18,7 +18,8 @@ class ProjectItem extends React.Component {
       any: false,
       edit: false,
       delete: false
-    }
+    },
+    backdropClass: null
   };
   componentDidMount() {}
 
@@ -94,6 +95,7 @@ class ProjectItem extends React.Component {
     if (this.state.modalsOpened.edit) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="edit-project-content"
           content={() => (
             <EditProject
@@ -108,6 +110,7 @@ class ProjectItem extends React.Component {
     } else if (this.state.modalsOpened.delete) {
       return (
         <Modal
+          backdropClass={this.state.backdropClass || null}
           sectionId="delete-project-content"
           content={this.renderDeleteContent}
           onDismiss={() => this.dismissModalHandler()}
@@ -118,10 +121,14 @@ class ProjectItem extends React.Component {
   };
 
   dismissModalHandler = () => {
+    this.setState({ backdropClass: "closed" });
     const modalsOpened = _.mapValues(this.state.modalsOpened, () => false);
-    this.setState({
-      modalsOpened
-    });
+    setTimeout(() => {
+      this.setState({
+        modalsOpened,
+        backdropClass: null
+      });
+    }, 201);
   };
 
   render() {
