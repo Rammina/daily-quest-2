@@ -53,7 +53,6 @@ class Projects extends React.Component {
   renderProjects = () => {
     const projects = this.props.projects;
     if (Object.keys(projects).length >= 1) {
-      const items = [];
       return projects.map(project => (
         <Link
           to={`/projects/${project.id}`}
@@ -63,20 +62,6 @@ class Projects extends React.Component {
           <ProjectItem project={project} id={project.id} />
         </Link>
       ));
-      for (let projectKey in projects) {
-        if (projects.hasOwnProperty(projectKey)) {
-          items.push(
-            <Link
-              to={`/projects/${projectKey}`}
-              key={projectKey}
-              className="project item list-header"
-            >
-              <ProjectItem project={projects[projectKey]} id={projectKey} />
-            </Link>
-          );
-        }
-      }
-      return items;
     } else {
       return (
         <div style={{ color: "white", textAlign: "center" }}>
@@ -164,7 +149,7 @@ class Projects extends React.Component {
                     +
                   </button>
                   <Settings
-                    dataType="projects"
+                    // dataType="projects"
                     deleteFunction={e => this.onModalOpen(e, "deleteAll")}
                     sortAscendingFunction={() =>
                       this.props.sortProjectsByName(this.props.projects)
@@ -175,6 +160,29 @@ class Projects extends React.Component {
                         "descending"
                       )
                     }
+                    settingItems={[
+                      {
+                        text: "Sort ascending (name)",
+                        method: () => {
+                          this.props.sortProjectsByName(this.props.projects);
+                        }
+                      },
+                      { text: "Sort ascending (tasks)", method: () => {} },
+                      {
+                        text: "Sort descending (name)",
+                        method: () => {
+                          this.props.sortProjectsByName(
+                            this.props.projects,
+                            "descending"
+                          );
+                        }
+                      },
+                      { text: "Sort descending (tasks)", method: () => {} },
+                      {
+                        text: "Delete all projects",
+                        method: e => this.onModalOpen(e, "deleteAll")
+                      }
+                    ]}
                   />
                   {
                     // <button

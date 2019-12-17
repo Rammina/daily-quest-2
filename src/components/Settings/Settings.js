@@ -11,11 +11,35 @@ class Settings extends React.Component {
     modalsOpened: { settings: false }
   };
 
-  closeMenu() {
+  closeMenu = () => {
     setTimeout(() => this.setState({ modalsOpened: { settings: false } }), 200);
-  }
-
-  renderMenu() {
+  };
+  renderList = () => {
+    const renderItems = () => {
+      const settingItems = this.props.settingItems;
+      if (settingItems) {
+        return settingItems.map(item => {
+          return (
+            <li className="settings-submenu-item">
+              <button
+                onClick={e => {
+                  if (typeof item.method === "function") {
+                    item.method(e);
+                  }
+                }}
+                className="settings-submenu-button"
+              >
+                {item.text}
+              </button>
+            </li>
+          );
+        });
+      }
+      return null;
+    };
+    return <ul className="settings-submenu-items">{renderItems()}</ul>;
+  };
+  renderMenu = () => {
     if (this.state.modalsOpened.settings) {
       return ReactDOM.createPortal(
         <div
@@ -43,56 +67,14 @@ class Settings extends React.Component {
             aria-hidden="true"
           >
             {this.props.content || null}
-            <ul className="settings-submenu-items">
-              <li className="settings-submenu-item">
-                <button
-                  onClick={() => {
-                    if (
-                      typeof this.props.sortAscendingFunction === "function"
-                    ) {
-                      this.props.sortAscendingFunction();
-                    }
-                  }}
-                  className="settings-submenu-button"
-                >
-                  Sort ascending (name)
-                </button>
-              </li>
-              <li className="settings-submenu-item">
-                <button
-                  onClick={() => {
-                    if (
-                      typeof this.props.sortDescendingFunction === "function"
-                    ) {
-                      this.props.sortDescendingFunction();
-                    }
-                  }}
-                  className="settings-submenu-button"
-                >
-                  Sort descending (name)
-                </button>
-              </li>
-              <li className="settings-submenu-item">
-                <button
-                  onClick={e => {
-                    if (typeof this.props.deleteFunction === "function") {
-                      this.props.deleteFunction(e);
-                      this.closeMenu();
-                    }
-                  }}
-                  className="settings-submenu-button"
-                >
-                  Delete all {this.props.dataType || null}
-                </button>
-              </li>
-            </ul>
+            {this.renderList()}
           </section>
         </div>,
         document.getElementById("modal")
       );
     }
     return null;
-  }
+  };
 
   render() {
     return (

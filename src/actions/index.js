@@ -1,3 +1,4 @@
+import _ from "lodash";
 import firebaseDbRest from "../apis/firebaseDbRest";
 import { compareValues, objectToArray } from "../helpers";
 import isToday from "date-fns/isToday";
@@ -36,11 +37,34 @@ export const actionTypes = {
 export const fetchProjects = () => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get("/projects.json");
+
+    // remove the sort-related properties
+    const dataItemsOnly = _.omit({ ...response.data }, ["sortBy"]);
+
+    // Assign the response values to variables and do some processing
+    let data = objectToArray(dataItemsOnly, "id");
+    const sortBy = response.data.sortBy ? response.data.sortBy : false;
     console.log(response.data);
+    console.log(sortBy.name);
+
+    if (sortBy.name) {
+      if (sortBy.name === "ascending") {
+        data = data.sort(compareValues("name"));
+      } else if (sortBy.name === "descending") {
+        data = data.sort(compareValues("name")).reverse();
+      }
+    } else if (sortBy.tasks) {
+      if (sortBy.tasks === "ascending") {
+        // data = data.sort(compareValues("name"));
+        // I'm still not sure how to sort numbers
+      } else if (sortBy.tasks === "descending") {
+        // data = data.sort(compareValues("name")).reverse();
+      }
+    }
 
     dispatch({
       type: actionTypes.FETCH_PROJECTS,
-      payload: objectToArray(response.data, "id")
+      payload: data
     });
   };
 };
@@ -60,6 +84,7 @@ export const createProject = formValues => {
   console.log(formValues);
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.post("/projects.json", formValues);
+
     console.log(response.data);
     const valuesWithId = [{ ...formValues, id: response.data.name }];
     dispatch({
@@ -86,6 +111,7 @@ export const deleteProject = id => {
   return async function(dispatch, getState) {
     console.log(`deleting ${id}`);
     await firebaseDbRest.delete(`/projects/${id}.json`);
+
     dispatch({
       type: actionTypes.DELETE_PROJECT,
       payload: id
@@ -106,12 +132,24 @@ export const sortProjectsByName = (projects, order = "ascending") => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
+    // this guards against objects being sent as an argument
     if (!Array.isArray(projects) && typeof projects === "object") {
       projects = objectToArray(projects);
     }
+    // Perform sorting by name
     let sortedProjects = projects.sort(compareValues("name"));
+
     if (order === "descending") {
+      // reverse the order and then save the sort setting in the database
       sortedProjects.reverse();
+      await firebaseDbRest.patch("projects/sortBy.json", {
+        name: "descending"
+      });
+    } else {
+      // save the sort setting in the database
+      await firebaseDbRest.patch("projects/sortBy.json", {
+        name: "ascending"
+      });
     }
     dispatch({
       type: actionTypes.SORT_PROJECTS_BY_NAME,
