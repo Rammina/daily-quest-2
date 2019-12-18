@@ -8,7 +8,8 @@ import {
   fetchProjects,
   createProject,
   deleteAllProjects,
-  sortProjectsByName
+  sortProjectsByName,
+  sortProjectsByTasks
 } from "../../actions";
 import { objectToArray } from "../../helpers";
 import { Link } from "react-router-dom";
@@ -167,7 +168,15 @@ class Projects extends React.Component {
                           this.props.sortProjectsByName(this.props.projects);
                         }
                       },
-                      { text: "Sort ascending (tasks)", method: () => {} },
+                      {
+                        text: "Sort ascending (tasks)",
+                        method: () => {
+                          this.props.sortProjectsByTasks(
+                            this.props.projects,
+                            "ascending"
+                          );
+                        }
+                      },
                       {
                         text: "Sort descending (name)",
                         method: () => {
@@ -177,7 +186,15 @@ class Projects extends React.Component {
                           );
                         }
                       },
-                      { text: "Sort descending (tasks)", method: () => {} },
+                      {
+                        text: "Sort descending (tasks)",
+                        method: () => {
+                          this.props.sortProjectsByTasks(
+                            this.props.projects,
+                            "descending"
+                          );
+                        }
+                      },
                       {
                         text: "Delete all projects",
                         method: e => this.onModalOpen(e, "deleteAll")
@@ -217,6 +234,7 @@ export default connect(
     fetchProjects,
     createProject,
     deleteAllProjects,
-    sortProjectsByName
+    sortProjectsByName,
+    sortProjectsByTasks
   }
 )(Projects);

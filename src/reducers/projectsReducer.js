@@ -20,6 +20,8 @@ export default (state = [], action) => {
       return [];
     case actionTypes.SORT_PROJECTS_BY_NAME:
       return [...action.payload];
+    case actionTypes.SORT_PROJECTS_BY_TASKS:
+      return [...action.payload];
     default:
       return state;
   }

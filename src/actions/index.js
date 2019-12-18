@@ -15,16 +15,20 @@ export const actionTypes = {
   DELETE_ALL_PROJECTS: "DELETE_ALL_PROJECTS",
   //   sorting functions for projects
   SORT_PROJECTS_BY_NAME: "SORT_PROJECTS_BY_NAME",
+  SORT_PROJECTS_BY_TASKS: "SORT_PROJECTS_BY_TASKS",
+
   // TASK ACTIONS
   CREATE_TASK: "CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
   TOGGLE_TASK_CHECK: "TOGGLE_TASK_CHECK",
   DELETE_TASK: "DELETE_TASK",
   DELETE_ALL_TASKS: "DELETE_ALL_TASKS",
+
   // Finished task actions
   FETCH_FINISHED_TASKS: "FETCH_FINISHED_TASKS",
   DELETE_FINISHED_TASK: "DELETE_FINISHED_TASK",
   DELETE_ALL_FINISHED_TASKS: "DELETE_ALL_FINISHED_TASKS",
+
   // due today actions
   FETCH_DUE_TODAY: "FETCH_DUE_TODAY",
   DELETE_DUE_TODAY_TASK: "DELETE_DUE_TODAY_TASK",
@@ -47,6 +51,7 @@ export const fetchProjects = () => {
     console.log(response.data);
     console.log(sortBy.name);
 
+    // sortby property and check whether it is ascending or descending
     if (sortBy.name) {
       if (sortBy.name === "ascending") {
         data = data.sort(compareValues("name"));
@@ -54,27 +59,10 @@ export const fetchProjects = () => {
         data = data.sort(compareValues("name")).reverse();
       }
     } else if (sortBy.tasks) {
-      const taskSort = (a, b) => {
-        // If both items don't have tasks, they are equal
-        if (!a.tasks && !b.tasks) {
-          return 0;
-        } // if a has tasks and b does not, a is greater
-        else if (a.tasks && !b.tasks) {
-          return 1;
-        } // if a has no tasks and b does, b is greater
-        else if (!a.tasks && b.tasks) {
-          return -1;
-        } // if both of them have tasks, compare their keys' lengths
-        else if (a.tasks && b.tasks) {
-          return Object.keys(a.tasks).length > Object.keys(b.tasks).length
-            ? 1
-            : -1;
-        }
-      };
       if (sortBy.tasks === "ascending") {
         data = data.sort((a, b) => compareKeysInProp(a, b, "tasks"));
       } else if (sortBy.tasks === "descending") {
-        data = data.sort((a, b) => taskSort(a, b)).reverse();
+        data = data.sort((a, b) => compareKeysInProp(a, b, "tasks")).reverse();
       }
     }
 
@@ -143,7 +131,6 @@ export const deleteAllProjects = () => {
   };
 };
 // SORT PROJECT FUNCTIONS
-
 export const sortProjectsByName = (projects, order = "ascending") => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
@@ -158,17 +145,49 @@ export const sortProjectsByName = (projects, order = "ascending") => {
     if (order === "descending") {
       // reverse the order and then save the sort setting in the database
       sortedProjects.reverse();
-      await firebaseDbRest.patch("projects/sortBy.json", {
+      await firebaseDbRest.put("projects/sortBy.json", {
         name: "descending"
       });
     } else {
       // save the sort setting in the database
-      await firebaseDbRest.patch("projects/sortBy.json", {
+      await firebaseDbRest.put("projects/sortBy.json", {
         name: "ascending"
       });
     }
     dispatch({
       type: actionTypes.SORT_PROJECTS_BY_NAME,
+      payload: sortedProjects
+    });
+  };
+};
+
+export const sortProjectsByTasks = (projects, order = "ascending") => {
+  // projects - array/object containing Projects
+  // order - string - which can have the value of either "ascending" or "descending"
+  return async function(dispatch) {
+    // this guards against objects being sent as an argument
+    if (!Array.isArray(projects) && typeof projects === "object") {
+      projects = objectToArray(projects);
+    }
+    // Perform sorting by task count
+    let sortedProjects = projects.sort((a, b) =>
+      compareKeysInProp(a, b, "tasks")
+    );
+
+    if (order === "descending") {
+      // reverse the order and then save the sort setting in the database
+      sortedProjects.reverse();
+      await firebaseDbRest.put("projects/sortBy.json", {
+        tasks: "descending"
+      });
+    } else {
+      // save the sort setting in the database
+      await firebaseDbRest.put("projects/sortBy.json", {
+        tasks: "ascending"
+      });
+    }
+    dispatch({
+      type: actionTypes.SORT_PROJECTS_BY_TASKS,
       payload: sortedProjects
     });
   };
