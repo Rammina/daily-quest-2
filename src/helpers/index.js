@@ -103,6 +103,27 @@ export const compareValues = (key, order = "asc") => {
 // // usage: array is sorted by band, in ascending order by default:
 // // //singers.sort(compareValues('band'));
 
+// Use this to compare objects based on key count of their property
+//  a & b - objects to be compared
+//  propName - string name of property to be used as basis for comparison
+export const compareKeysInProp = (a, b, propName) => {
+  // If both items don't have the property name, they are equal
+  if (!a[propName] && !b[propName]) {
+    return 0;
+  } // if a has the property and b does not, a is greater
+  else if (a[propName] && !b[propName]) {
+    return 1;
+  } // if a does not have the property and b does, b is greater
+  else if (!a[propName] && b[propName]) {
+    return -1;
+  } // if both of them have the property, compare their keys' lengths
+  else if (a[propName] && b[propName]) {
+    return Object.keys(a[propName]).length > Object.keys(b[propName]).length
+      ? 1
+      : -1;
+  }
+};
+
 //String functions
 export const ellipsifyString = (string, length = 10) => {
   if (string.length > length) {

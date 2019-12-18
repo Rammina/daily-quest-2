@@ -1,6 +1,6 @@
 import _ from "lodash";
 import firebaseDbRest from "../apis/firebaseDbRest";
-import { compareValues, objectToArray } from "../helpers";
+import { compareValues, compareKeysInProp, objectToArray } from "../helpers";
 import isToday from "date-fns/isToday";
 // import history from "../history";
 
@@ -54,11 +54,27 @@ export const fetchProjects = () => {
         data = data.sort(compareValues("name")).reverse();
       }
     } else if (sortBy.tasks) {
+      const taskSort = (a, b) => {
+        // If both items don't have tasks, they are equal
+        if (!a.tasks && !b.tasks) {
+          return 0;
+        } // if a has tasks and b does not, a is greater
+        else if (a.tasks && !b.tasks) {
+          return 1;
+        } // if a has no tasks and b does, b is greater
+        else if (!a.tasks && b.tasks) {
+          return -1;
+        } // if both of them have tasks, compare their keys' lengths
+        else if (a.tasks && b.tasks) {
+          return Object.keys(a.tasks).length > Object.keys(b.tasks).length
+            ? 1
+            : -1;
+        }
+      };
       if (sortBy.tasks === "ascending") {
-        // data = data.sort(compareValues("name"));
-        // I'm still not sure how to sort numbers
+        data = data.sort((a, b) => compareKeysInProp(a, b, "tasks"));
       } else if (sortBy.tasks === "descending") {
-        // data = data.sort(compareValues("name")).reverse();
+        data = data.sort((a, b) => taskSort(a, b)).reverse();
       }
     }
 
