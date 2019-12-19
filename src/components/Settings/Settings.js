@@ -7,6 +7,12 @@ import ReactDOM from "react-dom";
 import Modal from "../Modal/Modal";
 
 class Settings extends React.Component {
+  // ellipsisClass = () => {
+  //   if (this.props.isModalOpen) {
+  //     return "selected";
+  //   }
+  //   return null;
+  // };
   closeMenu = () => {
     this.props.closeModal();
   };
@@ -23,7 +29,7 @@ class Settings extends React.Component {
                     item.method(e);
                   }
                 }}
-                className="settings-submenu-button"
+                className={`settings-submenu-button ${this.props.backdropClass}`}
               >
                 {item.text}
               </button>
@@ -50,7 +56,7 @@ class Settings extends React.Component {
               event.stopPropagation();
             }}
             id="settings-submenu"
-            className="modal-container settings"
+            className={`modal-container settings ${this.props.backdropClass}`}
             tabIndex="-1"
             role="dialog"
             aria-hidden="true"
@@ -77,10 +83,10 @@ class Settings extends React.Component {
               this.props.openModal();
             }
           }}
-          className="settings icon-button"
+          className={`settings icon-button ${this.props.ellipsisClass}`}
         >
           <img
-            className="icon-image black"
+            className={`icon-image black ${this.props.ellipsisClass}`}
             src={EllipsisImg}
             alt="Ellipsis icon"
           />

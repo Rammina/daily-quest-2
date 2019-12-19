@@ -30,7 +30,8 @@ class Projects extends React.Component {
       settings: false
     },
     backdropClass: null,
-    settingsBackdropClass: null
+    settingsBackdropClass: null,
+    settingsEllipsisClass: null
   };
 
   componentDidMount() {
@@ -42,7 +43,10 @@ class Projects extends React.Component {
   //
   handleSettingsClose = () => {
     if (this.state.modalsOpened.settings) {
-      this.setState({ settingsBackdropClass: "closed" });
+      this.setState({
+        settingsBackdropClass: "closed",
+        settingsEllipsisClass: null
+      });
       setTimeout(() => {
         this.setState({
           modalsOpened: { settings: false },
@@ -54,7 +58,10 @@ class Projects extends React.Component {
 
   handleSettingsOpen = () => {
     if (!this.state.modalsOpened.settings) {
-      this.setState({ modalsOpened: { settings: true } });
+      this.setState({
+        modalsOpened: { settings: true },
+        settingsEllipsisClass: "selected"
+      });
     }
   };
 
@@ -181,6 +188,7 @@ class Projects extends React.Component {
                     openModal={this.handleSettingsOpen}
                     closeModal={this.handleSettingsClose}
                     backdropClass={this.state.settingsBackdropClass}
+                    ellipsisClass={this.state.settingsEllipsisClass}
                     settingItems={[
                       {
                         text: "Sort ascending (name)",
@@ -236,13 +244,10 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(
-  mapStateToProps,
-  {
-    fetchProjects,
-    createProject,
-    deleteAllProjects,
-    sortProjectsByName,
-    sortProjectsByTasks
-  }
-)(Projects);
+export default connect(mapStateToProps, {
+  fetchProjects,
+  createProject,
+  deleteAllProjects,
+  sortProjectsByName,
+  sortProjectsByTasks
+})(Projects);

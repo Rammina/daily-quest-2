@@ -335,15 +335,17 @@ export const fetchDueToday = () => {
           // Check each task and retrieve only those that have
           // today as their deadline
           for (let taskKey in tasks) {
-            if (
-              tasks.hasOwnProperty(taskKey) &&
-              isToday(new Date(tasks[taskKey].date.replace(/-/g, "/")))
-            ) {
-              console.log(tasks[taskKey].date);
-              tasks[taskKey].id = taskKey;
-              tasks[taskKey].projectId = projectKey;
-              tasks[taskKey].projectName = projects[projectKey].name;
-              dueToday = [...dueToday, tasks[taskKey]];
+            if (tasks.hasOwnProperty(taskKey) && tasks[taskKey].date) {
+              if (
+                tasks.hasOwnProperty(taskKey) &&
+                isToday(new Date(tasks[taskKey].date.replace(/-/g, "/")))
+              ) {
+                console.log(tasks[taskKey].date);
+                tasks[taskKey].id = taskKey;
+                tasks[taskKey].projectId = projectKey;
+                tasks[taskKey].projectName = projects[projectKey].name;
+                dueToday = [...dueToday, tasks[taskKey]];
+              }
             }
           }
         }
