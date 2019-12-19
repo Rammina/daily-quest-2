@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import TaskItem from "../TaskItem/TaskItem.js";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import Modal from "../Modal/Modal";
+import Settings from "../Settings/Settings";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 
@@ -23,7 +24,8 @@ class Tasks extends React.Component {
       deleteAll: false
     },
     selectedTask: null,
-    backdropClass: null
+    backdropClass: null,
+    settingsBackdropClass: null
   };
 
   componentDidMount() {
@@ -34,6 +36,27 @@ class Tasks extends React.Component {
 
   componentDidUpdate() {}
 
+  handleSettingsClose = () => {
+    if (this.state.modalsOpened.settings) {
+      this.setState({ settingsBackdropClass: "closed" });
+      setTimeout(() => {
+        this.setState({
+          modalsOpened: { settings: false },
+          settingsBackdropClass: null
+        });
+      }, 200);
+    }
+  };
+
+  handleSettingsOpen = () => {
+    if (!this.state.modalsOpened.settings) {
+      this.setState({ modalsOpened: { settings: true } });
+    }
+  };
+  // This requires some editing for the task data structures
+  handleDeleteAll = () => {
+    // this.props.deleteAllProjects();
+  };
   onModalOpen = modalType => {
     if (!this.state.modalsOpened.any) {
       this.setState({
@@ -156,16 +179,45 @@ class Tasks extends React.Component {
                   >
                     +
                   </button>
-                  <button
-                    onClick={e => this.onModalOpen(e, "deleteAll")}
-                    className="task delete-button icon-button black"
-                  >
-                    <img
-                      className="icon-image black"
-                      src={TrashImg}
-                      alt="Trash Can"
-                    />
-                  </button>
+                  <Settings
+                    isModalOpen={this.state.modalsOpened.settings}
+                    openModal={this.handleSettingsOpen}
+                    closeModal={this.handleSettingsClose}
+                    backdropClass={this.state.settingsBackdropClass}
+                    settingItems={[
+                      {
+                        text: "Sort ascending (name)",
+                        method: () => {
+                          // this.props.sortTasksByName(this.props.);
+                        }
+                      },
+                      {
+                        text: "Sort descending (name)",
+                        method: () => {
+                          // this.props.sortTasksByName(
+                          // this.props.,
+                          // "descending"
+                          // );
+                        }
+                      },
+                      {
+                        text: "Delete all tasks",
+                        method: e => this.onModalOpen(e, "deleteAll")
+                      }
+                    ]}
+                  />
+                  {
+                    // <button
+                    // onClick={e => this.onModalOpen(e, "deleteAll")}
+                    // className="task delete-button icon-button black"
+                    // >
+                    // <img
+                    // className="icon-image black"
+                    // src={TrashImg}
+                    // alt="Trash Can"
+                    // />
+                    // </button>
+                  }
                 </div>
               </div>
               {this.renderTasks()}
@@ -178,8 +230,6 @@ class Tasks extends React.Component {
   }
 }
 
-// I currently don't know which
-// specific state properties to assign to this component
 const mapStateToProps = state => {
   console.log(state.selectedProject);
   return { project: state.selectedProject };

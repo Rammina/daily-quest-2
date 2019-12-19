@@ -26,9 +26,11 @@ class Projects extends React.Component {
     modalsOpened: {
       any: false,
       create: false,
-      deleteAll: false
+      deleteAll: false,
+      settings: false
     },
-    backdropClass: null
+    backdropClass: null,
+    settingsBackdropClass: null
   };
 
   componentDidMount() {
@@ -36,6 +38,25 @@ class Projects extends React.Component {
   }
 
   componentDidUpdate() {}
+
+  //
+  handleSettingsClose = () => {
+    if (this.state.modalsOpened.settings) {
+      this.setState({ settingsBackdropClass: "closed" });
+      setTimeout(() => {
+        this.setState({
+          modalsOpened: { settings: false },
+          settingsBackdropClass: null
+        });
+      }, 200);
+    }
+  };
+
+  handleSettingsOpen = () => {
+    if (!this.state.modalsOpened.settings) {
+      this.setState({ modalsOpened: { settings: true } });
+    }
+  };
 
   // No need to pass a key because all projects will be deleted
   // If this was a specific project, then it requires the key
@@ -131,7 +152,13 @@ class Projects extends React.Component {
     console.log(this.props.projects);
     return (
       <React.Fragment>
-        <div data-test="component-projects" className="projects-container">
+        <div
+          data-test="component-projects"
+          className="projects-container"
+          onClick={() => {
+            this.handleSettingsClose();
+          }}
+        >
           <div id="projects-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
               <div className="project item list-header first">
@@ -150,17 +177,10 @@ class Projects extends React.Component {
                     +
                   </button>
                   <Settings
-                    // dataType="projects"
-                    deleteFunction={e => this.onModalOpen(e, "deleteAll")}
-                    sortAscendingFunction={() =>
-                      this.props.sortProjectsByName(this.props.projects)
-                    }
-                    sortDescendingFunction={() =>
-                      this.props.sortProjectsByName(
-                        this.props.projects,
-                        "descending"
-                      )
-                    }
+                    isModalOpen={this.state.modalsOpened.settings}
+                    openModal={this.handleSettingsOpen}
+                    closeModal={this.handleSettingsClose}
+                    backdropClass={this.state.settingsBackdropClass}
                     settingItems={[
                       {
                         text: "Sort ascending (name)",
@@ -201,18 +221,6 @@ class Projects extends React.Component {
                       }
                     ]}
                   />
-                  {
-                    // <button
-                    // onClick={e => this.onModalOpen(e, "deleteAll")}
-                    //   className="project delete-button icon-button black"
-                    // >
-                    //   <img
-                    //     className="icon-image black"
-                    //     src={TrashImg}
-                    //     alt="Trash Can"
-                    //   />
-                    // </button>
-                  }
                 </div>
               </div>
               {this.renderProjects()}

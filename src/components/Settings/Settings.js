@@ -7,12 +7,8 @@ import ReactDOM from "react-dom";
 import Modal from "../Modal/Modal";
 
 class Settings extends React.Component {
-  state = {
-    modalsOpened: { settings: false }
-  };
-
   closeMenu = () => {
-    setTimeout(() => this.setState({ modalsOpened: { settings: false } }), 200);
+    this.props.closeModal();
   };
   renderList = () => {
     const renderItems = () => {
@@ -40,20 +36,13 @@ class Settings extends React.Component {
     return <ul className="settings-submenu-items">{renderItems()}</ul>;
   };
   renderMenu = () => {
-    if (this.state.modalsOpened.settings) {
+    if (this.props.isModalOpen) {
       return ReactDOM.createPortal(
         <div
           onClick={e => {
-            // const x = e.clientX;
-            // const y = e.clientY;
-            e.target.classList.add("closed");
             this.closeMenu();
-            // setTimeout(() => {
-            // document.elementFromPoint(x, y).click();
-            // }, 201);
-            // document.elementFromPoint(x, y).click();
           }}
-          className="backdrop settings"
+          className={`backdrop settings ${this.props.backdropClass}`}
         >
           <section
             onClick={event => {
@@ -82,11 +71,10 @@ class Settings extends React.Component {
         <button
           // Should open a modal on mobile and a drop-down on desktop view
           onClick={e => {
-            console.log(this.state.modalsOpened.settings);
-            if (this.state.modalsOpened.settings) {
+            if (this.props.isModalOpen) {
               this.closeMenu();
             } else {
-              this.setState({ modalsOpened: { settings: true } });
+              this.props.openModal();
             }
           }}
           className="settings icon-button"
