@@ -1,15 +1,36 @@
 import "./NavMenu.css";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class NavMenu extends React.Component {
   state = {};
 
   componentDidMount() {}
 
+  projectsLinkClass = () => {
+    if (window.location.pathname.includes("projects")) {
+      return "selected";
+    }
+    return null;
+  };
+
+  dueTodayLinkClass = () => {
+    if (window.location.pathname.includes("due-today")) {
+      return "selected";
+    }
+    return null;
+  };
+
+  finishedTasksLinkClass = () => {
+    if (window.location.pathname.includes("finished-tasks")) {
+      return "selected";
+    }
+    return null;
+  };
+
   render() {
-    console.log(this.props.match.params);
+    console.log(this.props.match.url);
     return (
       <React.Fragment>
         <div
@@ -20,21 +41,21 @@ class NavMenu extends React.Component {
           <Link
             data-test="projects"
             to="/projects"
-            className="left item no-border nav-item"
+            className={`left item no-border nav-item ${this.projectsLinkClass()}`}
           >
             Projects
           </Link>
           <Link
             data-test="due-today-link"
             to="/due-today"
-            className="left item nav-item"
+            className={`left item nav-item ${this.dueTodayLinkClass()}`}
           >
             Due Today
           </Link>
           <Link
             data-test="finished-tasks-link"
             to="/finished-tasks"
-            className="left item nav-item"
+            className={`left item nav-item ${this.finishedTasksLinkClass()}`}
           >
             Finished Tasks
           </Link>
@@ -50,4 +71,4 @@ class NavMenu extends React.Component {
   }
 }
 
-export default NavMenu;
+export default withRouter(NavMenu);

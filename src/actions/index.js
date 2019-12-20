@@ -259,6 +259,39 @@ export const deleteAllTasks = projectId => {
   };
 };
 
+// Sort task action here
+/*
+export const sortTasksByName = (tasks, order = "ascending") => {
+  // Tasks - array/object containing Tasks
+  // order - string - which can have the value of either "ascending" or "descending"
+  return async function(dispatch) {
+    // this guards against objects being sent as an argument
+    if (!Array.isArray(tasks) && typeof tasks === "object") {
+      tasks = objectToArray(tasks);
+    }
+    // Perform sorting by name
+    let sortedTasks = tasks.sort(compareValues("name"));
+
+    if (order === "descending") {
+      // reverse the order and then save the sort setting in the database
+      sortedTasks.reverse();
+      await firebaseDbRest.put("tasks/sortBy.json", {
+        name: "descending"
+      });
+    } else {
+      // save the sort setting in the database
+      await firebaseDbRest.put("tasks/sortBy.json", {
+        name: "ascending"
+      });
+    }
+    dispatch({
+      type: actionTypes.SORT_TASKS_BY_NAME,
+      payload: sortedTasks
+    });
+  };
+};
+*/
+
 // finished tasks action creators
 export const fetchFinishedTasks = () => {
   return async function(dispatch, getState) {
