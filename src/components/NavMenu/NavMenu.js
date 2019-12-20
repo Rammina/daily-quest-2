@@ -9,6 +9,7 @@ class NavMenu extends React.Component {
   componentDidMount() {}
 
   render() {
+    console.log(this.props.match.params);
     return (
       <React.Fragment>
         <div

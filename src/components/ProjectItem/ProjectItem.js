@@ -11,6 +11,7 @@ import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import { deleteProject } from "../../actions";
 import EditProject from "../forms/projects/EditProject";
+import { ellipsifyString } from "../../helpers";
 
 class ProjectItem extends React.Component {
   state = {
@@ -142,7 +143,7 @@ class ProjectItem extends React.Component {
         >
           <div className="item-flex project">
             <div className="description-text project">
-              {project.name}
+              {ellipsifyString(project.name, 13)}
               <span className="project-count-span">
                 {project.tasks ? Object.keys(project.tasks).length : 0}
               </span>
@@ -173,7 +174,4 @@ const mapStateToProps = state => {
   return { projects: state.projects };
 };
 
-export default connect(
-  mapStateToProps,
-  { deleteProject }
-)(ProjectItem);
+export default connect(mapStateToProps, { deleteProject })(ProjectItem);

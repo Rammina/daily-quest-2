@@ -1,7 +1,7 @@
 .nav-menu.ui.sidebar.vertical {
   z-index: 30;
   width: 10rem !important;
-  opacity: 0;
+  opacity: 1;
   visibility: hidden;
   transform: translateX(11rem);
   transition: opacity 0.19s ease-in, visibility 0.19s ease-in,
@@ -36,7 +36,7 @@
 }
 
 .nav-menu.ui.sidebar.vertical.invisible {
-  opacity: 0;
+  opacity: 1;
   visibility: hidden;
   transform: translateX(11rem);
 }
@@ -102,5 +102,14 @@
 @media screen and (min-width: 901px) {
   #nav-menu-backdrop.visible {
     display: none;
+  }
+  .nav-menu.right.menu {
+    height: 100%;
+  }
+  .left.item.nav-item {
+    height: 100%;
+  }
+  .left.item.nav-item.selected {
+    border-bottom: 2px solid #beffff !important;
   }
 }
