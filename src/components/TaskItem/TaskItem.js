@@ -19,7 +19,7 @@ import {
   deleteDueTodayTask,
   toggleDueTodayTaskCheck
 } from "../../actions";
-import { convertToMDY, toStandardTime } from "../../helpers";
+import { convertToMDY, ellipsifyString, toStandardTime } from "../../helpers";
 
 class TaskItem extends React.Component {
   state = {
@@ -305,7 +305,8 @@ class TaskItem extends React.Component {
           <div className="item-flex task">
             {this.renderCheckbox()}
             <div className="description-text task">
-              {this.props.task.name} {this.renderInfoBubble()}
+              {ellipsifyString(this.props.task.name, 25)}{" "}
+              {this.renderInfoBubble()}
             </div>
 
             {this.renderActionButtons()}

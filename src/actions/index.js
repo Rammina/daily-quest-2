@@ -42,15 +42,52 @@ export const actionTypes = {
 export const fetchProjects = () => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get("/projects.json");
+    let data = null;
+    if (response.data) {
+      // remove the sort-related properties
+      const dataItemsOnly = _.omit({ ...response.data }, ["sortBy"]);
 
-    // remove the sort-related properties
-    const dataItemsOnly = _.omit({ ...response.data }, ["sortBy"]);
+      // Assign the response values to variables and do some processing
+      data = objectToArray(dataItemsOnly, "id");
+      const sortBy = response.data.sortBy ? response.data.sortBy : false;
 
-    // Assign the response values to variables and do some processing
-    let data = objectToArray(dataItemsOnly, "id");
+      // sortby property and check whether it is ascending or descending
+      if (sortBy.name) {
+        if (sortBy.name === "ascending") {
+          data = data.sort(compareValues("name"));
+        } else if (sortBy.name === "descending") {
+          data = data.sort(compareValues("name")).reverse();
+        }
+      } else if (sortBy.tasks) {
+        if (sortBy.tasks === "ascending") {
+          data = data.sort((a, b) => compareKeysInProp(a, b, "tasks"));
+        } else if (sortBy.tasks === "descending") {
+          data = data
+            .sort((a, b) => compareKeysInProp(a, b, "tasks"))
+            .reverse();
+        }
+      }
+
+      dispatch({
+        type: actionTypes.FETCH_PROJECTS,
+        payload: response.data ? data : response.data
+      });
+    }
+  };
+};
+
+export const fetchProject = id => {
+  return async function(dispatch, getState) {
+    const response = await firebaseDbRest.get(`/projects/${id}.json`);
+    const valuesWithId = { ...response.data, id };
+
+    let data = objectToArray(
+      // remove the sort-related properties
+      _.omit({ ...valuesWithId.tasks }, ["sortBy"]),
+      "id"
+    );
+
     const sortBy = response.data.sortBy ? response.data.sortBy : false;
-    console.log(response.data);
-    console.log(sortBy.name);
 
     // sortby property and check whether it is ascending or descending
     if (sortBy.name) {
@@ -59,28 +96,14 @@ export const fetchProjects = () => {
       } else if (sortBy.name === "descending") {
         data = data.sort(compareValues("name")).reverse();
       }
-    } else if (sortBy.tasks) {
-      if (sortBy.tasks === "ascending") {
-        data = data.sort((a, b) => compareKeysInProp(a, b, "tasks"));
-      } else if (sortBy.tasks === "descending") {
-        data = data.sort((a, b) => compareKeysInProp(a, b, "tasks")).reverse();
-      }
     }
-
-    dispatch({
-      type: actionTypes.FETCH_PROJECTS,
-      payload: data
-    });
-  };
-};
-
-export const fetchProject = id => {
-  return async function(dispatch, getState) {
-    const response = await firebaseDbRest.get(`/projects/${id}.json`);
-    const valuesWithId = { ...response.data, id };
+    const projectWithArrayTasks = {
+      ...valuesWithId,
+      tasks: data
+    };
     dispatch({
       type: actionTypes.FETCH_PROJECT,
-      payload: valuesWithId
+      payload: projectWithArrayTasks
     });
   };
 };
@@ -202,7 +225,7 @@ export const createTask = (id, formValues) => {
       formValues
     );
 
-    const valuesWithId = { ...formValues, id: response.data.name };
+    const valuesWithId = [{ ...formValues, id: response.data.name }];
     console.log(valuesWithId);
     dispatch({
       type: actionTypes.CREATE_TASK,
@@ -260,9 +283,10 @@ export const deleteAllTasks = projectId => {
 };
 
 // Sort task action here
-/*
-export const sortTasksByName = (tasks, order = "ascending") => {
-  // Tasks - array/object containing Tasks
+
+export const sortTasksByName = (tasks, projectId, order = "ascending") => {
+  // tasks - array/object containing tasks
+  // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
     // this guards against objects being sent as an argument
@@ -270,27 +294,30 @@ export const sortTasksByName = (tasks, order = "ascending") => {
       tasks = objectToArray(tasks);
     }
     // Perform sorting by name
-    let sortedTasks = tasks.sort(compareValues("name"));
+    console.log(tasks);
+    let sortedTasks = [...tasks.sort(compareValues("name"))];
 
     if (order === "descending") {
       // reverse the order and then save the sort setting in the database
-      sortedTasks.reverse();
-      await firebaseDbRest.put("tasks/sortBy.json", {
+
+      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
         name: "descending"
       });
+      sortedTasks.reverse();
     } else {
       // save the sort setting in the database
-      await firebaseDbRest.put("tasks/sortBy.json", {
+      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
         name: "ascending"
       });
+      sortedTasks = [...tasks.sort(compareValues("name"))];
     }
+    console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_NAME,
       payload: sortedTasks
     });
   };
 };
-*/
 
 // finished tasks action creators
 export const fetchFinishedTasks = () => {

@@ -4,7 +4,12 @@ import TrashImg from "../../images/trash.png";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { fetchProject, createTask, deleteAllTasks } from "../../actions";
+import {
+  fetchProject,
+  createTask,
+  deleteAllTasks,
+  sortTasksByName
+} from "../../actions";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
@@ -13,6 +18,7 @@ import Modal from "../Modal/Modal";
 import Settings from "../Settings/Settings";
 import ModalCloseButton from "../Modal/common/ModalCloseButton";
 import ModalCancelButton from "../Modal/common/ModalCancelButton";
+import { ellipsifyString } from "../../helpers";
 
 import CreateTask from "../forms/tasks/CreateTask";
 
@@ -25,7 +31,8 @@ class Tasks extends React.Component {
     },
     selectedTask: null,
     backdropClass: null,
-    settingsBackdropClass: null
+    settingsBackdropClass: null,
+    settingsEllipsisClass: null
   };
 
   componentDidMount() {
@@ -38,7 +45,11 @@ class Tasks extends React.Component {
 
   handleSettingsClose = () => {
     if (this.state.modalsOpened.settings) {
-      this.setState({ settingsBackdropClass: "closed" });
+      this.setState({
+        settingsBackdropClass: "closed",
+        settingsEllipsisClass: null
+      });
+
       setTimeout(() => {
         this.setState({
           modalsOpened: { settings: false },
@@ -50,7 +61,10 @@ class Tasks extends React.Component {
 
   handleSettingsOpen = () => {
     if (!this.state.modalsOpened.settings) {
-      this.setState({ modalsOpened: { settings: true } });
+      this.setState({
+        modalsOpened: { settings: true },
+        settingsEllipsisClass: "selected"
+      });
     }
   };
   // This requires some editing for the task data structures
@@ -67,27 +81,24 @@ class Tasks extends React.Component {
   renderTasks = () => {
     const projectId = this.props.project.id;
     const tasks = this.props.project.tasks;
-    if (tasks) {
-      const items = [];
-      for (let taskKey in tasks) {
-        if (tasks.hasOwnProperty(taskKey)) {
-          items.push(
-            <div
-              key={taskKey}
-              tabIndex="0"
-              className="task item list-header task-item-details"
-            >
-              <TaskItem
-                hideProjectName={true}
-                task={tasks[taskKey]}
-                taskId={taskKey}
-                projectId={this.props.match.params.id}
-              />
-            </div>
-          );
-        }
-      }
-      return items;
+    console.log("tasks is");
+    console.log(tasks);
+
+    if (tasks && Object.keys(tasks).length !== 0) {
+      return tasks.map(task => (
+        <div
+          key={task.id}
+          tabIndex="0"
+          className="task item list-header task-item-details"
+        >
+          <TaskItem
+            hideProjectName={true}
+            task={task}
+            taskId={task.id}
+            projectId={this.props.match.params.id}
+          />
+        </div>
+      ));
     } else {
       return (
         <div style={{ color: "white", textAlign: "center" }}>
@@ -161,13 +172,21 @@ class Tasks extends React.Component {
     console.log(this.props.match.params.id);
     return (
       <React.Fragment>
-        <div data-test="component-tasks" className="tasks-container">
+        <div
+          data-test="component-tasks"
+          className="tasks-container"
+          onClick={() => {
+            this.handleSettingsClose();
+          }}
+        >
           <div id="tasks-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
               <div className="task item list-header first">
                 <div className="task content">
                   <div className="header header-text task">
-                    {this.props.project.name}
+                    {this.props.project.name
+                      ? ellipsifyString(this.props.project.name, 20)
+                      : null}
                   </div>
                 </div>
                 <div style={{ width: "9rem" }}>
@@ -184,20 +203,25 @@ class Tasks extends React.Component {
                     openModal={this.handleSettingsOpen}
                     closeModal={this.handleSettingsClose}
                     backdropClass={this.state.settingsBackdropClass}
+                    ellipsisClass={this.state.settingsEllipsisClass}
                     settingItems={[
                       {
                         text: "Sort ascending (name)",
                         method: () => {
-                          // this.props.sortTasksByName(this.props.);
+                          this.props.sortTasksByName(
+                            this.props.project.tasks,
+                            this.props.project.id
+                          );
                         }
                       },
                       {
                         text: "Sort descending (name)",
                         method: () => {
-                          // this.props.sortTasksByName(
-                          // this.props.,
-                          // "descending"
-                          // );
+                          this.props.sortTasksByName(
+                            this.props.project.tasks,
+                            this.props.project.id,
+                            "descending"
+                          );
                         }
                       },
                       {
@@ -239,7 +263,7 @@ export default connect(
   mapStateToProps,
   {
     fetchProject,
-    deleteAllTasks
-    // createProject
+    deleteAllTasks,
+    sortTasksByName
   }
 )(Tasks);

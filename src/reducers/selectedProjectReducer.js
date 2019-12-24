@@ -8,12 +8,17 @@ export default (state = {}, action) => {
     case actionTypes.CREATE_TASK:
       return {
         ...state,
-        tasks: { ...state.tasks, [action.payload.id]: action.payload }
+        tasks: [].concat(state.tasks, action.payload)
       };
     case actionTypes.EDIT_TASK:
       return {
         ...state,
-        tasks: { ...state.tasks, [action.payload.id]: action.payload }
+        tasks: state.tasks.map(item => {
+          if (item.id === action.payload.id) {
+            item = action.payload;
+          }
+          return item;
+        })
       };
     case actionTypes.TOGGLE_TASK_CHECK:
       // preventing errors in due today
@@ -21,18 +26,23 @@ export default (state = {}, action) => {
 
       return {
         ...state,
-        tasks: {
-          ...state.tasks,
-          [action.payload.id]: {
-            ...state.tasks[action.payload.id],
-            ...action.payload
+        tasks: state.tasks.map(item => {
+          if (item.id === action.payload.id) {
+            item = action.payload;
           }
-        }
+          return item;
+        })
       };
     case actionTypes.DELETE_TASK:
-      return { ...state, tasks: _.omit(state.tasks, action.payload) };
+      return {
+        ...state,
+        tasks: state.tasks.filter(item => item.id !== action.payload)
+      };
     case actionTypes.DELETE_ALL_TASKS:
-      return {};
+      return { ...state, tasks: [] };
+    case actionTypes.SORT_TASKS_BY_NAME:
+      console.log(action.payload);
+      return { ...state, tasks: action.payload };
     default:
       return state;
   }

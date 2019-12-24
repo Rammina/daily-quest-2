@@ -17,7 +17,8 @@ export const getCurrentTime = () => {
 };
 
 export const convertToMDY = date => {
-  return format(new Date(date.replace(/-/g, "/")), "MM/dd/yyyy");
+  console.log(date);
+  return date ? format(new Date(date.replace(/-/g, "/")), "MM/dd/yyyy") : null;
 };
 
 export const toMilitaryTime = datetime => {
@@ -82,9 +83,11 @@ export const getErrorClass = ({ error, touched }) => {
 // This is used for helping sort object based on property names' values
 // key refers to The name of the property, order can either be asc or desc
 export const compareValues = (key, order = "asc") => {
+  console.log("comparing values");
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
       // property doesn't exist on either object
+      console.log(`${key} doesn't exist`);
       return 0;
     }
 
@@ -126,6 +129,9 @@ export const compareKeysInProp = (a, b, propName) => {
 
 //String functions
 export const ellipsifyString = (string, length = 10) => {
+  if (!string) {
+    return null;
+  }
   if (string.length > length) {
     return `${string.substring(0, length)}...
     `;
