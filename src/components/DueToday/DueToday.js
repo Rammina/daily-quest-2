@@ -6,12 +6,15 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
+import Settings from "../Settings/Settings";
 import Modal from "../Modal/Modal";
 import DeleteAll from "../forms/commonModals/DeleteAll";
+
 import {
   fetchDueToday,
   deleteTask,
-  deleteAllDueTodayTasks
+  deleteAllDueTodayTasks,
+  sortDueTodayTasksByName
 } from "../../actions";
 import { ellipsifyString } from "../../helpers/index.js";
 
@@ -20,10 +23,13 @@ class DueToday extends React.Component {
     modalsOpened: {
       any: false,
       details: false,
-      deleteAll: false
+      deleteAll: false,
+      settings: false
     },
     selectedTask: null,
-    backdropClass: null
+    backdropClass: null,
+    settingsBackdropClass: null,
+    settingsEllipsisClass: null
   };
 
   componentDidMount() {
@@ -32,6 +38,30 @@ class DueToday extends React.Component {
   }
 
   componentDidUpdate() {}
+
+  handleSettingsClose = () => {
+    if (this.state.modalsOpened.settings) {
+      this.setState({
+        settingsBackdropClass: "closed",
+        settingsEllipsisClass: null
+      });
+      setTimeout(() => {
+        this.setState({
+          modalsOpened: { settings: false },
+          settingsBackdropClass: null
+        });
+      }, 200);
+    }
+  };
+
+  handleSettingsOpen = () => {
+    if (!this.state.modalsOpened.settings) {
+      this.setState({
+        modalsOpened: { settings: true },
+        settingsEllipsisClass: "selected"
+      });
+    }
+  };
 
   onModalOpen = modalType => {
     this.setState({
@@ -117,27 +147,67 @@ class DueToday extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div data-test="component-tasks" className="tasks-container">
+        <div
+          data-test="component-tasks"
+          className="tasks-container"
+          onClick={() => {
+            this.handleSettingsClose();
+          }}
+        >
           <div id="tasks-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
               <div className="task item list-header first">
                 <div className="task content">
                   <div className="header header-text task">DUE TODAY</div>
                 </div>
-                <div style={{ width: "6rem" }}>
-                  <button
-                    onClick={e => {
-                      this.onModalOpen("deleteAll");
-                      console.log("Modal is open");
-                    }}
-                    className="task delete-button icon-button black"
-                  >
-                    <img
-                      className="icon-image black"
-                      src={TrashImg}
-                      alt="Trash Can"
-                    />
-                  </button>
+                <div style={{ width: "6rem", height: "3.1rem" }}>
+                  <Settings
+                    isModalOpen={this.state.modalsOpened.settings}
+                    openModal={this.handleSettingsOpen}
+                    closeModal={this.handleSettingsClose}
+                    backdropClass={this.state.settingsBackdropClass}
+                    ellipsisClass={this.state.settingsEllipsisClass}
+                    settingItems={[
+                      {
+                        text: "Sort ascending (name)",
+                        method: () => {
+                          this.props.sortDueTodayTasksByName(
+                            this.props.dueToday
+                          );
+                        }
+                      },
+
+                      {
+                        text: "Sort descending (name)",
+                        method: () => {
+                          this.props.sortDueTodayTasksByName(
+                            this.props.dueToday,
+                            "descending"
+                          );
+                        }
+                      },
+
+                      {
+                        text: "Delete all tasks",
+                        method: e => this.onModalOpen(e, "deleteAll")
+                      }
+                    ]}
+                  />
+                  {
+                    // <button
+                    //   onClick={e => {
+                    //     this.onModalOpen("deleteAll");
+                    //     console.log("Modal is open");
+                    //   }}
+                    //   className="task delete-button icon-button black"
+                    // >
+                    //   <img
+                    //     className="icon-image black"
+                    //     src={TrashImg}
+                    //     alt="Trash Can"
+                    //   />
+                    // </button>
+                  }
                 </div>
               </div>
               {this.renderTasks()}
@@ -159,6 +229,7 @@ export default connect(
   {
     fetchDueToday,
     deleteTask,
-    deleteAllDueTodayTasks
+    deleteAllDueTodayTasks,
+    sortDueTodayTasksByName
   }
 )(DueToday);

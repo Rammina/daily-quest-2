@@ -27,6 +27,10 @@ export const toMilitaryTime = datetime => {
 
 export const toStandardTime = time => {
   console.log(time);
+  if (!time) {
+    // Use this if you want to bypass the error
+    // return null;
+  }
   return format(new Date(`${getCurrentDate()}T${time}`), "hh:mma");
 };
 

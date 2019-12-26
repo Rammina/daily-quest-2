@@ -20,6 +20,8 @@ export default (state = [], action) => {
       });
     case actionTypes.DELETE_ALL_DUE_TODAY_TASKS:
       return [];
+    case actionTypes.SORT_DUE_TODAY_TASKS_BY_NAME:
+      return [...action.payload];
     default:
       return state;
   }

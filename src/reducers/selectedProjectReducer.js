@@ -28,7 +28,7 @@ export default (state = {}, action) => {
         ...state,
         tasks: state.tasks.map(item => {
           if (item.id === action.payload.id) {
-            item = action.payload;
+            item.finished = action.payload.finished;
           }
           return item;
         })
