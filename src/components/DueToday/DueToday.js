@@ -47,7 +47,7 @@ class DueToday extends React.Component {
       });
       setTimeout(() => {
         this.setState({
-          modalsOpened: { settings: false },
+          modalsOpened: { ...this.state.modalsOpened, settings: false },
           settingsBackdropClass: null
         });
       }, 200);
@@ -63,7 +63,9 @@ class DueToday extends React.Component {
     }
   };
 
-  onModalOpen = modalType => {
+  onModalOpen = (e, modalType) => {
+    e.preventDefault();
+    e.stopPropagation();
     this.setState({
       modalsOpened: { any: true, [modalType]: true }
     });
@@ -189,7 +191,10 @@ class DueToday extends React.Component {
 
                       {
                         text: "Delete all tasks",
-                        method: e => this.onModalOpen(e, "deleteAll")
+                        method: e => {
+                          this.onModalOpen(e, "deleteAll");
+                          this.handleSettingsClose();
+                        }
                       }
                     ]}
                   />

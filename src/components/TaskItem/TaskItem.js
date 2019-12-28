@@ -33,6 +33,11 @@ class TaskItem extends React.Component {
   };
   componentDidMount() {}
 
+  closeSettings = () => {
+    if (this.props.closeSettings) this.props.closeSettings();
+    return null;
+  };
+
   hideActionButtons = () => {
     return this.props.hideActionButtons ? { visibility: "hidden" } : {};
   };
@@ -48,6 +53,7 @@ class TaskItem extends React.Component {
             e.preventDefault();
             e.stopPropagation();
             this.onModalOpen("edit");
+            this.props.closeSettings();
           }}
           className="task edit-button icon-button"
         >
@@ -65,6 +71,7 @@ class TaskItem extends React.Component {
             e.preventDefault();
             e.stopPropagation();
             this.onModalOpen("delete");
+            this.props.closeSettings();
           }}
           className="task delete-button icon-button"
         >
@@ -322,7 +329,7 @@ const mapStateToProps = state => {
   return { project: state.selectedProject };
 };
 export default connect(
-  null,
+  mapStateToProps,
   {
     deleteTask,
     toggleTaskCheck,

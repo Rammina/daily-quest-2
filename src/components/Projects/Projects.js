@@ -49,9 +49,10 @@ class Projects extends React.Component {
       });
       setTimeout(() => {
         this.setState({
-          modalsOpened: { settings: false },
+          modalsOpened: { ...this.state.modalsOpened, settings: false },
           settingsBackdropClass: null
         });
+        console.log(this.state);
       }, 200);
     }
   };
@@ -88,7 +89,11 @@ class Projects extends React.Component {
           key={project.id}
           className="project item list-header"
         >
-          <ProjectItem project={project} id={project.id} />
+          <ProjectItem
+            project={project}
+            id={project.id}
+            closeSettings={() => this.handleSettingsClose()}
+          />
         </Link>
       ));
     } else {
@@ -179,7 +184,10 @@ class Projects extends React.Component {
                 >
                   <button
                     className="create-button"
-                    onClick={e => this.onModalOpen(e, "create")}
+                    onClick={e => {
+                      this.onModalOpen(e, "create");
+                      this.handleSettingsClose();
+                    }}
                   >
                     +
                   </button>
@@ -244,10 +252,13 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return { projects: state.projects };
 };
-export default connect(mapStateToProps, {
-  fetchProjects,
-  createProject,
-  deleteAllProjects,
-  sortProjectsByName,
-  sortProjectsByTasks
-})(Projects);
+export default connect(
+  mapStateToProps,
+  {
+    fetchProjects,
+    createProject,
+    deleteAllProjects,
+    sortProjectsByName,
+    sortProjectsByTasks
+  }
+)(Projects);

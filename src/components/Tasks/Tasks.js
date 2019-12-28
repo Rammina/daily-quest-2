@@ -52,7 +52,7 @@ class Tasks extends React.Component {
 
       setTimeout(() => {
         this.setState({
-          modalsOpened: { settings: false },
+          modalsOpened: { ...this.state.modalsOpened, settings: false },
           settingsBackdropClass: null
         });
       }, 200);
@@ -71,7 +71,7 @@ class Tasks extends React.Component {
   handleDeleteAll = () => {
     // this.props.deleteAllProjects();
   };
-  onModalOpen = modalType => {
+  onModalOpen = (e, modalType) => {
     if (!this.state.modalsOpened.any) {
       this.setState({
         modalsOpened: { any: true, [modalType]: true }
@@ -96,6 +96,7 @@ class Tasks extends React.Component {
             task={task}
             taskId={task.id}
             projectId={this.props.match.params.id}
+            closeSettings={() => this.handleSettingsClose()}
           />
         </div>
       ));
@@ -142,10 +143,12 @@ class Tasks extends React.Component {
               dataObject={this.props.project}
               onClose={() => {
                 this.dismissModalHandler();
+                // this.handleSettingsClose();
               }}
               deleteFunction={async () => {
                 await this.props.deleteAllTasks(this.props.project.id);
                 this.dismissModalHandler();
+                // this.handleSettingsClose();
               }}
             />
           )}
@@ -192,8 +195,8 @@ class Tasks extends React.Component {
                 <div style={{ width: "9rem" }}>
                   <button
                     className="create-button"
-                    onClick={() => {
-                      this.onModalOpen("create");
+                    onClick={e => {
+                      this.onModalOpen(e, "create");
                     }}
                   >
                     +
@@ -226,7 +229,10 @@ class Tasks extends React.Component {
                       },
                       {
                         text: "Delete all tasks",
-                        method: e => this.onModalOpen(e, "deleteAll")
+                        method: e => {
+                          this.onModalOpen(e, "deleteAll");
+                          this.handleSettingsClose();
+                        }
                       }
                     ]}
                   />

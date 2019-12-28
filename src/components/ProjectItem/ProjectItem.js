@@ -24,6 +24,11 @@ class ProjectItem extends React.Component {
   };
   componentDidMount() {}
 
+  closeSettings = () => {
+    if (this.props.closeSettings) this.props.closeSettings();
+    return null;
+  };
+
   renderDeleteContent = () => {
     return (
       <React.Fragment>
@@ -62,34 +67,10 @@ class ProjectItem extends React.Component {
     );
   };
 
-  onModalOpen = event => {
-    event.preventDefault();
-    event.stopPropagation();
-    const target = event.target;
-
-    if (target.hasChildNodes()) {
-      if (target.classList.contains("edit-button")) {
-        if (!this.state.modalsOpened.edit) {
-          this.setState({ modalsOpened: { edit: true, any: true } });
-        }
-      } else if (target.classList.contains("delete-button")) {
-        if (!this.state.modalsOpened.delete) {
-          this.setState({ modalsOpened: { delete: true, any: true } });
-        }
-      }
-    } else if (!target.hasChildNodes()) {
-      if (target.parentElement.classList.contains("edit-button")) {
-        if (!this.state.modalsOpened.edit) {
-          this.setState({ modalsOpened: { edit: true, any: true } });
-        }
-      } else if (target.parentElement.classList.contains("delete-button")) {
-        if (!this.state.modalsOpened.delete) {
-          this.setState({ modalsOpened: { delete: true, any: true } });
-        }
-      }
-    }
-
-    return null;
+  onModalOpen = (e, modalType) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ modalsOpened: { any: true, [modalType]: true } });
   };
 
   renderModal = () => {
@@ -150,13 +131,19 @@ class ProjectItem extends React.Component {
             </div>
             <span className="project list-buttons-container">
               <button
-                onClick={this.onModalOpen}
+                onClick={e => {
+                  this.onModalOpen(e, "edit");
+                  this.props.closeSettings();
+                }}
                 className="project edit-button icon-button"
               >
                 <img className="icon-image" src={PencilImg} alt="Pencil" />
               </button>
               <button
-                onClick={this.onModalOpen}
+                onClick={e => {
+                  this.onModalOpen(e, "delete");
+                  this.props.closeSettings();
+                }}
                 className="project delete-button icon-button"
               >
                 <img className="icon-image" src={TrashImg} alt="Trash Can" />
@@ -174,4 +161,7 @@ const mapStateToProps = state => {
   return { projects: state.projects };
 };
 
-export default connect(mapStateToProps, { deleteProject })(ProjectItem);
+export default connect(
+  mapStateToProps,
+  { deleteProject }
+)(ProjectItem);

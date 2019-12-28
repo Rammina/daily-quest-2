@@ -3,6 +3,7 @@ import warningImg from "../images/warning.png";
 import _ from "lodash";
 import React from "react";
 import { format, endOfYesterday, isBefore } from "date-fns";
+import compareAsc from "date-fns/compareAsc";
 
 // Helper functions
 
@@ -88,6 +89,17 @@ export const getErrorClass = ({ error, touched }) => {
 // key refers to The name of the property, order can either be asc or desc
 export const compareValues = (key, order = "asc") => {
   console.log("comparing values");
+  if (key === "date") {
+    return function innerDateSort(a, b) {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+        console.log(`${key} doesn't exist`);
+        return 0;
+      }
+
+      return compareAsc(a[key], b[key]);
+    };
+  }
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
       // property doesn't exist on either object

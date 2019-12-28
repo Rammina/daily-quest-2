@@ -48,7 +48,7 @@ class FinishedTasks extends React.Component {
       });
       setTimeout(() => {
         this.setState({
-          modalsOpened: { settings: false },
+          modalsOpened: { ...this.state.modalsOpened, settings: false },
           settingsBackdropClass: null
         });
       }, 200);
@@ -198,7 +198,10 @@ class FinishedTasks extends React.Component {
 
                       {
                         text: "Delete all tasks",
-                        method: e => this.onModalOpen(e, "deleteAll")
+                        method: e => {
+                          this.onModalOpen(e, "deleteAll");
+                          this.handleSettingsClose();
+                        }
                       }
                     ]}
                   />
