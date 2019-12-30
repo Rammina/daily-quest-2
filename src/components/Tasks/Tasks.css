@@ -66,6 +66,9 @@
 }
 
 .task.list-checkbox {
+  position: relative;
+  top: 0.08rem;
+  left: 0.1rem;
   width: 3rem;
   height: 3rem;
   font-family: "Raleway", sans-serif;
@@ -153,6 +156,9 @@
   .item.task.list-header.first {
     width: 50vw;
   }
+  .task.list-checkbox {
+    left: calc(0.1rem + 0.3vw);
+  }
 }
 
 @media screen and (min-width: 1300px) {
@@ -175,5 +181,8 @@
 @media screen and (min-width: 1700px) {
   .description-text.task {
     width: 77% !important;
+  }
+  .task.list-checkbox {
+    left: calc(0.1rem + 0.37vw);
   }
 }

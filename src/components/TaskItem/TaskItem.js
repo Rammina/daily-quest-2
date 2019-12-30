@@ -91,6 +91,7 @@ class TaskItem extends React.Component {
   };
 
   renderCheckbox = () => {
+    const { task } = this.props;
     if (this.props.hideCheckbox) {
       return null;
     }
@@ -98,11 +99,10 @@ class TaskItem extends React.Component {
       <input
         className="task list-checkbox"
         type="checkbox"
-        defaultChecked={this.props.task.finished || false}
+        defaultChecked={task.finished || false}
         onClick={e => {
           e.stopPropagation();
           const target = e.target;
-          console.log(this.props.taskId);
           this.props.toggleTaskCheck(
             this.props.projectId,
             this.props.taskId,
@@ -294,26 +294,48 @@ class TaskItem extends React.Component {
 
   render() {
     const modalContent = this.renderModal();
+    const { task } = this.props;
+
+    // change the indicator color depending on priority
+    const renderPriorityColor = () => {
+      if (task.priority === "high") {
+        return "#ff807b";
+      } else if (task.priority === "medium") {
+        return "#f7bd9b";
+      } else if (task.priority === "low") {
+        return "#fffbdb";
+      }
+    };
 
     return (
       <React.Fragment>
         <div
           className="task content"
-          key={`${this.props.task.name}-${this.props.task.id}`}
+          key={`${task.name}-${task.id}`}
           onClick={e => {
             if (!this.state.modalsOpened.details) {
               this.setState({
                 modalsOpened: { any: true, details: true },
-                selectedTask: this.props.task
+                selectedTask: task
               });
             }
           }}
         >
+          <div
+            style={{
+              backgroundColor: renderPriorityColor(),
+              height: "3rem",
+              width: "0.6rem",
+              position: "absolute",
+              left: "0.3rem",
+              marginTop: "0rem",
+              borderRadius: "3px"
+            }}
+          ></div>
           <div className="item-flex task">
             {this.renderCheckbox()}
             <div className="description-text task">
-              {ellipsifyString(this.props.task.name, 25)}{" "}
-              {this.renderInfoBubble()}
+              {ellipsifyString(task.name, 25)} {this.renderInfoBubble()}
             </div>
 
             {this.renderActionButtons()}

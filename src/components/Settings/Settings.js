@@ -20,9 +20,9 @@ class Settings extends React.Component {
     const renderItems = () => {
       const settingItems = this.props.settingItems;
       if (settingItems) {
-        return settingItems.map(item => {
+        return settingItems.map((item, index) => {
           return (
-            <li className="settings-submenu-item">
+            <li className="settings-submenu-item" key={`0${index}`}>
               <button
                 onClick={e => {
                   if (typeof item.method === "function") {

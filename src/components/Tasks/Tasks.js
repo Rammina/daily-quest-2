@@ -8,7 +8,9 @@ import {
   fetchProject,
   createTask,
   deleteAllTasks,
-  sortTasksByName
+  sortTasksByName,
+  sortTasksByDate,
+  sortTasksByPriority
 } from "../../actions";
 import { Link } from "react-router-dom";
 
@@ -218,9 +220,47 @@ class Tasks extends React.Component {
                         }
                       },
                       {
+                        text: "Sort ascending (date)",
+                        method: () => {
+                          this.props.sortTasksByDate(
+                            this.props.project.tasks,
+                            this.props.project.id
+                          );
+                        }
+                      },
+                      {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortTasksByName(
+                            this.props.project.tasks,
+                            this.props.project.id,
+                            "descending"
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort descending (date)",
+                        method: () => {
+                          this.props.sortTasksByDate(
+                            this.props.project.tasks,
+                            this.props.project.id,
+                            "descending"
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort ascending (priority)",
+                        method: () => {
+                          this.props.sortTasksByPriority(
+                            this.props.project.tasks,
+                            this.props.project.id
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort descending (priority)",
+                        method: () => {
+                          this.props.sortTasksByPriority(
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
@@ -270,6 +310,8 @@ export default connect(
   {
     fetchProject,
     deleteAllTasks,
-    sortTasksByName
+    sortTasksByName,
+    sortTasksByDate,
+    sortTasksByPriority
   }
 )(Tasks);

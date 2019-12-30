@@ -41,7 +41,10 @@ export default (state = {}, action) => {
     case actionTypes.DELETE_ALL_TASKS:
       return { ...state, tasks: [] };
     case actionTypes.SORT_TASKS_BY_NAME:
-      console.log(action.payload);
+      return { ...state, tasks: action.payload };
+    case actionTypes.SORT_TASKS_BY_DATE:
+      return { ...state, tasks: action.payload };
+    case actionTypes.SORT_TASKS_BY_PRIORITY:
       return { ...state, tasks: action.payload };
     default:
       return state;

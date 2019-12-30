@@ -89,6 +89,7 @@ export const getErrorClass = ({ error, touched }) => {
 // key refers to The name of the property, order can either be asc or desc
 export const compareValues = (key, order = "asc") => {
   console.log("comparing values");
+  // if date values are being compared
   if (key === "date") {
     return function innerDateSort(a, b) {
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -96,10 +97,13 @@ export const compareValues = (key, order = "asc") => {
         console.log(`${key} doesn't exist`);
         return 0;
       }
-
-      return compareAsc(a[key], b[key]);
+      const dateTimeA = new Date(`${a.date}T${a.time}`);
+      const dateTimeB = new Date(`${b.date}T${b.time}`);
+      const orderValue = order === "desc" ? -1 : 1;
+      return compareAsc(dateTimeA, dateTimeB) * orderValue;
     };
   }
+  // typical lexical comparison, or numerical comparison
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
       // property doesn't exist on either object
@@ -121,6 +125,42 @@ export const compareValues = (key, order = "asc") => {
 };
 // // usage: array is sorted by band, in ascending order by default:
 // // //singers.sort(compareValues('band'));
+
+export const comparePriorityValues = (order = "asc") => {
+  console.log("comparing values");
+
+  // Compare by priority strings
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty("priority") || !b.hasOwnProperty("priority")) {
+      // property doesn't exist on either object
+      console.log(`priority key doesn't exist`);
+      return 0;
+    }
+    let comparison = 0;
+    if (
+      a.priority === "high" &&
+      (b.priority === "medium" || b.priority === "low")
+    ) {
+      comparison = 1;
+    } else if (a.priority === "high" && b.priority === "high") {
+      comparison = 0;
+    } else if (a.priority === "medium" && b.priority === "low") {
+      comparison = 1;
+    } else if (a.priority === "medium" && b.priority === "medium") {
+      comparison = 0;
+    } else if (a.priority === "medium" && b.priority === "high") {
+      comparison = -1;
+    } else if (
+      a.priority === "low" &&
+      (b.priority === "medium" || b.priority === "high")
+    ) {
+      comparison = -1;
+    } else if (a.priority === "low" && b.priority === "low") {
+      comparison = 0;
+    }
+    return order === "desc" ? comparison * -1 : comparison;
+  };
+};
 
 // Use this to compare objects based on key count of their property
 //  a & b - objects to be compared
