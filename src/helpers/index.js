@@ -128,7 +128,6 @@ export const compareValues = (key, order = "asc") => {
 
 export const comparePriorityValues = (order = "asc") => {
   console.log("comparing values");
-
   // Compare by priority strings
   return function innerSort(a, b) {
     if (!a.hasOwnProperty("priority") || !b.hasOwnProperty("priority")) {

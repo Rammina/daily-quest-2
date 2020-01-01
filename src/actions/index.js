@@ -38,6 +38,8 @@ export const actionTypes = {
   DELETE_ALL_FINISHED_TASKS: "DELETE_ALL_FINISHED_TASKS",
   // sort functions for finished tasks
   SORT_FINISHED_TASKS_BY_NAME: "SORT_FINISHED_TASKS_BY_NAME",
+  SORT_FINISHED_TASKS_BY_DATE: "SORT_FINISHED_TASKS_BY_DATE",
+  SORT_FINISHED_TASKS_BY_PRIORITY: "SORT_FINISHED_TASKS_BY_PRIORITY",
 
   // due today actions
   FETCH_DUE_TODAY: "FETCH_DUE_TODAY",
@@ -515,6 +517,64 @@ export const sortFinishedTasksByName = (tasks, order = "ascending") => {
     }
     dispatch({
       type: actionTypes.SORT_FINISHED_TASKS_BY_NAME,
+      payload: sortedTasks
+    });
+  };
+};
+
+export const sortFinishedTasksByDate = (tasks, order = "ascending") => {
+  // tasks - array/object containing tasks
+  // order - string - which can have the value of either "ascending" or "descending"
+
+  return async function(dispatch) {
+    // this guards against objects being sent as an argument
+    if (!Array.isArray(tasks) && typeof tasks === "object") {
+      tasks = objectToArray(tasks);
+    }
+    // save the order's setting in the database
+    await firebaseDbRest.put("projects/finishedSortBy.json", {
+      date: order
+    });
+    // Perform sorting by date
+    let sortedTasks = null;
+    if (order === "descending") {
+      // sort in descending order
+      sortedTasks = tasks.sort(compareValues("date", "desc"));
+    } else {
+      // sort in ascending order
+      sortedTasks = tasks.sort(compareValues("date"));
+    }
+    dispatch({
+      type: actionTypes.SORT_FINISHED_TASKS_BY_DATE,
+      payload: sortedTasks
+    });
+  };
+};
+
+export const sortFinishedTasksByPriority = (tasks, order = "ascending") => {
+  // tasks - array/object containing tasks
+  // order - string - which can have the value of either "ascending" or "descending"
+
+  return async function(dispatch) {
+    // this guards against objects being sent as an argument
+    if (!Array.isArray(tasks) && typeof tasks === "object") {
+      tasks = objectToArray(tasks);
+    }
+    // save the order's setting in the database
+    await firebaseDbRest.put("projects/finishedSortBy.json", {
+      priority: order
+    });
+    // Perform sorting by date
+    let sortedTasks = null;
+    if (order === "descending") {
+      // sort in descending order
+      sortedTasks = tasks.sort(comparePriorityValues("desc"));
+    } else {
+      // sort in ascending order
+      sortedTasks = tasks.sort(comparePriorityValues());
+    }
+    dispatch({
+      type: actionTypes.SORT_FINISHED_TASKS_BY_PRIORITY,
       payload: sortedTasks
     });
   };

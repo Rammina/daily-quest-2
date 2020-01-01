@@ -229,6 +229,15 @@ class Tasks extends React.Component {
                         }
                       },
                       {
+                        text: "Sort ascending (priority)",
+                        method: () => {
+                          this.props.sortTasksByPriority(
+                            this.props.project.tasks,
+                            this.props.project.id
+                          );
+                        }
+                      },
+                      {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortTasksByName(
@@ -248,15 +257,7 @@ class Tasks extends React.Component {
                           );
                         }
                       },
-                      {
-                        text: "Sort ascending (priority)",
-                        method: () => {
-                          this.props.sortTasksByPriority(
-                            this.props.project.tasks,
-                            this.props.project.id
-                          );
-                        }
-                      },
+
                       {
                         text: "Sort descending (priority)",
                         method: () => {

@@ -185,7 +185,7 @@ class FinishedTasks extends React.Component {
                           );
                         }
                       },
-
+                      // note to myself : add the new sort functionswhen you code again
                       {
                         text: "Sort descending (name)",
                         method: () => {
