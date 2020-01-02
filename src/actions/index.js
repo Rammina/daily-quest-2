@@ -48,7 +48,9 @@ export const actionTypes = {
   TOGGLE_DUE_TODAY_TASK_CHECK: "TOGGLE_DUE_TODAY_TASK_CHECK",
   DELETE_ALL_DUE_TODAY_TASKS: "DELETE_ALL_DUE_TODAY_TASKS",
   // sort action creators for due today
-  SORT_DUE_TODAY_TASKS_BY_NAME: "SORT_DUE_TODAY_TASKS_BY_NAME"
+  SORT_DUE_TODAY_TASKS_BY_NAME: "SORT_DUE_TODAY_TASKS_BY_NAME",
+  SORT_DUE_TODAY_TASKS_BY_DATE: "SORT_DUE_TODAY_TASKS_BY_DATE",
+  SORT_DUE_TODAY_TASKS_BY_PRIORITY: "SORT_DUE_TODAY_TASKS_BY_PRIORITY"
 };
 
 // project action creators
@@ -629,7 +631,7 @@ export const fetchDueToday = () => {
         dueToday = dueToday.sort(compareValues("name", "desc"));
       }
     }
-
+    // note: when you get back configure sorting for date and priority
     dispatch({
       type: actionTypes.FETCH_DUE_TODAY,
       payload: dueToday
@@ -705,6 +707,64 @@ export const sortDueTodayTasksByName = (tasks, order = "ascending") => {
     }
     dispatch({
       type: actionTypes.SORT_DUE_TODAY_TASKS_BY_NAME,
+      payload: sortedTasks
+    });
+  };
+};
+
+export const sortDueTodayTasksByDate = (tasks, order = "ascending") => {
+  // tasks - array/object containing tasks
+  // order - string - which can have the value of either "ascending" or "descending"
+
+  return async function(dispatch) {
+    // this guards against objects being sent as an argument
+    if (!Array.isArray(tasks) && typeof tasks === "object") {
+      tasks = objectToArray(tasks);
+    }
+    // save the order's setting in the database
+    await firebaseDbRest.put("projects/dueTodaySortBy.json", {
+      date: order
+    });
+    // Perform sorting by date
+    let sortedTasks = null;
+    if (order === "descending") {
+      // sort in descending order
+      sortedTasks = tasks.sort(compareValues("date", "desc"));
+    } else {
+      // sort in ascending order
+      sortedTasks = tasks.sort(compareValues("date"));
+    }
+    dispatch({
+      type: actionTypes.SORT_DUE_TODAY_TASKS_BY_DATE,
+      payload: sortedTasks
+    });
+  };
+};
+
+export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
+  // tasks - array/object containing tasks
+  // order - string - which can have the value of either "ascending" or "descending"
+
+  return async function(dispatch) {
+    // this guards against objects being sent as an argument
+    if (!Array.isArray(tasks) && typeof tasks === "object") {
+      tasks = objectToArray(tasks);
+    }
+    // save the order's setting in the database
+    await firebaseDbRest.put("projects/dueTodaySortBy.json", {
+      priority: order
+    });
+    // Perform sorting by date
+    let sortedTasks = null;
+    if (order === "descending") {
+      // sort in descending order
+      sortedTasks = tasks.sort(comparePriorityValues("desc"));
+    } else {
+      // sort in ascending order
+      sortedTasks = tasks.sort(comparePriorityValues());
+    }
+    dispatch({
+      type: actionTypes.SORT_DUE_TODAY_TASKS_BY_PRIORITY,
       payload: sortedTasks
     });
   };

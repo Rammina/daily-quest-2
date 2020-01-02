@@ -15,7 +15,9 @@ import {
   deleteTask,
   deleteFinishedTask,
   deleteAllFinishedTasks,
-  sortFinishedTasksByName
+  sortFinishedTasksByName,
+  sortFinishedTasksByDate,
+  sortFinishedTasksByPriority
 } from "../../actions";
 import { ellipsifyString } from "../../helpers/index.js";
 
@@ -185,11 +187,45 @@ class FinishedTasks extends React.Component {
                           );
                         }
                       },
-                      // note to myself : add the new sort functionswhen you code again
+
+                      {
+                        text: "Sort ascending (date)",
+                        method: () => {
+                          this.props.sortFinishedTasksByDate(
+                            this.props.finishedTasks
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort ascending (priority)",
+                        method: () => {
+                          this.props.sortFinishedTasksByPriority(
+                            this.props.finishedTasks
+                          );
+                        }
+                      },
                       {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortFinishedTasksByName(
+                            this.props.finishedTasks,
+                            "descending"
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort descending (date)",
+                        method: () => {
+                          this.props.sortFinishedTasksByDate(
+                            this.props.finishedTasks,
+                            "descending"
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort descending (priority)",
+                        method: () => {
+                          this.props.sortFinishedTasksByPriority(
                             this.props.finishedTasks,
                             "descending"
                           );
@@ -205,21 +241,6 @@ class FinishedTasks extends React.Component {
                       }
                     ]}
                   />
-                  {
-                    // <button
-                    //   onClick={e => {
-                    //     this.onModalOpen("deleteAll");
-                    //     console.log("Modal is open");
-                    //   }}
-                    //   className="task delete-button icon-button black"
-                    // >
-                    //   <img
-                    //     className="icon-image black"
-                    //     src={TrashImg}
-                    //     alt="Trash Can"
-                    //   />
-                    // </button>
-                  }
                 </div>
               </div>
               {this.renderTasks()}
@@ -243,6 +264,8 @@ export default connect(
     deleteTask,
     deleteFinishedTask,
     deleteAllFinishedTasks,
-    sortFinishedTasksByName
+    sortFinishedTasksByName,
+    sortFinishedTasksByDate,
+    sortFinishedTasksByPriority
   }
 )(FinishedTasks);

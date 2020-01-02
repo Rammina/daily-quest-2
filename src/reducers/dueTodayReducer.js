@@ -22,6 +22,10 @@ export default (state = [], action) => {
       return [];
     case actionTypes.SORT_DUE_TODAY_TASKS_BY_NAME:
       return [...action.payload];
+    case actionTypes.SORT_DUE_TODAY_TASKS_BY_DATE:
+      return [...action.payload];
+    case actionTypes.SORT_DUE_TODAY_TASKS_BY_PRIORITY:
+      return [...action.payload];
     default:
       return state;
   }

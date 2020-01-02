@@ -14,7 +14,9 @@ import {
   fetchDueToday,
   deleteTask,
   deleteAllDueTodayTasks,
-  sortDueTodayTasksByName
+  sortDueTodayTasksByName,
+  sortDueTodayTasksByDate,
+  sortDueTodayTasksByPriority
 } from "../../actions";
 import { ellipsifyString } from "../../helpers/index.js";
 
@@ -178,7 +180,22 @@ class DueToday extends React.Component {
                           );
                         }
                       },
-
+                      {
+                        text: "Sort ascending (time)",
+                        method: () => {
+                          this.props.sortDueTodayTasksByDate(
+                            this.props.dueToday
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort ascending (priority)",
+                        method: () => {
+                          this.props.sortDueTodayTasksByPriority(
+                            this.props.dueToday
+                          );
+                        }
+                      },
                       {
                         text: "Sort descending (name)",
                         method: () => {
@@ -188,7 +205,24 @@ class DueToday extends React.Component {
                           );
                         }
                       },
-
+                      {
+                        text: "Sort descending (time)",
+                        method: () => {
+                          this.props.sortDueTodayTasksByDate(
+                            this.props.dueToday,
+                            "descending"
+                          );
+                        }
+                      },
+                      {
+                        text: "Sort descending (priority)",
+                        method: () => {
+                          this.props.sortDueTodayTasksByPriority(
+                            this.props.dueToday,
+                            "descending"
+                          );
+                        }
+                      },
                       {
                         text: "Delete all tasks",
                         method: e => {
@@ -198,21 +232,6 @@ class DueToday extends React.Component {
                       }
                     ]}
                   />
-                  {
-                    // <button
-                    //   onClick={e => {
-                    //     this.onModalOpen("deleteAll");
-                    //     console.log("Modal is open");
-                    //   }}
-                    //   className="task delete-button icon-button black"
-                    // >
-                    //   <img
-                    //     className="icon-image black"
-                    //     src={TrashImg}
-                    //     alt="Trash Can"
-                    //   />
-                    // </button>
-                  }
                 </div>
               </div>
               {this.renderTasks()}
@@ -235,6 +254,8 @@ export default connect(
     fetchDueToday,
     deleteTask,
     deleteAllDueTodayTasks,
-    sortDueTodayTasksByName
+    sortDueTodayTasksByName,
+    sortDueTodayTasksByDate,
+    sortDueTodayTasksByPriority
   }
 )(DueToday);
