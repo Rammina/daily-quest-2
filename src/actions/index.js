@@ -465,6 +465,18 @@ export const fetchFinishedTasks = () => {
       } else if (sortBy.name === "descending") {
         finishedTasks = finishedTasks.sort(compareValues("name", "desc"));
       }
+    } else if (sortBy.date) {
+      if (sortBy.date === "ascending") {
+        finishedTasks = finishedTasks.sort(compareValues("date"));
+      } else if (sortBy.date === "descending") {
+        finishedTasks = finishedTasks.sort(compareValues("date", "desc"));
+      }
+    } else if (sortBy.priority) {
+      if (sortBy.priority === "ascending") {
+        finishedTasks = finishedTasks.sort(comparePriorityValues());
+      } else if (sortBy.priority === "descending") {
+        finishedTasks = finishedTasks.sort(comparePriorityValues("desc"));
+      }
     }
 
     console.log(finishedTasks);
@@ -588,7 +600,13 @@ export const fetchDueToday = () => {
     // Retrieve all projects first from the database
     const response = await firebaseDbRest.get("/projects.json");
 
-    const projects = response.data;
+    // remove sort related properties
+    const projects = _.omit({ ...response.data }, [
+      "finishedSortBy",
+      "sortBy",
+      "dueTodaySortBy"
+    ]);
+
     let dueToday = [];
     console.log(projects);
     // Process each project and retrieve each task
@@ -630,7 +648,20 @@ export const fetchDueToday = () => {
       } else if (sortBy.name === "descending") {
         dueToday = dueToday.sort(compareValues("name", "desc"));
       }
+    } else if (sortBy.date) {
+      if (sortBy.date === "ascending") {
+        dueToday = dueToday.sort(compareValues("date"));
+      } else if (sortBy.date === "descending") {
+        dueToday = dueToday.sort(compareValues("date", "desc"));
+      }
+    } else if (sortBy.priority) {
+      if (sortBy.priority === "ascending") {
+        dueToday = dueToday.sort(comparePriorityValues());
+      } else if (sortBy.priority === "descending") {
+        dueToday = dueToday.sort(comparePriorityValues("desc"));
+      }
     }
+
     // note: when you get back configure sorting for date and priority
     dispatch({
       type: actionTypes.FETCH_DUE_TODAY,
