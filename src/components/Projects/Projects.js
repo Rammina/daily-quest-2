@@ -22,23 +22,34 @@ import DeleteAll from "../forms/commonModals/DeleteAll";
 import CreateProject from "../forms/projects/CreateProject";
 
 class Projects extends React.Component {
-  state = {
-    modalsOpened: {
-      any: false,
-      create: false,
-      deleteAll: false,
-      settings: false
-    },
-    backdropClass: null,
-    settingsBackdropClass: null,
-    settingsEllipsisClass: null
-  };
+  constructor(props) {
+    super(props);
+    this.createButton = React.createRef();
+    this.settingsButton = React.createRef();
+    // note: when you get back, use the callback version of setref
+    this.state = {
+      modalsOpened: {
+        any: false,
+        create: false,
+        deleteAll: false,
+        settings: false
+      },
+      backdropClass: null,
+      settingsBackdropClass: null,
+      settingsEllipsisClass: null
+    };
+  }
 
   componentDidMount() {
     this.props.fetchProjects();
   }
 
   componentDidUpdate() {}
+
+  // focus methods
+  focusCreateButton = () => {
+    this.createButton.current.focus();
+  };
 
   //
   handleSettingsClose = () => {
@@ -116,11 +127,13 @@ class Projects extends React.Component {
               onClose={() => {
                 console.log("dismissed");
                 this.dismissModalHandler();
+                this.focusCreateButton();
               }}
             />
           )}
           onDismiss={() => {
             this.dismissModalHandler();
+            this.focusCreateButton();
           }}
         />
       );
@@ -184,6 +197,7 @@ class Projects extends React.Component {
                 >
                   <button
                     className="create-button"
+                    ref={this.createButton}
                     onClick={e => {
                       this.onModalOpen(e, "create");
                       this.handleSettingsClose();

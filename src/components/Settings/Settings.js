@@ -7,12 +7,10 @@ import ReactDOM from "react-dom";
 import Modal from "../Modal/Modal";
 
 class Settings extends React.Component {
-  // ellipsisClass = () => {
-  //   if (this.props.isModalOpen) {
-  //     return "selected";
-  //   }
-  //   return null;
-  // };
+  constructor(props) {
+    super(props);
+    // this.settingsButton = React.createRef();
+  }
   closeMenu = () => {
     this.props.closeModal();
   };
@@ -76,6 +74,7 @@ class Settings extends React.Component {
       <React.Fragment>
         <button
           // Should open a modal on mobile and a drop-down on desktop view
+          ref={this.settingsButton}
           onClick={e => {
             if (this.props.isModalOpen) {
               this.closeMenu();
