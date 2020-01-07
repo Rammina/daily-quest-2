@@ -45,6 +45,9 @@ class Settings extends React.Component {
         <div
           onClick={e => {
             this.closeMenu();
+            setTimeout(() => {
+              this.props.focusEllipsisButton();
+            }, 201);
           }}
           className={`backdrop settings ${this.props.backdropClass}`}
         >
@@ -74,7 +77,7 @@ class Settings extends React.Component {
       <React.Fragment>
         <button
           // Should open a modal on mobile and a drop-down on desktop view
-          ref={this.settingsButton}
+          ref={this.props.setEllipsisRef}
           onClick={e => {
             if (this.props.isModalOpen) {
               this.closeMenu();

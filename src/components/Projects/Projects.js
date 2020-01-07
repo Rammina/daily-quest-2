@@ -24,9 +24,10 @@ import CreateProject from "../forms/projects/CreateProject";
 class Projects extends React.Component {
   constructor(props) {
     super(props);
-    this.createButton = React.createRef();
-    this.settingsButton = React.createRef();
-    // note: when you get back, use the callback version of setref
+    this.createButtonRef = React.createRef();
+    // callback ref initial state
+    this.ellipsisButtonRef = null;
+
     this.state = {
       modalsOpened: {
         any: false,
@@ -46,9 +47,22 @@ class Projects extends React.Component {
 
   componentDidUpdate() {}
 
+  setEllipsisRef = ref => {
+    this.ellipsisButtonRef = ref;
+  };
+
   // focus methods
   focusCreateButton = () => {
-    this.createButton.current.focus();
+    // non-callback focus of ref
+    this.createButtonRef.current.focus();
+  };
+
+  focusEllipsisButton = () => {
+    if (this.ellipsisButtonRef) {
+      //guard
+      // callback focus of ref
+      this.ellipsisButtonRef.focus();
+    }
   };
 
   //
@@ -197,7 +211,7 @@ class Projects extends React.Component {
                 >
                   <button
                     className="create-button"
-                    ref={this.createButton}
+                    ref={this.createButtonRef}
                     onClick={e => {
                       this.onModalOpen(e, "create");
                       this.handleSettingsClose();
@@ -206,9 +220,14 @@ class Projects extends React.Component {
                     +
                   </button>
                   <Settings
+                    // focus functions
+                    setEllipsisRef={this.setEllipsisRef}
+                    focusEllipsisButton={this.focusEllipsisButton}
+                    // modal functions
                     isModalOpen={this.state.modalsOpened.settings}
                     openModal={this.handleSettingsOpen}
                     closeModal={this.handleSettingsClose}
+                    // class names linked to state
                     backdropClass={this.state.settingsBackdropClass}
                     ellipsisClass={this.state.settingsEllipsisClass}
                     settingItems={[
