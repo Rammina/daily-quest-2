@@ -112,4 +112,7 @@
   .left.item.nav-item.selected {
     border-bottom: 2px solid #beffff !important;
   }
+  .left.item.nav-item.selected:hover {
+    border-bottom: 2px solid aliceblue !important;
+  }
 }

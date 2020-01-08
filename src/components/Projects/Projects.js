@@ -162,14 +162,22 @@ class Projects extends React.Component {
               dataObject={this.props.projects}
               onClose={() => {
                 this.dismissModalHandler();
+                this.handleSettingsClose();
+                setTimeout(() => this.focusEllipsisButton(), 200);
               }}
               deleteFunction={async () => {
                 await this.props.deleteAllProjects();
                 this.dismissModalHandler();
+                this.handleSettingsClose();
+                setTimeout(() => this.focusEllipsisButton(), 200);
               }}
             />
           )}
-          onDismiss={() => this.dismissModalHandler()}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            this.handleSettingsClose();
+            setTimeout(() => this.focusEllipsisButton(), 200);
+          }}
         />
       );
     }
@@ -266,7 +274,10 @@ class Projects extends React.Component {
                       },
                       {
                         text: "Delete all projects",
-                        method: e => this.onModalOpen(e, "deleteAll")
+                        method: e => {
+                          this.handleSettingsClose();
+                          this.onModalOpen(e, "deleteAll");
+                        }
                       }
                     ]}
                   />

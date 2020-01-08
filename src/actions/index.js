@@ -662,7 +662,6 @@ export const fetchDueToday = () => {
       }
     }
 
-    // note: when you get back configure sorting for date and priority
     dispatch({
       type: actionTypes.FETCH_DUE_TODAY,
       payload: dueToday
