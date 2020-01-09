@@ -22,8 +22,23 @@ class ProjectItem extends React.Component {
     },
     backdropClass: null
   };
+
+  // refs(outside constructor)
+  editButtonRef = React.createRef();
+  deleteButtonRef = React.createRef();
+
   componentDidMount() {}
 
+  // focus methods
+  focusEditButton = () => {
+    this.editButtonRef.current.focus();
+  };
+
+  focusDeleteButton = () => {
+    this.deleteButtonRef.current.focus();
+  };
+
+  // methods related to Settings component
   closeSettings = () => {
     if (this.props.closeSettings) this.props.closeSettings();
     return null;
@@ -81,7 +96,12 @@ class ProjectItem extends React.Component {
           sectionId="edit-project-content"
           content={() => (
             <EditProject
-              onClose={() => this.dismissModalHandler()}
+              onClose={() => {
+                this.dismissModalHandler();
+                // note: when you get back please add a delay for focus
+                // and add the counterpart for delete
+                this.focusEditButton();
+              }}
               project={this.props.project}
               id={this.props.id}
             />
@@ -131,20 +151,22 @@ class ProjectItem extends React.Component {
             </div>
             <span className="project list-buttons-container">
               <button
+                ref={this.editButtonRef}
+                className="project edit-button icon-button"
                 onClick={e => {
                   this.onModalOpen(e, "edit");
                   this.props.closeSettings();
                 }}
-                className="project edit-button icon-button"
               >
                 <img className="icon-image" src={PencilImg} alt="Pencil" />
               </button>
               <button
+                ref={this.deleteButtonRef}
+                className="project delete-button icon-button"
                 onClick={e => {
                   this.onModalOpen(e, "delete");
                   this.props.closeSettings();
                 }}
-                className="project delete-button icon-button"
               >
                 <img className="icon-image" src={TrashImg} alt="Trash Can" />
               </button>
