@@ -98,15 +98,20 @@ class ProjectItem extends React.Component {
             <EditProject
               onClose={() => {
                 this.dismissModalHandler();
-                // note: when you get back please add a delay for focus
-                // and add the counterpart for delete
-                this.focusEditButton();
+                setTimeout(() => {
+                  this.focusEditButton();
+                }, 200);
               }}
               project={this.props.project}
               id={this.props.id}
             />
           )}
-          onDismiss={() => this.dismissModalHandler()}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            setTimeout(() => {
+              this.focusEditButton();
+            }, 200);
+          }}
         />
       );
     } else if (this.state.modalsOpened.delete) {
@@ -115,7 +120,12 @@ class ProjectItem extends React.Component {
           backdropClass={this.state.backdropClass || null}
           sectionId="delete-project-content"
           content={this.renderDeleteContent}
-          onDismiss={() => this.dismissModalHandler()}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            setTimeout(() => {
+              this.focusDeleteButton();
+            }, 200);
+          }}
         />
       );
     }

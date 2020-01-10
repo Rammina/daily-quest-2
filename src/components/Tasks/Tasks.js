@@ -37,6 +37,28 @@ class Tasks extends React.Component {
     settingsEllipsisClass: null
   };
 
+  // refs
+  createButtonRef = React.createRef();
+
+  // // using the callback version here because it's much more customizable
+  setEllipsisRef = ref => {
+    this.ellipsisButtonRef = ref;
+  };
+
+  // focus methods
+  focusCreateButton = () => {
+    // non-callback focus of ref
+    this.createButtonRef.current.focus();
+  };
+
+  focusEllipsisButton = () => {
+    if (this.ellipsisButtonRef) {
+      //guard
+      // callback focus of ref
+      this.ellipsisButtonRef.focus();
+    }
+  };
+
   componentDidMount() {
     // this needs to be able to receive the ID property of the project in
     // Preferably the URL parameter
@@ -124,13 +146,22 @@ class Tasks extends React.Component {
             // of where the URL address is
             return (
               <CreateTask
-                onClose={this.dismissModalHandler}
+                onClose={() => {
+                  // note: keep working on focus and check if the settings has the right focus in place
+                  this.dismissModalHandler();
+                  setTimeout(() => {
+                    this.focusCreateButton();
+                  }, 200);
+                }}
                 id={this.props.match.params.id}
               />
             );
           }}
           onDismiss={() => {
             this.dismissModalHandler();
+            setTimeout(() => {
+              this.focusCreateButton();
+            }, 200);
           }}
         />
       );
@@ -145,16 +176,27 @@ class Tasks extends React.Component {
               dataObject={this.props.project}
               onClose={() => {
                 this.dismissModalHandler();
+                setTimeout(() => {
+                  this.focusDeleteButton();
+                }, 200);
                 // this.handleSettingsClose();
               }}
               deleteFunction={async () => {
                 await this.props.deleteAllTasks(this.props.project.id);
                 this.dismissModalHandler();
+                setTimeout(() => {
+                  this.focusDeleteButton();
+                }, 200);
                 // this.handleSettingsClose();
               }}
             />
           )}
-          onDismiss={() => this.dismissModalHandler()}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            setTimeout(() => {
+              this.focusDeleteButton();
+            }, 200);
+          }}
         />
       );
     }
@@ -196,6 +238,7 @@ class Tasks extends React.Component {
                 </div>
                 <div style={{ width: "9rem" }}>
                   <button
+                    ref={this.createButtonRef}
                     className="create-button"
                     onClick={e => {
                       this.onModalOpen(e, "create");
@@ -204,6 +247,10 @@ class Tasks extends React.Component {
                     +
                   </button>
                   <Settings
+                    // focus functions
+                    setEllipsisRef={this.setEllipsisRef}
+                    focusEllipsisButton={this.focusEllipsisButton}
+                    // modal functions
                     isModalOpen={this.state.modalsOpened.settings}
                     openModal={this.handleSettingsOpen}
                     closeModal={this.handleSettingsClose}

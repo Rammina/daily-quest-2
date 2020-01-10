@@ -41,13 +41,15 @@ class Settings extends React.Component {
   };
   renderMenu = () => {
     if (this.props.isModalOpen) {
+      const focusEllipsisButton = this.props.focusEllipsisButton;
       return ReactDOM.createPortal(
         <div
           onClick={e => {
             this.closeMenu();
-            setTimeout(() => {
-              this.props.focusEllipsisButton();
-            }, 201);
+            // guards against undefined errors
+            if (focusEllipsisButton) {
+              setTimeout(() => focusEllipsisButton(), 201);
+            }
           }}
           className={`backdrop settings ${this.props.backdropClass}`}
         >
