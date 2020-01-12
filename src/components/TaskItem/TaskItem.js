@@ -29,10 +29,38 @@ class TaskItem extends React.Component {
       delete: false,
       details: false
     },
+    focusTaskContentOnClose: false,
     backdropClass: null
   };
-  componentDidMount() {}
 
+  // refs(outside constructor)
+  taskContentRef = null;
+  editButtonRef = React.createRef();
+  deleteButtonRef = React.createRef();
+
+  // // callback version
+  setTaskContentRef = ref => {
+    this.taskContentRef = ref;
+  };
+
+  // focus methods
+  focusTaskContent = () => {
+    /* guard against undefined*/
+    if (this.taskContentRef) {
+      this.taskContentRef.focus();
+      this.setState({ focusTaskContentOnClose: false });
+    }
+  };
+
+  focusEditButton = () => {
+    this.editButtonRef.current.focus();
+  };
+
+  focusDeleteButton = () => {
+    this.deleteButtonRef.current.focus();
+  };
+
+  // settings component methods
   closeSettings = () => {
     if (this.props.closeSettings) this.props.closeSettings();
     return null;
@@ -49,13 +77,14 @@ class TaskItem extends React.Component {
       }
       return (
         <button
+          ref={this.editButtonRef}
+          className="task edit-button icon-button"
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();
             this.onModalOpen("edit");
             this.props.closeSettings();
           }}
-          className="task edit-button icon-button"
         >
           <img className="icon-image" src={PencilImg} alt="Pencil" />
         </button>
@@ -67,13 +96,14 @@ class TaskItem extends React.Component {
       }
       return (
         <button
+          ref={this.deleteButtonRef}
+          className="task delete-button icon-button"
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();
             this.onModalOpen("delete");
             this.props.closeSettings();
           }}
-          className="task delete-button icon-button"
         >
           <img className="icon-image" src={TrashImg} alt="Trash Can" />
         </button>
@@ -208,9 +238,6 @@ class TaskItem extends React.Component {
     );
   };
 
-  // This honestly could be recycled instead as a general helper function
-  // on second thought it's harder than it seems
-  // It's pretty easy
   onModalOpen = modalType => {
     if (!this.state.modalsOpened.any) {
       this.setState({ modalsOpened: { [modalType]: true, any: true } });
@@ -221,7 +248,7 @@ class TaskItem extends React.Component {
     this.dismissModalHandler();
     setTimeout(() => {
       this.setState({ modalsOpened: { [modalType]: true, any: true } });
-    }, 50);
+    }, 205);
   };
 
   // This also could be recyclable
@@ -234,17 +261,31 @@ class TaskItem extends React.Component {
           content={() => {
             return (
               <TaskDetails
-                onClose={this.dismissModalHandler}
+                // focus
+                focusTaskContent={this.focusTaskContent}
+                focusTaskContentOnClose={this.state.focusTaskContentOnClose}
+                // modal functions
+                onClose={() => {
+                  this.dismissModalHandler();
+                  setTimeout(() => {
+                    this.focusTaskContent();
+                  }, 200);
+                }}
+                switchModal={this.switchModalHandler}
+                // conditional rendering
+                hideActionEdit={this.props.hideEditButton}
+                // task and project information
                 task={this.props.task}
                 projectId={this.props.projectId}
                 taskId={this.props.taskId}
-                switchModal={this.switchModalHandler}
-                hideActionEdit={this.props.hideEditButton}
               />
             );
           }}
           onDismiss={() => {
             this.dismissModalHandler();
+            setTimeout(() => {
+              this.focusTaskContent();
+            }, 200);
           }}
         />
       );
@@ -257,14 +298,36 @@ class TaskItem extends React.Component {
             return (
               <EditTask
                 task={this.props.task}
-                onClose={this.dismissModalHandler}
+                onClose={() => {
+                  this.dismissModalHandler();
+                  if (this.state.focusTaskContentOnClose) {
+                    setTimeout(() => {
+                      this.focusTaskContent();
+                    }, 200);
+                  } else {
+                    setTimeout(() => {
+                      this.focusEditButton();
+                    }, 200);
+                  }
+                }}
                 projectId={this.props.projectId}
                 taskId={this.props.taskId}
                 dueTodayIndex={this.props.dueTodayIndex}
               />
             );
           }}
-          onDismiss={this.dismissModalHandler}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            if (this.state.focusTaskContentOnClose) {
+              setTimeout(() => {
+                this.focusTaskContent();
+              }, 200);
+            } else {
+              setTimeout(() => {
+                this.focusEditButton();
+              }, 200);
+            }
+          }}
         />
       );
     } else if (this.state.modalsOpened.delete) {
@@ -273,7 +336,18 @@ class TaskItem extends React.Component {
           backdropClass={this.state.backdropClass || null}
           sectionId="delete-task-content"
           content={this.renderDeleteContent}
-          onDismiss={this.dismissModalHandler}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            if (this.state.focusTaskContentOnClose) {
+              setTimeout(() => {
+                this.focusTaskContent();
+              }, 200);
+            } else {
+              setTimeout(() => {
+                this.focusDeleteButton();
+              }, 200);
+            }
+          }}
         />
       );
     }
@@ -310,13 +384,16 @@ class TaskItem extends React.Component {
     return (
       <React.Fragment>
         <div
+          ref={this.setTaskContentRef}
+          tabIndex="0"
           className="task content"
           key={`${task.name}-${task.id}`}
           onClick={e => {
             if (!this.state.modalsOpened.details) {
               this.setState({
                 modalsOpened: { any: true, details: true },
-                selectedTask: task
+                selectedTask: task,
+                focusTaskContentOnClose: true
               });
             }
           }}

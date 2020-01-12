@@ -91,7 +91,14 @@ class TaskDetails extends React.Component {
       <React.Fragment>
         <TaskForm
           // onSubmit={this.onSubmit}
-          onClose={this.props.onClose}
+          onClose={() => {
+            this.props.onClose();
+            if (this.props.focusTaskContent) {
+              setTimeout(() => {
+                this.props.focusTaskContent();
+              }, 200);
+            }
+          }}
           initialValues={{ ...this.props.task }}
           disabled={true}
           hideButtons="true"

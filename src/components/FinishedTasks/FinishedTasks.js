@@ -42,6 +42,20 @@ class FinishedTasks extends React.Component {
 
   componentDidUpdate() {}
 
+  // // using the callback version here because it's much more customizable
+  setEllipsisRef = ref => {
+    this.ellipsisButtonRef = ref;
+  };
+
+  // focus methods
+  focusEllipsisButton = () => {
+    if (this.ellipsisButtonRef) {
+      //guard
+      // callback focus of ref
+      this.ellipsisButtonRef.focus();
+    }
+  };
+
   handleSettingsClose = () => {
     if (this.state.modalsOpened.settings) {
       this.setState({
@@ -122,6 +136,7 @@ class FinishedTasks extends React.Component {
               dataObject={this.props.finishedTasks}
               onClose={() => {
                 this.dismissModalHandler();
+                this.focusEllipsisButton();
               }}
               deleteFunction={async () => {
                 const tasks = this.props.finishedTasks;
@@ -134,10 +149,14 @@ class FinishedTasks extends React.Component {
                 await deleteAllFinishedTasks();
                 await this.props.deleteAllFinishedTasks();
                 this.dismissModalHandler();
+                this.focusEllipsisButton();
               }}
             />
           )}
-          onDismiss={() => this.dismissModalHandler()}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            this.focusEllipsisButton();
+          }}
         />
       );
     }
@@ -173,6 +192,10 @@ class FinishedTasks extends React.Component {
                 </div>
                 <div style={{ width: "6rem", height: "3.1rem" }}>
                   <Settings
+                    // ref and focus functions
+                    setEllipsisRef={this.setEllipsisRef}
+                    focusEllipsisButton={this.focusEllipsisButton}
+                    // modal functions
                     isModalOpen={this.state.modalsOpened.settings}
                     openModal={this.handleSettingsOpen}
                     closeModal={this.handleSettingsClose}

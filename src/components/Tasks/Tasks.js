@@ -110,11 +110,7 @@ class Tasks extends React.Component {
 
     if (tasks && Object.keys(tasks).length !== 0) {
       return tasks.map(task => (
-        <div
-          key={task.id}
-          tabIndex="0"
-          className="task item list-header task-item-details"
-        >
+        <div key={task.id} className="task item list-header task-item-details">
           <TaskItem
             hideProjectName={true}
             task={task}
@@ -142,12 +138,9 @@ class Tasks extends React.Component {
           backdropClass={this.state.backdropClass || null}
           sectionId="create-task-content"
           content={() => {
-            // this.props.match.url should be given to create project so it does not lose track
-            // of where the URL address is
             return (
               <CreateTask
                 onClose={() => {
-                  // note: keep working on focus and check if the settings has the right focus in place
                   this.dismissModalHandler();
                   setTimeout(() => {
                     this.focusCreateButton();
@@ -177,7 +170,7 @@ class Tasks extends React.Component {
               onClose={() => {
                 this.dismissModalHandler();
                 setTimeout(() => {
-                  this.focusDeleteButton();
+                  this.focusEllipsisButton();
                 }, 200);
                 // this.handleSettingsClose();
               }}
@@ -185,7 +178,7 @@ class Tasks extends React.Component {
                 await this.props.deleteAllTasks(this.props.project.id);
                 this.dismissModalHandler();
                 setTimeout(() => {
-                  this.focusDeleteButton();
+                  this.focusEllipsisButton();
                 }, 200);
                 // this.handleSettingsClose();
               }}
@@ -194,7 +187,7 @@ class Tasks extends React.Component {
           onDismiss={() => {
             this.dismissModalHandler();
             setTimeout(() => {
-              this.focusDeleteButton();
+              this.focusEllipsisButton();
             }, 200);
           }}
         />

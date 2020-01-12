@@ -34,6 +34,20 @@ class DueToday extends React.Component {
     settingsEllipsisClass: null
   };
 
+  // // using the callback version here because it's much more customizable
+  setEllipsisRef = ref => {
+    this.ellipsisButtonRef = ref;
+  };
+
+  // focus methods
+  focusEllipsisButton = () => {
+    if (this.ellipsisButtonRef) {
+      //guard
+      // callback focus of ref
+      this.ellipsisButtonRef.focus();
+    }
+  };
+
   componentDidMount() {
     // This should call fetch due today
     this.props.fetchDueToday();
@@ -115,6 +129,7 @@ class DueToday extends React.Component {
               dataObject={this.props.dueToday}
               onClose={() => {
                 this.dismissModalHandler();
+                this.focusEllipsisButton();
               }}
               deleteFunction={async () => {
                 const tasks = this.props.dueToday;
@@ -127,10 +142,14 @@ class DueToday extends React.Component {
                 await deleteAllDueTodayTasks();
                 await this.props.deleteAllDueTodayTasks();
                 this.dismissModalHandler();
+                this.focusEllipsisButton();
               }}
             />
           )}
-          onDismiss={() => this.dismissModalHandler()}
+          onDismiss={() => {
+            this.dismissModalHandler();
+            this.focusEllipsisButton();
+          }}
         />
       );
     }
@@ -166,6 +185,10 @@ class DueToday extends React.Component {
                 </div>
                 <div style={{ width: "6rem", height: "3.1rem" }}>
                   <Settings
+                    // ref and focus function
+                    setEllipsisRef={this.setEllipsisRef}
+                    focusEllipsisButton={this.focusEllipsisButton}
+                    // modal functions
                     isModalOpen={this.state.modalsOpened.settings}
                     openModal={this.handleSettingsOpen}
                     closeModal={this.handleSettingsClose}
