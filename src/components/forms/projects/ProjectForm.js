@@ -2,12 +2,23 @@ import "./ProjectForm.css";
 import warningImg from "../../../images/warning.png";
 
 import React from "react";
+import ReactDOM from "react-dom";
 import { Field, reduxForm } from "redux-form";
 import { renderError, getErrorClass } from "../../../helpers";
 
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class ProjectForm extends React.Component {
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.inputField) {
+        console.log(this.inputField);
+        // note: figure out how to focus an input inside the field component
+        // this.inputField.focus();
+        // document.getElementById("project-form-name-field").focus(); this one is bad
+      }
+    }, 300);
+  }
   handleEnterKeyOnField = e => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form

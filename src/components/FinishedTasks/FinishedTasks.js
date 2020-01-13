@@ -112,6 +112,7 @@ class FinishedTasks extends React.Component {
             projectName={ellipsifyString(task.projectName, 13)}
             // hideActionButtons={true}
             hideEditButton={true}
+            closeSettings={() => this.handleSettingsClose()}
           />
         </div>
       ));

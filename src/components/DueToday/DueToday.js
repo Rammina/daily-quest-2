@@ -104,7 +104,7 @@ class DueToday extends React.Component {
             dueTodayIndex={index + ""}
             projectId={task.projectId}
             projectName={ellipsifyString(task.projectName, 13)}
-            // hideActionButtons={true}
+            closeSettings={() => this.handleSettingsClose()}
           />
         </div>
       ));
