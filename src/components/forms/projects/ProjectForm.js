@@ -9,15 +9,14 @@ import { renderError, getErrorClass } from "../../../helpers";
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class ProjectForm extends React.Component {
+  state = {
+    autofocus: false
+  };
+
   componentDidMount() {
-    setTimeout(() => {
-      if (this.inputField) {
-        console.log(this.inputField);
-        // note: figure out how to focus an input inside the field component
-        // this.inputField.focus();
-        // document.getElementById("project-form-name-field").focus(); this one is bad
-      }
-    }, 300);
+    // setTimeout(() => {
+    // this.setState({ autofocus: true });
+    // }, 300);
   }
   handleEnterKeyOnField = e => {
     // This prevents submission bugging or refreshing upon pressing enter
@@ -51,6 +50,7 @@ class ProjectForm extends React.Component {
           onKeyDown={e => {
             this.handleEnterKeyOnField(e);
           }}
+          autoFocus={inputProps.autoFocus || false}
         />
         {renderError(meta, "project")}
       </React.Fragment>
@@ -75,7 +75,8 @@ class ProjectForm extends React.Component {
                 className: "text-field form-name-field",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "project-form-name-field"
+                id: "project-form-name-field",
+                autoFocus: true
               },
               labelProps: {
                 class: "form-label block",
@@ -102,6 +103,7 @@ class ProjectForm extends React.Component {
             className="form-submit modal-action-button"
             id="project-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
+            // note: figure out how to focus the close button after pressing tab here
           >
             Submit
           </button>

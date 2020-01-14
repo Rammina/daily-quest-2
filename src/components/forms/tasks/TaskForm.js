@@ -65,6 +65,7 @@ class TaskForm extends React.Component {
             this.handleEnterKeyOnField(e, input);
           }}
           checked={this.retrieveChecked(input.name)}
+          autoFocus={inputProps.autoFocus || false}
         />
         {renderError(meta, "task")}
       </React.Fragment>
@@ -192,7 +193,8 @@ class TaskForm extends React.Component {
                 className: "text-field form-name-field",
                 id: "task-name-field",
                 maxLength: "30",
-                autoComplete: "off"
+                autoComplete: "off",
+                autoFocus: true
               },
               labelProps: {
                 text: "Task Name *",
