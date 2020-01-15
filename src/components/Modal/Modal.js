@@ -34,7 +34,12 @@ class Modal extends React.Component {
           role="dialog"
           aria-hidden="true"
         >
-          <ModalCloseButton onClose={() => this.props.onDismiss()} />
+          <ModalCloseButton
+            //note: think up of something, you need to set the reference starting from the application itself(projects, tasks, and so on)
+            // just create the function on App component
+            setCloseButtonRef={this.props.setCloseButtonRef || null}
+            onClose={() => this.props.onDismiss()}
+          />
           {this.props.content()}
         </section>
       </div>,

@@ -17,6 +17,7 @@ class CreateProject extends React.Component {
       <React.Fragment>
         <h1 className="modal-header">New Project</h1>
         <ProjectForm
+          closeButton={this.props.closeButton || null}
           onSubmit={this.onSubmit}
           onClose={() => {
             console.log("onClose dismissed");
@@ -28,4 +29,7 @@ class CreateProject extends React.Component {
   }
 }
 
-export default connect(null, { createProject })(CreateProject);
+export default connect(
+  null,
+  { createProject }
+)(CreateProject);

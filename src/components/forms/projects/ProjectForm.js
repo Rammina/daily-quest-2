@@ -103,7 +103,18 @@ class ProjectForm extends React.Component {
             className="form-submit modal-action-button"
             id="project-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
-            // note: figure out how to focus the close button after pressing tab here
+            onKeyDown={e => {
+              if (e.key === "Tab") {
+                e.preventDefault();
+                e.stopPropagation();
+                // put the element to focus here
+                if (this.props.closeButton) {
+                  // do note that this is still nonexistent as of
+                  // 1/15/20
+                  this.props.closeButton.focus();
+                }
+              }
+            }}
           >
             Submit
           </button>
