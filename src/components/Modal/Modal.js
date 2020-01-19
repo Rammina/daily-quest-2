@@ -9,6 +9,10 @@ class Modal extends React.Component {
     super(props);
     this.modalBackdrop = React.createRef();
   }
+
+  // note: use context to retrieve values from the provider
+  static contextType = ModalCloseButtonContext;
+
   onBackdropClick = event => {
     event.preventDefault();
     event.stopPropagation();
@@ -35,9 +39,7 @@ class Modal extends React.Component {
           aria-hidden="true"
         >
           <ModalCloseButton
-            //note: think up of something, you need to set the reference starting from the application itself(projects, tasks, and so on)
-            // just create the function on App component
-            setCloseButtonRef={this.props.setCloseButtonRef || null}
+            // setCloseButtonRef={this.props.setCloseButtonRef || null}
             onClose={() => this.props.onDismiss()}
           />
           {this.props.content()}

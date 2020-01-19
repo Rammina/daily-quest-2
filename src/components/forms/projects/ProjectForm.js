@@ -13,11 +13,8 @@ class ProjectForm extends React.Component {
     autofocus: false
   };
 
-  componentDidMount() {
-    // setTimeout(() => {
-    // this.setState({ autofocus: true });
-    // }, 300);
-  }
+  componentDidMount() {}
+
   handleEnterKeyOnField = e => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form
