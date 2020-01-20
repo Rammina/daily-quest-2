@@ -9,8 +9,7 @@ import Projects from "./Projects/Projects";
 import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
-
-const ModalCloseButtonContext = React.createContext(null);
+import { ModalCloseButtonContext } from "./AppContext";
 
 class App extends React.Component {
   state = {
@@ -33,7 +32,7 @@ class App extends React.Component {
             <ModalCloseButtonContext.Provider
               value={{
                 modalCloseButtonRef: this.state.modalCloseButtonRef,
-                setModalCloseButtonRef: this.state.setModalCloseButtonRef
+                setModalCloseButtonRef: this.setModalCloseButtonRef
               }}
             >
               <Route path="/" exact component={Home} />

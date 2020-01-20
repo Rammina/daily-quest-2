@@ -2,7 +2,8 @@ import "./Modal.css";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import ModalCloseButton from "../Modal/common/ModalCloseButton";
+import ModalCloseButton from "./common/ModalCloseButton";
+import { ModalCloseButtonContext } from "../AppContext";
 
 class Modal extends React.Component {
   constructor(props) {
@@ -10,7 +11,9 @@ class Modal extends React.Component {
     this.modalBackdrop = React.createRef();
   }
 
-  // note: use context to retrieve values from the provider
+  componentDidMount() {
+    // console.log(this.context.setModalCloseButtonRef);
+  }
   static contextType = ModalCloseButtonContext;
 
   onBackdropClick = event => {
