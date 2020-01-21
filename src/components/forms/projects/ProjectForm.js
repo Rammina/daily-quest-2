@@ -7,11 +7,13 @@ import { Field, reduxForm } from "redux-form";
 import { renderError, getErrorClass } from "../../../helpers";
 
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
+import { ModalCloseButtonContext } from "../../AppContext";
 
 class ProjectForm extends React.Component {
   state = {
     autofocus: false
   };
+  static contextType = ModalCloseButtonContext;
 
   componentDidMount() {}
 
@@ -105,10 +107,8 @@ class ProjectForm extends React.Component {
                 e.preventDefault();
                 e.stopPropagation();
                 // put the element to focus here
-                if (this.props.closeButton) {
-                  // do note that this is still nonexistent as of
-                  // 1/15/20
-                  this.props.closeButton.focus();
+                if (this.context.modalCloseButtonRef) {
+                  this.context.modalCloseButtonRef.focus();
                 }
               }
             }}

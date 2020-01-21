@@ -18,8 +18,9 @@ import ProjectItem from "../ProjectItem/ProjectItem.js";
 import Settings from "../Settings/Settings";
 import Modal from "../Modal/Modal";
 import DeleteAll from "../forms/commonModals/DeleteAll";
-
 import CreateProject from "../forms/projects/CreateProject";
+
+// import { ModalCloseButtonContext } from "../AppContext";
 
 class Projects extends React.Component {
   constructor(props) {
@@ -40,6 +41,8 @@ class Projects extends React.Component {
       settingsEllipsisClass: null
     };
   }
+
+  // static contextType = ModalCloseButtonContext;
 
   componentDidMount() {
     this.props.fetchProjects();

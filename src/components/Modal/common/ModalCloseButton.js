@@ -8,8 +8,6 @@ const ModalCloseButton = props => {
   // after the first render and no more
   useEffect(() => {
     // code to run on first render
-    // note: set the reference from here
-    console.log(context);
   }, []);
 
   const onCloseClick = () => {
@@ -19,7 +17,11 @@ const ModalCloseButton = props => {
   };
 
   return (
-    <button className="modal-close" onClick={onCloseClick}>
+    <button
+      ref={context.setModalCloseButtonRef}
+      className="modal-close"
+      onClick={onCloseClick}
+    >
       x
     </button>
   );

@@ -58,9 +58,9 @@ input[type="submit"] {
 button:focus {
   outline: none;
   -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000;
+    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
   box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000;
+    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
 }
 
 input:focus,
@@ -68,9 +68,10 @@ textarea:focus,
 select:focus {
   outline: none;
   -webkit-box-shadow: inset 0px 0px 0.5px 1px #ffffff,
-    inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000;
+    inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000,
+    0 0 3px 4px #fff;
   box-shadow: inset 0px 0px 0.5px 1px #ffffff, inset 0px 0px 1px 2px #969696,
-    inset 0px 0px 2px 3px #000000;
+    inset 0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
 }
 
 input[type="checkbox"]:hover {
@@ -96,17 +97,17 @@ a {
 a:focus {
   outline: none;
   -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000;
+    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
   box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000;
+    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
 }
 
 div:focus {
   outline: none;
   -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000;
+    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
   box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000;
+    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
 }
 
 li {

@@ -12,6 +12,7 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import { deleteProject } from "../../actions";
 import EditProject from "../forms/projects/EditProject";
 import { ellipsifyString } from "../../helpers";
+import { ModalCloseButtonContext } from "../AppContext";
 
 class ProjectItem extends React.Component {
   state = {
@@ -22,6 +23,8 @@ class ProjectItem extends React.Component {
     },
     backdropClass: null
   };
+
+  static contextType = ModalCloseButtonContext;
 
   // refs(outside constructor)
   editButtonRef = React.createRef();
@@ -62,10 +65,23 @@ class ProjectItem extends React.Component {
             className="two-buttons-container"
             id="delete-project-buttons-container"
           >
-            <ModalCancelButton onClose={() => this.dismissModalHandler()} />
+            <ModalCancelButton
+              onClose={() => this.dismissModalHandler()}
+              autoFocus={true}
+            />
 
             <button
               className="modal-action-button delete-confirm-button"
+              onKeyDown={e => {
+                if (e.key === "Tab") {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // put the element to focus here
+                  if (this.context.modalCloseButtonRef) {
+                    this.context.modalCloseButtonRef.focus();
+                  }
+                }
+              }}
               onClick={() => this.props.deleteProject(this.props.id)}
             >
               <img

@@ -20,7 +20,9 @@ class App extends React.Component {
   setModalCloseButtonRef = ref => {
     // this is used in case the state doesn't work
     // this.modalCloseButtonRef = ref;
+    console.log(`before it is ${this.state.modalCloseButtonRef}`);
     this.setState({ modalCloseButtonRef: ref });
+    console.log(`after it is ${this.state.modalCloseButtonRef}`);
   };
 
   render() {

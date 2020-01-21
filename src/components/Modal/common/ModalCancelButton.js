@@ -11,6 +11,7 @@ const ModalCancelButton = props => {
     <button
       onClick={onCloseClick}
       className="modal-action-button cancel-button"
+      autoFocus={props.autoFocus || false}
     >
       Cancel
     </button>
