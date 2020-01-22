@@ -1,3 +1,3 @@
 import React from "react";
 
-export const ModalCloseButtonContext = React.createContext(null);
+export const ElementsContext = React.createContext(null);

@@ -12,7 +12,7 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import { deleteProject } from "../../actions";
 import EditProject from "../forms/projects/EditProject";
 import { ellipsifyString } from "../../helpers";
-import { ModalCloseButtonContext } from "../AppContext";
+import { ElementsContext } from "../AppContext";
 
 class ProjectItem extends React.Component {
   state = {
@@ -24,7 +24,7 @@ class ProjectItem extends React.Component {
     backdropClass: null
   };
 
-  static contextType = ModalCloseButtonContext;
+  static contextType = ElementsContext;
 
   // refs(outside constructor)
   editButtonRef = React.createRef();

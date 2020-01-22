@@ -20,7 +20,7 @@ import Modal from "../Modal/Modal";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import CreateProject from "../forms/projects/CreateProject";
 
-// import { ModalCloseButtonContext } from "../AppContext";
+// import { ElementsContext } from "../AppContext";
 
 class Projects extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class Projects extends React.Component {
     };
   }
 
-  // static contextType = ModalCloseButtonContext;
+  // static contextType = ElementsContext;
 
   componentDidMount() {
     this.props.fetchProjects();

@@ -9,20 +9,30 @@ import Projects from "./Projects/Projects";
 import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
-import { ModalCloseButtonContext } from "./AppContext";
+import { ElementsContext } from "./AppContext";
 
 class App extends React.Component {
   state = {
     modalCloseButtonRef: null,
-    setModalCloseButtonRef: this.setModalCloseButtonRef
+    modalProjectsSubmitButtonRef: null,
+    modalTasksSubmitButtonRef: null,
+    modalDetailsEditButtonRef: null
   };
 
   setModalCloseButtonRef = ref => {
-    // this is used in case the state doesn't work
-    // this.modalCloseButtonRef = ref;
-    console.log(`before it is ${this.state.modalCloseButtonRef}`);
     this.setState({ modalCloseButtonRef: ref });
-    console.log(`after it is ${this.state.modalCloseButtonRef}`);
+  };
+
+  setModalProjectsSubmitButtonRef = ref => {
+    this.setState({ setModalProjectsSubmitButtonRef: ref });
+  };
+
+  setModalTasksSubmitButtonRef = ref => {
+    this.setState({ setModalTasksSubmitButtonRef: ref });
+  };
+
+  setModalDetailsEditButtonRef = ref => {
+    this.setState({ setModalDetailsEditButtonRef: ref });
   };
 
   render() {
@@ -31,10 +41,21 @@ class App extends React.Component {
         <Router history={history}>
           <div>
             <Header />
-            <ModalCloseButtonContext.Provider
+            <ElementsContext.Provider
               value={{
+                //
                 modalCloseButtonRef: this.state.modalCloseButtonRef,
-                setModalCloseButtonRef: this.setModalCloseButtonRef
+                setModalCloseButtonRef: this.setModalCloseButtonRef,
+                //
+                modalProjectsSubmitButtonRef: this.modalProjectsSubmitButtonRef,
+                setModalProjectsSubmitButtonRef: this
+                  .setModalProjectsSubmitButtonRef,
+                //
+                modalTasksSubmitButtonRef: this.modalTasksSubmitButtonRef,
+                setModalTasksSubmitButtonRef: this.setModalTasksSubmitButtonRef,
+                //
+                modalDetailsEditButtonRef: this.modalDetailsEditButtonRef,
+                setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef
               }}
             >
               <Route path="/" exact component={Home} />
@@ -42,7 +63,7 @@ class App extends React.Component {
               <Route path="/projects/:id" exact component={Tasks} />
               <Route path="/due-today" exact component={DueToday} />
               <Route path="/finished-tasks" exact component={FinishedTasks} />
-            </ModalCloseButtonContext.Provider>
+            </ElementsContext.Provider>
           </div>
         </Router>
       </div>

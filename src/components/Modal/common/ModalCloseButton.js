@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from "react";
-import { ModalCloseButtonContext } from "../../AppContext";
+import { ElementsContext } from "../../AppContext";
 
 const ModalCloseButton = props => {
-  const context = useContext(ModalCloseButtonContext);
+  const context = useContext(ElementsContext);
   // this is the hook equivalent of componentDidMount
   // if the useEffect's second argument is [], it only runs the function inside
   // after the first render and no more

@@ -7,13 +7,13 @@ import { Field, reduxForm } from "redux-form";
 import { renderError, getErrorClass } from "../../../helpers";
 
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
-import { ModalCloseButtonContext } from "../../AppContext";
+import { ElementsContext } from "../../AppContext";
 
 class ProjectForm extends React.Component {
   state = {
     autofocus: false
   };
-  static contextType = ModalCloseButtonContext;
+  static contextType = ElementsContext;
 
   componentDidMount() {}
 
@@ -98,6 +98,8 @@ class ProjectForm extends React.Component {
           />
 
           <button
+            // note: set the references for the others
+            ref={this.context.setModalProjectsSubmitButtonRef}
             type="submit"
             className="form-submit modal-action-button"
             id="project-form-submit"
