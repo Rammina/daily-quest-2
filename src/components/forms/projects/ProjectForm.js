@@ -98,12 +98,12 @@ class ProjectForm extends React.Component {
           />
 
           <button
-            // note: set the references for the others
             ref={this.context.setModalProjectsSubmitButtonRef}
             type="submit"
             className="form-submit modal-action-button"
             id="project-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
+            //note: keep doing this for the others (tasks)
             onKeyDown={e => {
               if (e.key === "Tab") {
                 e.preventDefault();

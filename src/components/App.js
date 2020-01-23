@@ -24,15 +24,16 @@ class App extends React.Component {
   };
 
   setModalProjectsSubmitButtonRef = ref => {
-    this.setState({ setModalProjectsSubmitButtonRef: ref });
+    this.setState({ modalProjectsSubmitButtonRef: ref });
+    console.log(this.state.modalProjectsSubmitButtonRef);
   };
 
   setModalTasksSubmitButtonRef = ref => {
-    this.setState({ setModalTasksSubmitButtonRef: ref });
+    this.setState({ modalTasksSubmitButtonRef: ref });
   };
 
   setModalDetailsEditButtonRef = ref => {
-    this.setState({ setModalDetailsEditButtonRef: ref });
+    this.setState({ modalDetailsEditButtonRef: ref });
   };
 
   render() {
@@ -47,14 +48,15 @@ class App extends React.Component {
                 modalCloseButtonRef: this.state.modalCloseButtonRef,
                 setModalCloseButtonRef: this.setModalCloseButtonRef,
                 //
-                modalProjectsSubmitButtonRef: this.modalProjectsSubmitButtonRef,
+                modalProjectsSubmitButtonRef: this.state
+                  .modalProjectsSubmitButtonRef,
                 setModalProjectsSubmitButtonRef: this
                   .setModalProjectsSubmitButtonRef,
                 //
-                modalTasksSubmitButtonRef: this.modalTasksSubmitButtonRef,
+                modalTasksSubmitButtonRef: this.state.modalTasksSubmitButtonRef,
                 setModalTasksSubmitButtonRef: this.setModalTasksSubmitButtonRef,
                 //
-                modalDetailsEditButtonRef: this.modalDetailsEditButtonRef,
+                modalDetailsEditButtonRef: this.state.modalDetailsEditButtonRef,
                 setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef
               }}
             >

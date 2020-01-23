@@ -13,6 +13,8 @@ import {
   getErrorClass
 } from "../../../helpers";
 
+import { ElementsContext } from "../../AppContext";
+
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
 class TaskForm extends React.Component {
@@ -25,6 +27,8 @@ class TaskForm extends React.Component {
         : false
     };
   }
+  static contextType = ElementsContext;
+
   handleEnterKeyOnField = e => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form
@@ -321,6 +325,7 @@ class TaskForm extends React.Component {
           />
 
           <button
+            ref={this.context.setModalTasksSubmitButtonRef}
             type="submit"
             className="form-submit modal-action-button"
             id="task-form-submit"

@@ -5,10 +5,13 @@ import _ from "lodash";
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-// import { fetchProject, editProject } from "../../actions";
 import TaskForm from "./TaskForm";
 
+import { ElementsContext } from "../../AppContext";
+
 class TaskDetails extends React.Component {
+  static contextType = ElementsContext;
+
   renderActionButtons = () => {
     // Instead of both, should be able to pick buttons One by one
     // Use different conditions for each button rendering
@@ -51,6 +54,7 @@ class TaskDetails extends React.Component {
         if (!this.props.hideActionEdit) {
           return (
             <button
+              ref={this.context.setModalDetailsEditButtonRef}
               className="details modal-action-button edit-modal-button"
               onClick={() => {
                 this.props.switchModal("edit");
@@ -109,7 +113,4 @@ class TaskDetails extends React.Component {
   }
 }
 
-export default connect(
-  null
-  // { editProject, fetchProject }
-)(TaskDetails);
+export default connect(null)(TaskDetails);
