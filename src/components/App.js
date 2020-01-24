@@ -15,8 +15,10 @@ class App extends React.Component {
   state = {
     modalCloseButtonRef: null,
     modalProjectsSubmitButtonRef: null,
+    modalProjectsDeleteButtonRef: null,
     modalTasksSubmitButtonRef: null,
-    modalDetailsEditButtonRef: null
+    modalDetailsEditButtonRef: null,
+    modalDeleteAllButtonRef: null
   };
 
   setModalCloseButtonRef = ref => {
@@ -26,6 +28,14 @@ class App extends React.Component {
   setModalProjectsSubmitButtonRef = ref => {
     this.setState({ modalProjectsSubmitButtonRef: ref });
     console.log(this.state.modalProjectsSubmitButtonRef);
+  };
+
+  setModalProjectsDeleteButtonRef = ref => {
+    this.setState({ modalProjectsDeleteButtonRef: ref });
+  };
+
+  setModalDeleteAllButtonRef = ref => {
+    this.setState({ modalDeleteAllButtonRef: ref });
   };
 
   setModalTasksSubmitButtonRef = ref => {
@@ -53,11 +63,21 @@ class App extends React.Component {
                 setModalProjectsSubmitButtonRef: this
                   .setModalProjectsSubmitButtonRef,
                 //
+                modalProjectsDeleteButtonRef: this.state
+                  .modalProjectsDeleteButtonRef,
+                setModalProjectsDeleteButtonRef: this.state
+                  .setModalProjectsDeleteButtonRef,
+                //
+                // note: delete all focusing still doesn't work
                 modalTasksSubmitButtonRef: this.state.modalTasksSubmitButtonRef,
                 setModalTasksSubmitButtonRef: this.setModalTasksSubmitButtonRef,
                 //
                 modalDetailsEditButtonRef: this.state.modalDetailsEditButtonRef,
-                setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef
+                setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef,
+                //
+                modalDeleteAllButtonRef: this.state.modalDeleteAllButtonRef,
+                setModalDeleteAllButtonRef: this.state
+                  .setModalDeleteAllButtonRef
               }}
             >
               <Route path="/" exact component={Home} />

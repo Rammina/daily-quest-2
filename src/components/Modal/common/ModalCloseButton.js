@@ -31,10 +31,14 @@ const ModalCloseButton = props => {
           setTimeout(() => {
             if (context.modalProjectsSubmitButtonRef) {
               context.modalProjectsSubmitButtonRef.focus();
+            } else if (context.modalProjectsDeleteButtonRef) {
+              context.modalProjectsDeleteButtonRef.focus();
             } else if (context.modalTasksSubmitButtonRef) {
               context.modalTasksSubmitButtonRef.focus();
             } else if (context.modalDetailsEditButtonRef) {
               context.modalDetailsEditButtonRef.focus();
+            } else if (context.modalDeleteAllButtonRef) {
+              context.modalDeleteAllButtonRef.focus();
             }
           }, 0);
         }

@@ -5,7 +5,11 @@ import { capitalizeFirstLetter } from "../../../helpers";
 import TrashImg from "../../../images/trash.png";
 import ModalCancelButton from "../../Modal/common/ModalCancelButton";
 
+import { ElementsContext } from "../../AppContext";
+
 class DeleteAll extends React.Component {
+  static contextType = ElementsContext;
+
   renderDataObjectName = () => {
     const name = this.props.dataObject.name;
     return name ? (
@@ -34,6 +38,8 @@ class DeleteAll extends React.Component {
             <ModalCancelButton onClose={() => this.props.onClose()} />
 
             <button
+              //note: do the task focusing
+              ref={this.context.setModalDeleteAllButtonRef}
               className="modal-action-button delete-confirm-button"
               // this needs the fire an action that deletes all
               // of the items specified
@@ -42,6 +48,16 @@ class DeleteAll extends React.Component {
                 // a specific project key is the first argument
                 // key is the object key/URL
                 this.props.deleteFunction();
+              }}
+              onKeyDown={e => {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // put the element to focus here
+                  if (this.context.modalCloseButtonRef) {
+                    this.context.modalCloseButtonRef.focus();
+                  }
+                }
               }}
             >
               <img

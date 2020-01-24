@@ -12,6 +12,7 @@ import ModalCancelButton from "../Modal/common/ModalCancelButton";
 import { deleteProject } from "../../actions";
 import EditProject from "../forms/projects/EditProject";
 import { ellipsifyString } from "../../helpers";
+
 import { ElementsContext } from "../AppContext";
 
 class ProjectItem extends React.Component {
@@ -71,9 +72,10 @@ class ProjectItem extends React.Component {
             />
 
             <button
+              ref={this.context.setModalProjectsDeleteButtonRef}
               className="modal-action-button delete-confirm-button"
               onKeyDown={e => {
-                if (e.key === "Tab") {
+                if (e.key === "Tab" && !e.shiftKey) {
                   e.preventDefault();
                   e.stopPropagation();
                   // put the element to focus here

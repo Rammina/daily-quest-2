@@ -330,6 +330,16 @@ class TaskForm extends React.Component {
             className="form-submit modal-action-button"
             id="task-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
+            onKeyDown={e => {
+              if (e.key === "Tab" && !e.shiftKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                // put the element to focus here
+                if (this.context.modalCloseButtonRef) {
+                  this.context.modalCloseButtonRef.focus();
+                }
+              }
+            }}
           >
             {/* <img
               src={submitImg}

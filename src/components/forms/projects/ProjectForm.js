@@ -103,9 +103,8 @@ class ProjectForm extends React.Component {
             className="form-submit modal-action-button"
             id="project-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
-            //note: keep doing this for the others (tasks)
             onKeyDown={e => {
-              if (e.key === "Tab") {
+              if (e.key === "Tab" && !e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
                 // put the element to focus here
