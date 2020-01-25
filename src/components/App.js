@@ -17,6 +17,7 @@ class App extends React.Component {
     modalProjectsSubmitButtonRef: null,
     modalProjectsDeleteButtonRef: null,
     modalTasksSubmitButtonRef: null,
+    modalTasksDeleteButtonRef: null,
     modalDetailsEditButtonRef: null,
     modalDeleteAllButtonRef: null
   };
@@ -42,6 +43,10 @@ class App extends React.Component {
     this.setState({ modalTasksSubmitButtonRef: ref });
   };
 
+  setModalTasksDeleteButtonRef = ref => {
+    this.setState({ modalTasksDeleteButtonRef: ref });
+  };
+
   setModalDetailsEditButtonRef = ref => {
     this.setState({ modalDetailsEditButtonRef: ref });
   };
@@ -57,7 +62,7 @@ class App extends React.Component {
                 //
                 modalCloseButtonRef: this.state.modalCloseButtonRef,
                 setModalCloseButtonRef: this.setModalCloseButtonRef,
-                //
+                //PROJECTS
                 modalProjectsSubmitButtonRef: this.state
                   .modalProjectsSubmitButtonRef,
                 setModalProjectsSubmitButtonRef: this
@@ -65,19 +70,20 @@ class App extends React.Component {
                 //
                 modalProjectsDeleteButtonRef: this.state
                   .modalProjectsDeleteButtonRef,
-                setModalProjectsDeleteButtonRef: this.state
+                setModalProjectsDeleteButtonRef: this
                   .setModalProjectsDeleteButtonRef,
-                //
-                // note: delete all focusing still doesn't work
+                //TASKS
                 modalTasksSubmitButtonRef: this.state.modalTasksSubmitButtonRef,
                 setModalTasksSubmitButtonRef: this.setModalTasksSubmitButtonRef,
+                //
+                modalTasksDeleteButtonRef: this.state.modalTasksDeleteButtonRef,
+                setModalTasksDeleteButtonRef: this.setModalTasksDeleteButtonRef,
                 //
                 modalDetailsEditButtonRef: this.state.modalDetailsEditButtonRef,
                 setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef,
                 //
                 modalDeleteAllButtonRef: this.state.modalDeleteAllButtonRef,
-                setModalDeleteAllButtonRef: this.state
-                  .setModalDeleteAllButtonRef
+                setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef
               }}
             >
               <Route path="/" exact component={Home} />

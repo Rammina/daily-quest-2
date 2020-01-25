@@ -35,10 +35,12 @@ class DeleteAll extends React.Component {
             className="two-buttons-container"
             id="delete-project-buttons-container"
           >
-            <ModalCancelButton onClose={() => this.props.onClose()} />
+            <ModalCancelButton
+              onClose={() => this.props.onClose()}
+              autoFocus={true}
+            />
 
             <button
-              //note: do the task focusing
               ref={this.context.setModalDeleteAllButtonRef}
               className="modal-action-button delete-confirm-button"
               // this needs the fire an action that deletes all

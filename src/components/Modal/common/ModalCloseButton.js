@@ -24,7 +24,6 @@ const ModalCloseButton = props => {
       onClick={onCloseClick}
       onKeyDown={e => {
         if (e.shiftKey && e.key === "Tab") {
-          console.log(context.modalProjectsSubmitButtonRef);
           e.preventDefault();
           e.stopPropagation();
           // put the element to focus here
@@ -35,9 +34,12 @@ const ModalCloseButton = props => {
               context.modalProjectsDeleteButtonRef.focus();
             } else if (context.modalTasksSubmitButtonRef) {
               context.modalTasksSubmitButtonRef.focus();
+            } else if (context.modalTasksDeleteButtonRef) {
+              context.modalTasksDeleteButtonRef.focus();
             } else if (context.modalDetailsEditButtonRef) {
               context.modalDetailsEditButtonRef.focus();
             } else if (context.modalDeleteAllButtonRef) {
+              console.log(context.modalDeleteAllButtonRef);
               context.modalDeleteAllButtonRef.focus();
             }
           }, 0);

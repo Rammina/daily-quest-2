@@ -21,6 +21,8 @@ import {
 } from "../../actions";
 import { convertToMDY, ellipsifyString, toStandardTime } from "../../helpers";
 
+// note: set up the import context and context type
+
 class TaskItem extends React.Component {
   state = {
     modalsOpened: {
@@ -205,9 +207,13 @@ class TaskItem extends React.Component {
             className="two-buttons-container"
             id="delete-task-buttons-container"
           >
-            <ModalCancelButton onClose={this.dismissModalHandler} />
+            <ModalCancelButton
+              onClose={this.dismissModalHandler}
+              autoFocus={true}
+            />
 
             <button
+              ref={this.context.setModalTasksDeleteButtonRef}
               className="modal-action-button delete-confirm-button"
               onClick={async () => {
                 await this.props.deleteTask(
@@ -222,6 +228,16 @@ class TaskItem extends React.Component {
                   this.props.deleteDueTodayTask(this.props.dueTodayIndex);
                 }
                 this.dismissModalHandler();
+              }}
+              onKeyDown={e => {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // put the element to focus here
+                  if (this.context.modalCloseButtonRef) {
+                    this.context.modalCloseButtonRef.focus();
+                  }
+                }
               }}
             >
               <img
