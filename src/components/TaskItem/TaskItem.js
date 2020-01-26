@@ -21,7 +21,7 @@ import {
 } from "../../actions";
 import { convertToMDY, ellipsifyString, toStandardTime } from "../../helpers";
 
-// note: set up the import context and context type
+import { ElementsContext } from "../AppContext";
 
 class TaskItem extends React.Component {
   state = {
@@ -34,6 +34,7 @@ class TaskItem extends React.Component {
     focusTaskContentOnClose: false,
     backdropClass: null
   };
+  static contextType = ElementsContext;
 
   // refs(outside constructor)
   taskContentRef = null;

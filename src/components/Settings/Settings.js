@@ -6,15 +6,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Modal from "../Modal/Modal";
 
+import { ElementsContext } from "../AppContext";
+
 class Settings extends React.Component {
   constructor(props) {
     super(props);
     // this.settingsButton = React.createRef();
   }
+  static contextType = ElementsContext;
+
   closeMenu = () => {
     this.props.closeModal();
   };
   renderList = () => {
+    // only return the reference for the first item if index = 0
+    const giveFirstItemRef = index => {
+      if (index === 0) {
+        return this.context.setFirstSettingsItem;
+      }
+      return null;
+    };
+    // render each item using array.map
     const renderItems = () => {
       const settingItems = this.props.settingItems;
       if (settingItems) {
@@ -22,6 +34,7 @@ class Settings extends React.Component {
           return (
             <li className="settings-submenu-item" key={`0${index}`}>
               <button
+                ref={giveFirstItemRef()}
                 onClick={e => {
                   if (typeof item.method === "function") {
                     item.method(e);
@@ -78,6 +91,7 @@ class Settings extends React.Component {
     return (
       <React.Fragment>
         <button
+          className={`settings icon-button ${this.props.ellipsisClass}`}
           // Should open a modal on mobile and a drop-down on desktop view
           ref={this.props.setEllipsisRef}
           onClick={e => {
@@ -87,7 +101,7 @@ class Settings extends React.Component {
               this.props.openModal();
             }
           }}
-          className={`settings icon-button ${this.props.ellipsisClass}`}
+          //note: tab listener, focus on first item if rendered
         >
           <img
             className={`icon-image black ${this.props.ellipsisClass}`}

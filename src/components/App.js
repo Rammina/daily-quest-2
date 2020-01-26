@@ -19,7 +19,8 @@ class App extends React.Component {
     modalTasksSubmitButtonRef: null,
     modalTasksDeleteButtonRef: null,
     modalDetailsEditButtonRef: null,
-    modalDeleteAllButtonRef: null
+    modalDeleteAllButtonRef: null,
+    firstSettingsItem: null
   };
 
   setModalCloseButtonRef = ref => {
@@ -49,6 +50,10 @@ class App extends React.Component {
 
   setModalDetailsEditButtonRef = ref => {
     this.setState({ modalDetailsEditButtonRef: ref });
+  };
+
+  setFirstSettingsItem = ref => {
+    this.setState({ firstSettingsItem: ref });
   };
 
   render() {
@@ -83,7 +88,10 @@ class App extends React.Component {
                 setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef,
                 //
                 modalDeleteAllButtonRef: this.state.modalDeleteAllButtonRef,
-                setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef
+                setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef,
+                // SETTINGS
+                firstSettingsItem: this.state.firstSettingsItem,
+                setFirstSettingsItem: this.setFirstSettingsItem
               }}
             >
               <Route path="/" exact component={Home} />
