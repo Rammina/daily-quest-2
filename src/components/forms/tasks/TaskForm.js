@@ -325,7 +325,14 @@ class TaskForm extends React.Component {
           />
 
           <button
-            ref={this.context.setModalTasksSubmitButtonRef}
+            ref={(() => {
+              //this is an IIFE
+              if (this.props.hideButtons) {
+                // don't give it a ref if it's hidden
+                return null;
+              }
+              return this.context.setModalTasksSubmitButtonRef;
+            })()}
             type="submit"
             className="form-submit modal-action-button"
             id="task-form-submit"

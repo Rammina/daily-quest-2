@@ -29,18 +29,39 @@ class Settings extends React.Component {
     // render each item using array.map
     const renderItems = () => {
       const settingItems = this.props.settingItems;
+      // get the index number of the last item, for focus reference
+      const lastItemIndex = settingItems.length - 1;
+
       if (settingItems) {
         return settingItems.map((item, index) => {
           return (
             <li className="settings-submenu-item" key={`0${index}`}>
               <button
-                ref={giveFirstItemRef()}
+                ref={giveFirstItemRef(index)}
                 onClick={e => {
                   if (typeof item.method === "function") {
                     item.method(e);
                   }
                 }}
                 className={`settings-submenu-button ${this.props.backdropClass}`}
+                onKeyDown={e => {
+                  // only applies to the first item
+                  if (index === 0) {
+                    if (e.key === "Tab" && e.shiftKey) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      this.props.focusEllipsisButton();
+                    }
+                  }
+                  // only applies to the last item
+                  if (index === lastItemIndex) {
+                    if (e.key === "Tab" && !e.shiftKey) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      this.props.focusEllipsisButton();
+                    }
+                  }
+                }}
               >
                 {item.text}
               </button>
@@ -101,7 +122,16 @@ class Settings extends React.Component {
               this.props.openModal();
             }
           }}
-          //note: tab listener, focus on first item if rendered
+          onKeyDown={e => {
+            // only redirect focus if settings menu is open
+            if (this.context.firstSettingsItem) {
+              if (e.key === "Tab" && !e.shiftKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.context.firstSettingsItem.focus();
+              }
+            }
+          }}
         >
           <img
             className={`icon-image black ${this.props.ellipsisClass}`}

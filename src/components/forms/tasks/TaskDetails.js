@@ -31,7 +31,9 @@ class TaskDetails extends React.Component {
         } else if (!this.props.hideActionDelete && this.props.hideActionEdit) {
           return (
             <button
+              // note: add a ref for this conditional button
               className="modal-action-button delete-confirm-button no-edit"
+              autoFocus={true}
               onClick={() => {
                 this.props.switchModal("delete");
               }}
@@ -56,8 +58,19 @@ class TaskDetails extends React.Component {
             <button
               ref={this.context.setModalDetailsEditButtonRef}
               className="details modal-action-button edit-modal-button"
+              autoFocus={true}
               onClick={() => {
                 this.props.switchModal("edit");
+              }}
+              onKeyDown={e => {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // put the element to focus here
+                  if (this.context.modalCloseButtonRef) {
+                    this.context.modalCloseButtonRef.focus();
+                  }
+                }
               }}
             >
               <img

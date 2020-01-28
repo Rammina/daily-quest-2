@@ -39,7 +39,6 @@ const ModalCloseButton = props => {
             } else if (context.modalDetailsEditButtonRef) {
               context.modalDetailsEditButtonRef.focus();
             } else if (context.modalDeleteAllButtonRef) {
-              console.log(context.modalDeleteAllButtonRef);
               context.modalDeleteAllButtonRef.focus();
             }
           }, 0);
