@@ -11,9 +11,7 @@ class Modal extends React.Component {
     this.modalBackdrop = React.createRef();
   }
 
-  componentDidMount() {
-    // console.log(this.context.setModalCloseButtonRef);
-  }
+  componentDidMount() {}
   static contextType = ElementsContext;
 
   onBackdropClick = event => {

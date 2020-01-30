@@ -2,9 +2,10 @@ import "./NavMenu.css";
 
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import { ElementsContext } from "../AppContext";
 
 class NavMenu extends React.Component {
-  state = {};
+  static contextType = ElementsContext;
 
   componentDidMount() {}
 
@@ -39,6 +40,7 @@ class NavMenu extends React.Component {
         >
           <p style={{ visibility: "hidden" }}></p>
           <Link
+            ref={this.context.setFirstNavMenuItem}
             data-test="projects"
             to="/projects"
             className={`left item no-border nav-item ${this.projectsLinkClass()}`}
@@ -53,6 +55,7 @@ class NavMenu extends React.Component {
             Due Today
           </Link>
           <Link
+            ref={this.context.setLastNavMenuItem}
             data-test="finished-tasks-link"
             to="/finished-tasks"
             className={`left item nav-item ${this.finishedTasksLinkClass()}`}

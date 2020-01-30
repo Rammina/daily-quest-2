@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import NavMenu from "../NavMenu/NavMenu";
 
+import { ElementsContext } from "../AppContext";
+
 class Header extends React.Component {
   state = {
     menuClass: "right menu",
@@ -12,6 +14,7 @@ class Header extends React.Component {
     sidebarClassFromClick: "invisible",
     hamburgerClass: "show"
   };
+  static contextType = ElementsContext;
 
   updateNavMenuClasses = () => {
     if (this.state.menuClass) {
@@ -93,6 +96,7 @@ class Header extends React.Component {
           id="nav-hamburger"
           ref="nav-hamburger"
           onClick={this.onHamburgerClick}
+          // note: this needs focus redirection as well as the navigation menu items
         >
           <i className="bars icon" />
         </button>

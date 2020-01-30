@@ -14,19 +14,27 @@ import { ElementsContext } from "./AppContext";
 class App extends React.Component {
   state = {
     modalCloseButtonRef: null,
+    modalDeleteAllButtonRef: null,
     modalProjectsSubmitButtonRef: null,
     modalProjectsDeleteButtonRef: null,
     modalTasksSubmitButtonRef: null,
     modalTasksDeleteButtonRef: null,
     modalDetailsEditButtonRef: null,
-    modalDeleteAllButtonRef: null,
-    firstSettingsItem: null
+    modalDetailsDeleteButtonRef: null,
+    firstSettingsItem: null,
+    firstNavMenuItem: null,
+    lastNavMenuItem: null
   };
 
   setModalCloseButtonRef = ref => {
     this.setState({ modalCloseButtonRef: ref });
   };
 
+  setModalDeleteAllButtonRef = ref => {
+    this.setState({ modalDeleteAllButtonRef: ref });
+  };
+
+  // PROJECTS
   setModalProjectsSubmitButtonRef = ref => {
     this.setState({ modalProjectsSubmitButtonRef: ref });
     console.log(this.state.modalProjectsSubmitButtonRef);
@@ -36,10 +44,7 @@ class App extends React.Component {
     this.setState({ modalProjectsDeleteButtonRef: ref });
   };
 
-  setModalDeleteAllButtonRef = ref => {
-    this.setState({ modalDeleteAllButtonRef: ref });
-  };
-
+  // TASKS
   setModalTasksSubmitButtonRef = ref => {
     this.setState({ modalTasksSubmitButtonRef: ref });
   };
@@ -47,13 +52,27 @@ class App extends React.Component {
   setModalTasksDeleteButtonRef = ref => {
     this.setState({ modalTasksDeleteButtonRef: ref });
   };
-
+  // //task details
   setModalDetailsEditButtonRef = ref => {
     this.setState({ modalDetailsEditButtonRef: ref });
   };
 
+  setModalDetailsDeleteButtonRef = ref => {
+    this.setState({ modalDetailsDeleteButtonRef: ref });
+  };
+
+  // settings
   setFirstSettingsItem = ref => {
     this.setState({ firstSettingsItem: ref });
+  };
+
+  // navigation menu
+  setFirstNavMenuItem = ref => {
+    this.setState({ firstNavMenuItem: ref });
+  };
+
+  setLastNavMenuItem = ref => {
+    this.setState({ lastNavMenuItem: ref });
   };
 
   render() {
@@ -87,11 +106,22 @@ class App extends React.Component {
                 modalDetailsEditButtonRef: this.state.modalDetailsEditButtonRef,
                 setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef,
                 //
+                modalDetailsDeleteButtonRef: this.state
+                  .modalDetailsDeleteButtonRef,
+                setModalDetailsDeleteButtonRef: this
+                  .setModalDetailsDeleteButtonRef,
+                //
                 modalDeleteAllButtonRef: this.state.modalDeleteAllButtonRef,
                 setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef,
                 // SETTINGS
                 firstSettingsItem: this.state.firstSettingsItem,
-                setFirstSettingsItem: this.setFirstSettingsItem
+                setFirstSettingsItem: this.setFirstSettingsItem,
+                // NAV MENU
+                firstNavMenuItem: this.state.firstNavMenuItem,
+                setFirstNavMenuItem: this.setFirstNavMenuItem,
+                //
+                lastNavMenuItem: this.state.lastNavMenuItem,
+                setLastNavMenuItem: this.setLastNavMenuItem
               }}
             >
               <Route path="/" exact component={Home} />

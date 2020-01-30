@@ -31,11 +31,21 @@ class TaskDetails extends React.Component {
         } else if (!this.props.hideActionDelete && this.props.hideActionEdit) {
           return (
             <button
-              // note: add a ref for this conditional button
+              ref={this.context.setModalDetailsDeleteButtonRef}
               className="modal-action-button delete-confirm-button no-edit"
               autoFocus={true}
               onClick={() => {
                 this.props.switchModal("delete");
+              }}
+              onKeyDown={e => {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // put the element to focus here
+                  if (this.context.modalCloseButtonRef) {
+                    this.context.modalCloseButtonRef.focus();
+                  }
+                }
               }}
             >
               <img
