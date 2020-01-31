@@ -9,7 +9,7 @@ import Projects from "./Projects/Projects";
 import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
-import { ElementsContext } from "./AppContext";
+import { ElementsContext, NavContext } from "./AppContext";
 
 class App extends React.Component {
   state = {
@@ -22,7 +22,7 @@ class App extends React.Component {
     modalDetailsEditButtonRef: null,
     modalDetailsDeleteButtonRef: null,
     firstSettingsItem: null,
-    firstNavMenuItem: null,
+    firstNavMenuItemRef: null,
     lastNavMenuItem: null
   };
 
@@ -68,7 +68,7 @@ class App extends React.Component {
 
   // navigation menu
   setFirstNavMenuItem = ref => {
-    this.setState({ firstNavMenuItem: ref });
+    this.setState({ firstNavMenuItemRef: ref });
   };
 
   setLastNavMenuItem = ref => {
@@ -80,9 +80,21 @@ class App extends React.Component {
       <div data-test="component-app" className="ui container">
         <Router history={history}>
           <div>
-            <Header />
+            <NavContext.Provider
+              value={{
+                // NAV MENU
+                firstNavMenuItemRef: this.state.firstNavMenuItemRef,
+                setFirstNavMenuItem: this.setFirstNavMenuItem,
+                //
+                lastNavMenuItem: this.state.lastNavMenuItem,
+                setLastNavMenuItem: this.setLastNavMenuItem
+              }}
+            >
+              <Header />
+            </NavContext.Provider>
             <ElementsContext.Provider
               value={{
+                // main body content
                 //
                 modalCloseButtonRef: this.state.modalCloseButtonRef,
                 setModalCloseButtonRef: this.setModalCloseButtonRef,
@@ -115,13 +127,7 @@ class App extends React.Component {
                 setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef,
                 // SETTINGS
                 firstSettingsItem: this.state.firstSettingsItem,
-                setFirstSettingsItem: this.setFirstSettingsItem,
-                // NAV MENU
-                firstNavMenuItem: this.state.firstNavMenuItem,
-                setFirstNavMenuItem: this.setFirstNavMenuItem,
-                //
-                lastNavMenuItem: this.state.lastNavMenuItem,
-                setLastNavMenuItem: this.setLastNavMenuItem
+                setFirstSettingsItem: this.setFirstSettingsItem
               }}
             >
               <Route path="/" exact component={Home} />

@@ -116,3 +116,25 @@
     border-bottom: 2px solid aliceblue !important;
   }
 }
+
+.nav-close {
+  /*note: add breakpoints for this */
+  /*z-index: 102;*/
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  left: 6.7rem;
+  bottom: 0.4rem;
+  font-family: "Raleway", sans-serif;
+  font-size: 2.2rem;
+  color: aliceblue;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  margin-top: -1rem;
+  cursor: pointer;
+}
+
+.nav-close:hover {
+  color: rgb(184, 190, 197);
+}

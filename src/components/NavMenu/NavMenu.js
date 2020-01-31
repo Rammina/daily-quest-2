@@ -2,10 +2,10 @@ import "./NavMenu.css";
 
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import { ElementsContext } from "../AppContext";
+import { NavContext } from "../AppContext";
 
 class NavMenu extends React.Component {
-  static contextType = ElementsContext;
+  static contextType = NavContext;
 
   componentDidMount() {}
 
@@ -39,11 +39,32 @@ class NavMenu extends React.Component {
           className={`nav-menu ${this.props.menuClass} ${this.props.sidebarClassFromClick}`}
         >
           <p style={{ visibility: "hidden" }}></p>
+          <button
+            onClick={() => {
+              // note: this needs functionality
+            }}
+            className={"nav-close"}
+          >
+            x
+          </button>
           <Link
             ref={this.context.setFirstNavMenuItem}
             data-test="projects"
             to="/projects"
             className={`left item no-border nav-item ${this.projectsLinkClass()}`}
+            onKeyDown={e => {
+              if (window.innerWidth < 900) {
+                if (e.key === "Tab" && e.shiftKey) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // note: this will need a close button for the navigation menu
+                  // put the element to focus here
+                  // if (this.context.firstNavMenuItemRef) {
+                  // this.context.firstNavMenuItemRef.focus();
+                  // }
+                }
+              }
+            }}
           >
             Projects
           </Link>
@@ -59,6 +80,18 @@ class NavMenu extends React.Component {
             data-test="finished-tasks-link"
             to="/finished-tasks"
             className={`left item nav-item ${this.finishedTasksLinkClass()}`}
+            onKeyDown={e => {
+              if (window.innerWidth < 900) {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // put the element to focus here
+                  if (this.context.firstNavMenuItemRef) {
+                    this.context.firstNavMenuItemRef.focus();
+                  }
+                }
+              }
+            }}
           >
             Finished Tasks
           </Link>
