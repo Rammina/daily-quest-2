@@ -40,31 +40,31 @@ class NavMenu extends React.Component {
         >
           <p style={{ visibility: "hidden" }}></p>
           <button
-            onClick={() => {
-              // note: this needs functionality
-            }}
+            ref={this.context.setNavMenuCloseButtonRef}
             className={"nav-close"}
-          >
-            x
-          </button>
-          <Link
-            ref={this.context.setFirstNavMenuItem}
-            data-test="projects"
-            to="/projects"
-            className={`left item no-border nav-item ${this.projectsLinkClass()}`}
+            onClick={() => {
+              this.props.onBackdropClick();
+              this.props.focusHamburger();
+            }}
             onKeyDown={e => {
               if (window.innerWidth < 900) {
                 if (e.key === "Tab" && e.shiftKey) {
                   e.preventDefault();
                   e.stopPropagation();
-                  // note: this will need a close button for the navigation menu
                   // put the element to focus here
-                  // if (this.context.firstNavMenuItemRef) {
-                  // this.context.firstNavMenuItemRef.focus();
-                  // }
+                  if (this.context.lastNavMenuItemRef) {
+                    this.context.lastNavMenuItemRef.focus();
+                  }
                 }
               }
             }}
+          >
+            x
+          </button>
+          <Link
+            data-test="projects"
+            to="/projects"
+            className={`left item no-border nav-item ${this.projectsLinkClass()}`}
           >
             Projects
           </Link>
@@ -76,7 +76,7 @@ class NavMenu extends React.Component {
             Due Today
           </Link>
           <Link
-            ref={this.context.setLastNavMenuItem}
+            ref={this.context.setLastNavMenuItemRef}
             data-test="finished-tasks-link"
             to="/finished-tasks"
             className={`left item nav-item ${this.finishedTasksLinkClass()}`}
@@ -86,8 +86,8 @@ class NavMenu extends React.Component {
                   e.preventDefault();
                   e.stopPropagation();
                   // put the element to focus here
-                  if (this.context.firstNavMenuItemRef) {
-                    this.context.firstNavMenuItemRef.focus();
+                  if (this.context.navMenuCloseButtonRef) {
+                    this.context.navMenuCloseButtonRef.focus();
                   }
                 }
               }

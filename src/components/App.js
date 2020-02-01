@@ -22,8 +22,8 @@ class App extends React.Component {
     modalDetailsEditButtonRef: null,
     modalDetailsDeleteButtonRef: null,
     firstSettingsItem: null,
-    firstNavMenuItemRef: null,
-    lastNavMenuItem: null
+    navMenuCloseButtonRef: null,
+    lastNavMenuItemRef: null
   };
 
   setModalCloseButtonRef = ref => {
@@ -67,12 +67,12 @@ class App extends React.Component {
   };
 
   // navigation menu
-  setFirstNavMenuItem = ref => {
-    this.setState({ firstNavMenuItemRef: ref });
+  setNavMenuCloseButtonRef = ref => {
+    this.setState({ navMenuCloseButtonRef: ref });
   };
 
-  setLastNavMenuItem = ref => {
-    this.setState({ lastNavMenuItem: ref });
+  setLastNavMenuItemRef = ref => {
+    this.setState({ lastNavMenuItemRef: ref });
   };
 
   render() {
@@ -83,11 +83,11 @@ class App extends React.Component {
             <NavContext.Provider
               value={{
                 // NAV MENU
-                firstNavMenuItemRef: this.state.firstNavMenuItemRef,
-                setFirstNavMenuItem: this.setFirstNavMenuItem,
+                navMenuCloseButtonRef: this.state.navMenuCloseButtonRef,
+                setNavMenuCloseButtonRef: this.setNavMenuCloseButtonRef,
                 //
-                lastNavMenuItem: this.state.lastNavMenuItem,
-                setLastNavMenuItem: this.setLastNavMenuItem
+                lastNavMenuItemRef: this.state.lastNavMenuItemRef,
+                setLastNavMenuItemRef: this.setLastNavMenuItemRef
               }}
             >
               <Header />

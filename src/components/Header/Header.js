@@ -15,6 +15,15 @@ class Header extends React.Component {
     hamburgerClass: "show"
   };
   static contextType = NavContext;
+  // refs
+  hamburgerRef = React.createRef();
+
+  // focus functions
+  focusHamburger = () => {
+    if (this.hamburgerRef.current) {
+      this.hamburgerRef.current.focus();
+    }
+  };
 
   updateNavMenuClasses = () => {
     if (this.state.menuClass) {
@@ -91,14 +100,14 @@ class Header extends React.Component {
           Daily Quest
         </Link>
         <button
+          ref={this.hamburgerRef}
           data-test="nav-hamburger"
           className={`ui icon button item right ${this.state.hamburgerClass}`}
           id="nav-hamburger"
-          ref="nav-hamburger"
           onClick={() => {
             this.onHamburgerClick();
             setTimeout(() => {
-              this.context.firstNavMenuItemRef.focus();
+              this.context.navMenuCloseButtonRef.focus();
             }, 230);
           }}
         >
@@ -108,6 +117,8 @@ class Header extends React.Component {
           menuClass={this.state.menuClass}
           sidebarClassFromClick={this.state.sidebarClassFromClick}
           onBackdropClick={this.onBackdropClick}
+          hamburgerRef={this.hamburgerRef}
+          focusHamburger={this.focusHamburger}
         />
       </div>
     );
