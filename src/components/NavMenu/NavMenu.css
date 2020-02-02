@@ -114,16 +114,24 @@
     max-width: 14.19rem;
   }
   .nav-close {
-    /*note: add breakpoints for this */
-    left: calc(5.3rem + 8.4vw);
-    /* keep adjusting the position of the close button */
+    left: calc(2rem + 19vw);
     bottom: 0.3rem;
+  }
+}
+
+@media screen and (min-width: 490px) and (max-width: 615px) {
+  .nav-close {
+    left: calc(1rem + 23vw);
   }
 }
 
 @media screen and (min-width: 650px) {
   .nav-menu.ui.sidebar.vertical .item {
     padding-left: 1.85rem;
+  }
+  .nav-close {
+    left: calc(9.9rem + 1.8vw);
+    bottom: 0.3rem;
   }
 }
 
@@ -142,5 +150,8 @@
   }
   .left.item.nav-item.selected:hover {
     border-bottom: 2px solid aliceblue !important;
+  }
+  .nav-close {
+    display: none;
   }
 }

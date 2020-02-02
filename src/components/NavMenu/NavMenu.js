@@ -31,7 +31,6 @@ class NavMenu extends React.Component {
   };
 
   render() {
-    console.log(this.props.match.url);
     return (
       <React.Fragment>
         <div

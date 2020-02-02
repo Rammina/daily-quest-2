@@ -80,6 +80,10 @@
   border-bottom: none !important;
 }
 
+.settings-submenu-button.settings-delete-all {
+  color: #fbb !important;
+}
+
 .settings-submenu-item:hover {
   color: white !important;
   background-color: #ddf3 !important;

@@ -34,6 +34,8 @@ class Settings extends React.Component {
 
       if (settingItems) {
         return settingItems.map((item, index) => {
+          const lastItemClass =
+            index === lastItemIndex ? "settings-delete-all" : null;
           return (
             <li className="settings-submenu-item" key={`0${index}`}>
               <button
@@ -43,7 +45,7 @@ class Settings extends React.Component {
                     item.method(e);
                   }
                 }}
-                className={`settings-submenu-button ${this.props.backdropClass}`}
+                className={`settings-submenu-button ${this.props.backdropClass} ${lastItemClass}`}
                 onKeyDown={e => {
                   // only applies to the first item
                   if (index === 0) {
