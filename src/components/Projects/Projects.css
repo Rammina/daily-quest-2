@@ -77,7 +77,8 @@
   font-family: "Overlock", cursive;
   font-size: 1.4rem;
   /* text-transform: uppercase; */
-  color: #113 !important;
+  color: #222 !important;
+  text-shadow: 1px 1px 0 #beffff88;
   opacity: 1;
 }
 

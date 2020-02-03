@@ -78,6 +78,10 @@
   height: 3.5rem;
 }
 
+.nav-item:hover {
+  text-shadow: 0 0 1px #aeffff;
+}
+
 .nav-item:focus {
   outline: none;
   -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,

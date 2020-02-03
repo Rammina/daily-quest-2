@@ -82,6 +82,7 @@
 
 .settings-submenu-button.settings-delete-all {
   color: #fbb !important;
+  text-shadow: 0 0 1px #f22 !important;
 }
 
 .settings-submenu-item:hover {
@@ -92,7 +93,6 @@
 @media screen and (min-width: 900px) {
   .backdrop.settings {
     background-color: #0000;
-    /* still debating if this is the correct way to do this */
     height: 0;
   }
   #settings-submenu {
