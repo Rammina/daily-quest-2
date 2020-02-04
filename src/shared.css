@@ -57,10 +57,22 @@ input[type="submit"] {
 
 button:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
-  box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
+  -webkit-box-shadow: 0px 0px 0px 0.3px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.3px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.3px rgba(255, 255, 255, 0.96) 0px 0px 0px 2.6px
+      rgba(0, 0, 0, 0.96);
+  -moz-box-shadow: 0px 0px 0px 0.3px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.3px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.3px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 2.6px rgba(0, 0, 0, 0.96);
+  box-shadow: 0px 0px 0px 0.3px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.3px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.3px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 2.6px rgba(0, 0, 0, 0.96);
+  /* -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
+  /* 0px 0px 2px 3px #000000, 0 0 3px 4px #fff; */
+  /* box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
+  /* 0px 0px 2px 3px #000000, 0 0 3px 4px #fff; */
 }
 
 input:focus,
