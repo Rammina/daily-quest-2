@@ -57,18 +57,18 @@ input[type="submit"] {
 
 button:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0px 0.3px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 1.3px rgba(0, 0, 0, 0.96),
-    0px 0px 0px 2.3px rgba(255, 255, 255, 0.96) 0px 0px 0px 2.6px
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96) 0px 0px 0px 3px
       rgba(0, 0, 0, 0.96);
-  -moz-box-shadow: 0px 0px 0px 0.3px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 1.3px rgba(0, 0, 0, 0.96),
-    0px 0px 0px 2.3px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 2.6px rgba(0, 0, 0, 0.96);
-  box-shadow: 0px 0px 0px 0.3px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 1.3px rgba(0, 0, 0, 0.96),
-    0px 0px 0px 2.3px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 2.6px rgba(0, 0, 0, 0.96);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.96);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.96);
   /* -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
   /* 0px 0px 2px 3px #000000, 0 0 3px 4px #fff; */
   /* box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
@@ -79,11 +79,18 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  -webkit-box-shadow: inset 0px 0px 0.5px 1px #ffffff,
-    inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000,
-    0 0 3px 4px #fff;
-  box-shadow: inset 0px 0px 0.5px 1px #ffffff, inset 0px 0px 1px 2px #969696,
-    inset 0px 0px 2px 3px #000000, inset 0 0 3px 4px #fff;
+  -webkit-box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 0.96) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.96);
+  -moz-box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    inset 0px 0px 0px 3px rgba(0, 0, 0, 0.96);
+  box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    inset 0px 0px 0px 3px rgba(0, 0, 0, 0.96);
 }
 
 input[type="checkbox"]:hover {
@@ -108,18 +115,34 @@ a {
 
 a:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
-  box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.96);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.96);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.96);
 }
 
 div:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
-  box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696,
-    0px 0px 2px 3px #000000, 0 0 3px 4px #fff;
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.96);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.96);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.96);
 }
 
 li {
