@@ -55,6 +55,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+/* note: try adding the loader for the page & the list */
 button:focus {
   outline: none;
   -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
