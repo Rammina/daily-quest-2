@@ -84,18 +84,15 @@
 
 .nav-item:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96) 0px 0px 0px 3px
-      rgba(0, 0, 0, 0.96) !important;
-  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 3px rgba(0, 0, 0, 0.96) !important;
-  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 0.96),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 0.96),
-    0px 0px 0px 3px rgba(0, 0, 0, 0.96) !important;
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 1),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 1) 0px 0px 0px 3px rgba(0, 0, 0, 1) !important;
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
+    0px 0px 0px 3px rgba(0, 0, 0, 1) !important;
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
+    0px 0px 0px 3px rgba(0, 0, 0, 1) !important;
 
   /* old-style */
   /* -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */

@@ -1,10 +1,13 @@
 import "./Settings.css";
 import EllipsisImg from "../../images/ellipsis.png";
+import TrashImg from "../../images/trash.png";
+import UpImg from "../../images/up-arrow.png";
+import DownImg from "../../images/down-arrow.png";
 
 import _ from "lodash";
 import React from "react";
 import ReactDOM from "react-dom";
-import Modal from "../Modal/Modal";
+// import Modal from "../Modal/Modal";
 
 import { ElementsContext } from "../AppContext";
 
@@ -36,6 +39,40 @@ class Settings extends React.Component {
         return settingItems.map((item, index) => {
           const lastItemClass =
             index === lastItemIndex ? "settings-delete-all" : null;
+          const renderItemImg = () => {
+            let itemImg = null;
+
+            //Read the item text to determine what kind of image is applied
+            if (item.text.includes("asc")) {
+              itemImg = (
+                <img
+                  className={`icon-image arrow-image`}
+                  src={UpImg}
+                  alt="Up-arrow icon"
+                />
+              );
+            } else if (item.text.includes("desc")) {
+              itemImg = (
+                <img
+                  className={`icon-image arrow-image`}
+                  src={DownImg}
+                  alt="Down-arrow icon"
+                />
+              );
+            } else if (item.text.includes("Del") || item.text.includes("del")) {
+              itemImg = (
+                <img
+                  className={`icon-image settings-trash-image`}
+                  src={TrashImg}
+                  alt="Trashcan icon"
+                />
+              );
+            }
+            if (itemImg) {
+              return <div className={"settings-item-div"}>{itemImg}</div>;
+            }
+            return null;
+          };
           return (
             <li className="settings-submenu-item" key={`0${index}`}>
               <button
@@ -65,6 +102,7 @@ class Settings extends React.Component {
                   }
                 }}
               >
+                {renderItemImg()}
                 {item.text}
               </button>
             </li>

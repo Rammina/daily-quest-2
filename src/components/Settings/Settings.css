@@ -42,7 +42,7 @@
   margin: calc(35vh - 6.5rem) auto;
   padding: 0.8rem 0;
   background-color: #333;
-  webkit-box-shadow: 0 0 0 1px #beffff;
+  -webkit-box-shadow: 0 0 0 1px #beffff;
   box-shadow: 0 0 0 1px #beffff;
   border-radius: 3px;
   /*overflow: hidden;*/
@@ -64,6 +64,8 @@
   border-bottom: none !important;
 }
 .settings-submenu-button {
+  display: flex;
+  align-items: center;
   min-height: 3rem !important;
   line-height: 1.7rem;
   height: auto;
@@ -90,7 +92,30 @@
   background-color: #ddf3 !important;
 }
 
-@media screen and (min-width: 900px) {
+.settings-item-div {
+  display: inline-block;
+  position: relative;
+  top: 0.15rem;
+  right: 0.4rem;
+}
+
+.icon-image.arrow-image,
+.icon-image.settings-trash-image {
+  width: 2rem;
+  height: 2rem;
+}
+
+.icon-image.arrow-image {
+  filter: invert(91%) sepia(4%) saturate(989%) hue-rotate(190deg)
+    brightness(103%) contrast(107%);
+}
+
+.icon-image.settings-trash-image {
+  filter: invert(79%) sepia(88%) saturate(2317%) hue-rotate(295deg)
+    brightness(114%) contrast(108%);
+}
+
+@media screen and (min-width: 1000px) {
   .backdrop.settings {
     background-color: #0000;
     height: 0;
@@ -98,10 +123,10 @@
   #settings-submenu {
     position: fixed;
     margin: 0;
-    left: 75vw;
+    left: 73.8vw;
     top: 9rem;
     padding: 0.6rem 0rem;
-    width: 15rem;
+    width: 20rem;
   }
   .settings-submenu-item {
   }
@@ -119,11 +144,6 @@
   }
 }
 
-@media screen and (min-width: 1000px) {
-  #settings-submenu {
-    left: 73.8vw;
-  }
-}
 @media screen and (min-width: 1300px) {
   #settings-submenu {
     left: 71.15vw;
