@@ -3,12 +3,15 @@ import "./App.css";
 import React from "react";
 import { Router, Route } from "react-router-dom";
 import history from "../history";
+
+import AppLoader from "./AppLoader/AppLoader";
 import Header from "./Header/Header";
 import Home from "./Home/Home";
 import Projects from "./Projects/Projects";
 import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
+
 import { ElementsContext, NavContext } from "./AppContext";
 
 class App extends React.Component {
@@ -79,6 +82,7 @@ class App extends React.Component {
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
+          <AppLoader />
           <div>
             <NavContext.Provider
               value={{

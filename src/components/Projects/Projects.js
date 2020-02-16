@@ -14,6 +14,7 @@ import {
 import { objectToArray } from "../../helpers";
 import { Link } from "react-router-dom";
 
+import ListLoader from "../ListLoader/ListLoader";
 import ProjectItem from "../ProjectItem/ProjectItem.js";
 import Settings from "../Settings/Settings";
 import Modal from "../Modal/Modal";
@@ -211,6 +212,7 @@ class Projects extends React.Component {
         >
           <div id="projects-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
+              <ListLoader />
               <div className="project item list-header first">
                 <div className="project content">
                   <div className="header header-text project">My Projects</div>
