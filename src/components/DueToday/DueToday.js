@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
+import ListLoader from "../ListLoader/ListLoader";
 import Settings from "../Settings/Settings";
 import Modal from "../Modal/Modal";
 import DeleteAll from "../forms/commonModals/DeleteAll";
@@ -31,7 +32,8 @@ class DueToday extends React.Component {
     selectedTask: null,
     backdropClass: null,
     settingsBackdropClass: null,
-    settingsEllipsisClass: null
+    settingsEllipsisClass: null,
+    showLoader: true
   };
 
   // // using the callback version here because it's much more customizable
@@ -49,8 +51,10 @@ class DueToday extends React.Component {
   };
 
   componentDidMount() {
-    // This should call fetch due today
-    this.props.fetchDueToday();
+    (async () => {
+      await this.props.fetchDueToday();
+      this.setState({ showLoader: false });
+    })();
   }
 
   componentDidUpdate() {}
@@ -88,6 +92,25 @@ class DueToday extends React.Component {
   };
   renderTasks = () => {
     const tasks = this.props.dueToday;
+
+    if (this.state.showLoader) {
+      return (
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
+          There are no tasks found.
+        </div>
+      );
+    }
+
     if (Object.keys(tasks).length >= 1) {
       return tasks.map((task, index) => (
         <div
@@ -111,7 +134,17 @@ class DueToday extends React.Component {
     }
 
     return (
-      <div style={{ color: "white", textAlign: "center" }}>
+      <div
+        style={{
+          color: "#f8eeee",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          height: "3rem",
+          fontSize: "1.3rem"
+        }}
+      >
         There are no tasks found.
       </div>
     );
@@ -179,6 +212,7 @@ class DueToday extends React.Component {
         >
           <div id="tasks-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
+              <ListLoader showLoader={this.state.showLoader} />
               <div className="task item list-header first">
                 <div className="task content">
                   <div className="header header-text task">DUE TODAY</div>

@@ -49,6 +49,10 @@
   padding: 0.25rem 0 !important;
 }
 
+.task.item.list-header.task-item-details.loading {
+  /* display: none !important; */
+}
+
 .task.list-header:nth-of-type(even) {
   background-color: rgba(200, 200, 255, 0.06);
 }

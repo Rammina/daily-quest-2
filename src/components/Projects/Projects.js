@@ -39,14 +39,18 @@ class Projects extends React.Component {
       },
       backdropClass: null,
       settingsBackdropClass: null,
-      settingsEllipsisClass: null
+      settingsEllipsisClass: null,
+      showLoader: true
     };
   }
 
   // static contextType = ElementsContext;
 
   componentDidMount() {
-    this.props.fetchProjects();
+    (async () => {
+      await this.props.fetchProjects();
+      this.setState({ showLoader: false });
+    })();
   }
 
   componentDidUpdate() {}
@@ -111,6 +115,25 @@ class Projects extends React.Component {
 
   renderProjects = () => {
     const projects = this.props.projects;
+
+    if (this.state.showLoader) {
+      return (
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
+          There are no projects found.
+        </div>
+      );
+    }
+
     if (Object.keys(projects).length >= 1) {
       return projects.map(project => (
         <Link
@@ -127,7 +150,17 @@ class Projects extends React.Component {
       ));
     } else {
       return (
-        <div style={{ color: "white", textAlign: "center" }}>
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
           There are no projects found.
         </div>
       );
@@ -212,7 +245,7 @@ class Projects extends React.Component {
         >
           <div id="projects-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
-              <ListLoader />
+              <ListLoader showLoader={this.state.showLoader} />
               <div className="project item list-header first">
                 <div className="project content">
                   <div className="header header-text project">My Projects</div>

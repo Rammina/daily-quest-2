@@ -15,6 +15,7 @@ import {
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
+import ListLoader from "../ListLoader/ListLoader";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import Modal from "../Modal/Modal";
 import Settings from "../Settings/Settings";
@@ -34,7 +35,8 @@ class Tasks extends React.Component {
     selectedTask: null,
     backdropClass: null,
     settingsBackdropClass: null,
-    settingsEllipsisClass: null
+    settingsEllipsisClass: null,
+    showLoader: true
   };
 
   // refs
@@ -62,7 +64,10 @@ class Tasks extends React.Component {
   componentDidMount() {
     // this needs to be able to receive the ID property of the project in
     // Preferably the URL parameter
-    this.props.fetchProject(this.props.match.params.id);
+    (async () => {
+      await this.props.fetchProject(this.props.match.params.id);
+      this.setState({ showLoader: false });
+    })();
   }
 
   componentDidUpdate() {}
@@ -102,15 +107,46 @@ class Tasks extends React.Component {
       });
     }
   };
+
+  renderProjectName = () => {
+    if (this.state.showLoader) {
+      return null;
+    }
+    return this.props.project.name
+      ? ellipsifyString(this.props.project.name, 20)
+      : null;
+  };
+
   renderTasks = () => {
     const projectId = this.props.project.id;
     const tasks = this.props.project.tasks;
     console.log("tasks is");
     console.log(tasks);
 
+    if (this.state.showLoader) {
+      return (
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
+          There are no tasks found.
+        </div>
+      );
+    }
+
     if (tasks && Object.keys(tasks).length !== 0) {
       return tasks.map(task => (
-        <div key={task.id} className="task item list-header task-item-details">
+        <div
+          key={task.id}
+          className={`task item list-header task-item-details`}
+        >
           <TaskItem
             hideProjectName={true}
             task={task}
@@ -122,7 +158,17 @@ class Tasks extends React.Component {
       ));
     } else {
       return (
-        <div style={{ color: "white", textAlign: "center" }}>
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
           There are no tasks found.
         </div>
       );
@@ -220,13 +266,12 @@ class Tasks extends React.Component {
           }}
         >
           <div id="tasks-list" className="todolist ui segment">
-            <div className="ui relaxed divided list">
+            <div className={`ui relaxed divided list`}>
+              <ListLoader showLoader={this.state.showLoader} />
               <div className="task item list-header first">
                 <div className="task content">
                   <div className="header header-text task">
-                    {this.props.project.name
-                      ? ellipsifyString(this.props.project.name, 20)
-                      : null}
+                    {this.renderProjectName()}
                   </div>
                 </div>
                 <div style={{ width: "9rem" }}>

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import TaskItem from "../TaskItem/TaskItem.js";
+import ListLoader from "../ListLoader/ListLoader";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import Modal from "../Modal/Modal";
 import Settings from "../Settings/Settings";
@@ -32,12 +33,15 @@ class FinishedTasks extends React.Component {
     selectedTask: null,
     backdropClass: null,
     settingsBackdropClass: null,
-    settingsEllipsisClass: null
+    settingsEllipsisClass: null,
+    showLoader: true
   };
 
   componentDidMount() {
-    // This should call fetch due today
-    this.props.fetchFinishedTasks();
+    (async () => {
+      await this.props.fetchFinishedTasks();
+      this.setState({ showLoader: false });
+    })();
   }
 
   componentDidUpdate() {}
@@ -94,6 +98,25 @@ class FinishedTasks extends React.Component {
 
   renderTasks = () => {
     const tasks = this.props.finishedTasks;
+
+    if (this.state.showLoader) {
+      return (
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
+          There are no tasks found.
+        </div>
+      );
+    }
+
     if (Object.keys(tasks).length >= 1) {
       return tasks.map((task, index) => (
         <div
@@ -118,7 +141,17 @@ class FinishedTasks extends React.Component {
       ));
     } else {
       return (
-        <div style={{ color: "white", textAlign: "center" }}>
+        <div
+          style={{
+            color: "#f8eeee",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            height: "3rem",
+            fontSize: "1.3rem"
+          }}
+        >
           There are no tasks found.
         </div>
       );
@@ -187,6 +220,7 @@ class FinishedTasks extends React.Component {
         >
           <div id="tasks-list" className="todolist ui segment">
             <div className="ui relaxed divided list">
+              <ListLoader showLoader={this.state.showLoader} />
               <div className="task item list-header first">
                 <div className="task content">
                   <div className="header header-text task">FINISHED TASKS</div>
