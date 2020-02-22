@@ -4,6 +4,8 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { NavContext } from "../AppContext";
 
+import GoogleAuth from "../GoogleAuth/GoogleAuth";
+
 class NavMenu extends React.Component {
   static contextType = NavContext;
 
@@ -94,6 +96,7 @@ class NavMenu extends React.Component {
           >
             Finished Tasks
           </Link>
+          <GoogleAuth />
         </div>
         <div
           data-test="nav-menu-backdrop"

@@ -27,7 +27,7 @@ class AppLoader extends React.Component {
         this.setState({ loaderFadeClass: "no-display" });
         this.hideLoader(300);
       }
-    }, 5000000);
+    }, 500);
   }
 
   hideLoader = delay => {
