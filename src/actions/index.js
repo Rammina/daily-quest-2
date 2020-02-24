@@ -50,7 +50,10 @@ export const actionTypes = {
   // sort action creators for due today
   SORT_DUE_TODAY_TASKS_BY_NAME: "SORT_DUE_TODAY_TASKS_BY_NAME",
   SORT_DUE_TODAY_TASKS_BY_DATE: "SORT_DUE_TODAY_TASKS_BY_DATE",
-  SORT_DUE_TODAY_TASKS_BY_PRIORITY: "SORT_DUE_TODAY_TASKS_BY_PRIORITY"
+  SORT_DUE_TODAY_TASKS_BY_PRIORITY: "SORT_DUE_TODAY_TASKS_BY_PRIORITY",
+  //GoogleAuth
+  GOOGLE_SIGN_IN: "GOOGLE_SIGN_IN",
+  GOOGLE_SIGN_OUT: "GOOGLE_SIGN_OUT"
 };
 
 // project action creators
@@ -796,6 +799,23 @@ export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
     dispatch({
       type: actionTypes.SORT_DUE_TODAY_TASKS_BY_PRIORITY,
       payload: sortedTasks
+    });
+  };
+};
+
+//GoogleAuth functions
+export const googleSignIn = () => {
+  return async function(dispatch) {
+    dispatch({
+      type: actionTypes.GOOGLE_SIGN_IN
+    });
+  };
+};
+
+export const googleSignOut = () => {
+  return async function(dispatch) {
+    dispatch({
+      type: actionTypes.GOOGLE_SIGN_OUT
     });
   };
 };

@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { googleSignIn, googleSignOut } from "../../actions";
 
 class GoogleAuth extends React.Component {
-  state = { isSignedIn: null };
-
   componentDidMount() {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
@@ -14,16 +14,20 @@ class GoogleAuth extends React.Component {
         .then(() => {
           // gives a ref to the auth instance
           this.auth = window.gapi.auth2.getAuthInstance();
-          // update component level state, check if user is signed in or not
-          this.onAuthChange();
+          // update redux state, check if user is signed in or not
+          this.onAuthChange(this.auth.isSignedIn.get());
           // listen for any changes in sign in status, update state
           this.auth.isSignedIn.listen(this.onAuthChange);
         });
     });
   }
 
-  onAuthChange = () => {
-    this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+  onAuthChange = isSignedIn => {
+    if (isSignedIn) {
+      this.props.googleSignIn();
+    } else {
+      this.props.googleSignOut();
+    }
   };
 
   onSignInClick = () => {
@@ -51,9 +55,9 @@ class GoogleAuth extends React.Component {
   };
 
   renderAuthButton = () => {
-    if (this.state.isSignedIn === null) {
+    if (this.props.isSignedIn === null) {
       return null;
-    } else if (this.state.isSignedIn) {
+    } else if (this.props.isSignedIn) {
       return this.renderGoogleSignButton("Sign Out", () => {
         this.onSignOutClick();
       });
@@ -65,8 +69,14 @@ class GoogleAuth extends React.Component {
   };
 
   render() {
-    return <div style={{ display: "none" }}>Google Auth</div>;
+    return this.renderAuthButton();
   }
 }
 
-export default GoogleAuth;
+const mapStateToProps = state => {
+  return { isSignedIn: state.googleAuth.isSignedIn };
+};
+
+export default connect(mapStateToProps, { googleSignIn, googleSignOut })(
+  GoogleAuth
+);
