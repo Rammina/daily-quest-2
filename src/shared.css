@@ -160,3 +160,13 @@ textarea {
 .no-display.hide-svg {
   display: none;
 }
+
+.ui.red.google.button {
+  height: 3rem;
+  font-size: 1.15rem;
+  font-family: "Raleway", sans-serif;
+  margin: 0;
+}
+
+.google.icon {
+}

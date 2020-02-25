@@ -1,6 +1,7 @@
 import "./App.css";
 
 import React from "react";
+import { connect } from "react-redux";
 import { Router, Route } from "react-router-dom";
 import history from "../history";
 
@@ -11,6 +12,8 @@ import Projects from "./Projects/Projects";
 import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
+import LoginPage from "./LoginPage/LoginPage";
+// import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
 import { ElementsContext, NavContext } from "./AppContext";
 
@@ -79,6 +82,16 @@ class App extends React.Component {
   };
 
   render() {
+    // check if logged in, show login page if not.
+    if (!this.props.isSignedIn) {
+      // replace this with a login page component
+      return (
+        <React.Fragment>
+          <AppLoader />
+          <LoginPage />
+        </React.Fragment>
+      );
+    }
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
@@ -147,4 +160,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return { isSignedIn: state.googleAuth.isSignedIn };
+};
+
+export default connect(
+  mapStateToProps,
+  {}
+)(App);

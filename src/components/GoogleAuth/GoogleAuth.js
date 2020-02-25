@@ -7,6 +7,7 @@ class GoogleAuth extends React.Component {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
+          // just change the client ID for a different project
           clientId:
             "636968238547-rd6r7k73599bpuhp58a23mqegrutlk70.apps.googleusercontent.com",
           scope: "email"
@@ -77,6 +78,7 @@ const mapStateToProps = state => {
   return { isSignedIn: state.googleAuth.isSignedIn };
 };
 
-export default connect(mapStateToProps, { googleSignIn, googleSignOut })(
-  GoogleAuth
-);
+export default connect(
+  mapStateToProps,
+  { googleSignIn, googleSignOut }
+)(GoogleAuth);
