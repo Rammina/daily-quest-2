@@ -2,7 +2,8 @@
   /* padding-top: 4.5rem; */
   /* padding-bottom: 5.5rem; */
   min-height: 100vh;
-  background-color: #343947;
+  background-image: url("../../images/pattern.png");
+  background-repeat: repeat;
 }
 
 .login-page-form-container {
