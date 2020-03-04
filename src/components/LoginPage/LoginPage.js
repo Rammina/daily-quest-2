@@ -1,4 +1,5 @@
 import "./LoginPage.css";
+import StarImg from "../../images/star.png";
 
 import React from "react";
 
@@ -18,7 +19,15 @@ class LoginPage extends React.Component {
       <div data-test="component-login-page" className="login-page-container">
         <div className="login-page-form-container">
           <div className="login-page-button-container">
-            <h1 id="login-page-title">Daily Quest</h1>
+            <div id="login-page-title-div">
+              <img
+                id="login-page-title-image"
+                src={StarImg}
+                alt="Blue Star Icon"
+              ></img>
+              <h1 id="login-page-title">Daily Quest</h1>
+            </div>
+
             <h2 className="login-page-header">Log In</h2>
             <GoogleAuth />
           </div>
