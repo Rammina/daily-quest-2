@@ -1,21 +1,68 @@
 .login-page-container {
-  /* padding-top: 4.5rem; */
+  width: calc(100vw - (100vw - 100%));
+  padding-top: 2rem;
   /* padding-bottom: 5.5rem; */
-  min-height: 100vh;
+  min-height: calc(100vh + 6rem);
   background-image: url("../../images/pattern.png");
   background-repeat: repeat;
 }
 
+#login-page-title-div {
+  position: relative;
+  /* for alternate design, get rid of left */
+  left: 1.4rem;
+}
+
+#login-page-title-image {
+  z-index: 99;
+  position: absolute;
+  display: inline-block;
+  /* get rid of comments to switch to alternate design */
+  /* height: 5rem;width: 5rem; */
+  /* left: calc(50% - 2.5rem); */
+  /* top: 0.4rem; */
+  height: 3rem;
+  width: 3rem;
+  left: calc(50% - 8rem);
+  margin-top: -0.55rem;
+  /* filter: brightness(90%); */
+}
+
+#login-page-title {
+  z-index: 100;
+  display: block;
+  position: relative;
+  bottom: 0.4rem;
+  font-family: "Overlock", cursive;
+  font-size: 2rem;
+  height: 3.5rem;
+  padding: 0;
+  margin: 0 auto;
+  color: #beffff;
+  text-shadow: 1px 1px 1px #210, 1.5px 1.5px 2px #765b;
+  text-align: center;
+  text-transform: none;
+}
+
 .login-page-form-container {
+  /* position: relative; */
+  position: absolute;
   display: flex;
   justify-content: center;
+  /* align-items: flex-start; */
+  flex-wrap: wrap;
+  /* bottom: 5rem; */
+  left: 0;
+  top: 0;
   margin: 0 auto;
-  padding: 1.8rem 1rem;
+  padding: 1.8rem 0rem;
+  padding-top: 6rem;
   width: calc(100vw - (100vw - 100%));
-  height: 100vh;
+  min-height: calc(100vh + 6rem);
   -webkit-box-shadow: 0 0 0 2px #beffff;
   box-shadow: 0 0 0 2px #beffff;
-  background-color: #0000;
+  /* background-color: #0000; */
+  background-color: #3335;
   color: aliceblue;
 }
 
@@ -26,33 +73,12 @@
 
 .login-page-header {
   /*display: inline-block; */
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 1.5rem;
   text-align: center;
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-family: "Raleway", sans-serif;
   text-shadow: 1px 1px 0 #beffff90;
-}
-
-#login-page-title-div {
-}
-
-#login-page-title-image {
-  position: absolute;
-  display: inline-block;
-  height: 6rem;
-  width: 6rem;
-}
-
-#login-page-title {
-  display: block;
-  position: relative;
-  font-family: "Overlock", cursive;
-  font-size: 2rem;
-  height: 3.5rem;
-  padding: 0;
-  margin: 0 auto;
-  color: #beffff;
-  text-align: center;
-  text-transform: none;
+  height: 3rem;
 }
