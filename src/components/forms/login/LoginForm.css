@@ -1,9 +1,14 @@
 #login-form-form {
+  display: block;
   width: 100%;
   margin: 0 auto;
   position: relative;
-  bottom: calc(33vh - 8rem);
+  bottom: calc(29vh - 7.5rem);
   /* bottom: 5rem; */
+}
+
+#login-form-field-div {
+  min-height: 28rem;
 }
 
 .block.form-label {
@@ -91,7 +96,7 @@ div.text-field.disabled {
   display: block;
   width: 82%;
   max-width: 13rem;
-  height: 3.5rem;
+  height: 3.2rem;
   font-family: "Raleway", sans-serif;
   margin: 1rem auto;
   background-color: #dfd;
@@ -189,6 +194,20 @@ div.text-field.disabled {
   left: 0.8rem;
 }
 
+.login-page-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.login-page.ui.red.google.button {
+  margin: 0 auto !important;
+
+  position: relative;
+  top: 1rem;
+  /* bottom: calc(63vh - 17.5rem); */
+}
+
 @media screen and (min-width: 450px) {
 }
 
@@ -203,6 +222,12 @@ div.text-field.disabled {
 
   #login-form-submit {
     max-width: 9rem;
+  }
+}
+
+@media screen and (min-width: 650px) and (min-height: 650px) {
+  #login-form-form {
+    bottom: 0rem;
   }
 }
 /*

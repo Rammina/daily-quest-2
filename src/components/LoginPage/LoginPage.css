@@ -2,7 +2,7 @@
   width: calc(100vw - (100vw - 100%));
   padding-top: 2rem;
   /* padding-bottom: 5.5rem; */
-  min-height: calc(100vh + 6rem);
+  min-height: calc(100vh + 13rem);
   background-image: url("../../images/pattern.png");
   background-repeat: repeat;
 }
@@ -58,17 +58,11 @@
   padding: 1.8rem 0rem;
   padding-top: 6rem;
   width: calc(100vw - (100vw - 100%));
-  min-height: calc(100vh + 6rem);
+  min-height: calc(100vh + 13rem);
   -webkit-box-shadow: 0 0 0 2px #beffff;
   box-shadow: 0 0 0 2px #beffff;
-  /* background-color: #0000; */
-  background-color: #3335;
+  background-color: #202530dd;
   color: aliceblue;
-}
-
-.login-page-button-container {
-  display: block;
-  margin: 0 auto;
 }
 
 .login-page-header {
@@ -81,4 +75,42 @@
   font-family: "Raleway", sans-serif;
   text-shadow: 1px 1px 0 #beffff90;
   height: 3rem;
+}
+
+@media screen and (min-height: 450px) {
+  .login-page-container {
+    min-height: calc(87vh + 13rem);
+    /* min-height: calc(100vh); */
+  }
+
+  .login-page-form-container {
+    min-height: calc(87vh + 13rem);
+  }
+}
+
+@media screen and (min-width: 650px) and (min-height: 650px) {
+  .login-page-form-container {
+    left: calc(10vw);
+    top: 6rem;
+    padding: 1.8rem 1rem;
+    padding-top: 2rem;
+    width: calc(80vw);
+    min-height: calc(30rem);
+    height: auto;
+    /* max-height: 50rem; */
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 0 2px #beffffdd;
+    box-shadow: 0 0 0 2px #beffffdd;
+    background-color: #202530e4;
+  }
+}
+
+@media screen and (min-width: 900px) and (min-height: 650px) {
+  #login-page-title-div {
+    left: 1.6rem;
+  }
+  .login-page-form-container {
+    left: calc(50vw - 22.5rem);
+    width: 45rem;
+  }
 }

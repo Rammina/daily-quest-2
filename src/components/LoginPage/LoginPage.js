@@ -3,7 +3,6 @@ import StarImg from "../../images/star.png";
 
 import React from "react";
 
-import GoogleAuth from "../GoogleAuth/GoogleAuth";
 import LoginForm from "../forms/login/LoginForm";
 
 class LoginPage extends React.Component {
@@ -35,9 +34,6 @@ class LoginPage extends React.Component {
         >
           <h2 className="login-page-header">Log In</h2>
           <LoginForm />
-          <div className="login-page-button-container">
-            <GoogleAuth />
-          </div>
         </div>
       </div>
     );

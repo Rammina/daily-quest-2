@@ -42,7 +42,7 @@ class GoogleAuth extends React.Component {
   renderGoogleSignButton = (text, cb) => {
     return (
       <button
-        className="ui red google button"
+        className={`ui red google button ${this.props.buttonClass || null}`}
         onClick={() => {
           if (cb) {
             cb();

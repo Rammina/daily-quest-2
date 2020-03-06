@@ -6,6 +6,8 @@ import ReactDOM from "react-dom";
 import { Field, reduxForm } from "redux-form";
 import { renderError, getErrorClass } from "../../../helpers";
 
+import GoogleAuth from "../../GoogleAuth/GoogleAuth";
+
 class LoginForm extends React.Component {
   state = {};
 
@@ -97,25 +99,27 @@ class LoginForm extends React.Component {
               }
             }}
           />
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            className="form-submit modal-action-button"
-            id="login-form-submit"
-            onClick={this.props.handleSubmit(this.onSubmit)}
-            onKeyDown={e => {
-              if (e.key === "Tab" && !e.shiftKey) {
-                // fill this up later
-                // e.preventDefault();
-                // e.stopPropagation();
-                //
-              }
-            }}
-          >
-            Log In
-          </button>
+          <div>
+            <button
+              type="submit"
+              className="form-submit modal-action-button"
+              id="login-form-submit"
+              onClick={this.props.handleSubmit(this.onSubmit)}
+              onKeyDown={e => {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  // fill this up later
+                  // e.preventDefault();
+                  // e.stopPropagation();
+                  //
+                }
+              }}
+            >
+              Log In
+            </button>
+          </div>
+          <div className="login-page-button-container">
+            <GoogleAuth buttonClass="login-page" />
+          </div>
         </div>
       </form>
     );
