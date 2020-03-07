@@ -252,7 +252,7 @@ div.text-field.disabled {
   display: block;
   width: 82%;
   max-width: 13rem;
-  height: 3.5rem;
+  height: 3.2rem;
   font-family: "Raleway", sans-serif;
   margin: 1rem auto;
   background-color: #dfd;
@@ -300,7 +300,7 @@ div.text-field.disabled {
   display: block;
   width: 82%;
   max-width: 7rem;
-  height: 3.5rem;
+  height: 3.2rem;
   font-size: 1.2rem;
   font-family: "Raleway", sans-serif;
   margin: 1rem auto;

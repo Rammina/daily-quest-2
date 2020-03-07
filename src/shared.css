@@ -168,5 +168,13 @@ textarea {
   margin: 0;
 }
 
+.ui.primary.google.button {
+  height: 3rem;
+  font-size: 1.13rem;
+  font-family: "Raleway", sans-serif;
+  margin: 0;
+  background-color: #469;
+}
+
 .google.icon {
 }

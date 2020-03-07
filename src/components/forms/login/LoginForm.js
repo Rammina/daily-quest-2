@@ -9,7 +9,9 @@ import { renderError, getErrorClass } from "../../../helpers";
 import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class LoginForm extends React.Component {
-  state = {};
+  state = {
+    showLoginError: false
+  };
 
   componentDidMount() {}
 
@@ -20,7 +22,7 @@ class LoginForm extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       if (e.target.type !== "checkbox") {
-        this.props.handleSubmit(this.onSubmit)();
+        // this.props.handleSubmit(this.onSubmit)();
       }
     }
   };
@@ -54,6 +56,18 @@ class LoginForm extends React.Component {
 
   onSubmit = formValues => {
     this.props.onSubmit(formValues);
+  };
+
+  renderLoginError = () => {
+    if (!this.state.showLoginError) {
+      return null;
+    }
+    return (
+      <div className={`login disconnected error`}>
+        <img className="error-image" src={warningImg} alt="warning sign"></img>
+        Unable to connect to server.
+      </div>
+    );
   };
 
   render() {
@@ -104,7 +118,11 @@ class LoginForm extends React.Component {
               type="submit"
               className="form-submit modal-action-button"
               id="login-form-submit"
-              onClick={this.props.handleSubmit(this.onSubmit)}
+              onClick={() => {
+                // show error for now because I have not set up the backend yet
+                this.setState({ showLoginError: true });
+                // this.props.handleSubmit(this.onSubmit);
+              }}
               onKeyDown={e => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   // fill this up later
@@ -116,6 +134,7 @@ class LoginForm extends React.Component {
             >
               Log In
             </button>
+            {this.renderLoginError()}
           </div>
           <div className="login-page-button-container">
             <GoogleAuth buttonClass="login-page" />
