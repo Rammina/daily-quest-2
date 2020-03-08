@@ -113,7 +113,7 @@ class LoginForm extends React.Component {
               }
             }}
           />
-          <div>
+          <div id="login-submit-div">
             <button
               type="submit"
               className="form-submit modal-action-button"

@@ -32,7 +32,7 @@ class LoginPage extends React.Component {
             e.stopPropagation();
           }}
         >
-          <h2 className="login-page-header">Log In</h2>
+          <h2 className="login-page-header">Log In to Daily Quest</h2>
           <LoginForm />
         </div>
       </div>

@@ -8,7 +8,12 @@
 }
 
 #login-form-field-div {
+  /* margin-bottom: 2rem; */
   min-height: 28rem;
+}
+
+#login-submit-div {
+  margin-top: 1.5rem;
 }
 
 .block.form-label {
@@ -111,7 +116,6 @@ div.text-field.disabled {
   background-color: rgb(175, 224, 175);
   cursor: pointer;
 }
-/* note: change some of the top: to margin-top to avoid invisible sizes*/
 #login-form-buttons-container {
   max-width: 21rem;
 }
@@ -208,13 +212,16 @@ div.text-field.disabled {
 .login-page.ui.red.google.button {
   margin: 0 auto !important;
   position: relative;
-  top: 1rem;
+  margin-top: 1.5rem !important;
 }
 
 .login-page.ui.primary.google.button {
   margin: 0 auto !important;
   position: relative;
-  top: 1rem;
+  /* top: 1rem; */
+  margin-top: 1.5rem !important;
+  max-width: 15rem;
+  border: 1px solid #fff7;
 }
 
 @media screen and (min-width: 450px) {
@@ -230,7 +237,9 @@ div.text-field.disabled {
   }
 
   #login-form-submit {
+    /* max-width: 15rem; */
     max-width: 9rem;
+    border-radius: 25px;
   }
 }
 
