@@ -51,13 +51,15 @@ export const actionTypes = {
   SORT_DUE_TODAY_TASKS_BY_NAME: "SORT_DUE_TODAY_TASKS_BY_NAME",
   SORT_DUE_TODAY_TASKS_BY_DATE: "SORT_DUE_TODAY_TASKS_BY_DATE",
   SORT_DUE_TODAY_TASKS_BY_PRIORITY: "SORT_DUE_TODAY_TASKS_BY_PRIORITY",
+
   //GoogleAuth
   GOOGLE_SIGN_IN: "GOOGLE_SIGN_IN",
   GOOGLE_SIGN_OUT: "GOOGLE_SIGN_OUT"
 };
 
 // project action creators
-export const fetchProjects = () => {
+export const fetchProjects = userId => {
+  console.log(userId || "guest");
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get("/projects.json");
     let data = null;
@@ -804,10 +806,11 @@ export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
 };
 
 //GoogleAuth functions
-export const googleSignIn = () => {
+export const googleSignIn = userId => {
   return async function(dispatch) {
     dispatch({
-      type: actionTypes.GOOGLE_SIGN_IN
+      type: actionTypes.GOOGLE_SIGN_IN,
+      payload: userId
     });
   };
 };
