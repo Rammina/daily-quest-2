@@ -4,6 +4,8 @@ import { googleSignIn, googleSignOut } from "../../actions";
 
 class GoogleAuth extends React.Component {
   componentDidMount() {
+    // note: add state change context status, to be used by the application loader
+    // to tell itself to dissolve based on finishing authentication
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({

@@ -4,9 +4,14 @@ import {
   compareValues,
   comparePriorityValues,
   compareKeysInProp,
-  objectToArray
+  objectToArray,
+  // cryptography functions
+  encrypt,
+  decrypt,
+  decryptedMsgToString
 } from "../helpers";
 import isToday from "date-fns/isToday";
+import AES from "crypto-js/aes";
 // import history from "../history";
 
 // List of action types to be used
@@ -58,8 +63,8 @@ export const actionTypes = {
 };
 
 // project action creators
-export const fetchProjects = userId => {
-  console.log(userId || "guest");
+export const fetchProjects = encryptedUserId => {
+  console.log(encryptedUserId || "guest");
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get("/projects.json");
     let data = null;
@@ -807,10 +812,17 @@ export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
 
 //GoogleAuth functions
 export const googleSignIn = userId => {
+  console.log(`the original message is: ${userId}`);
+  let encrypted = AES.encrypt(userId, "LaL1LuL3L0");
+  // let encrypted = encrypt(userId, "LaL1LuL3L0");
+  console.log(encrypted);
+  let decrypted = AES.decrypt(encrypted, "LaL1LuL3L0");
+  // let decrypted = decrypt(encrypted, "LaL1LuL3L0");
+  console.log(`the decrypted message is: ${decryptedMsgToString(decrypted)}`);
   return async function(dispatch) {
     dispatch({
       type: actionTypes.GOOGLE_SIGN_IN,
-      payload: userId
+      payload: { userId, encryptedUserId: AES.encrypt(userId, "LaL1LuL3L0") }
     });
   };
 };
