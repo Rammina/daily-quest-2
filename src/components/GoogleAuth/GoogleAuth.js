@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { googleSignIn, googleSignOut } from "../../actions";
+import { GoogleAuthContext } from "../AppContext";
 
 class GoogleAuth extends React.Component {
+  static contextType = GoogleAuthContext;
+
   componentDidMount() {
-    // note: add state change context status, to be used by the application loader
-    // to tell itself to dissolve based on finishing authentication
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
@@ -14,11 +15,15 @@ class GoogleAuth extends React.Component {
             "636968238547-rd6r7k73599bpuhp58a23mqegrutlk70.apps.googleusercontent.com",
           scope: "email"
         })
-        .then(() => {
+        .then(async () => {
           // gives a ref to the auth instance
           this.auth = window.gapi.auth2.getAuthInstance();
           // update redux state, check if user is signed in or not
-          this.onAuthChange(this.auth.isSignedIn.get());
+          await this.onAuthChange(this.auth.isSignedIn.get());
+          console.log(this.context.signInChecked);
+          this.context.setSignInChecked(true);
+          console.log(this.context.signInChecked);
+
           // listen for any changes in sign in status, update state
           this.auth.isSignedIn.listen(this.onAuthChange);
         });

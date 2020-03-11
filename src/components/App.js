@@ -15,10 +15,11 @@ import DueToday from "./DueToday/DueToday";
 import LoginPage from "./LoginPage/LoginPage";
 // import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
-import { ElementsContext, NavContext } from "./AppContext";
+import { ElementsContext, NavContext, GoogleAuthContext } from "./AppContext";
 
 class App extends React.Component {
   state = {
+    // modal
     modalCloseButtonRef: null,
     modalDeleteAllButtonRef: null,
     modalProjectsSubmitButtonRef: null,
@@ -27,11 +28,74 @@ class App extends React.Component {
     modalTasksDeleteButtonRef: null,
     modalDetailsEditButtonRef: null,
     modalDetailsDeleteButtonRef: null,
+    // non-modal
     firstSettingsItem: null,
     navMenuCloseButtonRef: null,
-    lastNavMenuItemRef: null
+    lastNavMenuItemRef: null,
+    // GoogleAuth
+    googleSignInChecked: false
   };
 
+  // functions used for retrieving context values
+  getElementsContextValue = () => {
+    return {
+      // main body content
+      //
+      modalCloseButtonRef: this.state.modalCloseButtonRef,
+      setModalCloseButtonRef: this.setModalCloseButtonRef,
+      //PROJECTS
+      modalProjectsSubmitButtonRef: this.state.modalProjectsSubmitButtonRef,
+      setModalProjectsSubmitButtonRef: this.setModalProjectsSubmitButtonRef,
+      //
+      modalProjectsDeleteButtonRef: this.state.modalProjectsDeleteButtonRef,
+      setModalProjectsDeleteButtonRef: this.setModalProjectsDeleteButtonRef,
+      //TASKS
+      modalTasksSubmitButtonRef: this.state.modalTasksSubmitButtonRef,
+      setModalTasksSubmitButtonRef: this.setModalTasksSubmitButtonRef,
+      //
+      modalTasksDeleteButtonRef: this.state.modalTasksDeleteButtonRef,
+      setModalTasksDeleteButtonRef: this.setModalTasksDeleteButtonRef,
+      //
+      modalDetailsEditButtonRef: this.state.modalDetailsEditButtonRef,
+      setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef,
+      //
+      modalDetailsDeleteButtonRef: this.state.modalDetailsDeleteButtonRef,
+      setModalDetailsDeleteButtonRef: this.setModalDetailsDeleteButtonRef,
+      //
+      modalDeleteAllButtonRef: this.state.modalDeleteAllButtonRef,
+      setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef,
+      // SETTINGS
+      firstSettingsItem: this.state.firstSettingsItem,
+      setFirstSettingsItem: this.setFirstSettingsItem
+    };
+  };
+
+  getNavContextValue = () => {
+    return {
+      // NAV MENU
+      navMenuCloseButtonRef: this.state.navMenuCloseButtonRef,
+      setNavMenuCloseButtonRef: this.setNavMenuCloseButtonRef,
+      //
+      lastNavMenuItemRef: this.state.lastNavMenuItemRef,
+      setLastNavMenuItemRef: this.setLastNavMenuItemRef
+    };
+  };
+
+  getGoogleAuthContextValue = () => {
+    return {
+      signInChecked: this.state.googleSignInChecked,
+      setSignInChecked: isChecked => {
+        this.setGoogleSignInChecked(isChecked);
+      }
+    };
+  };
+
+  // GoogleAuth functions
+  setGoogleSignInChecked = isChecked => {
+    this.setState({ googleSignInChecked: isChecked });
+  };
+
+  // callback ref functions
   setModalCloseButtonRef = ref => {
     this.setState({ modalCloseButtonRef: ref });
   };
@@ -82,78 +146,41 @@ class App extends React.Component {
   };
 
   render() {
+    // context value objects
+    const elementsContextValue = this.getElementsContextValue();
+    const navContextValue = this.getNavContextValue();
+    const googleAuthContextValue = this.getGoogleAuthContextValue();
+
     // check if logged in, show login page if not.
     if (!this.props.isSignedIn) {
       // replace this with a login page component
       return (
         <React.Fragment>
-          <AppLoader />
-          <LoginPage />
+          <GoogleAuthContext.Provider value={googleAuthContextValue}>
+            <AppLoader />
+            <LoginPage />
+          </GoogleAuthContext.Provider>
         </React.Fragment>
       );
     }
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
-          <AppLoader />
-          <div>
-            <NavContext.Provider
-              value={{
-                // NAV MENU
-                navMenuCloseButtonRef: this.state.navMenuCloseButtonRef,
-                setNavMenuCloseButtonRef: this.setNavMenuCloseButtonRef,
-                //
-                lastNavMenuItemRef: this.state.lastNavMenuItemRef,
-                setLastNavMenuItemRef: this.setLastNavMenuItemRef
-              }}
-            >
-              <Header />
-            </NavContext.Provider>
-            <ElementsContext.Provider
-              value={{
-                // main body content
-                //
-                modalCloseButtonRef: this.state.modalCloseButtonRef,
-                setModalCloseButtonRef: this.setModalCloseButtonRef,
-                //PROJECTS
-                modalProjectsSubmitButtonRef: this.state
-                  .modalProjectsSubmitButtonRef,
-                setModalProjectsSubmitButtonRef: this
-                  .setModalProjectsSubmitButtonRef,
-                //
-                modalProjectsDeleteButtonRef: this.state
-                  .modalProjectsDeleteButtonRef,
-                setModalProjectsDeleteButtonRef: this
-                  .setModalProjectsDeleteButtonRef,
-                //TASKS
-                modalTasksSubmitButtonRef: this.state.modalTasksSubmitButtonRef,
-                setModalTasksSubmitButtonRef: this.setModalTasksSubmitButtonRef,
-                //
-                modalTasksDeleteButtonRef: this.state.modalTasksDeleteButtonRef,
-                setModalTasksDeleteButtonRef: this.setModalTasksDeleteButtonRef,
-                //
-                modalDetailsEditButtonRef: this.state.modalDetailsEditButtonRef,
-                setModalDetailsEditButtonRef: this.setModalDetailsEditButtonRef,
-                //
-                modalDetailsDeleteButtonRef: this.state
-                  .modalDetailsDeleteButtonRef,
-                setModalDetailsDeleteButtonRef: this
-                  .setModalDetailsDeleteButtonRef,
-                //
-                modalDeleteAllButtonRef: this.state.modalDeleteAllButtonRef,
-                setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef,
-                // SETTINGS
-                firstSettingsItem: this.state.firstSettingsItem,
-                setFirstSettingsItem: this.setFirstSettingsItem
-              }}
-            >
-              <Route path="/" exact component={Home} />
-              <Route path="/projects" exact component={Projects} />
-              <Route path="/projects/:id" exact component={Tasks} />
-              <Route path="/due-today" exact component={DueToday} />
-              <Route path="/finished-tasks" exact component={FinishedTasks} />
-            </ElementsContext.Provider>
-          </div>
+          <GoogleAuthContext.Provider value={googleAuthContextValue}>
+            <AppLoader />
+            <div>
+              <NavContext.Provider value={navContextValue}>
+                <Header />
+              </NavContext.Provider>
+              <ElementsContext.Provider value={elementsContextValue}>
+                <Route path="/" exact component={Home} />
+                <Route path="/projects" exact component={Projects} />
+                <Route path="/projects/:id" exact component={Tasks} />
+                <Route path="/due-today" exact component={DueToday} />
+                <Route path="/finished-tasks" exact component={FinishedTasks} />
+              </ElementsContext.Provider>
+            </div>
+          </GoogleAuthContext.Provider>
         </Router>
       </div>
     );

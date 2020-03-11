@@ -1,6 +1,7 @@
 import "./AppLoader.css";
 
 import React from "react";
+import { GoogleAuthContext } from "../AppContext";
 
 class AppLoader extends React.Component {
   state = {
@@ -8,14 +9,16 @@ class AppLoader extends React.Component {
     loaderFadeClass: null
   };
 
+  static contextType = GoogleAuthContext;
+
   componentDidMount() {
     setTimeout(() => {
       // Screen loader
       if (document.readyState === "loading") {
         // Loading hasn't finished yet
-        document.addEventListener("DOMContentLoaded", function() {
-          this.setState({ loaderFadeClass: "no-display" });
-          this.hideLoader(300);
+        document.addEventListener("DOMContentLoaded", () => {
+          console.log("called by twenty");
+          this.fadeLoaderAfterCheck();
         });
       } //Loading has already finished
       else if (
@@ -24,11 +27,24 @@ class AppLoader extends React.Component {
         document.readyState === "loaded"
       ) {
         console.log(" HTML loaded");
-        this.setState({ loaderFadeClass: "no-display" });
-        this.hideLoader(300);
+        this.fadeLoaderAfterCheck();
       }
     }, 500);
   }
+
+  //note: refactor this to be used by a context, in App.js
+  fadeLoaderAfterCheck = () => {
+    setTimeout(() => {
+      console.log("hello");
+
+      if (this.context.signInChecked) {
+        this.setState({ loaderFadeClass: "no-display" });
+        this.hideLoader(300);
+      } else {
+        // this.fadeLoaderAfterCheck();
+      }
+    }, 500);
+  };
 
   hideLoader = delay => {
     if (delay) {
@@ -46,9 +62,9 @@ class AppLoader extends React.Component {
     }
     return (
       <div className={`loader-container ${this.state.loaderFadeClass || null}`}>
-        <div class="loader loader-2">
+        <div className="loader loader-2">
           <svg
-            class="loader-star"
+            className="loader-star"
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
           >
@@ -57,7 +73,7 @@ class AppLoader extends React.Component {
               fill="#18ffff"
             />
           </svg>
-          <div class="loader-circles"></div>
+          <div className="loader-circles"></div>
         </div>
         {/* <p className="loader-p">Loading...</p> */}
       </div>
