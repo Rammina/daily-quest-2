@@ -33,7 +33,10 @@ class App extends React.Component {
     navMenuCloseButtonRef: null,
     lastNavMenuItemRef: null,
     // GoogleAuth
-    googleSignInChecked: false
+    googleSignInChecked: false,
+    // loader
+    showLoader: true,
+    loaderFadeClass: null
   };
 
   // functions used for retrieving context values
@@ -86,8 +89,37 @@ class App extends React.Component {
       signInChecked: this.state.googleSignInChecked,
       setSignInChecked: isChecked => {
         this.setGoogleSignInChecked(isChecked);
-      }
+      },
+      fadeLoaderAfterCheck: this.fadeLoaderAfterCheck,
+      showLoaderBeforeCheck: this.showLoaderBeforeCheck
     };
+  };
+
+  // used to show the loader again
+  showLoaderBeforeCheck = () => {
+    this.setState({ loaderFadeClass: null, showLoader: true });
+  };
+
+  // this is used to hide the loader
+  fadeLoaderAfterCheck = () => {
+    setTimeout(() => {
+      console.log("hello");
+
+      if (this.state.googleSignInChecked) {
+        this.setState({ loaderFadeClass: "no-display" });
+        this.hideLoader(300);
+      }
+    }, 500);
+  };
+
+  hideLoader = delay => {
+    if (delay) {
+      setTimeout(() => {
+        this.setState({ showLoader: false });
+      }, delay);
+    } else {
+      this.setState({ showLoader: false });
+    }
   };
 
   // GoogleAuth functions
@@ -151,13 +183,19 @@ class App extends React.Component {
     const navContextValue = this.getNavContextValue();
     const googleAuthContextValue = this.getGoogleAuthContextValue();
 
+    // AppLoader prop values
+    const appLoaderProps = {
+      show: this.state.showLoader,
+      fadeClass: this.state.loaderFadeClass
+    };
+
     // check if logged in, show login page if not.
     if (!this.props.isSignedIn) {
       // replace this with a login page component
       return (
         <React.Fragment>
           <GoogleAuthContext.Provider value={googleAuthContextValue}>
-            <AppLoader />
+            <AppLoader loader={appLoaderProps} />
             <LoginPage />
           </GoogleAuthContext.Provider>
         </React.Fragment>
@@ -167,7 +205,7 @@ class App extends React.Component {
       <div data-test="component-app" className="ui container">
         <Router history={history}>
           <GoogleAuthContext.Provider value={googleAuthContextValue}>
-            <AppLoader />
+            <AppLoader loader={appLoaderProps} />
             <div>
               <NavContext.Provider value={navContextValue}>
                 <Header />

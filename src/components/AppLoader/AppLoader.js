@@ -5,8 +5,8 @@ import { GoogleAuthContext } from "../AppContext";
 
 class AppLoader extends React.Component {
   state = {
-    showLoader: true,
-    loaderFadeClass: null
+    // showLoader: true,
+    // loaderFadeClass: null
   };
 
   static contextType = GoogleAuthContext;
@@ -18,7 +18,7 @@ class AppLoader extends React.Component {
         // Loading hasn't finished yet
         document.addEventListener("DOMContentLoaded", () => {
           console.log("called by twenty");
-          this.fadeLoaderAfterCheck();
+          this.context.fadeLoaderAfterCheck();
         });
       } //Loading has already finished
       else if (
@@ -27,41 +27,42 @@ class AppLoader extends React.Component {
         document.readyState === "loaded"
       ) {
         console.log(" HTML loaded");
-        this.fadeLoaderAfterCheck();
+        this.context.fadeLoaderAfterCheck();
       }
     }, 500);
   }
 
-  //note: refactor this to be used by a context, in App.js
-  fadeLoaderAfterCheck = () => {
-    setTimeout(() => {
-      console.log("hello");
+  // fadeLoaderAfterCheck = () => {
+  //   setTimeout(() => {
+  //     console.log("hello");
+  //
+  //     if (this.context.signInChecked) {
+  //       this.setState({ loaderFadeClass: "no-display" });
+  //       this.hideLoader(300);
+  //     } else {
+  //       // this.fadeLoaderAfterCheck();
+  //     }
+  //   }, 500);
+  // };
 
-      if (this.context.signInChecked) {
-        this.setState({ loaderFadeClass: "no-display" });
-        this.hideLoader(300);
-      } else {
-        // this.fadeLoaderAfterCheck();
-      }
-    }, 500);
-  };
-
-  hideLoader = delay => {
-    if (delay) {
-      setTimeout(() => {
-        this.setState({ showLoader: false });
-      }, delay);
-    } else {
-      this.setState({ showLoader: false });
-    }
-  };
+  // hideLoader = delay => {
+  //   if (delay) {
+  //     setTimeout(() => {
+  //       this.setState({ showLoader: false });
+  //     }, delay);
+  //   } else {
+  //     this.setState({ showLoader: false });
+  //   }
+  // };
 
   render() {
-    if (!this.state.showLoader) {
+    if (!this.props.loader.show) {
       return null;
     }
     return (
-      <div className={`loader-container ${this.state.loaderFadeClass || null}`}>
+      <div
+        className={`loader-container ${this.props.loader.fadeClass || null}`}
+      >
         <div className="loader loader-2">
           <svg
             className="loader-star"

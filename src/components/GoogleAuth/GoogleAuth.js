@@ -15,28 +15,32 @@ class GoogleAuth extends React.Component {
             "636968238547-rd6r7k73599bpuhp58a23mqegrutlk70.apps.googleusercontent.com",
           scope: "email"
         })
-        .then(async () => {
+        .then(() => {
           // gives a ref to the auth instance
           this.auth = window.gapi.auth2.getAuthInstance();
           // update redux state, check if user is signed in or not
-          await this.onAuthChange(this.auth.isSignedIn.get());
-          console.log(this.context.signInChecked);
-          this.context.setSignInChecked(true);
-          console.log(this.context.signInChecked);
-
+          this.onAuthChange(this.auth.isSignedIn.get());
           // listen for any changes in sign in status, update state
           this.auth.isSignedIn.listen(this.onAuthChange);
         });
     });
   }
 
-  onAuthChange = isSignedIn => {
-    if (isSignedIn) {
-      this.props.googleSignIn(this.auth.currentUser.get().getId());
-      // const userFullName= this.auth.currentUser.get().getBasicProfile().getName();
-    } else {
-      this.props.googleSignOut();
+  onAuthChange = async isSignedIn => {
+    // set the sign-in check to false
+    if (this.context.signInChecked) {
+      this.context.setSignInChecked(false);
     }
+    this.context.showLoaderBeforeCheck();
+    // sign in or sign out
+    if (isSignedIn) {
+      await this.props.googleSignIn(this.auth.currentUser.get().getId());
+    } else {
+      await this.props.googleSignOut();
+    }
+    // make the loader fade after changing sign in status
+    this.context.setSignInChecked(true);
+    this.context.fadeLoaderAfterCheck();
   };
 
   onSignInClick = () => {
