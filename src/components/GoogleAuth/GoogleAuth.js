@@ -55,6 +55,7 @@ class GoogleAuth extends React.Component {
     return (
       <button
         className={`ui primary google button ${this.props.buttonClass || null}`}
+        id={this.props.buttonId || ""}
         onClick={() => {
           if (cb) {
             cb();

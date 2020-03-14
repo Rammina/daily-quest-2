@@ -96,7 +96,7 @@ class NavMenu extends React.Component {
           >
             Finished Tasks
           </Link>
-          <GoogleAuth />
+          <GoogleAuth buttonClass="nav-menu" />
         </div>
         <div
           data-test="nav-menu-backdrop"

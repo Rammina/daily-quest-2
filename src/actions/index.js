@@ -64,6 +64,7 @@ export const actionTypes = {
 
 // project action creators
 export const fetchProjects = encryptedUserId => {
+  // note: figure out why this is an object and figure out how to get a string from  this
   console.log(encryptedUserId || "guest");
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get("/projects.json");
@@ -822,7 +823,7 @@ export const googleSignIn = userId => {
   return async function(dispatch) {
     dispatch({
       type: actionTypes.GOOGLE_SIGN_IN,
-      payload: { userId, encryptedUserId: AES.encrypt(userId, "LaL1LuL3L0") }
+      payload: { id: userId, encryptedId: AES.encrypt(userId, "LaL1LuL3L0") }
     });
   };
 };

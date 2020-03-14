@@ -123,6 +123,17 @@
   color: rgb(184, 190, 197);
 }
 
+button.nav-menu.ui.primary.google.button {
+  /* position: relative; */
+  /* margin-top: 0.6rem; */
+  position: absolute;
+  bottom: 3rem;
+  width: 100%;
+  border-radius: 0px;
+  margin-left: 0.04rem;
+  /* width: calc(100% - 0.5rem); */
+}
+
 @media screen and (min-width: 450px) {
   .nav-menu.ui.sidebar.vertical {
     width: 35vw !important;
@@ -168,5 +179,13 @@
   }
   .nav-close {
     display: none;
+  }
+  button.nav-menu.ui.primary.google.button {
+    position: relative;
+    margin-top: 0.6rem;
+    margin-left: 0;
+    bottom: 0;
+    border-radius: 3px;
+    /* width:  */
   }
 }

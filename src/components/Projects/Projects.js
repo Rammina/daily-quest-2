@@ -48,7 +48,7 @@ class Projects extends React.Component {
 
   componentDidMount() {
     (async () => {
-      await this.props.fetchProjects(this.props.googleAuth.userId);
+      await this.props.fetchProjects(this.props.googleAuth.encryptedId);
       this.setState({ showLoader: false });
     })();
   }
@@ -334,7 +334,7 @@ class Projects extends React.Component {
 const mapStateToProps = state => {
   return {
     projects: state.projects,
-    googleAuth: { userId: state.googleAuth.userId }
+    googleAuth: { ...state.googleAuth.user }
   };
 };
 export default connect(
