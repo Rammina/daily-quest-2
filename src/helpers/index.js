@@ -4,7 +4,7 @@ import _ from "lodash";
 import React from "react";
 import { format, endOfYesterday, isBefore } from "date-fns";
 import compareAsc from "date-fns/compareAsc";
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 
 // Helper functions
 
@@ -223,7 +223,7 @@ export const objectToArray = (
   }
   return array;
 };
-
+/*
 // CryptoJS functions
 const keySize = 256;
 const ivSize = 128;
@@ -275,4 +275,4 @@ export const decrypt = function decrypt(transitmessage, pass) {
 export const decryptedMsgToString = decryptedMsg => {
   return decryptedMsg.toString(CryptoJS.enc.Utf8);
 };
-// note: continue making these crypto  functions
+*/

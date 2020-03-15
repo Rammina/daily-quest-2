@@ -48,7 +48,7 @@ class Projects extends React.Component {
 
   componentDidMount() {
     (async () => {
-      await this.props.fetchProjects(this.props.googleAuth.encryptedId);
+      await this.props.fetchProjects(this.props.googleAuth.userId);
       this.setState({ showLoader: false });
     })();
   }

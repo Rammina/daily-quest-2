@@ -4,14 +4,14 @@ import {
   compareValues,
   comparePriorityValues,
   compareKeysInProp,
-  objectToArray,
+  objectToArray
   // cryptography functions
-  encrypt,
-  decrypt,
-  decryptedMsgToString
+  // encrypt,
+  // decrypt,
+  // decryptedMsgToString
 } from "../helpers";
 import isToday from "date-fns/isToday";
-import AES from "crypto-js/aes";
+// import AES from "crypto-js/aes";
 // import history from "../history";
 
 // List of action types to be used
@@ -63,11 +63,11 @@ export const actionTypes = {
 };
 
 // project action creators
-export const fetchProjects = encryptedUserId => {
-  // note: figure out why this is an object and figure out how to get a string from  this
-  console.log(encryptedUserId || "guest");
+export const fetchProjects = userId => {
   return async function(dispatch, getState) {
-    const response = await firebaseDbRest.get("/projects.json");
+    const response = await firebaseDbRest.get(
+      `/${userId || "guest"}/projects.json`
+    );
     let data = null;
     if (response.data) {
       // remove the sort-related properties
@@ -106,9 +106,11 @@ export const fetchProjects = encryptedUserId => {
   };
 };
 
-export const fetchProject = id => {
+export const fetchProject = (id, userId) => {
   return async function(dispatch, getState) {
-    const response = await firebaseDbRest.get(`/projects/${id}.json`);
+    const response = await firebaseDbRest.get(
+      `/${userId || "guest"}/projects/${id}.json`
+    );
     const valuesWithId = { ...response.data, id };
 
     let data = objectToArray(
@@ -150,10 +152,13 @@ export const fetchProject = id => {
   };
 };
 
-export const createProject = formValues => {
+export const createProject = (formValues, userId) => {
   console.log(formValues);
   return async function(dispatch, getState) {
-    const response = await firebaseDbRest.post("/projects.json", formValues);
+    const response = await firebaseDbRest.post(
+      `/${userId || "guest"}/projects.json`,
+      formValues
+    );
 
     console.log(response.data);
     const valuesWithId = [{ ...formValues, id: response.data.name }];
@@ -164,10 +169,10 @@ export const createProject = formValues => {
   };
 };
 
-export const editProject = (id, formValues) => {
+export const editProject = (id, formValues, userId) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.patch(
-      `/projects/${id}.json`,
+      `/${userId || "guest"}/projects/${id}.json`,
       formValues
     );
     dispatch({
@@ -177,10 +182,10 @@ export const editProject = (id, formValues) => {
   };
 };
 
-export const deleteProject = id => {
+export const deleteProject = (id, userId) => {
   return async function(dispatch, getState) {
     console.log(`deleting ${id}`);
-    await firebaseDbRest.delete(`/projects/${id}.json`);
+    await firebaseDbRest.delete(`/${userId || "guest"}/projects/${id}.json`);
 
     dispatch({
       type: actionTypes.DELETE_PROJECT,
@@ -188,16 +193,17 @@ export const deleteProject = id => {
     });
   };
 };
-export const deleteAllProjects = () => {
+export const deleteAllProjects = userId => {
   return async function(dispatch, getState) {
-    await firebaseDbRest.delete(`/projects.json`);
+    await firebaseDbRest.delete(`/${userId || "guest"}/projects.json`);
     dispatch({
       type: actionTypes.DELETE_ALL_PROJECTS
     });
   };
 };
+
 // SORT PROJECT FUNCTIONS
-export const sortProjectsByName = (projects, order = "ascending") => {
+export const sortProjectsByName = (projects, order = "ascending", userId) => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -209,17 +215,14 @@ export const sortProjectsByName = (projects, order = "ascending") => {
     let sortedProjects = projects.sort(compareValues("name"));
 
     if (order === "descending") {
-      // reverse the order and then save the sort setting in the database
+      // reverse the order
       sortedProjects.reverse();
-      await firebaseDbRest.put("projects/sortBy.json", {
-        name: "descending"
-      });
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put("projects/sortBy.json", {
-        name: "ascending"
-      });
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(`/${userId || "guest"}/projects/sortBy.json`, {
+      name: order
+    });
+
     dispatch({
       type: actionTypes.SORT_PROJECTS_BY_NAME,
       payload: sortedProjects
@@ -227,7 +230,7 @@ export const sortProjectsByName = (projects, order = "ascending") => {
   };
 };
 
-export const sortProjectsByTasks = (projects, order = "ascending") => {
+export const sortProjectsByTasks = (projects, order = "ascending", userId) => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -241,17 +244,14 @@ export const sortProjectsByTasks = (projects, order = "ascending") => {
     );
 
     if (order === "descending") {
-      // reverse the order and then save the sort setting in the database
+      // reverse the order
       sortedProjects.reverse();
-      await firebaseDbRest.put("projects/sortBy.json", {
-        tasks: "descending"
-      });
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put("projects/sortBy.json", {
-        tasks: "ascending"
-      });
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(`/${userId || "guest"}/projects/sortBy.json`, {
+      tasks: order
+    });
+
     dispatch({
       type: actionTypes.SORT_PROJECTS_BY_TASKS,
       payload: sortedProjects
@@ -260,10 +260,10 @@ export const sortProjectsByTasks = (projects, order = "ascending") => {
 };
 
 // task action creators
-export const createTask = (id, formValues) => {
+export const createTask = (id, formValues, userId) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.post(
-      `/projects/${id}/tasks.json`,
+      `/${userId || "guest"}/projects/${id}/tasks.json`,
       formValues
     );
 
@@ -276,10 +276,10 @@ export const createTask = (id, formValues) => {
   };
 };
 
-export const editTask = (projectId, taskId, formValues) => {
+export const editTask = (projectId, taskId, formValues, userId) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.patch(
-      `/projects/${projectId}/tasks/${taskId}.json`,
+      `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
       formValues
     );
     console.log(response.data);
@@ -290,10 +290,10 @@ export const editTask = (projectId, taskId, formValues) => {
   };
 };
 
-export const toggleTaskCheck = (projectId, taskId, checkValue) => {
+export const toggleTaskCheck = (projectId, taskId, checkValue, userId) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.patch(
-      `/projects/${projectId}/tasks/${taskId}.json`,
+      `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
       { finished: checkValue }
     );
     console.log(checkValue);
@@ -305,10 +305,12 @@ export const toggleTaskCheck = (projectId, taskId, checkValue) => {
   };
 };
 
-export const deleteTask = (projectId, taskId) => {
+export const deleteTask = (projectId, taskId, userId) => {
   return async function(dispatch, getState) {
     console.log(`deleting ${taskId}`);
-    await firebaseDbRest.delete(`/projects/${projectId}/tasks/${taskId}.json`);
+    await firebaseDbRest.delete(
+      `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`
+    );
     dispatch({
       type: actionTypes.DELETE_TASK,
       payload: taskId
@@ -316,14 +318,20 @@ export const deleteTask = (projectId, taskId) => {
   };
 };
 
-export const deleteAllTasks = projectId => {
+export const deleteAllTasks = (projectId, userId) => {
   return async function(dispatch, getState) {
-    await firebaseDbRest.delete(`/projects/${projectId}/tasks.json`);
+    await firebaseDbRest.delete(
+      `/${userId || "guest"}/projects/${projectId}/tasks.json`
+    );
     dispatch({
       type: actionTypes.DELETE_ALL_TASKS
     });
   };
 };
+
+// note: keep adding user IDs to the links and arguments of action creators
+// easy copy:
+// /${userId||"guest"}/
 
 // Sort task action creators here
 export const sortTasksByName = (tasks, projectId, order = "ascending") => {
@@ -813,17 +821,19 @@ export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
 
 //GoogleAuth functions
 export const googleSignIn = userId => {
-  console.log(`the original message is: ${userId}`);
-  let encrypted = AES.encrypt(userId, "LaL1LuL3L0");
+  /*{
+    // console.log(`the original message is: ${userId}`);
+  // let encrypted = AES.encrypt(userId, "LaL1LuL3L0").toString();
   // let encrypted = encrypt(userId, "LaL1LuL3L0");
-  console.log(encrypted);
-  let decrypted = AES.decrypt(encrypted, "LaL1LuL3L0");
+  // console.log(encrypted);
+  // let decrypted = AES.decrypt(encrypted, "LaL1LuL3L0");
   // let decrypted = decrypt(encrypted, "LaL1LuL3L0");
   console.log(`the decrypted message is: ${decryptedMsgToString(decrypted)}`);
+}*/
   return async function(dispatch) {
     dispatch({
       type: actionTypes.GOOGLE_SIGN_IN,
-      payload: { id: userId, encryptedId: AES.encrypt(userId, "LaL1LuL3L0") }
+      payload: { userId }
     });
   };
 };
