@@ -99,10 +99,8 @@ class Projects extends React.Component {
     }
   };
 
-  // No need to pass a key because all projects will be deleted
-  // If this was a specific project, then it requires the key
   handleDeleteAll = () => {
-    this.props.deleteAllProjects();
+    this.props.deleteAllProjects(this.props.googleAuth.userId);
   };
 
   onModalOpen = (event, modalType) => {
@@ -203,7 +201,7 @@ class Projects extends React.Component {
                 setTimeout(() => this.focusEllipsisButton(), 200);
               }}
               deleteFunction={async () => {
-                await this.props.deleteAllProjects();
+                await this.handleDeleteAll();
                 this.dismissModalHandler();
                 this.handleSettingsClose();
                 setTimeout(() => this.focusEllipsisButton(), 200);

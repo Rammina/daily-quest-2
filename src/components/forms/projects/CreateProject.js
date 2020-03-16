@@ -7,7 +7,7 @@ import ModalCloseButton from "../../Modal/common/ModalCloseButton";
 
 class CreateProject extends React.Component {
   onSubmit = async formValues => {
-    await this.props.createProject(formValues);
+    await this.props.createProject(this.props.googleAuth.userId, formValues);
     console.log("dismissed");
     this.props.onClose();
   };
@@ -29,7 +29,13 @@ class CreateProject extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    googleAuth: { ...state.googleAuth.user }
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { createProject }
 )(CreateProject);

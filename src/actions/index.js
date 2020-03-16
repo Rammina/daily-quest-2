@@ -106,6 +106,7 @@ export const fetchProjects = userId => {
   };
 };
 
+// note:come back to refractor this
 export const fetchProject = (id, userId) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get(
@@ -152,7 +153,7 @@ export const fetchProject = (id, userId) => {
   };
 };
 
-export const createProject = (formValues, userId) => {
+export const createProject = (userId, formValues) => {
   console.log(formValues);
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.post(
@@ -169,7 +170,7 @@ export const createProject = (formValues, userId) => {
   };
 };
 
-export const editProject = (id, formValues, userId) => {
+export const editProject = (userId, id, formValues) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${id}.json`,
@@ -182,7 +183,7 @@ export const editProject = (id, formValues, userId) => {
   };
 };
 
-export const deleteProject = (id, userId) => {
+export const deleteProject = (userId, id) => {
   return async function(dispatch, getState) {
     console.log(`deleting ${id}`);
     await firebaseDbRest.delete(`/${userId || "guest"}/projects/${id}.json`);
@@ -193,6 +194,7 @@ export const deleteProject = (id, userId) => {
     });
   };
 };
+
 export const deleteAllProjects = userId => {
   return async function(dispatch, getState) {
     await firebaseDbRest.delete(`/${userId || "guest"}/projects.json`);
@@ -201,6 +203,9 @@ export const deleteAllProjects = userId => {
     });
   };
 };
+
+// note:  continue re-\ factoring the action creators with user IDs
+// as well as changing the function in vocations from their respective components
 
 // SORT PROJECT FUNCTIONS
 export const sortProjectsByName = (projects, order = "ascending", userId) => {
@@ -329,12 +334,13 @@ export const deleteAllTasks = (projectId, userId) => {
   };
 };
 
-// note: keep adding user IDs to the links and arguments of action creators
-// easy copy:
-// /${userId||"guest"}/
-
 // Sort task action creators here
-export const sortTasksByName = (tasks, projectId, order = "ascending") => {
+export const sortTasksByName = (
+  tasks,
+  projectId,
+  order = "ascending",
+  userId
+) => {
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
@@ -348,18 +354,17 @@ export const sortTasksByName = (tasks, projectId, order = "ascending") => {
     let sortedTasks = [...tasks.sort(compareValues("name"))];
 
     if (order === "descending") {
-      // reverse the order and then save the sort setting in the database
-
-      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
-        name: "descending"
-      });
+      // reverse the order
       sortedTasks.reverse();
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
-        name: "ascending"
-      });
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/${projectId}/sortBy.json`,
+      {
+        name: order
+      }
+    );
+
     console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_NAME,
@@ -368,7 +373,12 @@ export const sortTasksByName = (tasks, projectId, order = "ascending") => {
   };
 };
 
-export const sortTasksByDate = (tasks, projectId, order = "ascending") => {
+export const sortTasksByDate = (
+  tasks,
+  projectId,
+  order = "ascending",
+  userId
+) => {
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
@@ -382,18 +392,17 @@ export const sortTasksByDate = (tasks, projectId, order = "ascending") => {
     let sortedTasks = [...tasks.sort(compareValues("date"))];
 
     if (order === "descending") {
-      // reverse the order and then save the sort setting in the database
-
-      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
-        name: "descending"
-      });
+      // reverse the order
       sortedTasks.reverse();
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
-        name: "ascending"
-      });
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/${projectId}/sortBy.json`,
+      {
+        name: order
+      }
+    );
+
     console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_DATE,
@@ -402,7 +411,12 @@ export const sortTasksByDate = (tasks, projectId, order = "ascending") => {
   };
 };
 
-export const sortTasksByPriority = (tasks, projectId, order = "ascending") => {
+export const sortTasksByPriority = (
+  tasks,
+  projectId,
+  order = "ascending",
+  userId
+) => {
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
@@ -416,19 +430,19 @@ export const sortTasksByPriority = (tasks, projectId, order = "ascending") => {
     let sortedTasks = [];
 
     if (order === "descending") {
-      // sort by priority descending, save the setting to database
-      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
-        priority: "descending"
-      });
+      // sort by priority descending
       sortedTasks = [...tasks.sort(comparePriorityValues("desc"))];
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put(`projects/${projectId}/sortBy.json`, {
-        priority: "ascending"
-      });
-      // sort by priority ascending
-      sortedTasks = [...tasks.sort(comparePriorityValues())];
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/${projectId}/sortBy.json`,
+      {
+        priority: order
+      }
+    );
+    // sort by priority ascending
+    sortedTasks = [...tasks.sort(comparePriorityValues())];
+
     console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_PRIORITY,
@@ -437,10 +451,12 @@ export const sortTasksByPriority = (tasks, projectId, order = "ascending") => {
   };
 };
 // finished tasks action creators
-export const fetchFinishedTasks = () => {
+export const fetchFinishedTasks = userId => {
   return async function(dispatch, getState) {
     // Retrieve all projects first from the database
-    const response = await firebaseDbRest.get("/projects.json");
+    const response = await firebaseDbRest.get(
+      `/${userId || "guest"}/projects.json`
+    );
 
     // get rid of the sortBy property so it is not included in the data
     const projects = _.omit({ ...response.data }, [
@@ -525,7 +541,7 @@ export const deleteAllFinishedTasks = () => {
 };
 
 // SORT FINISHED TASKS FUNCTIONS
-export const sortFinishedTasksByName = (tasks, order = "ascending") => {
+export const sortFinishedTasksByName = (tasks, order = "ascending", userId) => {
   // tasks - array/object containing finished tasks
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -537,17 +553,17 @@ export const sortFinishedTasksByName = (tasks, order = "ascending") => {
     let sortedTasks = tasks.sort(compareValues("name"));
 
     if (order === "descending") {
-      // reverse the order and then save the sort setting in the database
+      // reverse the order
       sortedTasks.reverse();
-      await firebaseDbRest.put("projects/finishedSortBy.json", {
-        name: "descending"
-      });
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put("projects/finishedSortBy.json", {
-        name: "ascending"
-      });
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/finishedSortBy.json`,
+      {
+        name: order
+      }
+    );
+
     dispatch({
       type: actionTypes.SORT_FINISHED_TASKS_BY_NAME,
       payload: sortedTasks
@@ -555,7 +571,7 @@ export const sortFinishedTasksByName = (tasks, order = "ascending") => {
   };
 };
 
-export const sortFinishedTasksByDate = (tasks, order = "ascending") => {
+export const sortFinishedTasksByDate = (tasks, order = "ascending", userId) => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
@@ -565,9 +581,12 @@ export const sortFinishedTasksByDate = (tasks, order = "ascending") => {
       tasks = objectToArray(tasks);
     }
     // save the order's setting in the database
-    await firebaseDbRest.put("projects/finishedSortBy.json", {
-      date: order
-    });
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/finishedSortBy.json`,
+      {
+        date: order
+      }
+    );
     // Perform sorting by date
     let sortedTasks = null;
     if (order === "descending") {
@@ -584,7 +603,11 @@ export const sortFinishedTasksByDate = (tasks, order = "ascending") => {
   };
 };
 
-export const sortFinishedTasksByPriority = (tasks, order = "ascending") => {
+export const sortFinishedTasksByPriority = (
+  tasks,
+  order = "ascending",
+  userId
+) => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
@@ -594,9 +617,12 @@ export const sortFinishedTasksByPriority = (tasks, order = "ascending") => {
       tasks = objectToArray(tasks);
     }
     // save the order's setting in the database
-    await firebaseDbRest.put("projects/finishedSortBy.json", {
-      priority: order
-    });
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/finishedSortBy.json`,
+      {
+        priority: order
+      }
+    );
     // Perform sorting by date
     let sortedTasks = null;
     if (order === "descending") {
@@ -614,10 +640,12 @@ export const sortFinishedTasksByPriority = (tasks, order = "ascending") => {
 };
 
 // DUETODAY TASKS ACTION CREATORS
-export const fetchDueToday = () => {
+export const fetchDueToday = userId => {
   return async function(dispatch, getState) {
     // Retrieve all projects first from the database
-    const response = await firebaseDbRest.get("/projects.json");
+    const response = await firebaseDbRest.get(
+      `/${userId || "guest"}/projects.json`
+    );
 
     // remove sort related properties
     const projects = _.omit({ ...response.data }, [
@@ -731,7 +759,7 @@ export const deleteAllDueTodayTasks = () => {
 };
 
 // SORT DUETODAY TASKS FUNCTIONS
-export const sortDueTodayTasksByName = (tasks, order = "ascending") => {
+export const sortDueTodayTasksByName = (tasks, order = "ascending", userId) => {
   // tasks - array/object containing finished tasks
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -745,15 +773,15 @@ export const sortDueTodayTasksByName = (tasks, order = "ascending") => {
     if (order === "descending") {
       // reverse the order and then save the sort setting in the database
       sortedTasks.reverse();
-      await firebaseDbRest.put("projects/dueTodaySortBy.json", {
-        name: "descending"
-      });
-    } else {
-      // save the sort setting in the database
-      await firebaseDbRest.put("projects/dueTodaySortBy.json", {
-        name: "ascending"
-      });
     }
+    // save the sort setting in the database
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/dueTodaySortBy.json`,
+      {
+        name: order
+      }
+    );
+
     dispatch({
       type: actionTypes.SORT_DUE_TODAY_TASKS_BY_NAME,
       payload: sortedTasks
@@ -761,7 +789,7 @@ export const sortDueTodayTasksByName = (tasks, order = "ascending") => {
   };
 };
 
-export const sortDueTodayTasksByDate = (tasks, order = "ascending") => {
+export const sortDueTodayTasksByDate = (tasks, order = "ascending", userId) => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
@@ -771,9 +799,12 @@ export const sortDueTodayTasksByDate = (tasks, order = "ascending") => {
       tasks = objectToArray(tasks);
     }
     // save the order's setting in the database
-    await firebaseDbRest.put("projects/dueTodaySortBy.json", {
-      date: order
-    });
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/dueTodaySortBy.json`,
+      {
+        date: order
+      }
+    );
     // Perform sorting by date
     let sortedTasks = null;
     if (order === "descending") {
@@ -790,7 +821,11 @@ export const sortDueTodayTasksByDate = (tasks, order = "ascending") => {
   };
 };
 
-export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
+export const sortDueTodayTasksByPriority = (
+  tasks,
+  order = "ascending",
+  userId
+) => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
@@ -800,9 +835,12 @@ export const sortDueTodayTasksByPriority = (tasks, order = "ascending") => {
       tasks = objectToArray(tasks);
     }
     // save the order's setting in the database
-    await firebaseDbRest.put("projects/dueTodaySortBy.json", {
-      priority: order
-    });
+    await firebaseDbRest.put(
+      `/${userId || "guest"}/projects/dueTodaySortBy.json`,
+      {
+        priority: order
+      }
+    );
     // Perform sorting by date
     let sortedTasks = null;
     if (order === "descending") {

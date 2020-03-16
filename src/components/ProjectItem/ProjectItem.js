@@ -84,7 +84,12 @@ class ProjectItem extends React.Component {
                   }
                 }
               }}
-              onClick={() => this.props.deleteProject(this.props.id)}
+              onClick={() =>
+                this.props.deleteProject(
+                  this.props.googleAuth.userId,
+                  this.props.id
+                )
+              }
             >
               <img
                 id="delete-trash-icon"
@@ -208,7 +213,7 @@ class ProjectItem extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { projects: state.projects };
+  return { projects: state.projects, googleAuth: { ...state.googleAuth.user } };
 };
 
 export default connect(
