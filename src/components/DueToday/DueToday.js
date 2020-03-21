@@ -52,7 +52,7 @@ class DueToday extends React.Component {
 
   componentDidMount() {
     (async () => {
-      await this.props.fetchDueToday();
+      await this.props.fetchDueToday(this.props.googleAuth.userId);
       this.setState({ showLoader: false });
     })();
   }
@@ -106,7 +106,7 @@ class DueToday extends React.Component {
             fontSize: "1.3rem"
           }}
         >
-          There are no tasks found.
+          LOADING...
         </div>
       );
     }
@@ -168,7 +168,11 @@ class DueToday extends React.Component {
                 const tasks = this.props.dueToday;
                 const deleteAllDueTodayTasks = async () => {
                   for (let task of tasks) {
-                    await this.props.deleteTask(task.projectId, task.id);
+                    await this.props.deleteTask(
+                      this.props.googleAuth.userId,
+                      task.projectId,
+                      task.id
+                    );
                     // this.props.deleteFinishedTask(task.id);
                   }
                 };
@@ -233,6 +237,7 @@ class DueToday extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortDueTodayTasksByName(
+                            this.props.googleAuth.userId,
                             this.props.dueToday
                           );
                         }
@@ -241,6 +246,7 @@ class DueToday extends React.Component {
                         text: "Sort ascending (time)",
                         method: () => {
                           this.props.sortDueTodayTasksByDate(
+                            this.props.googleAuth.userId,
                             this.props.dueToday
                           );
                         }
@@ -249,6 +255,7 @@ class DueToday extends React.Component {
                         text: "Sort ascending (priority)",
                         method: () => {
                           this.props.sortDueTodayTasksByPriority(
+                            this.props.googleAuth.userId,
                             this.props.dueToday
                           );
                         }
@@ -257,6 +264,7 @@ class DueToday extends React.Component {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortDueTodayTasksByName(
+                            this.props.googleAuth.userId,
                             this.props.dueToday,
                             "descending"
                           );
@@ -266,6 +274,7 @@ class DueToday extends React.Component {
                         text: "Sort descending (time)",
                         method: () => {
                           this.props.sortDueTodayTasksByDate(
+                            this.props.googleAuth.userId,
                             this.props.dueToday,
                             "descending"
                           );
@@ -275,6 +284,7 @@ class DueToday extends React.Component {
                         text: "Sort descending (priority)",
                         method: () => {
                           this.props.sortDueTodayTasksByPriority(
+                            this.props.googleAuth.userId,
                             this.props.dueToday,
                             "descending"
                           );
@@ -302,7 +312,7 @@ class DueToday extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { dueToday: state.dueToday };
+  return { dueToday: state.dueToday, googleAuth: { ...state.googleAuth.user } };
 };
 
 export default connect(

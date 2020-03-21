@@ -278,13 +278,17 @@ class Projects extends React.Component {
                       {
                         text: "Sort ascending (name)",
                         method: () => {
-                          this.props.sortProjectsByName(this.props.projects);
+                          this.props.sortProjectsByName(
+                            this.props.googleAuth.userId,
+                            this.props.projects
+                          );
                         }
                       },
                       {
                         text: "Sort ascending (tasks)",
                         method: () => {
                           this.props.sortProjectsByTasks(
+                            this.props.googleAuth.userId,
                             this.props.projects,
                             "ascending"
                           );
@@ -294,6 +298,7 @@ class Projects extends React.Component {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortProjectsByName(
+                            this.props.googleAuth.userId,
                             this.props.projects,
                             "descending"
                           );
@@ -303,6 +308,7 @@ class Projects extends React.Component {
                         text: "Sort descending (tasks)",
                         method: () => {
                           this.props.sortProjectsByTasks(
+                            this.props.googleAuth.userId,
                             this.props.projects,
                             "descending"
                           );

@@ -106,8 +106,7 @@ export const fetchProjects = userId => {
   };
 };
 
-// note:come back to refractor this
-export const fetchProject = (id, userId) => {
+export const fetchProject = (userId, id) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects/${id}.json`
@@ -204,11 +203,8 @@ export const deleteAllProjects = userId => {
   };
 };
 
-// note:  continue re-\ factoring the action creators with user IDs
-// as well as changing the function in vocations from their respective components
-
 // SORT PROJECT FUNCTIONS
-export const sortProjectsByName = (projects, order = "ascending", userId) => {
+export const sortProjectsByName = (userId, projects, order = "ascending") => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -235,7 +231,7 @@ export const sortProjectsByName = (projects, order = "ascending", userId) => {
   };
 };
 
-export const sortProjectsByTasks = (projects, order = "ascending", userId) => {
+export const sortProjectsByTasks = (userId, projects, order = "ascending") => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -265,7 +261,7 @@ export const sortProjectsByTasks = (projects, order = "ascending", userId) => {
 };
 
 // task action creators
-export const createTask = (id, formValues, userId) => {
+export const createTask = (userId, id, formValues) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.post(
       `/${userId || "guest"}/projects/${id}/tasks.json`,
@@ -281,7 +277,7 @@ export const createTask = (id, formValues, userId) => {
   };
 };
 
-export const editTask = (projectId, taskId, formValues, userId) => {
+export const editTask = (userId, projectId, taskId, formValues) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
@@ -295,7 +291,7 @@ export const editTask = (projectId, taskId, formValues, userId) => {
   };
 };
 
-export const toggleTaskCheck = (projectId, taskId, checkValue, userId) => {
+export const toggleTaskCheck = (userId, projectId, taskId, checkValue) => {
   return async function(dispatch, getState) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
@@ -310,7 +306,7 @@ export const toggleTaskCheck = (projectId, taskId, checkValue, userId) => {
   };
 };
 
-export const deleteTask = (projectId, taskId, userId) => {
+export const deleteTask = (userId, projectId, taskId) => {
   return async function(dispatch, getState) {
     console.log(`deleting ${taskId}`);
     await firebaseDbRest.delete(
@@ -323,7 +319,7 @@ export const deleteTask = (projectId, taskId, userId) => {
   };
 };
 
-export const deleteAllTasks = (projectId, userId) => {
+export const deleteAllTasks = (userId, projectId) => {
   return async function(dispatch, getState) {
     await firebaseDbRest.delete(
       `/${userId || "guest"}/projects/${projectId}/tasks.json`
@@ -336,10 +332,10 @@ export const deleteAllTasks = (projectId, userId) => {
 
 // Sort task action creators here
 export const sortTasksByName = (
+  userId,
   tasks,
   projectId,
-  order = "ascending",
-  userId
+  order = "ascending"
 ) => {
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
@@ -374,10 +370,10 @@ export const sortTasksByName = (
 };
 
 export const sortTasksByDate = (
+  userId,
   tasks,
   projectId,
-  order = "ascending",
-  userId
+  order = "ascending"
 ) => {
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
@@ -412,10 +408,10 @@ export const sortTasksByDate = (
 };
 
 export const sortTasksByPriority = (
+  userId,
   tasks,
   projectId,
-  order = "ascending",
-  userId
+  order = "ascending"
 ) => {
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
@@ -541,7 +537,7 @@ export const deleteAllFinishedTasks = () => {
 };
 
 // SORT FINISHED TASKS FUNCTIONS
-export const sortFinishedTasksByName = (tasks, order = "ascending", userId) => {
+export const sortFinishedTasksByName = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing finished tasks
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -571,7 +567,7 @@ export const sortFinishedTasksByName = (tasks, order = "ascending", userId) => {
   };
 };
 
-export const sortFinishedTasksByDate = (tasks, order = "ascending", userId) => {
+export const sortFinishedTasksByDate = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
@@ -604,9 +600,9 @@ export const sortFinishedTasksByDate = (tasks, order = "ascending", userId) => {
 };
 
 export const sortFinishedTasksByPriority = (
+  userId,
   tasks,
-  order = "ascending",
-  userId
+  order = "ascending"
 ) => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
@@ -759,7 +755,7 @@ export const deleteAllDueTodayTasks = () => {
 };
 
 // SORT DUETODAY TASKS FUNCTIONS
-export const sortDueTodayTasksByName = (tasks, order = "ascending", userId) => {
+export const sortDueTodayTasksByName = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing finished tasks
   // order - string - which can have the value of either "ascending" or "descending"
   return async function(dispatch) {
@@ -789,7 +785,7 @@ export const sortDueTodayTasksByName = (tasks, order = "ascending", userId) => {
   };
 };
 
-export const sortDueTodayTasksByDate = (tasks, order = "ascending", userId) => {
+export const sortDueTodayTasksByDate = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
@@ -822,9 +818,9 @@ export const sortDueTodayTasksByDate = (tasks, order = "ascending", userId) => {
 };
 
 export const sortDueTodayTasksByPriority = (
+  userId,
   tasks,
-  order = "ascending",
-  userId
+  order = "ascending"
 ) => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"

@@ -39,7 +39,7 @@ class FinishedTasks extends React.Component {
 
   componentDidMount() {
     (async () => {
-      await this.props.fetchFinishedTasks();
+      await this.props.fetchFinishedTasks(this.props.googleAuth.userId);
       this.setState({ showLoader: false });
     })();
   }
@@ -112,7 +112,7 @@ class FinishedTasks extends React.Component {
             fontSize: "1.3rem"
           }}
         >
-          There are no tasks found.
+          LOADING...
         </div>
       );
     }
@@ -176,7 +176,11 @@ class FinishedTasks extends React.Component {
                 const tasks = this.props.finishedTasks;
                 const deleteAllFinishedTasks = async () => {
                   for (let task of tasks) {
-                    await this.props.deleteTask(task.projectId, task.id);
+                    await this.props.deleteTask(
+                      this.props.googleAuth.userId,
+                      task.projectId,
+                      task.id
+                    );
                     // this.props.deleteFinishedTask(task.id);
                   }
                 };
@@ -241,6 +245,7 @@ class FinishedTasks extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortFinishedTasksByName(
+                            this.props.googleAuth.userId,
                             this.props.finishedTasks
                           );
                         }
@@ -250,6 +255,7 @@ class FinishedTasks extends React.Component {
                         text: "Sort ascending (date)",
                         method: () => {
                           this.props.sortFinishedTasksByDate(
+                            this.props.googleAuth.userId,
                             this.props.finishedTasks
                           );
                         }
@@ -258,6 +264,7 @@ class FinishedTasks extends React.Component {
                         text: "Sort ascending (priority)",
                         method: () => {
                           this.props.sortFinishedTasksByPriority(
+                            this.props.googleAuth.userId,
                             this.props.finishedTasks
                           );
                         }
@@ -266,6 +273,7 @@ class FinishedTasks extends React.Component {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortFinishedTasksByName(
+                            this.props.googleAuth.userId,
                             this.props.finishedTasks,
                             "descending"
                           );
@@ -275,6 +283,7 @@ class FinishedTasks extends React.Component {
                         text: "Sort descending (date)",
                         method: () => {
                           this.props.sortFinishedTasksByDate(
+                            this.props.googleAuth.userId,
                             this.props.finishedTasks,
                             "descending"
                           );
@@ -284,6 +293,7 @@ class FinishedTasks extends React.Component {
                         text: "Sort descending (priority)",
                         method: () => {
                           this.props.sortFinishedTasksByPriority(
+                            this.props.googleAuth.userId,
                             this.props.finishedTasks,
                             "descending"
                           );
@@ -312,7 +322,10 @@ class FinishedTasks extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { finishedTasks: state.finishedTasks };
+  return {
+    finishedTasks: state.finishedTasks,
+    googleAuth: { ...state.googleAuth.user }
+  };
 };
 
 export default connect(

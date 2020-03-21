@@ -36,12 +36,14 @@ class EditTask extends React.Component {
     );
     const reformattedValues = { ...processedValues, date, time };
     await this.props.editTask(
+      this.props.googleAuth.userId,
       this.props.projectId,
       this.props.taskId,
       reformattedValues
     );
     if (this.props.dueTodayIndex) {
       await this.props.editDueTodayTask(
+        this.props.googleAuth.userId,
         this.props.dueTodayIndex,
         reformattedValues
       );
@@ -65,4 +67,13 @@ class EditTask extends React.Component {
   }
 }
 
-export default connect(null, { editTask, editDueTodayTask })(EditTask);
+const mapStateToProps = state => {
+  return {
+    googleAuth: { ...state.googleAuth.user }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { editTask, editDueTodayTask }
+)(EditTask);

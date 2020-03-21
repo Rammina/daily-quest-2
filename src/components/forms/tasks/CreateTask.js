@@ -39,7 +39,11 @@ class CreateTask extends React.Component {
       "HH:mm"
     );
     const reformattedValues = { ...processedValues, date, time };
-    await this.props.createTask(this.props.id, reformattedValues);
+    await this.props.createTask(
+      this.props.googleAuth.userId,
+      this.props.id,
+      reformattedValues
+    );
     this.props.onClose();
     // this.props.fetchProject(this.props.match.params.id);
   };
@@ -54,4 +58,13 @@ class CreateTask extends React.Component {
   }
 }
 
-export default connect(null, { createTask })(CreateTask);
+const mapStateToProps = state => {
+  return {
+    googleAuth: { ...state.googleAuth.user }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { createTask }
+)(CreateTask);

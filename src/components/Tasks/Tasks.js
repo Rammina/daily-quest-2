@@ -65,7 +65,10 @@ class Tasks extends React.Component {
     // this needs to be able to receive the ID property of the project in
     // Preferably the URL parameter
     (async () => {
-      await this.props.fetchProject(this.props.match.params.id);
+      await this.props.fetchProject(
+        this.props.googleAuth.userId,
+        this.props.match.params.id
+      );
       this.setState({ showLoader: false });
     })();
   }
@@ -221,7 +224,10 @@ class Tasks extends React.Component {
                 // this.handleSettingsClose();
               }}
               deleteFunction={async () => {
-                await this.props.deleteAllTasks(this.props.project.id);
+                await this.props.deleteAllTasks(
+                  this.props.googleAuth.userId,
+                  this.props.project.id
+                );
                 this.dismissModalHandler();
                 setTimeout(() => {
                   this.focusEllipsisButton();
@@ -299,6 +305,7 @@ class Tasks extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortTasksByName(
+                            this.props.googleAuth.userId,
                             this.props.project.tasks,
                             this.props.project.id
                           );
@@ -308,6 +315,7 @@ class Tasks extends React.Component {
                         text: "Sort ascending (date)",
                         method: () => {
                           this.props.sortTasksByDate(
+                            this.props.googleAuth.userId,
                             this.props.project.tasks,
                             this.props.project.id
                           );
@@ -317,6 +325,7 @@ class Tasks extends React.Component {
                         text: "Sort ascending (priority)",
                         method: () => {
                           this.props.sortTasksByPriority(
+                            this.props.googleAuth.userId,
                             this.props.project.tasks,
                             this.props.project.id
                           );
@@ -326,6 +335,7 @@ class Tasks extends React.Component {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortTasksByName(
+                            this.props.googleAuth.userId,
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
@@ -336,6 +346,7 @@ class Tasks extends React.Component {
                         text: "Sort descending (date)",
                         method: () => {
                           this.props.sortTasksByDate(
+                            this.props.googleAuth.userId,
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
@@ -347,6 +358,7 @@ class Tasks extends React.Component {
                         text: "Sort descending (priority)",
                         method: () => {
                           this.props.sortTasksByPriority(
+                            this.props.googleAuth.userId,
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
@@ -388,7 +400,10 @@ class Tasks extends React.Component {
 
 const mapStateToProps = state => {
   console.log(state.selectedProject);
-  return { project: state.selectedProject };
+  return {
+    project: state.selectedProject,
+    googleAuth: { ...state.googleAuth.user }
+  };
 };
 
 export default connect(

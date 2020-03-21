@@ -128,6 +128,12 @@ class TaskItem extends React.Component {
     if (this.props.hideCheckbox) {
       return null;
     }
+    // note: please fix the following:
+    // checkbox does not toggle upon pressing enter
+    // sign out button should have some margin or spacing away from the other navitems
+    // URL changing should be implemented
+    // /login, /home for the login pages and homepages
+    // Doing this prevents off placement upon signing in and out
     return (
       <input
         className="task list-checkbox"
@@ -137,12 +143,14 @@ class TaskItem extends React.Component {
           e.stopPropagation();
           const target = e.target;
           this.props.toggleTaskCheck(
+            this.props.googleAuth.userId,
             this.props.projectId,
             this.props.taskId,
             target.checked
           );
           if (this.props.dueTodayIndex) {
             this.props.toggleDueTodayTaskCheck(
+              this.props.googleAuth.userId,
               this.props.dueTodayIndex,
               target.checked
             );
@@ -218,15 +226,22 @@ class TaskItem extends React.Component {
               className="modal-action-button delete-confirm-button"
               onClick={async () => {
                 await this.props.deleteTask(
+                  this.props.googleAuth.userId,
                   this.props.projectId,
                   this.props.taskId
                 );
                 // indexes for both finished and today
                 if (this.props.finishedIndex) {
-                  this.props.deleteFinishedTask(this.props.finishedIndex);
+                  this.props.deleteFinishedTask(
+                    this.props.googleAuth.userId,
+                    this.props.finishedIndex
+                  );
                 }
                 if (this.props.dueTodayIndex) {
-                  this.props.deleteDueTodayTask(this.props.dueTodayIndex);
+                  this.props.deleteDueTodayTask(
+                    this.props.googleAuth.userId,
+                    this.props.dueTodayIndex
+                  );
                 }
                 this.dismissModalHandler();
               }}
@@ -442,8 +457,12 @@ class TaskItem extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { project: state.selectedProject };
+  return {
+    project: state.selectedProject,
+    googleAuth: { ...state.googleAuth.user }
+  };
 };
+
 export default connect(
   mapStateToProps,
   {
