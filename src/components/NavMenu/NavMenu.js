@@ -76,6 +76,8 @@ class NavMenu extends React.Component {
           >
             Due Today
           </Link>
+          {/*change the reference from this button to the Google button
+            change the key down commands or move them*/}
           <Link
             ref={this.context.setLastNavMenuItemRef}
             data-test="finished-tasks-link"

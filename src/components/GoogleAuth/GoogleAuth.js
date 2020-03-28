@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { googleSignIn, googleSignOut } from "../../actions";
 import { GoogleAuthContext } from "../AppContext";
+import history from "../../history";
 
 class GoogleAuth extends React.Component {
   static contextType = GoogleAuthContext;
@@ -35,8 +36,13 @@ class GoogleAuth extends React.Component {
     // sign in or sign out
     if (isSignedIn) {
       await this.props.googleSignIn(this.auth.currentUser.get().getId());
+      // get the URL parameter value
+      if (window.location.pathname.includes("/login-page")) {
+        history.push("/home");
+      }
     } else {
       await this.props.googleSignOut();
+      history.push("/login-page");
     }
     // make the loader fade after changing sign in status
     this.context.setSignInChecked(true);

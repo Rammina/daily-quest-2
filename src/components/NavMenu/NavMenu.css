@@ -1,5 +1,6 @@
 .nav-menu.ui.sidebar.vertical {
   z-index: 30;
+  overflow-x: hidden;
   width: 10rem !important;
   opacity: 1;
   visibility: hidden;
@@ -182,8 +183,8 @@ button.nav-menu.ui.primary.google.button {
   }
   button.nav-menu.ui.primary.google.button {
     position: relative;
+    margin: 0 0.8rem;
     margin-top: 0.6rem;
-    margin-left: 0;
     bottom: 0;
     border-radius: 3px;
     /* width:  */

@@ -2,7 +2,7 @@ import "./App.css";
 
 import React from "react";
 import { connect } from "react-redux";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import history from "../history";
 
 import AppLoader from "./AppLoader/AppLoader";
@@ -13,7 +13,7 @@ import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
 import LoginPage from "./LoginPage/LoginPage";
-// import GoogleAuth from "./GoogleAuth/GoogleAuth";
+import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
 import { ElementsContext, NavContext, GoogleAuthContext } from "./AppContext";
 
@@ -127,6 +127,19 @@ class App extends React.Component {
     this.setState({ googleSignInChecked: isChecked });
   };
 
+  renderGlobalGoogleAuth = () => {
+    if (!window.location.pathname.includes("login-page")) {
+      // render the GoogleAuth component outside login page
+      // to initialize Google log in status
+      return (
+        <div style={{ display: "none" }}>
+          <GoogleAuth />
+        </div>
+      );
+    }
+    return null;
+  };
+
   // callback ref functions
   setModalCloseButtonRef = ref => {
     this.setState({ modalCloseButtonRef: ref });
@@ -194,16 +207,33 @@ class App extends React.Component {
       // replace this with a login page component
       return (
         <React.Fragment>
-          <GoogleAuthContext.Provider value={googleAuthContextValue}>
-            <AppLoader loader={appLoaderProps} />
-            <LoginPage />
-          </GoogleAuthContext.Provider>
+          <Router history={history}>
+            <GoogleAuthContext.Provider value={googleAuthContextValue}>
+              <AppLoader loader={appLoaderProps} />
+              {this.renderGlobalGoogleAuth()}
+              <Route path="/" exact>
+                {this.props.isSignedIn ? (
+                  <Redirect to="/home" />
+                ) : (
+                  <Redirect to="/login-page" />
+                )}
+              </Route>
+              <Route path="/login-page" exact component={LoginPage} />
+            </GoogleAuthContext.Provider>
+          </Router>
         </React.Fragment>
       );
     }
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
+          <Route path="/" exact>
+            {this.props.isSignedIn ? (
+              <Redirect to="/home" />
+            ) : (
+              <Redirect to="/login-page" />
+            )}
+          </Route>
           <GoogleAuthContext.Provider value={googleAuthContextValue}>
             <AppLoader loader={appLoaderProps} />
             <div>
@@ -211,7 +241,7 @@ class App extends React.Component {
                 <Header />
               </NavContext.Provider>
               <ElementsContext.Provider value={elementsContextValue}>
-                <Route path="/" exact component={Home} />
+                <Route path="/home" exact component={Home} />
                 <Route path="/projects" exact component={Projects} />
                 <Route path="/projects/:id" exact component={Tasks} />
                 <Route path="/due-today" exact component={DueToday} />

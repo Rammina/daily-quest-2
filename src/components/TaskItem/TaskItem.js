@@ -124,13 +124,38 @@ class TaskItem extends React.Component {
   };
 
   renderCheckbox = () => {
-    const { task } = this.props;
+    // do not render anything if set to hidden
     if (this.props.hideCheckbox) {
       return null;
     }
+
+    const { task } = this.props;
+
+    const toggleCheckbox = e => {
+      e.stopPropagation();
+      const target = e.target;
+
+      // this is put in place because pressing enter does not toggle checked
+      if (e.key === "Enter") {
+        target.checked = !target.checked;
+      }
+
+      this.props.toggleTaskCheck(
+        this.props.googleAuth.userId,
+        this.props.projectId,
+        this.props.taskId,
+        target.checked
+      );
+      if (this.props.dueTodayIndex) {
+        this.props.toggleDueTodayTaskCheck(
+          this.props.googleAuth.userId,
+          this.props.dueTodayIndex,
+          target.checked
+        );
+      }
+    };
+
     // note: please fix the following:
-    // checkbox does not toggle upon pressing enter
-    // sign out button should have some margin or spacing away from the other navitems
     // URL changing should be implemented
     // /login, /home for the login pages and homepages
     // Doing this prevents off placement upon signing in and out
@@ -139,22 +164,14 @@ class TaskItem extends React.Component {
         className="task list-checkbox"
         type="checkbox"
         defaultChecked={task.finished || false}
-        onClick={e => {
-          e.stopPropagation();
-          const target = e.target;
-          this.props.toggleTaskCheck(
-            this.props.googleAuth.userId,
-            this.props.projectId,
-            this.props.taskId,
-            target.checked
-          );
-          if (this.props.dueTodayIndex) {
-            this.props.toggleDueTodayTaskCheck(
-              this.props.googleAuth.userId,
-              this.props.dueTodayIndex,
-              target.checked
-            );
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            console.log("hello");
+            toggleCheckbox(e);
           }
+        }}
+        onClick={e => {
+          toggleCheckbox(e);
         }}
       ></input>
     );

@@ -96,7 +96,7 @@ class Header extends React.Component {
         data-test="component-header"
         className="ui secondary pointing menu header"
       >
-        <Link data-test="home-link" to="/" className="item" id="nav-title">
+        <Link data-test="home-link" to="/home" className="item" id="nav-title">
           Daily Quest
         </Link>
         <button

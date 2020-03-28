@@ -1,5 +1,6 @@
 .loader-container {
   z-index: 1000;
+  overflow-y: hidden;
   position: fixed;
   width: calc(100vw - (100vw - 100%));
   width: calc(100vw - (100vw - 100%));
