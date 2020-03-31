@@ -76,29 +76,18 @@ class NavMenu extends React.Component {
           >
             Due Today
           </Link>
-          {/*change the reference from this button to the Google button
-            change the key down commands or move them*/}
           <Link
-            ref={this.context.setLastNavMenuItemRef}
             data-test="finished-tasks-link"
             to="/finished-tasks"
             className={`left item nav-item ${this.finishedTasksLinkClass()}`}
-            onKeyDown={e => {
-              if (window.innerWidth < 900) {
-                if (e.key === "Tab" && !e.shiftKey) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  // put the element to focus here
-                  if (this.context.navMenuCloseButtonRef) {
-                    this.context.navMenuCloseButtonRef.focus();
-                  }
-                }
-              }
-            }}
           >
             Finished Tasks
           </Link>
-          <GoogleAuth buttonClass="nav-menu" />
+          <GoogleAuth
+            buttonClass="nav-menu"
+            setLastNavMenuItemRef={this.context.setLastNavMenuItemRef}
+            navMenuCloseButtonRef={this.context.navMenuCloseButtonRef}
+          />
         </div>
         <div
           data-test="nav-menu-backdrop"

@@ -155,10 +155,6 @@ class TaskItem extends React.Component {
       }
     };
 
-    // note: please fix the following:
-    // URL changing should be implemented
-    // /login, /home for the login pages and homepages
-    // Doing this prevents off placement upon signing in and out
     return (
       <input
         className="task list-checkbox"

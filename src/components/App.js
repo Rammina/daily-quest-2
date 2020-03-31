@@ -128,7 +128,7 @@ class App extends React.Component {
   };
 
   renderGlobalGoogleAuth = () => {
-    if (!window.location.pathname.includes("login-page")) {
+    if (!(window.location.pathname === "login-page")) {
       // render the GoogleAuth component outside login page
       // to initialize Google log in status
       return (
@@ -191,6 +191,21 @@ class App extends React.Component {
   };
 
   render() {
+    // ERROR 404
+    if (
+      !(
+        window.location.pathname === "/" ||
+        window.location.pathname.includes("home") ||
+        window.location.pathname.includes("login-page") ||
+        window.location.pathname.includes("projects") ||
+        window.location.pathname.includes("finished-tasks") ||
+        window.location.pathname.includes("due-today")
+      )
+    ) {
+      // it should show an error 404 page
+      return <div>Error 404 (placeholder)</div>;
+    }
+
     // context value objects
     const elementsContextValue = this.getElementsContextValue();
     const navContextValue = this.getNavContextValue();

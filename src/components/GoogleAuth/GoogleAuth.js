@@ -37,7 +37,7 @@ class GoogleAuth extends React.Component {
     if (isSignedIn) {
       await this.props.googleSignIn(this.auth.currentUser.get().getId());
       // get the URL parameter value
-      if (window.location.pathname.includes("/login-page")) {
+      if (window.location.pathname === "/login-page") {
         history.push("/home");
       }
     } else {
@@ -60,11 +60,25 @@ class GoogleAuth extends React.Component {
   renderGoogleSignButton = (text, cb) => {
     return (
       <button
+        ref={this.props.setLastNavMenuItemRef || null}
         className={`ui primary google button ${this.props.buttonClass || null}`}
         id={this.props.buttonId || ""}
         onClick={() => {
           if (cb) {
             cb();
+          }
+        }}
+        onKeyDown={e => {
+          // only trigger this if non-\ desktop view, and if this is a nav item
+          if (window.innerWidth < 900 && this.props.setLastNavMenuItemRef) {
+            if (e.key === "Tab" && !e.shiftKey) {
+              e.preventDefault();
+              e.stopPropagation();
+              // put the element to focus here
+              if (this.props.navMenuCloseButtonRef) {
+                this.props.navMenuCloseButtonRef.focus();
+              }
+            }
           }
         }}
       >
