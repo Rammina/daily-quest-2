@@ -6,6 +6,7 @@ import { Router, Route, Redirect } from "react-router-dom";
 import history from "../history";
 
 import AppLoader from "./AppLoader/AppLoader";
+import ErrorPage from "./ErrorPage/ErrorPage";
 import Header from "./Header/Header";
 import Home from "./Home/Home";
 import Projects from "./Projects/Projects";
@@ -195,7 +196,7 @@ class App extends React.Component {
     if (
       !(
         window.location.pathname === "/" ||
-        window.location.pathname.includes("home") ||
+        window.location.pathname === "/home" ||
         window.location.pathname.includes("login-page") ||
         window.location.pathname.includes("projects") ||
         window.location.pathname.includes("finished-tasks") ||
@@ -203,7 +204,7 @@ class App extends React.Component {
       )
     ) {
       // it should show an error 404 page
-      return <div>Error 404 (placeholder)</div>;
+      return <ErrorPage />;
     }
 
     // context value objects
