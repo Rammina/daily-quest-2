@@ -197,6 +197,7 @@ class App extends React.Component {
       !(
         window.location.pathname === "/" ||
         window.location.pathname === "/home" ||
+        window.location.pathname === "/home/" ||
         window.location.pathname.includes("login-page") ||
         window.location.pathname.includes("projects") ||
         window.location.pathname.includes("finished-tasks") ||
@@ -204,7 +205,7 @@ class App extends React.Component {
       )
     ) {
       // it should show an error 404 page
-      return <ErrorPage />;
+      return <ErrorPage errorType="404" />;
     }
 
     // context value objects

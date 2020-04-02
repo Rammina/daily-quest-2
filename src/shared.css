@@ -161,6 +161,27 @@ textarea {
   display: none;
 }
 
+.transparent-bg-button {
+  background-color: #0000;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  font-size: 1.35rem;
+  color: #fff;
+  height: 3.4rem;
+  min-width: 7rem;
+  padding: 0.5rem;
+}
+
+.transparent-bg-button:hover {
+  background-color: #0002;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  color: #eee;
+  height: 3.4rem;
+  min-width: 7rem;
+  padding: 0.5rem;
+}
+
 .ui.google.button {
   height: 3.1rem;
   font-size: 1.13rem;

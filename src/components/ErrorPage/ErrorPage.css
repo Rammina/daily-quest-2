@@ -1,16 +1,32 @@
 .error-page-container {
   padding: 1rem;
-  padding-top: 4.5rem;
-  padding-bottom: 5.5rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
   min-height: 100vh;
   background-color: #343947;
 }
 
 .error-page-message-container {
-  background-color: #feed;
+  /* background-color: #feed; */
   margin: 0 auto;
   padding: 1rem;
-  border: 3px solid #f77;
+  /* border: 3px solid #f77; */
   border-radius: 10px;
   max-width: 40rem;
+  color: aliceblue;
+  font-size: 1.25rem;
+}
+
+.error-page-header {
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 1px #789;
+  font-family: "Raleway", sans-serif;
+}
+
+.error-page-paragraph {
+  font-size: 1.35rem;
+}
+
+.error-page-code {
+  color: #fdd;
 }
