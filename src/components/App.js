@@ -37,7 +37,14 @@ class App extends React.Component {
     googleSignInChecked: false,
     // loader
     showLoader: true,
-    loaderFadeClass: null
+    loaderFadeClass: null,
+    // rerender Boolean
+    rerenderBoolean: false
+  };
+
+  // function used to trigger render manually
+  manualRender = () => {
+    this.setState({ rerenderBoolean: !this.state.rerenderBoolean });
   };
 
   // functions used for retrieving context values
@@ -205,7 +212,12 @@ class App extends React.Component {
       )
     ) {
       // it should show an error 404 page
-      return <ErrorPage errorType="404" />;
+      // note: should probably refactor something because there is a bug with the browser 's\iz back button'
+      return (
+        <Router history={history}>
+          <ErrorPage errorType="404" manualRender={this.manualRender} />
+        </Router>
+      );
     }
 
     // context value objects

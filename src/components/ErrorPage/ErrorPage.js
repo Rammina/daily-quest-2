@@ -1,6 +1,8 @@
 import "./ErrorPage.css";
 
 import React from "react";
+import { Link } from "react-router-dom";
+
 class ErrorPage extends React.Component {
   state = {};
   componentDidMount() {}
@@ -34,13 +36,19 @@ class ErrorPage extends React.Component {
             Try going back to the previous page or click these links that can
             help you:
           </p>
-          <div className="two-buttons-container">
-            <button className="error-page-button transparent-bg-button">
-              Home
-            </button>
-            <button className="error-page-button transparent-bg-button">
-              Login
-            </button>
+          <div className="error-page two-buttons-container">
+            <Link to="/home" className="" onClick={this.props.manualRender}>
+              <button className="error-page transparent-bg-button">Home</button>
+            </Link>
+            <Link
+              to="/login-page"
+              className=""
+              onClick={this.props.manualRender}
+            >
+              <button className="error-page transparent-bg-button">
+                Login
+              </button>
+            </Link>
           </div>
         </div>
       </div>

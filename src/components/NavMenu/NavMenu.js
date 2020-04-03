@@ -1,7 +1,7 @@
 import "./NavMenu.css";
 
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { NavContext } from "../AppContext";
 
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
@@ -100,4 +100,4 @@ class NavMenu extends React.Component {
   }
 }
 
-export default withRouter(NavMenu);
+export default NavMenu;

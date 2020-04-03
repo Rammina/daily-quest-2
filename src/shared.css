@@ -175,11 +175,7 @@ textarea {
 .transparent-bg-button:hover {
   background-color: #0002;
   border: 2px solid #ddd;
-  border-radius: 6px;
   color: #eee;
-  height: 3.4rem;
-  min-width: 7rem;
-  padding: 0.5rem;
 }
 
 .ui.google.button {

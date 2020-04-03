@@ -30,3 +30,9 @@
 .error-page-code {
   color: #fdd;
 }
+
+.error-page.transparent-bg-button {
+  margin: 0 1rem;
+  border: 2px solid #ceffff;
+  color: #ceffff;
+}
