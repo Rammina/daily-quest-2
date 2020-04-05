@@ -37,14 +37,10 @@ class ErrorPage extends React.Component {
             help you:
           </p>
           <div className="error-page two-buttons-container">
-            <Link to="/home" className="" onClick={this.props.manualRender}>
+            <Link to="/home" className="">
               <button className="error-page transparent-bg-button">Home</button>
             </Link>
-            <Link
-              to="/login-page"
-              className=""
-              onClick={this.props.manualRender}
-            >
+            <Link to="/login-page" className="">
               <button className="error-page transparent-bg-button">
                 Login
               </button>

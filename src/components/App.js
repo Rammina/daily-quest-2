@@ -2,7 +2,7 @@ import "./App.css";
 
 import React from "react";
 import { connect } from "react-redux";
-import { Router, Route, Redirect } from "react-router-dom";
+import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from "../history";
 
 import AppLoader from "./AppLoader/AppLoader";
@@ -40,11 +40,6 @@ class App extends React.Component {
     loaderFadeClass: null,
     // rerender Boolean
     rerenderBoolean: false
-  };
-
-  // function used to trigger render manually
-  manualRender = () => {
-    this.setState({ rerenderBoolean: !this.state.rerenderBoolean });
   };
 
   // functions used for retrieving context values
@@ -199,27 +194,6 @@ class App extends React.Component {
   };
 
   render() {
-    // ERROR 404
-    if (
-      !(
-        window.location.pathname === "/" ||
-        window.location.pathname === "/home" ||
-        window.location.pathname === "/home/" ||
-        window.location.pathname.includes("login-page") ||
-        window.location.pathname.includes("projects") ||
-        window.location.pathname.includes("finished-tasks") ||
-        window.location.pathname.includes("due-today")
-      )
-    ) {
-      // it should show an error 404 page
-      // note: should probably refactor something because there is a bug with the browser 's\iz back button'
-      return (
-        <Router history={history}>
-          <ErrorPage errorType="404" manualRender={this.manualRender} />
-        </Router>
-      );
-    }
-
     // context value objects
     const elementsContextValue = this.getElementsContextValue();
     const navContextValue = this.getNavContextValue();
@@ -247,7 +221,12 @@ class App extends React.Component {
                   <Redirect to="/login-page" />
                 )}
               </Route>
-              <Route path="/login-page" exact component={LoginPage} />
+              <Switch>
+                <Route path="/login-page" exact component={LoginPage} />
+                <Route>
+                  <ErrorPage errorType="404" />
+                </Route>
+              </Switch>
             </GoogleAuthContext.Provider>
           </Router>
         </React.Fragment>
@@ -270,11 +249,22 @@ class App extends React.Component {
                 <Header />
               </NavContext.Provider>
               <ElementsContext.Provider value={elementsContextValue}>
-                <Route path="/home" exact component={Home} />
-                <Route path="/projects" exact component={Projects} />
-                <Route path="/projects/:id" exact component={Tasks} />
-                <Route path="/due-today" exact component={DueToday} />
-                <Route path="/finished-tasks" exact component={FinishedTasks} />
+                <Switch>
+                  <Route path="/home" exact component={Home} />
+                  <Route path="/projects" exact component={Projects} />
+                  <Route path="/projects/:id" exact component={Tasks} />
+                  <Route path="/due-today" exact component={DueToday} />
+                  <Route
+                    path="/finished-tasks"
+                    exact
+                    component={FinishedTasks}
+                  />
+                  <Route path="/login-page" exact component={LoginPage} />
+                  {/*keep trying to fix the logic of switch and redirecting*/}
+                  <Route>
+                    <ErrorPage errorType="404" />
+                  </Route>
+                </Switch>
               </ElementsContext.Provider>
             </div>
           </GoogleAuthContext.Provider>
