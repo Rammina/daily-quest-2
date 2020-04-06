@@ -111,6 +111,9 @@ export const fetchProject = (userId, id) => {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects/${id}.json`
     );
+    // note: make sure to check if response.data exists before doing any processing
+    if (response.data) {
+    }
     const valuesWithId = { ...response.data, id };
 
     let data = objectToArray(

@@ -1,7 +1,9 @@
 import "./ErrorPage.css";
 
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import history from "../../history";
 
 class ErrorPage extends React.Component {
   state = {};
@@ -37,7 +39,18 @@ class ErrorPage extends React.Component {
             help you:
           </p>
           <div className="error-page two-buttons-container">
-            <Link to="/home" className="">
+            <Link
+              to="/home"
+              className=""
+              onClick={() => {
+                // force redirect if user is not logged in yet
+                if (!this.props.isSignedIn) {
+                  setTimeout(() => {
+                    history.push("/login-page");
+                  }, 1);
+                }
+              }}
+            >
               <button className="error-page transparent-bg-button">Home</button>
             </Link>
             <Link to="/login-page" className="">
@@ -51,4 +64,12 @@ class ErrorPage extends React.Component {
     );
   }
 }
-export default ErrorPage;
+
+const mapStateToProps = state => {
+  return { isSignedIn: state.googleAuth.isSignedIn };
+};
+
+export default connect(
+  mapStateToProps,
+  {}
+)(ErrorPage);

@@ -260,7 +260,6 @@ class App extends React.Component {
                     component={FinishedTasks}
                   />
                   <Route path="/login-page" exact component={LoginPage} />
-                  {/*keep trying to fix the logic of switch and redirecting*/}
                   <Route>
                     <ErrorPage errorType="404" />
                   </Route>

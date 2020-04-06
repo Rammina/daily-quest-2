@@ -42,7 +42,18 @@ class GoogleAuth extends React.Component {
       }
     } else {
       await this.props.googleSignOut();
-      history.push("/login-page");
+      // only redirect if it is a valid pathname, otherwise let it show error 404
+      if (
+        window.location.pathname === "/" ||
+        window.location.pathname === "/home" ||
+        window.location.pathname === "/login-page" ||
+        (window.location.pathname === "/projects" ||
+          window.location.pathname.includes("/projects/")) ||
+        window.location.pathname === "/finished-tasks" ||
+        window.location.pathname === "/due-today"
+      ) {
+        history.push("/login-page");
+      }
     }
     // make the loader fade after changing sign in status
     this.context.setSignInChecked(true);
