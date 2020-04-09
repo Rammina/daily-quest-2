@@ -111,46 +111,47 @@ export const fetchProject = (userId, id) => {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects/${id}.json`
     );
-    // note: make sure to check if response.data exists before doing any processing
+
+    let projectWithArrayTasks = null; /*just declaring to avoid undefined*/
     if (response.data) {
+      const valuesWithId = { ...response.data, id };
+
+      let data = objectToArray(
+        // remove the sort-related properties
+        _.omit({ ...valuesWithId.tasks }, ["sortBy"]),
+        "id"
+      );
+
+      const sortBy = response.data.sortBy ? response.data.sortBy : false;
+
+      // sortby property and check whether it is ascending or descending
+      if (sortBy.name) {
+        if (sortBy.name === "ascending") {
+          data = data.sort(compareValues("name"));
+        } else if (sortBy.name === "descending") {
+          data = data.sort(compareValues("name", "desc"));
+        }
+      } else if (sortBy.date) {
+        if (sortBy.date === "ascending") {
+          data = data.sort(compareValues("date"));
+        } else if (sortBy.date === "descending") {
+          data = data.sort(compareValues("date", "desc"));
+        }
+      } else if (sortBy.priority) {
+        if (sortBy.priority === "ascending") {
+          data = data.sort(comparePriorityValues());
+        } else if (sortBy.priority === "descending") {
+          data = data.sort(comparePriorityValues("desc"));
+        }
+      }
+      projectWithArrayTasks = {
+        ...valuesWithId,
+        tasks: data
+      };
     }
-    const valuesWithId = { ...response.data, id };
-
-    let data = objectToArray(
-      // remove the sort-related properties
-      _.omit({ ...valuesWithId.tasks }, ["sortBy"]),
-      "id"
-    );
-
-    const sortBy = response.data.sortBy ? response.data.sortBy : false;
-
-    // sortby property and check whether it is ascending or descending
-    if (sortBy.name) {
-      if (sortBy.name === "ascending") {
-        data = data.sort(compareValues("name"));
-      } else if (sortBy.name === "descending") {
-        data = data.sort(compareValues("name", "desc"));
-      }
-    } else if (sortBy.date) {
-      if (sortBy.date === "ascending") {
-        data = data.sort(compareValues("date"));
-      } else if (sortBy.date === "descending") {
-        data = data.sort(compareValues("date", "desc"));
-      }
-    } else if (sortBy.priority) {
-      if (sortBy.priority === "ascending") {
-        data = data.sort(comparePriorityValues());
-      } else if (sortBy.priority === "descending") {
-        data = data.sort(comparePriorityValues("desc"));
-      }
-    }
-    const projectWithArrayTasks = {
-      ...valuesWithId,
-      tasks: data
-    };
     dispatch({
       type: actionTypes.FETCH_PROJECT,
-      payload: projectWithArrayTasks
+      payload: projectWithArrayTasks || null
     });
   };
 };

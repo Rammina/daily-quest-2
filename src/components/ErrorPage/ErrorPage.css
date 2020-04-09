@@ -19,7 +19,7 @@
 
 .error-page-header {
   font-size: 2.5rem;
-  text-shadow: 1px 1px 1px #789;
+  text-shadow: 1px 1.5px 1px #66b;
   font-family: "Raleway", sans-serif;
 }
 
@@ -33,6 +33,8 @@
 
 .error-page.transparent-bg-button {
   margin: 0 1rem;
+  text-align: center;
+  /* padding: 0.5rem; */
   border: 2px solid #ceffff;
   color: #ceffff;
 }

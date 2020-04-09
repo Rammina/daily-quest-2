@@ -109,13 +109,13 @@ class App extends React.Component {
       console.log("hello");
 
       if (this.state.googleSignInChecked) {
-        this.setState({ loaderFadeClass: "no-display" });
         this.hideLoader(300);
       }
     }, 500);
   };
 
   hideLoader = delay => {
+    this.setState({ loaderFadeClass: "no-display" });
     if (delay) {
       setTimeout(() => {
         this.setState({ showLoader: false });

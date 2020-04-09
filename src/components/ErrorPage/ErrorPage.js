@@ -41,7 +41,7 @@ class ErrorPage extends React.Component {
           <div className="error-page two-buttons-container">
             <Link
               to="/home"
-              className=""
+              className="error-page transparent-bg-button"
               onClick={() => {
                 // force redirect if user is not logged in yet
                 if (!this.props.isSignedIn) {
@@ -51,12 +51,10 @@ class ErrorPage extends React.Component {
                 }
               }}
             >
-              <button className="error-page transparent-bg-button">Home</button>
+              Home
             </Link>
-            <Link to="/login-page" className="">
-              <button className="error-page transparent-bg-button">
-                Login
-              </button>
+            <Link to="/login-page" className="error-page transparent-bg-button">
+              Login
             </Link>
           </div>
         </div>

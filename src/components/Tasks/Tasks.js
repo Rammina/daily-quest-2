@@ -14,6 +14,8 @@ import {
 } from "../../actions";
 import { Link } from "react-router-dom";
 
+import AppLoader from "../AppLoader/AppLoader";
+import ErrorPage from "../ErrorPage/ErrorPage";
 import TaskItem from "../TaskItem/TaskItem.js";
 import ListLoader from "../ListLoader/ListLoader";
 import DeleteAll from "../forms/commonModals/DeleteAll";
@@ -39,6 +41,21 @@ class Tasks extends React.Component {
     showLoader: true
   };
 
+  componentDidMount() {
+    // this needs to be able to receive the ID property of the project in
+    // Preferably the URL parameter
+    (async () => {
+      await this.props.fetchProject(
+        this.props.googleAuth.userId,
+        this.props.match.params.id
+      );
+
+      this.setState({ showLoader: false });
+    })();
+  }
+
+  componentDidUpdate() {}
+
   // refs
   createButtonRef = React.createRef();
 
@@ -61,19 +78,16 @@ class Tasks extends React.Component {
     }
   };
 
-  componentDidMount() {
-    // this needs to be able to receive the ID property of the project in
-    // Preferably the URL parameter
-    (async () => {
-      await this.props.fetchProject(
-        this.props.googleAuth.userId,
-        this.props.match.params.id
-      );
+  hideLoader = delay => {
+    this.setState({ loaderFadeClass: "no-display" });
+    if (delay) {
+      setTimeout(() => {
+        this.setState({ showLoader: false });
+      }, delay);
+    } else {
       this.setState({ showLoader: false });
-    })();
-  }
-
-  componentDidUpdate() {}
+    }
+  };
 
   handleSettingsClose = () => {
     if (this.state.modalsOpened.settings) {
@@ -260,6 +274,16 @@ class Tasks extends React.Component {
   };
 
   render() {
+    // render something else while this is loading
+    if (this.state.showLoader) {
+      //note: replace this placeholder, and show a loader
+      return <div className="tasks-container"></div>;
+    }
+    // if this project doesn't exist show an error 404 page
+    if (_.isEmpty(this.props.project)) {
+      return <ErrorPage errorType="404" />;
+    }
+
     console.log(this.props.project);
     console.log(this.props.match.params.id);
     return (
