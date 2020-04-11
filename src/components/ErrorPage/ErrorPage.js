@@ -17,7 +17,7 @@ class ErrorPage extends React.Component {
     ) : null;
 
     if (this.props.errorType === "404") {
-      errorHeader = "Page not found";
+      errorHeader = "Page not found   x__x";
       errorParagraph =
         "Sorry, we can't seem to find the page you're looking for.";
     }
