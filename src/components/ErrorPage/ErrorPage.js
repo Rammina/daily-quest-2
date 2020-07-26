@@ -50,6 +50,9 @@ class ErrorPage extends React.Component {
       <div className="error-page-container">
         <div className="error-page-message-container">
           {this.renderErrorMessage()}
+          <p className="error-page-paragraph move-up-until-450w">
+            Try going back to the previous page or click one of the links below:
+          </p>
           <div className="error-page two-buttons-container move-up-until-450w">
             <Link
               to="/home"
@@ -69,9 +72,6 @@ class ErrorPage extends React.Component {
               Login
             </Link>
           </div>
-          <p className="error-page-paragraph move-up-until-450w">
-            Try going back to the previous page or click one of the links above.
-          </p>
         </div>
       </div>
     );

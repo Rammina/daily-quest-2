@@ -223,7 +223,7 @@ div.text-field.disabled {
   position: relative;
   /* top: 1rem; */
   margin-top: 1.5rem !important;
-  max-width: 15rem;
+  max-width: 16rem;
   border: 1px solid #fff7;
 }
 
