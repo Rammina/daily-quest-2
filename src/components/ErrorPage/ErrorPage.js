@@ -1,3 +1,5 @@
+import GirlImg from "../../images/blue-girl.png";
+
 import "./ErrorPage.css";
 
 import React from "react";
@@ -13,18 +15,32 @@ class ErrorPage extends React.Component {
     let errorParagraph = "Sorry, something went wrong.";
     let errorType = this.props.errorType || null;
     let errorCodeMessage = errorType ? (
-      <p className="error-page-code">Error code: {errorType}</p>
+      <p className="error-page-code move-up-until-450w">
+        Error code: {errorType}
+      </p>
     ) : null;
 
     if (this.props.errorType === "404") {
-      errorHeader = "Page not found   x__x";
+      errorHeader = "Page not found";
       errorParagraph =
         "Sorry, we can't seem to find the page you're looking for.";
     }
     return (
       <React.Fragment>
-        <h1 className="error-page-header">{errorHeader}</h1>
-        <p className="error-page-paragraph">{errorParagraph}</p>
+        <div className="error-page-title-container">
+          <h1 className="error-page-header">{errorHeader} </h1>
+          <span className="error-page-image-container">
+            <img
+              className="error-page-image"
+              src={GirlImg}
+              alt="blue haired girl error"
+            />
+          </span>
+        </div>
+
+        <p className="error-page-paragraph move-up-until-450w">
+          {errorParagraph}
+        </p>
         {errorCodeMessage}
       </React.Fragment>
     );
@@ -34,11 +50,7 @@ class ErrorPage extends React.Component {
       <div className="error-page-container">
         <div className="error-page-message-container">
           {this.renderErrorMessage()}
-          <p className="error-page-paragraph">
-            Try going back to the previous page or click these links that can
-            help you:
-          </p>
-          <div className="error-page two-buttons-container">
+          <div className="error-page two-buttons-container move-up-until-450w">
             <Link
               to="/home"
               className="error-page transparent-bg-button"
@@ -57,6 +69,9 @@ class ErrorPage extends React.Component {
               Login
             </Link>
           </div>
+          <p className="error-page-paragraph move-up-until-450w">
+            Try going back to the previous page or click one of the links above.
+          </p>
         </div>
       </div>
     );

@@ -7,6 +7,7 @@
 }
 
 .error-page-message-container {
+  position: relative;
   /* background-color: #feed; */
   margin: 0 auto;
   padding: 1rem;
@@ -17,24 +18,127 @@
   font-size: 1.25rem;
 }
 
+.error-page-title-container {
+  display: flex;
+  justify-content: center;
+  /* flex-wrap: wrap; */
+}
+
+.error-page-image-container {
+  display: inline;
+  position: relative;
+  top: 1.35rem;
+  /* position: absolute; */
+  /* right: 0; */
+  /* margin-top: 1.5rem; */
+}
+
+.error-page-image {
+  width: 5rem;
+  height: 3.75rem;
+}
+
 .error-page-header {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
   font-size: 2.5rem;
   text-shadow: 1px 1.5px 1px #66b;
+  /* text-shadow: 1px 1.5px 1px #c55; */
   font-family: "Raleway", sans-serif;
+  max-width: 12.45rem;
 }
 
 .error-page-paragraph {
-  font-size: 1.35rem;
+  margin: 0 auto;
+  margin-top: 2.2rem;
+  margin-bottom: 0;
+  font-size: 1.25rem;
 }
 
 .error-page-code {
+  margin: 0 auto;
   color: #fdd;
 }
 
 .error-page.transparent-bg-button {
   margin: 0 1rem;
+  margin-top: 1rem;
   text-align: center;
   /* padding: 0.5rem; */
   border: 2px solid #ceffff;
   color: #ceffff;
+}
+
+.move-up-until-450w {
+  position: relative;
+  bottom: 1rem;
+}
+
+@media screen and (min-width: 450px) {
+  .error-page-header {
+    max-width: none;
+    position: relative;
+    top: 1rem;
+  }
+  .error-page-image-container {
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+  /* .error-page-image {
+    width: 8rem;
+    height: 6rem;
+  } */
+  .error-page-title-container {
+    justify-content: flex-start;
+  }
+  .move-up-until-450w {
+    bottom: 0;
+  }
+}
+
+@media screen and (min-width: 650px) and (min-height: 650px) {
+  .error-page-header {
+    font-size: 3.2rem;
+    max-width: none;
+    top: 2.8rem;
+  }
+  .error-page-image-container {
+    top: 1.5rem;
+  }
+  .error-page-image {
+    width: 8rem;
+    height: 6rem;
+  }
+  .error-page-code {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (min-width: 900px) and (min-height: 900px) {
+  .error-page-message-container {
+    max-width: 50rem;
+  }
+  .error-page-title-container {
+    display: flex;
+    /* max-width: 50rem; */
+    /* flex-wrap: wrap; */
+  }
+  .error-page-paragraph {
+    max-width: 45rem;
+  }
+  .error-page-header {
+    font-size: 3.4rem;
+    top: 6.5rem;
+  }
+  .error-page-image-container {
+    top: 1.5rem;
+  }
+  .error-page-image {
+    width: 18rem;
+    height: 13.5rem;
+  }
+  .error-page-code {
+    font-size: 2.3rem;
+    max-width: 45rem;
+  }
 }

@@ -88,7 +88,7 @@ class LoginForm extends React.Component {
                 // autoFocus: true
               },
               labelProps: {
-                class: "form-label block",
+                class: "login form-label block",
                 text: "Email Address / Username *",
                 id: "login-form-name-label"
               }
@@ -107,7 +107,7 @@ class LoginForm extends React.Component {
                 id: "login-form-password-field"
               },
               labelProps: {
-                class: "form-label block",
+                class: "login form-label block",
                 text: "Password *",
                 id: "login-form-password-label"
               }

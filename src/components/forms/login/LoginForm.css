@@ -3,12 +3,15 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
-  bottom: calc(29vh - 7.5rem);
+  bottom: calc(29vh - 4.5rem);
+
+  /* bottom: calc(29vh - 7.5rem); */
   /* bottom: 5rem; */
 }
 
 #login-form-field-div {
   /* margin-bottom: 2rem; */
+
   min-height: 28rem;
 }
 
@@ -16,7 +19,7 @@
   margin-top: 1.5rem;
 }
 
-.block.form-label {
+.login.block.form-label {
   display: block;
   width: 100%;
   margin: 0 auto;
@@ -224,9 +227,6 @@ div.text-field.disabled {
   border: 1px solid #fff7;
 }
 
-@media screen and (min-width: 450px) {
-}
-
 @media screen and (min-width: 600px) {
   .text-field {
     font-size: 1.3rem;
@@ -240,6 +240,13 @@ div.text-field.disabled {
     /* max-width: 15rem; */
     max-width: 9rem;
     border-radius: 25px;
+  }
+}
+
+@media screen and (min-height: 450px) {
+  #login-form-form {
+    bottom: calc(29vh - 7.5rem);
+    /* bottom: 5rem; */
   }
 }
 
