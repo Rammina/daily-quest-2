@@ -54,6 +54,21 @@ export const standardToMilitary = function standardToMilitary(time) {
   return `${hour}:${minute}`;
 };
 
+// filetype functions
+export const checkFileType = (regexp, file, cb) => {
+  // check extension type
+  const extname = regexp.test(path.extname(file.originalname).toLowerCase());
+  // check mimetype
+  const mimetype = regexp.test(file.mimetype);
+
+  // check if both are true
+  if (extname && mimetype) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 // styling functions
 export const autoGrow = function(element) {
   element.style.height = "5px";
