@@ -11,10 +11,8 @@ class GoogleAuth extends React.Component {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
-          // just change the client ID for a different project
-          clientId:
-            "636968238547-rd6r7k73599bpuhp58a23mqegrutlk70.apps.googleusercontent.com",
-          scope: "email"
+          clientId: process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID,
+          scope: "email",
         })
         .then(() => {
           // gives a ref to the auth instance
@@ -27,7 +25,7 @@ class GoogleAuth extends React.Component {
     });
   }
 
-  onAuthChange = async isSignedIn => {
+  onAuthChange = async (isSignedIn) => {
     // set the sign-in check to false
     if (this.context.signInChecked) {
       this.context.setSignInChecked(false);
@@ -47,8 +45,8 @@ class GoogleAuth extends React.Component {
         window.location.pathname === "/" ||
         window.location.pathname === "/home" ||
         window.location.pathname === "/login-page" ||
-        (window.location.pathname === "/projects" ||
-          window.location.pathname.includes("/projects/")) ||
+        window.location.pathname === "/projects" ||
+        window.location.pathname.includes("/projects/") ||
         window.location.pathname === "/finished-tasks" ||
         window.location.pathname === "/due-today"
       ) {
@@ -79,7 +77,7 @@ class GoogleAuth extends React.Component {
             cb();
           }
         }}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           // only trigger this if non-\ desktop view, and if this is a nav item
           if (window.innerWidth < 900 && this.props.setLastNavMenuItemRef) {
             if (e.key === "Tab" && !e.shiftKey) {
@@ -118,11 +116,10 @@ class GoogleAuth extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { isSignedIn: state.googleAuth.isSignedIn };
 };
 
-export default connect(
-  mapStateToProps,
-  { googleSignIn, googleSignOut }
-)(GoogleAuth);
+export default connect(mapStateToProps, { googleSignIn, googleSignOut })(
+  GoogleAuth
+);

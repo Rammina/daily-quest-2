@@ -18,16 +18,16 @@ export const getCurrentTime = () => {
   return format(new Date(), "hh:mma");
 };
 
-export const convertToMDY = date => {
+export const convertToMDY = (date) => {
   console.log(date);
   return date ? format(new Date(date.replace(/-/g, "/")), "MM/dd/yyyy") : null;
 };
 
-export const toMilitaryTime = datetime => {
+export const toMilitaryTime = (datetime) => {
   return format(datetime, "HH:mm");
 };
 
-export const toStandardTime = time => {
+export const toStandardTime = (time) => {
   console.log(time);
   if (!time) {
     // Use this if you want to bypass the error
@@ -54,28 +54,28 @@ export const standardToMilitary = function standardToMilitary(time) {
   return `${hour}:${minute}`;
 };
 
-// filetype functions
-export const checkFileType = (regexp, file, cb) => {
-  // check extension type
-  const extname = regexp.test(path.extname(file.originalname).toLowerCase());
-  // check mimetype
-  const mimetype = regexp.test(file.mimetype);
-
-  // check if both are true
-  if (extname && mimetype) {
-    return true;
-  } else {
-    return false;
-  }
-};
+// // filetype functions
+// export const checkFileType = (regexp, file, cb) => {
+//   // check extension type
+//   const extname = regexp.test(path.extname(file.originalname).toLowerCase());
+//   // check mimetype
+//   const mimetype = regexp.test(file.mimetype);
+//
+//   // check if both are true
+//   if (extname && mimetype) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
 
 // styling functions
-export const autoGrow = function(element) {
+export const autoGrow = function (element) {
   element.style.height = "5px";
   element.style.height = element.scrollHeight + 3.7813 + "px";
 };
 
-export const autoGrowValue = function(element) {
+export const autoGrowValue = function (element) {
   if (!element) {
     return "0px";
   }
@@ -210,7 +210,7 @@ export const ellipsifyString = (string, length = 10) => {
   return string;
 };
 
-export const capitalizeFirstLetter = string => {
+export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 

@@ -7,7 +7,7 @@ import LoginForm from "../forms/login/LoginForm";
 
 class LoginPage extends React.Component {
   state = {
-    showLoader: true,
+    showLoader: true
   };
 
   componentDidMount() {
@@ -27,7 +27,7 @@ class LoginPage extends React.Component {
         </div>
         <div
           className="login-page-form-container"
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             e.stopPropagation();
           }}

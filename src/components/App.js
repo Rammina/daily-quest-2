@@ -16,7 +16,12 @@ import DueToday from "./DueToday/DueToday";
 import LoginPage from "./LoginPage/LoginPage";
 import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
-import { ElementsContext, NavContext, GoogleAuthContext } from "./AppContext";
+import {
+  ElementsContext,
+  NavContext,
+  GoogleAuthContext,
+  CognitoAuthContext,
+} from "./AppContext";
 
 class App extends React.Component {
   state = {
@@ -33,13 +38,15 @@ class App extends React.Component {
     firstSettingsItem: null,
     navMenuCloseButtonRef: null,
     lastNavMenuItemRef: null,
+    // AWS amplify/auth
+    isAuthenticated: false,
     // GoogleAuth
     googleSignInChecked: false,
     // loader
     showLoader: true,
     loaderFadeClass: null,
     // rerender Boolean
-    rerenderBoolean: false
+    rerenderBoolean: false,
   };
 
   // functions used for retrieving context values
@@ -72,7 +79,7 @@ class App extends React.Component {
       setModalDeleteAllButtonRef: this.setModalDeleteAllButtonRef,
       // SETTINGS
       firstSettingsItem: this.state.firstSettingsItem,
-      setFirstSettingsItem: this.setFirstSettingsItem
+      setFirstSettingsItem: this.setFirstSettingsItem,
     };
   };
 
@@ -83,18 +90,27 @@ class App extends React.Component {
       setNavMenuCloseButtonRef: this.setNavMenuCloseButtonRef,
       //
       lastNavMenuItemRef: this.state.lastNavMenuItemRef,
-      setLastNavMenuItemRef: this.setLastNavMenuItemRef
+      setLastNavMenuItemRef: this.setLastNavMenuItemRef,
     };
   };
 
   getGoogleAuthContextValue = () => {
     return {
       signInChecked: this.state.googleSignInChecked,
-      setSignInChecked: isChecked => {
+      setSignInChecked: (isChecked) => {
         this.setGoogleSignInChecked(isChecked);
       },
       fadeLoaderAfterCheck: this.fadeLoaderAfterCheck,
-      showLoaderBeforeCheck: this.showLoaderBeforeCheck
+      showLoaderBeforeCheck: this.showLoaderBeforeCheck,
+    };
+  };
+
+  getCognitoAuthContextValue = () => {
+    return {
+      isAuthenticated: this.state.isAuthenticated,
+      userHasAuthenticated: (isChecked) => {
+        this.setState({ isAuthenticated: isChecked });
+      },
     };
   };
 
@@ -114,7 +130,7 @@ class App extends React.Component {
     }, 500);
   };
 
-  hideLoader = delay => {
+  hideLoader = (delay) => {
     this.setState({ loaderFadeClass: "no-display" });
     if (delay) {
       setTimeout(() => {
@@ -126,7 +142,7 @@ class App extends React.Component {
   };
 
   // GoogleAuth functions
-  setGoogleSignInChecked = isChecked => {
+  setGoogleSignInChecked = (isChecked) => {
     this.setState({ googleSignInChecked: isChecked });
   };
 
@@ -144,52 +160,52 @@ class App extends React.Component {
   };
 
   // callback ref functions
-  setModalCloseButtonRef = ref => {
+  setModalCloseButtonRef = (ref) => {
     this.setState({ modalCloseButtonRef: ref });
   };
 
-  setModalDeleteAllButtonRef = ref => {
+  setModalDeleteAllButtonRef = (ref) => {
     this.setState({ modalDeleteAllButtonRef: ref });
   };
 
   // PROJECTS
-  setModalProjectsSubmitButtonRef = ref => {
+  setModalProjectsSubmitButtonRef = (ref) => {
     this.setState({ modalProjectsSubmitButtonRef: ref });
     console.log(this.state.modalProjectsSubmitButtonRef);
   };
 
-  setModalProjectsDeleteButtonRef = ref => {
+  setModalProjectsDeleteButtonRef = (ref) => {
     this.setState({ modalProjectsDeleteButtonRef: ref });
   };
 
   // TASKS
-  setModalTasksSubmitButtonRef = ref => {
+  setModalTasksSubmitButtonRef = (ref) => {
     this.setState({ modalTasksSubmitButtonRef: ref });
   };
 
-  setModalTasksDeleteButtonRef = ref => {
+  setModalTasksDeleteButtonRef = (ref) => {
     this.setState({ modalTasksDeleteButtonRef: ref });
   };
   // //task details
-  setModalDetailsEditButtonRef = ref => {
+  setModalDetailsEditButtonRef = (ref) => {
     this.setState({ modalDetailsEditButtonRef: ref });
   };
 
-  setModalDetailsDeleteButtonRef = ref => {
+  setModalDetailsDeleteButtonRef = (ref) => {
     this.setState({ modalDetailsDeleteButtonRef: ref });
   };
 
   // settings
-  setFirstSettingsItem = ref => {
+  setFirstSettingsItem = (ref) => {
     this.setState({ firstSettingsItem: ref });
   };
 
   // navigation menu
-  setNavMenuCloseButtonRef = ref => {
+  setNavMenuCloseButtonRef = (ref) => {
     this.setState({ navMenuCloseButtonRef: ref });
   };
 
-  setLastNavMenuItemRef = ref => {
+  setLastNavMenuItemRef = (ref) => {
     this.setState({ lastNavMenuItemRef: ref });
   };
 
@@ -198,11 +214,12 @@ class App extends React.Component {
     const elementsContextValue = this.getElementsContextValue();
     const navContextValue = this.getNavContextValue();
     const googleAuthContextValue = this.getGoogleAuthContextValue();
+    const cognitoAuthContextValue = this.getCognitoAuthContextValue();
 
     // AppLoader prop values
     const appLoaderProps = {
       show: this.state.showLoader,
-      fadeClass: this.state.loaderFadeClass
+      fadeClass: this.state.loaderFadeClass,
     };
 
     // check if logged in, show login page if not.
@@ -211,23 +228,25 @@ class App extends React.Component {
       return (
         <React.Fragment>
           <Router history={history}>
-            <GoogleAuthContext.Provider value={googleAuthContextValue}>
-              <AppLoader loader={appLoaderProps} />
-              {this.renderGlobalGoogleAuth()}
-              <Route path="/" exact>
-                {this.props.isSignedIn ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <Redirect to="/login-page" />
-                )}
-              </Route>
-              <Switch>
-                <Route path="/login-page" exact component={LoginPage} />
-                <Route>
-                  <ErrorPage errorType="404" />
+            <CognitoAuthContext.Provider value={cognitoAuthContextValue}>
+              <GoogleAuthContext.Provider value={googleAuthContextValue}>
+                <AppLoader loader={appLoaderProps} />
+                {this.renderGlobalGoogleAuth()}
+                <Route path="/" exact>
+                  {this.props.isSignedIn ? (
+                    <Redirect to="/home" />
+                  ) : (
+                    <Redirect to="/login-page" />
+                  )}
                 </Route>
-              </Switch>
-            </GoogleAuthContext.Provider>
+                <Switch>
+                  <Route path="/login-page" exact component={LoginPage} />
+                  <Route>
+                    <ErrorPage errorType="404" />
+                  </Route>
+                </Switch>
+              </GoogleAuthContext.Provider>
+            </CognitoAuthContext.Provider>
           </Router>
         </React.Fragment>
       );
@@ -273,11 +292,8 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { isSignedIn: state.googleAuth.isSignedIn };
 };
 
-export default connect(
-  mapStateToProps,
-  {}
-)(App);
+export default connect(mapStateToProps, {})(App);

@@ -4,34 +4,18 @@ import warningImg from "../../../images/warning.png";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Field, reduxForm } from "redux-form";
-import { Auth } from "aws-amplify";
-
 import { renderError, getErrorClass } from "../../../helpers";
 
-import { CognitoAuthContext } from "../../AppContext";
 import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class LoginForm extends React.Component {
   state = {
-    showLoginError: false,
+    showLoginError: false
   };
-  static contextType = CognitoAuthContext;
 
   componentDidMount() {}
 
-  onSubmit = async (formValues) => {
-    // e.preventDefault();
-    const { email, password } = formValues;
-
-    try {
-      await Auth.signIn(email, password);
-      this.context.userHasAuthenticated(true);
-    } catch (e) {
-      alert(e.message);
-    }
-  };
-
-  handleEnterKeyOnField = (e) => {
+  handleEnterKeyOnField = e => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form
     if (e.keyCode === 13) {
@@ -60,7 +44,7 @@ class LoginForm extends React.Component {
           {...inputProps}
           {...input}
           className={`${inputProps.className} ${errorClass}`}
-          onKeyDown={(e) => {
+          onKeyDown={e => {
             this.handleEnterKeyOnField(e);
           }}
           autoFocus={inputProps.autoFocus || false}
@@ -70,7 +54,7 @@ class LoginForm extends React.Component {
     );
   };
 
-  onSubmit = (formValues) => {
+  onSubmit = formValues => {
     this.props.onSubmit(formValues);
   };
 
@@ -100,14 +84,14 @@ class LoginForm extends React.Component {
                 className: "text-field form-name-field",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "login-form-name-field",
+                id: "login-form-name-field"
                 // autoFocus: true
               },
               labelProps: {
                 class: "login form-label block",
                 text: "Email Address / Username *",
-                id: "login-form-name-label",
-              },
+                id: "login-form-name-label"
+              }
             }}
           />
           <Field
@@ -120,13 +104,13 @@ class LoginForm extends React.Component {
                 className: "text-field form-name-field",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "login-form-password-field",
+                id: "login-form-password-field"
               },
               labelProps: {
                 class: "login form-label block",
                 text: "Password *",
-                id: "login-form-password-label",
-              },
+                id: "login-form-password-label"
+              }
             }}
           />
           <div id="login-submit-div">
@@ -136,10 +120,10 @@ class LoginForm extends React.Component {
               id="login-form-submit"
               onClick={() => {
                 // show error for now because I have not set up the backend yet
-                // this.setState({ showLoginError: true });
-                this.props.handleSubmit(this.onSubmit);
+                this.setState({ showLoginError: true });
+                // this.props.handleSubmit(this.onSubmit);
               }}
-              onKeyDown={(e) => {
+              onKeyDown={e => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   // fill this up later
                   // e.preventDefault();
@@ -161,7 +145,7 @@ class LoginForm extends React.Component {
   }
 }
 
-const validate = (formValues) => {
+const validate = formValues => {
   const errors = {};
   if (!formValues.name) {
     errors.name = "Please input an email or username.";
@@ -174,5 +158,5 @@ const validate = (formValues) => {
 
 export default reduxForm({
   form: "loginForm",
-  validate,
+  validate
 })(LoginForm);
