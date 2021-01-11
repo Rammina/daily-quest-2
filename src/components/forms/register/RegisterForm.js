@@ -49,6 +49,7 @@ class RegisterForm extends React.Component {
         <input
           {...inputProps}
           {...input}
+          autoComplete="off"
           className={`${inputProps.className} ${errorClass}`}
           onKeyDown={(e) => {
             this.handleEnterKeyOnField(e);

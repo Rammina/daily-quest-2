@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from "../history";
 
+import AuthenticatedRoute from "./AuthenticatedRoute";
+
 import AppLoader from "./AppLoader/AppLoader";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import Header from "./Header/Header";
@@ -254,7 +256,6 @@ class App extends React.Component {
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
-          {!this.props.isSignedIn ? <Redirect to="/login-page" /> : null}
           <Route path="/" exact>
             {this.props.isSignedIn ? (
               <Redirect to="/home" />
@@ -262,7 +263,6 @@ class App extends React.Component {
               <Redirect to="/login-page" />
             )}
           </Route>
-
           <AuthContext.Provider value={authContextValue}>
             {/*<AppLoader loader={appLoaderProps} />*/}
             <div>
@@ -274,20 +274,30 @@ class App extends React.Component {
 
               <ElementsContext.Provider value={elementsContextValue}>
                 <Switch>
-                  <Route path="/home" exact component={Home} />
-                  <Route path="/projects" exact component={Projects} />
-                  <Route path="/projects/:id" exact component={Tasks} />
-                  <Route path="/due-today" exact component={DueToday} />
-                  <Route
-                    path="/finished-tasks"
-                    exact
-                    component={FinishedTasks}
-                  />
+                  <AuthenticatedRoute exact path="/home">
+                    <Home />
+                  </AuthenticatedRoute>
+                  <AuthenticatedRoute exact path="/projects">
+                    <Projects />
+                  </AuthenticatedRoute>
+                  <AuthenticatedRoute exact path="/projects/:id">
+                    <Tasks />
+                  </AuthenticatedRoute>
+                  <AuthenticatedRoute exact path="/due-today">
+                    <DueToday />
+                  </AuthenticatedRoute>
+                  <AuthenticatedRoute exact path="/finished-tasks">
+                    <FinishedTasks />
+                  </AuthenticatedRoute>
+
                   <Route path="/login-page" exact component={LoginPage} />
                   <Route path="/register" exact component={Register} />
                   <Route>
                     <ErrorPage errorType="404" />
                   </Route>
+                  {!this.props.isSignedIn ? (
+                    <Redirect to="/login-page" />
+                  ) : null}
                 </Switch>
               </ElementsContext.Provider>
             </div>
