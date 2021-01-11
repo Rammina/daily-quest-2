@@ -4,7 +4,7 @@ import {
   compareValues,
   comparePriorityValues,
   compareKeysInProp,
-  objectToArray
+  objectToArray,
   // cryptography functions
   // encrypt,
   // decrypt,
@@ -58,23 +58,26 @@ export const actionTypes = {
   SORT_DUE_TODAY_TASKS_BY_PRIORITY: "SORT_DUE_TODAY_TASKS_BY_PRIORITY",
 
   //GoogleAuth
-  GOOGLE_SIGN_IN: "GOOGLE_SIGN_IN",
-  GOOGLE_SIGN_OUT: "GOOGLE_SIGN_OUT"
+  AUTH_SIGN_IN: "AUTH_SIGN_IN",
+  AUTH_SIGN_OUT: "AUTH_SIGN_OUT",
 };
 
 // project action creators
-export const fetchProjects = userId => {
-  return async function(dispatch, getState) {
+export const fetchProjects = (userId) => {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects.json`
     );
+    console.log(userId);
+    console.log(response);
+    console.log(response.data);
     let data = null;
     if (response.data) {
       // remove the sort-related properties
       const dataItemsOnly = _.omit({ ...response.data }, [
         "sortBy",
         "finishedSortBy",
-        "dueTodaySortBy"
+        "dueTodaySortBy",
       ]);
 
       // Assign the response values to variables and do some processing
@@ -100,14 +103,14 @@ export const fetchProjects = userId => {
 
       dispatch({
         type: actionTypes.FETCH_PROJECTS,
-        payload: response.data ? data : response.data
+        payload: response.data ? data : response.data,
       });
     }
   };
 };
 
 export const fetchProject = (userId, id) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects/${id}.json`
     );
@@ -146,19 +149,19 @@ export const fetchProject = (userId, id) => {
       }
       projectWithArrayTasks = {
         ...valuesWithId,
-        tasks: data
+        tasks: data,
       };
     }
     dispatch({
       type: actionTypes.FETCH_PROJECT,
-      payload: projectWithArrayTasks || null
+      payload: projectWithArrayTasks || null,
     });
   };
 };
 
 export const createProject = (userId, formValues) => {
   console.log(formValues);
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.post(
       `/${userId || "guest"}/projects.json`,
       formValues
@@ -168,41 +171,41 @@ export const createProject = (userId, formValues) => {
     const valuesWithId = [{ ...formValues, id: response.data.name }];
     dispatch({
       type: actionTypes.CREATE_PROJECT,
-      payload: valuesWithId
+      payload: valuesWithId,
     });
   };
 };
 
 export const editProject = (userId, id, formValues) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${id}.json`,
       formValues
     );
     dispatch({
       type: actionTypes.EDIT_PROJECT,
-      payload: { ...response.data, id }
+      payload: { ...response.data, id },
     });
   };
 };
 
 export const deleteProject = (userId, id) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     console.log(`deleting ${id}`);
     await firebaseDbRest.delete(`/${userId || "guest"}/projects/${id}.json`);
 
     dispatch({
       type: actionTypes.DELETE_PROJECT,
-      payload: id
+      payload: id,
     });
   };
 };
 
-export const deleteAllProjects = userId => {
-  return async function(dispatch, getState) {
+export const deleteAllProjects = (userId) => {
+  return async function (dispatch, getState) {
     await firebaseDbRest.delete(`/${userId || "guest"}/projects.json`);
     dispatch({
-      type: actionTypes.DELETE_ALL_PROJECTS
+      type: actionTypes.DELETE_ALL_PROJECTS,
     });
   };
 };
@@ -211,7 +214,7 @@ export const deleteAllProjects = userId => {
 export const sortProjectsByName = (userId, projects, order = "ascending") => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(projects) && typeof projects === "object") {
       projects = objectToArray(projects);
@@ -225,12 +228,12 @@ export const sortProjectsByName = (userId, projects, order = "ascending") => {
     }
     // save the sort setting in the database
     await firebaseDbRest.put(`/${userId || "guest"}/projects/sortBy.json`, {
-      name: order
+      name: order,
     });
 
     dispatch({
       type: actionTypes.SORT_PROJECTS_BY_NAME,
-      payload: sortedProjects
+      payload: sortedProjects,
     });
   };
 };
@@ -238,7 +241,7 @@ export const sortProjectsByName = (userId, projects, order = "ascending") => {
 export const sortProjectsByTasks = (userId, projects, order = "ascending") => {
   // projects - array/object containing Projects
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(projects) && typeof projects === "object") {
       projects = objectToArray(projects);
@@ -254,19 +257,19 @@ export const sortProjectsByTasks = (userId, projects, order = "ascending") => {
     }
     // save the sort setting in the database
     await firebaseDbRest.put(`/${userId || "guest"}/projects/sortBy.json`, {
-      tasks: order
+      tasks: order,
     });
 
     dispatch({
       type: actionTypes.SORT_PROJECTS_BY_TASKS,
-      payload: sortedProjects
+      payload: sortedProjects,
     });
   };
 };
 
 // task action creators
 export const createTask = (userId, id, formValues) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.post(
       `/${userId || "guest"}/projects/${id}/tasks.json`,
       formValues
@@ -276,13 +279,13 @@ export const createTask = (userId, id, formValues) => {
     console.log(valuesWithId);
     dispatch({
       type: actionTypes.CREATE_TASK,
-      payload: valuesWithId
+      payload: valuesWithId,
     });
   };
 };
 
 export const editTask = (userId, projectId, taskId, formValues) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
       formValues
@@ -290,13 +293,13 @@ export const editTask = (userId, projectId, taskId, formValues) => {
     console.log(response.data);
     dispatch({
       type: actionTypes.EDIT_TASK,
-      payload: { ...response.data, id: taskId }
+      payload: { ...response.data, id: taskId },
     });
   };
 };
 
 export const toggleTaskCheck = (userId, projectId, taskId, checkValue) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
       { finished: checkValue }
@@ -305,31 +308,31 @@ export const toggleTaskCheck = (userId, projectId, taskId, checkValue) => {
     console.log(response.data);
     dispatch({
       type: actionTypes.TOGGLE_TASK_CHECK,
-      payload: { ...response.data, id: taskId }
+      payload: { ...response.data, id: taskId },
     });
   };
 };
 
 export const deleteTask = (userId, projectId, taskId) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     console.log(`deleting ${taskId}`);
     await firebaseDbRest.delete(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`
     );
     dispatch({
       type: actionTypes.DELETE_TASK,
-      payload: taskId
+      payload: taskId,
     });
   };
 };
 
 export const deleteAllTasks = (userId, projectId) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     await firebaseDbRest.delete(
       `/${userId || "guest"}/projects/${projectId}/tasks.json`
     );
     dispatch({
-      type: actionTypes.DELETE_ALL_TASKS
+      type: actionTypes.DELETE_ALL_TASKS,
     });
   };
 };
@@ -344,7 +347,7 @@ export const sortTasksByName = (
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -361,14 +364,14 @@ export const sortTasksByName = (
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/${projectId}/sortBy.json`,
       {
-        name: order
+        name: order,
       }
     );
 
     console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_NAME,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
@@ -382,7 +385,7 @@ export const sortTasksByDate = (
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -399,14 +402,14 @@ export const sortTasksByDate = (
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/${projectId}/sortBy.json`,
       {
-        name: order
+        name: order,
       }
     );
 
     console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_DATE,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
@@ -420,7 +423,7 @@ export const sortTasksByPriority = (
   // tasks - array/object containing tasks
   // projectId - string that indicates the id of the project
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -437,7 +440,7 @@ export const sortTasksByPriority = (
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/${projectId}/sortBy.json`,
       {
-        priority: order
+        priority: order,
       }
     );
     // sort by priority ascending
@@ -446,23 +449,24 @@ export const sortTasksByPriority = (
     console.log(sortedTasks);
     dispatch({
       type: actionTypes.SORT_TASKS_BY_PRIORITY,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
 // finished tasks action creators
-export const fetchFinishedTasks = userId => {
-  return async function(dispatch, getState) {
+export const fetchFinishedTasks = (userId) => {
+  return async function (dispatch, getState) {
     // Retrieve all projects first from the database
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects.json`
     );
+    console.log(response.data);
 
     // get rid of the sortBy property so it is not included in the data
     const projects = _.omit({ ...response.data }, [
       "finishedSortBy",
       "sortBy",
-      "dueTodaySortBy"
+      "dueTodaySortBy",
     ]);
 
     let finishedTasks = [];
@@ -517,25 +521,25 @@ export const fetchFinishedTasks = userId => {
     console.log(finishedTasks);
     dispatch({
       type: actionTypes.FETCH_FINISHED_TASKS,
-      payload: finishedTasks
+      payload: finishedTasks,
     });
   };
 };
 
-export const deleteFinishedTask = taskIndex => {
+export const deleteFinishedTask = (taskIndex) => {
   console.log(taskIndex);
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch({
       type: actionTypes.DELETE_FINISHED_TASK,
-      payload: taskIndex
+      payload: taskIndex,
     });
   };
 };
 
 export const deleteAllFinishedTasks = () => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch({
-      type: actionTypes.DELETE_ALL_FINISHED_TASKS
+      type: actionTypes.DELETE_ALL_FINISHED_TASKS,
     });
   };
 };
@@ -544,7 +548,7 @@ export const deleteAllFinishedTasks = () => {
 export const sortFinishedTasksByName = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing finished tasks
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -560,13 +564,13 @@ export const sortFinishedTasksByName = (userId, tasks, order = "ascending") => {
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/finishedSortBy.json`,
       {
-        name: order
+        name: order,
       }
     );
 
     dispatch({
       type: actionTypes.SORT_FINISHED_TASKS_BY_NAME,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
@@ -575,7 +579,7 @@ export const sortFinishedTasksByDate = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -584,7 +588,7 @@ export const sortFinishedTasksByDate = (userId, tasks, order = "ascending") => {
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/finishedSortBy.json`,
       {
-        date: order
+        date: order,
       }
     );
     // Perform sorting by date
@@ -598,7 +602,7 @@ export const sortFinishedTasksByDate = (userId, tasks, order = "ascending") => {
     }
     dispatch({
       type: actionTypes.SORT_FINISHED_TASKS_BY_DATE,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
@@ -611,7 +615,7 @@ export const sortFinishedTasksByPriority = (
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -620,7 +624,7 @@ export const sortFinishedTasksByPriority = (
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/finishedSortBy.json`,
       {
-        priority: order
+        priority: order,
       }
     );
     // Perform sorting by date
@@ -634,14 +638,14 @@ export const sortFinishedTasksByPriority = (
     }
     dispatch({
       type: actionTypes.SORT_FINISHED_TASKS_BY_PRIORITY,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
 
 // DUETODAY TASKS ACTION CREATORS
-export const fetchDueToday = userId => {
-  return async function(dispatch, getState) {
+export const fetchDueToday = (userId) => {
+  return async function (dispatch, getState) {
     // Retrieve all projects first from the database
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects.json`
@@ -651,7 +655,7 @@ export const fetchDueToday = userId => {
     const projects = _.omit({ ...response.data }, [
       "finishedSortBy",
       "sortBy",
-      "dueTodaySortBy"
+      "dueTodaySortBy",
     ]);
 
     let dueToday = [];
@@ -711,49 +715,49 @@ export const fetchDueToday = userId => {
 
     dispatch({
       type: actionTypes.FETCH_DUE_TODAY,
-      payload: dueToday
+      payload: dueToday,
     });
   };
 };
 
-export const deleteDueTodayTask = taskIndex => {
-  return async function(dispatch, getState) {
+export const deleteDueTodayTask = (taskIndex) => {
+  return async function (dispatch, getState) {
     dispatch({
       type: actionTypes.DELETE_DUE_TODAY_TASK,
-      payload: taskIndex
+      payload: taskIndex,
     });
   };
 };
 
 export const editDueTodayTask = (taskIndex, formValues) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     if (!isToday(formValues.date)) {
       dispatch({
         type: actionTypes.DELETE_DUE_TODAY_TASK,
-        payload: taskIndex
+        payload: taskIndex,
       });
     } else {
       dispatch({
         type: actionTypes.EDIT_DUE_TODAY_TASK,
-        payload: { ...{ ...formValues }, taskIndex }
+        payload: { ...{ ...formValues }, taskIndex },
       });
     }
   };
 };
 
 export const toggleDueTodayTaskCheck = (taskIndex, checkValue) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch({
       type: actionTypes.TOGGLE_DUE_TODAY_TASK_CHECK,
-      payload: { checkValue, taskIndex }
+      payload: { checkValue, taskIndex },
     });
   };
 };
 
 export const deleteAllDueTodayTasks = () => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     dispatch({
-      type: actionTypes.DELETE_ALL_DUE_TODAY_TASKS
+      type: actionTypes.DELETE_ALL_DUE_TODAY_TASKS,
     });
   };
 };
@@ -762,7 +766,7 @@ export const deleteAllDueTodayTasks = () => {
 export const sortDueTodayTasksByName = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing finished tasks
   // order - string - which can have the value of either "ascending" or "descending"
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -778,13 +782,13 @@ export const sortDueTodayTasksByName = (userId, tasks, order = "ascending") => {
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/dueTodaySortBy.json`,
       {
-        name: order
+        name: order,
       }
     );
 
     dispatch({
       type: actionTypes.SORT_DUE_TODAY_TASKS_BY_NAME,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
@@ -793,7 +797,7 @@ export const sortDueTodayTasksByDate = (userId, tasks, order = "ascending") => {
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -802,7 +806,7 @@ export const sortDueTodayTasksByDate = (userId, tasks, order = "ascending") => {
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/dueTodaySortBy.json`,
       {
-        date: order
+        date: order,
       }
     );
     // Perform sorting by date
@@ -816,7 +820,7 @@ export const sortDueTodayTasksByDate = (userId, tasks, order = "ascending") => {
     }
     dispatch({
       type: actionTypes.SORT_DUE_TODAY_TASKS_BY_DATE,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
@@ -829,7 +833,7 @@ export const sortDueTodayTasksByPriority = (
   // tasks - array/object containing tasks
   // order - string - which can have the value of either "ascending" or "descending"
 
-  return async function(dispatch) {
+  return async function (dispatch) {
     // this guards against objects being sent as an argument
     if (!Array.isArray(tasks) && typeof tasks === "object") {
       tasks = objectToArray(tasks);
@@ -838,7 +842,7 @@ export const sortDueTodayTasksByPriority = (
     await firebaseDbRest.put(
       `/${userId || "guest"}/projects/dueTodaySortBy.json`,
       {
-        priority: order
+        priority: order,
       }
     );
     // Perform sorting by date
@@ -852,13 +856,13 @@ export const sortDueTodayTasksByPriority = (
     }
     dispatch({
       type: actionTypes.SORT_DUE_TODAY_TASKS_BY_PRIORITY,
-      payload: sortedTasks
+      payload: sortedTasks,
     });
   };
 };
 
 //GoogleAuth functions
-export const googleSignIn = userId => {
+export const authSignIn = (userId) => {
   /*{
     // console.log(`the original message is: ${userId}`);
   // let encrypted = AES.encrypt(userId, "LaL1LuL3L0").toString();
@@ -868,18 +872,18 @@ export const googleSignIn = userId => {
   // let decrypted = decrypt(encrypted, "LaL1LuL3L0");
   console.log(`the decrypted message is: ${decryptedMsgToString(decrypted)}`);
 }*/
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch({
-      type: actionTypes.GOOGLE_SIGN_IN,
-      payload: { userId }
+      type: actionTypes.AUTH_SIGN_IN,
+      payload: { userId },
     });
   };
 };
 
-export const googleSignOut = () => {
-  return async function(dispatch) {
+export const authSignOut = () => {
+  return async function (dispatch) {
     dispatch({
-      type: actionTypes.GOOGLE_SIGN_OUT
+      type: actionTypes.AUTH_SIGN_OUT,
     });
   };
 };

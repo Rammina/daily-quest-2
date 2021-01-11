@@ -3,7 +3,6 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
-  bottom: calc(29vh - 4.5rem);
 
   /* bottom: calc(29vh - 7.5rem); */
   /* bottom: 5rem; */
@@ -12,7 +11,7 @@
 #login-form-field-div {
   /* margin-bottom: 2rem; */
 
-  min-height: 28rem;
+  /* min-height: 28rem; */
 }
 
 #login-submit-div {
@@ -147,7 +146,8 @@ div.text-field.disabled {
   /* right: 0.5rem; */
 }
 
-.login.error {
+.login.error,
+.register.error {
   color: #ffb0b0;
   position: relative;
   width: 90%;
@@ -227,6 +227,10 @@ div.text-field.disabled {
   border: 1px solid #fff7;
 }
 
+#register-link-container {
+  margin-top: 2rem;
+}
+
 @media screen and (min-width: 600px) {
   .text-field {
     font-size: 1.3rem;
@@ -245,7 +249,6 @@ div.text-field.disabled {
 
 @media screen and (min-height: 450px) {
   #login-form-form {
-    bottom: calc(29vh - 7.5rem);
     /* bottom: 5rem; */
   }
 }

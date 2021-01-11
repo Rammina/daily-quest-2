@@ -1,43 +1,78 @@
-import "./LoginPage.css";
+import "./Register.css";
 import StarImg from "../../images/star.png";
 
 import React from "react";
 
-import LoginForm from "../forms/login/LoginForm";
+import RegisterForm from "../forms/register/RegisterForm";
+import ConfirmationForm from "../forms/register/ConfirmationForm";
+import history from "../../history";
 
-class LoginPage extends React.Component {
+class Register extends React.Component {
   state = {
-    showLoader: true
+    newUser: null,
+    showLoader: true,
   };
 
   componentDidMount() {
+    // redirect to homepage
+    if (this.props.isSignedIn) {
+      history.push("/home");
+    }
     this.setState({ showLoader: false });
   }
 
+  setNewUser = (newUser) => {
+    this.setState({ newUser });
+  };
+
   render() {
     return (
-      <div data-test="component-login-page" className="login-page-container">
-        <div id="login-page-title-div">
+      <div
+        data-test="component-register-page"
+        className="register-page-container"
+      >
+        <div id="register-page-title-div">
           <img
-            id="login-page-title-image"
+            id="register-page-title-image"
             src={StarImg}
             alt="Blue Star Icon"
           ></img>
-          <h1 id="login-page-title">Daily Quest</h1>
+          <h1 id="register-page-title">Daily Quest</h1>
         </div>
         <div
-          className="login-page-form-container"
-          onClick={e => {
+          className="form-container"
+          onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
           }}
         >
-          <h2 className="login-page-header">Log In to Daily Quest</h2>
-          <LoginForm />
+          {this.state.newUser === null ? (
+            <RegisterForm setNewUser={this.setNewUser} />
+          ) : (
+            <ConfirmationForm newUser={this.state.newUser} />
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => {
+  return { isSignedIn: state.auth.isSignedIn };
+};
+
+export default Register;
+
+/*
+renderRegisterError = () => {
+  if (!this.state.showRegisterError) {
+    return null;
+  }
+  return (
+    <div className={`register disconnected error`}>
+      <img className="error-image" src={warningImg} alt="warning sign"></img>
+      Unable to connect to server.
+    </div>
+  );
+};
+*/

@@ -47,7 +47,7 @@ class NavMenu extends React.Component {
               this.props.onBackdropClick();
               this.props.focusHamburger();
             }}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (window.innerWidth < 900) {
                 if (e.key === "Tab" && e.shiftKey) {
                   e.preventDefault();
@@ -83,11 +83,13 @@ class NavMenu extends React.Component {
           >
             Finished Tasks
           </Link>
+          {/*
           <GoogleAuth
             buttonClass="nav-menu"
             setLastNavMenuItemRef={this.context.setLastNavMenuItemRef}
             navMenuCloseButtonRef={this.context.navMenuCloseButtonRef}
           />
+          */}
         </div>
         <div
           data-test="nav-menu-backdrop"

@@ -26,7 +26,7 @@ class LoginPage extends React.Component {
           <h1 id="login-page-title">Daily Quest</h1>
         </div>
         <div
-          className="login-page-form-container"
+          className="form-container"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

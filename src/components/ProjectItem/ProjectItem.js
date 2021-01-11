@@ -86,7 +86,7 @@ class ProjectItem extends React.Component {
               }}
               onClick={() =>
                 this.props.deleteProject(
-                  this.props.googleAuth.userId,
+                  this.props.auth.userId,
                   this.props.id
                 )
               }
@@ -213,7 +213,7 @@ class ProjectItem extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { projects: state.projects, googleAuth: { ...state.googleAuth.user } };
+  return { projects: state.projects, auth: { ...state.auth.user } };
 };
 
 export default connect(

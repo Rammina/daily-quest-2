@@ -14,13 +14,14 @@ import Tasks from "./Tasks/Tasks";
 import FinishedTasks from "./FinishedTasks/FinishedTasks";
 import DueToday from "./DueToday/DueToday";
 import LoginPage from "./LoginPage/LoginPage";
+import Register from "./Register/Register";
 import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
 import {
   ElementsContext,
   NavContext,
-  GoogleAuthContext,
-  CognitoAuthContext,
+  AuthContext,
+  // CognitoAuthContext,
 } from "./AppContext";
 
 class App extends React.Component {
@@ -38,10 +39,9 @@ class App extends React.Component {
     firstSettingsItem: null,
     navMenuCloseButtonRef: null,
     lastNavMenuItemRef: null,
-    // AWS amplify/auth
+    // AWS amplify/auth + GoogleAuth
     isAuthenticated: false,
-    // GoogleAuth
-    googleSignInChecked: false,
+    authSignInChecked: false,
     // loader
     showLoader: true,
     loaderFadeClass: null,
@@ -93,24 +93,29 @@ class App extends React.Component {
       setLastNavMenuItemRef: this.setLastNavMenuItemRef,
     };
   };
-
-  getGoogleAuthContextValue = () => {
+  /*
+  getAuthContextValue = () => {
     return {
-      signInChecked: this.state.googleSignInChecked,
+      signInChecked: this.state.authSignInChecked,
       setSignInChecked: (isChecked) => {
         this.setGoogleSignInChecked(isChecked);
       },
-      fadeLoaderAfterCheck: this.fadeLoaderAfterCheck,
-      showLoaderBeforeCheck: this.showLoaderBeforeCheck,
+
     };
   };
-
-  getCognitoAuthContextValue = () => {
+*/
+  getAuthContextValue = () => {
     return {
       isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: (isChecked) => {
-        this.setState({ isAuthenticated: isChecked });
+      userHasAuthenticated: (isAuthenticated) => {
+        this.setState({ isAuthenticated: isAuthenticated });
       },
+      authsignInChecked: this.state.authSignInChecked,
+      setAuthSignInChecked: (isChecked) => {
+        this.setAuthSignInChecked(isChecked);
+      },
+      fadeLoaderAfterCheck: this.fadeLoaderAfterCheck,
+      showLoaderBeforeCheck: this.showLoaderBeforeCheck,
     };
   };
 
@@ -124,7 +129,7 @@ class App extends React.Component {
     setTimeout(() => {
       console.log("hello");
 
-      if (this.state.googleSignInChecked) {
+      if (this.state.authSignInChecked) {
         this.hideLoader(300);
       }
     }, 500);
@@ -142,19 +147,15 @@ class App extends React.Component {
   };
 
   // GoogleAuth functions
-  setGoogleSignInChecked = (isChecked) => {
-    this.setState({ googleSignInChecked: isChecked });
+  setAuthSignInChecked = (isChecked) => {
+    this.setState({ authSignInChecked: isChecked });
   };
 
   renderGlobalGoogleAuth = () => {
     if (!(window.location.pathname === "login-page")) {
       // render the GoogleAuth component outside login page
       // to initialize Google log in status
-      return (
-        <div style={{ display: "none" }}>
-          <GoogleAuth />
-        </div>
-      );
+      return <div style={{ display: "none" }}>{/*  <GoogleAuth />*/}</div>;
     }
     return null;
   };
@@ -213,8 +214,8 @@ class App extends React.Component {
     // context value objects
     const elementsContextValue = this.getElementsContextValue();
     const navContextValue = this.getNavContextValue();
-    const googleAuthContextValue = this.getGoogleAuthContextValue();
-    const cognitoAuthContextValue = this.getCognitoAuthContextValue();
+    const authContextValue = this.getAuthContextValue();
+    // const cognitoAuthContextValue = this.getCognitoAuthContextValue();
 
     // AppLoader prop values
     const appLoaderProps = {
@@ -222,38 +223,38 @@ class App extends React.Component {
       fadeClass: this.state.loaderFadeClass,
     };
 
-    // check if logged in, show login page if not.
+    {
+      /*
     if (!this.props.isSignedIn) {
-      // replace this with a login page component
       return (
         <React.Fragment>
           <Router history={history}>
-            <CognitoAuthContext.Provider value={cognitoAuthContextValue}>
-              <GoogleAuthContext.Provider value={googleAuthContextValue}>
-                <AppLoader loader={appLoaderProps} />
-                {this.renderGlobalGoogleAuth()}
-                <Route path="/" exact>
-                  {this.props.isSignedIn ? (
-                    <Redirect to="/home" />
-                  ) : (
-                    <Redirect to="/login-page" />
-                  )}
+            <AuthContext.Provider value={authContextValue}>
+              {this.renderGlobalGoogleAuth()}
+              <Route path="/" exact>
+                {this.props.isSignedIn ? (
+                  <Redirect to="/home" />
+                ) : (
+                  <Redirect to="/login-page" />
+                )}
+              </Route>
+              <Switch>
+                <Route path="/login-page" exact component={LoginPage} />
+                <Route path="/register" exact component={Register} />
+                <Route>
+                  <ErrorPage errorType="404" />
                 </Route>
-                <Switch>
-                  <Route path="/login-page" exact component={LoginPage} />
-                  <Route>
-                    <ErrorPage errorType="404" />
-                  </Route>
-                </Switch>
-              </GoogleAuthContext.Provider>
-            </CognitoAuthContext.Provider>
+              </Switch>
+            </AuthContext.Provider>
           </Router>
         </React.Fragment>
       );
+    }*/
     }
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
+          {!this.props.isSignedIn ? <Redirect to="/login-page" /> : null}
           <Route path="/" exact>
             {this.props.isSignedIn ? (
               <Redirect to="/home" />
@@ -261,12 +262,16 @@ class App extends React.Component {
               <Redirect to="/login-page" />
             )}
           </Route>
-          <GoogleAuthContext.Provider value={googleAuthContextValue}>
-            <AppLoader loader={appLoaderProps} />
+
+          <AuthContext.Provider value={authContextValue}>
+            {/*<AppLoader loader={appLoaderProps} />*/}
             <div>
-              <NavContext.Provider value={navContextValue}>
-                <Header />
-              </NavContext.Provider>
+              {this.props.isSignedIn ? (
+                <NavContext.Provider value={navContextValue}>
+                  <Header />
+                </NavContext.Provider>
+              ) : null}
+
               <ElementsContext.Provider value={elementsContextValue}>
                 <Switch>
                   <Route path="/home" exact component={Home} />
@@ -279,13 +284,14 @@ class App extends React.Component {
                     component={FinishedTasks}
                   />
                   <Route path="/login-page" exact component={LoginPage} />
+                  <Route path="/register" exact component={Register} />
                   <Route>
                     <ErrorPage errorType="404" />
                   </Route>
                 </Switch>
               </ElementsContext.Provider>
             </div>
-          </GoogleAuthContext.Provider>
+          </AuthContext.Provider>
         </Router>
       </div>
     );
@@ -293,7 +299,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { isSignedIn: state.googleAuth.isSignedIn };
+  return { isSignedIn: state.auth.isSignedIn };
 };
 
 export default connect(mapStateToProps, {})(App);

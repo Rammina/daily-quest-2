@@ -1,25 +1,24 @@
-#login-form-form {
+#register-form-form {
   display: block;
   width: 100%;
   margin: 0 auto;
   position: relative;
-  bottom: calc(29vh - 4.5rem);
 
   /* bottom: calc(29vh - 7.5rem); */
   /* bottom: 5rem; */
 }
 
-#login-form-field-div {
+#register-form-field-div {
   /* margin-bottom: 2rem; */
 
-  min-height: 28rem;
+  /* min-height: 28rem; */
 }
 
-#login-submit-div {
+#register-submit-div {
   margin-top: 1.5rem;
 }
 
-.login.block.form-label {
+.register.block.form-label {
   display: block;
   width: 100%;
   margin: 0 auto;
@@ -28,7 +27,7 @@
   left: 0.4rem;
 }
 
-#login-form-name-label {
+#register-form-name-label {
   /* width: 92%; */
   /* max-width: 21rem; */
 }
@@ -92,8 +91,10 @@ div.text-field.disabled {
   min-height: 2.3rem;
 }
 
-#login-form-name-field,
-#login-form-password-field {
+#register-form-name-field,
+#register-form-password-field,
+#register-form-confirm-password-field,
+#register-form-confirmation-code-field {
   margin-bottom: 2rem;
   position: relative;
   top: 0.5rem;
@@ -119,7 +120,7 @@ div.text-field.disabled {
   background-color: rgb(175, 224, 175);
   cursor: pointer;
 }
-#login-form-buttons-container {
+#register-form-buttons-container {
   max-width: 21rem;
 }
 
@@ -138,7 +139,7 @@ div.text-field.disabled {
   color: #111;
 }
 
-#login-form-submit {
+#register-form-submit {
   max-width: 6.7rem;
 }
 
@@ -147,7 +148,7 @@ div.text-field.disabled {
   /* right: 0.5rem; */
 }
 
-.login.error {
+.register.error {
   color: #ffb0b0;
   position: relative;
   width: 90%;
@@ -159,7 +160,7 @@ div.text-field.disabled {
   font-family: "Raleway", sans-serif;
 }
 
-.disconnected.login.error {
+.disconnected.register.error {
   left: 2.5rem;
   bottom: 0.3rem;
 }
@@ -206,25 +207,29 @@ div.text-field.disabled {
   left: 0.8rem;
 }
 
-.login-page-button-container {
+.register-page-button-container {
   display: flex;
   justify-content: center;
   margin: 0 auto;
 }
 
-.login-page.ui.red.google.button {
+.register-page.ui.red.google.button {
   margin: 0 auto !important;
   position: relative;
   margin-top: 1.5rem !important;
 }
 
-.login-page.ui.primary.google.button {
+.register-page.ui.primary.google.button {
   margin: 0 auto !important;
   position: relative;
   /* top: 1rem; */
   margin-top: 1.5rem !important;
   max-width: 16rem;
   border: 1px solid #fff7;
+}
+
+#login-link-container {
+  margin-top: 2rem;
 }
 
 @media screen and (min-width: 600px) {
@@ -236,7 +241,7 @@ div.text-field.disabled {
     font-size: 1.4rem;
   }
 
-  #login-form-submit {
+  #register-form-submit {
     /* max-width: 15rem; */
     max-width: 9rem;
     border-radius: 25px;
@@ -244,14 +249,13 @@ div.text-field.disabled {
 }
 
 @media screen and (min-height: 450px) {
-  #login-form-form {
-    bottom: calc(29vh - 7.5rem);
+  #register-form-form {
     /* bottom: 5rem; */
   }
 }
 
 @media screen and (min-width: 650px) and (min-height: 650px) {
-  #login-form-form {
+  #register-form-form {
     bottom: 0rem;
   }
 }

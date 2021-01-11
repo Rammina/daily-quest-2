@@ -1,21 +1,27 @@
-import "./LoginForm.css";
+import "./RegisterForm.css";
 import warningImg from "../../../images/warning.png";
 
 import React from "react";
 import ReactDOM from "react-dom";
 import { Field, reduxForm } from "redux-form";
+import { Auth } from "aws-amplify";
+import { Link } from "react-router-dom";
 import { renderError, getErrorClass } from "../../../helpers";
 
-import GoogleAuth from "../../GoogleAuth/GoogleAuth";
+// import { AuthContext } from "../../AppContext";
+// import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
-class LoginForm extends React.Component {
+class RegisterForm extends React.Component {
   state = {
-    showLoginError: false
+    showRegisterError: false,
+    // newUser: null,
+    isLoading: false,
   };
+  // static contextType = AuthContext;
 
   componentDidMount() {}
 
-  handleEnterKeyOnField = e => {
+  handleEnterKeyOnField = (e) => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form
     if (e.keyCode === 13) {
@@ -44,119 +50,165 @@ class LoginForm extends React.Component {
           {...inputProps}
           {...input}
           className={`${inputProps.className} ${errorClass}`}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             this.handleEnterKeyOnField(e);
           }}
           autoFocus={inputProps.autoFocus || false}
         />
-        {renderError(meta, "login")}
+        {renderError(meta, "register")}
       </React.Fragment>
     );
   };
 
-  onSubmit = formValues => {
-    this.props.onSubmit(formValues);
-  };
+  onSubmit = async (formValues) => {
+    const { email, password } = formValues;
+    // setIsLoading(true);
+    console.log("registering user after submit");
+    console.log(email);
+    try {
+      const newUser = await Auth.signUp({
+        username: email,
 
-  renderLoginError = () => {
-    if (!this.state.showLoginError) {
-      return null;
+        password: password,
+        attributes: {
+          email: email,
+        },
+      });
+      const userId = newUser.userSub;
+      // setIsLoading(false);
+      console.log(newUser);
+      this.props.setNewUser({ email, password, userId });
+    } catch (e) {
+      // note: this should have a custom error message show up on top of the form
+      // onError(e);
+      console.log(e);
+
+      // setIsLoading(false);
     }
-    return (
-      <div className={`login disconnected error`}>
-        <img className="error-image" src={warningImg} alt="warning sign"></img>
-        Unable to connect to server.
-      </div>
-    );
+    // this.props.onSubmit(formValues);
   };
 
   render() {
     return (
-      <form id="login-form-form">
-        <div id="login-form-field-div">
-          <Field
-            name="name"
-            component={this.renderInput}
-            type="text"
-            props={{
-              inputProps: {
-                placeholder: "Email Address/Username",
-                className: "text-field form-name-field",
-                maxLength: "30",
-                autoComplete: "off",
-                id: "login-form-name-field"
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "login form-label block",
-                text: "Email Address / Username *",
-                id: "login-form-name-label"
-              }
-            }}
-          />
-          <Field
-            name="password"
-            component={this.renderInput}
-            type="password"
-            props={{
-              inputProps: {
-                placeholder: "Password",
-                className: "text-field form-name-field",
-                maxLength: "30",
-                autoComplete: "off",
-                id: "login-form-password-field"
-              },
-              labelProps: {
-                class: "login form-label block",
-                text: "Password *",
-                id: "login-form-password-label"
-              }
-            }}
-          />
-          <div id="login-submit-div">
-            <button
-              type="submit"
-              className="form-submit modal-action-button"
-              id="login-form-submit"
-              onClick={() => {
-                // show error for now because I have not set up the backend yet
-                this.setState({ showLoginError: true });
-                // this.props.handleSubmit(this.onSubmit);
+      <React.Fragment>
+        <h2 className="register-page-header">Register for an Account</h2>
+        <form id="register-form-form">
+          <div id="register-form-field-div">
+            <Field
+              name="email"
+              component={this.renderInput}
+              type="text"
+              props={{
+                inputProps: {
+                  placeholder: "Email Address/Username",
+                  className: "text-field form-name-field",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "register-form-name-field",
+                  autoFocus: true,
+                },
+                labelProps: {
+                  class: "register form-label block",
+                  text: "Email Address / Username *",
+                  id: "register-form-name-label",
+                },
               }}
-              onKeyDown={e => {
-                if (e.key === "Tab" && !e.shiftKey) {
-                  // fill this up later
-                  // e.preventDefault();
-                  // e.stopPropagation();
-                  //
-                }
+            />
+            <Field
+              name="password"
+              component={this.renderInput}
+              type="password"
+              props={{
+                inputProps: {
+                  placeholder: "Password",
+                  className: "text-field form-name-field",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "register-form-password-field",
+                  type: "password",
+                },
+                labelProps: {
+                  class: "register form-label block",
+                  text: "Password *",
+                  id: "register-form-password-label",
+                },
               }}
+            />
+            <Field
+              name="password2"
+              component={this.renderInput}
+              type="password"
+              props={{
+                inputProps: {
+                  placeholder: "Confirm Password",
+                  className: "text-field form-name-field",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "register-form-confirm-password-field",
+                  type: "password",
+                },
+                labelProps: {
+                  class: "register form-label block",
+                  text: "Confirm Password *",
+                  id: "register-form-confirm-password-label",
+                },
+              }}
+            />
+            <div id="register-submit-div">
+              <button
+                type="submit"
+                className="form-submit modal-action-button"
+                id="register-form-submit"
+                onClick={this.props.handleSubmit(this.onSubmit)}
+                onKeyDown={(e) => {
+                  if (e.key === "Tab" && !e.shiftKey) {
+                    // fill this up later
+                    // e.preventDefault();
+                    // e.stopPropagation();
+                    //
+                  }
+                }}
+              >
+                Register
+              </button>
+            </div>
+            <div
+              className="register-page-button-container link-text-container"
+              id="login-link-container"
             >
-              Log In
-            </button>
-            {this.renderLoginError()}
+              <Link
+                id="login-text-link"
+                className="small-text-link"
+                to={`/login-page`}
+              >
+                Click here to login instead.
+              </Link>
+            </div>
           </div>
-          <div className="login-page-button-container">
-            <GoogleAuth buttonClass="login-page" />
-          </div>
-        </div>
-      </form>
+        </form>
+      </React.Fragment>
     );
   }
 }
 
-const validate = formValues => {
+const validate = (formValues) => {
   const errors = {};
-  if (!formValues.name) {
-    errors.name = "Please input an email or username.";
+  if (!formValues.email) {
+    errors.email = "Please input an email or username.";
   }
   if (!formValues.password) {
     errors.password = "Please input a password.";
   }
+  if (!formValues.password2) {
+    errors.password2 = "Please input a matching password.";
+  } else if (formValues.password !== formValues.password2) {
+    errors.password2 = "Passwords do not match.";
+  }
+
   return errors;
 };
 
 export default reduxForm({
-  form: "loginForm",
-  validate
-})(LoginForm);
+  form: "registerForm",
+  validate,
+})(RegisterForm);

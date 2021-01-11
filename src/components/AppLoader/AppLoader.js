@@ -1,7 +1,7 @@
 import "./AppLoader.css";
 
 import React from "react";
-import { GoogleAuthContext } from "../AppContext";
+import { AuthContext } from "../AppContext";
 
 class AppLoader extends React.Component {
   state = {
@@ -9,7 +9,7 @@ class AppLoader extends React.Component {
     // loaderFadeClass: null
   };
 
-  static contextType = GoogleAuthContext;
+  static contextType = AuthContext;
 
   componentDidMount() {
     setTimeout(() => {

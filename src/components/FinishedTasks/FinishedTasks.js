@@ -4,6 +4,7 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import history from "../../history";
 
 import TaskItem from "../TaskItem/TaskItem.js";
 import ListLoader from "../ListLoader/ListLoader";
@@ -18,7 +19,7 @@ import {
   deleteAllFinishedTasks,
   sortFinishedTasksByName,
   sortFinishedTasksByDate,
-  sortFinishedTasksByPriority
+  sortFinishedTasksByPriority,
 } from "../../actions";
 import { ellipsifyString } from "../../helpers/index.js";
 
@@ -28,18 +29,21 @@ class FinishedTasks extends React.Component {
       any: false,
       details: false,
       deleteAll: false,
-      settings: false
+      settings: false,
     },
     selectedTask: null,
     backdropClass: null,
     settingsBackdropClass: null,
     settingsEllipsisClass: null,
-    showLoader: true
+    showLoader: true,
   };
 
   componentDidMount() {
+    if (!this.props.isSignedIn) {
+      history.push("/login-page");
+    }
     (async () => {
-      await this.props.fetchFinishedTasks(this.props.googleAuth.userId);
+      await this.props.fetchFinishedTasks(this.props.auth.userId);
       this.setState({ showLoader: false });
     })();
   }
@@ -47,7 +51,7 @@ class FinishedTasks extends React.Component {
   componentDidUpdate() {}
 
   // // using the callback version here because it's much more customizable
-  setEllipsisRef = ref => {
+  setEllipsisRef = (ref) => {
     this.ellipsisButtonRef = ref;
   };
 
@@ -64,12 +68,12 @@ class FinishedTasks extends React.Component {
     if (this.state.modalsOpened.settings) {
       this.setState({
         settingsBackdropClass: "closed",
-        settingsEllipsisClass: null
+        settingsEllipsisClass: null,
       });
       setTimeout(() => {
         this.setState({
           modalsOpened: { ...this.state.modalsOpened, settings: false },
-          settingsBackdropClass: null
+          settingsBackdropClass: null,
         });
       }, 200);
     }
@@ -79,7 +83,7 @@ class FinishedTasks extends React.Component {
     if (!this.state.modalsOpened.settings) {
       this.setState({
         modalsOpened: { settings: true },
-        settingsEllipsisClass: "selected"
+        settingsEllipsisClass: "selected",
       });
     }
   };
@@ -92,7 +96,7 @@ class FinishedTasks extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.setState({
-      modalsOpened: { any: true, [modalType]: true }
+      modalsOpened: { any: true, [modalType]: true },
     });
   };
 
@@ -109,7 +113,7 @@ class FinishedTasks extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           LOADING...
@@ -149,7 +153,7 @@ class FinishedTasks extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           There are no tasks found.
@@ -177,7 +181,7 @@ class FinishedTasks extends React.Component {
                 const deleteAllFinishedTasks = async () => {
                   for (let task of tasks) {
                     await this.props.deleteTask(
-                      this.props.googleAuth.userId,
+                      this.props.auth.userId,
                       task.projectId,
                       task.id
                     );
@@ -207,7 +211,7 @@ class FinishedTasks extends React.Component {
     setTimeout(() => {
       this.setState({
         modalsOpened,
-        backdropClass: null
+        backdropClass: null,
       });
     }, 201);
   };
@@ -245,68 +249,68 @@ class FinishedTasks extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortFinishedTasksByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.finishedTasks
                           );
-                        }
+                        },
                       },
 
                       {
                         text: "Sort ascending (date)",
                         method: () => {
                           this.props.sortFinishedTasksByDate(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.finishedTasks
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort ascending (priority)",
                         method: () => {
                           this.props.sortFinishedTasksByPriority(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.finishedTasks
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortFinishedTasksByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.finishedTasks,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (date)",
                         method: () => {
                           this.props.sortFinishedTasksByDate(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.finishedTasks,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (priority)",
                         method: () => {
                           this.props.sortFinishedTasksByPriority(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.finishedTasks,
                             "descending"
                           );
-                        }
+                        },
                       },
 
                       {
                         text: "Delete all tasks",
-                        method: e => {
+                        method: (e) => {
                           this.onModalOpen(e, "deleteAll");
                           this.handleSettingsClose();
-                        }
-                      }
+                        },
+                      },
                     ]}
                   />
                 </div>
@@ -321,22 +325,19 @@ class FinishedTasks extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     finishedTasks: state.finishedTasks,
-    googleAuth: { ...state.googleAuth.user }
+    auth: { ...state.auth.user },
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchFinishedTasks,
-    deleteTask,
-    deleteFinishedTask,
-    deleteAllFinishedTasks,
-    sortFinishedTasksByName,
-    sortFinishedTasksByDate,
-    sortFinishedTasksByPriority
-  }
-)(FinishedTasks);
+export default connect(mapStateToProps, {
+  fetchFinishedTasks,
+  deleteTask,
+  deleteFinishedTask,
+  deleteAllFinishedTasks,
+  sortFinishedTasksByName,
+  sortFinishedTasksByDate,
+  sortFinishedTasksByPriority,
+})(FinishedTasks);

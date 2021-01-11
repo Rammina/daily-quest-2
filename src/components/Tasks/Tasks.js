@@ -10,9 +10,10 @@ import {
   deleteAllTasks,
   sortTasksByName,
   sortTasksByDate,
-  sortTasksByPriority
+  sortTasksByPriority,
 } from "../../actions";
 import { Link } from "react-router-dom";
+import history from "../../history";
 
 import AppLoader from "../AppLoader/AppLoader";
 import ErrorPage from "../ErrorPage/ErrorPage";
@@ -32,21 +33,22 @@ class Tasks extends React.Component {
     modalsOpened: {
       any: false,
       create: false,
-      deleteAll: false
+      deleteAll: false,
     },
     selectedTask: null,
     backdropClass: null,
     settingsBackdropClass: null,
     settingsEllipsisClass: null,
-    showLoader: true
+    showLoader: true,
   };
 
   componentDidMount() {
-    // this needs to be able to receive the ID property of the project in
-    // Preferably the URL parameter
+    if (!this.props.isSignedIn) {
+      history.push("/login-page");
+    }
     (async () => {
       await this.props.fetchProject(
-        this.props.googleAuth.userId,
+        this.props.auth.userId,
         this.props.match.params.id
       );
 
@@ -60,7 +62,7 @@ class Tasks extends React.Component {
   createButtonRef = React.createRef();
 
   // // using the callback version here because it's much more customizable
-  setEllipsisRef = ref => {
+  setEllipsisRef = (ref) => {
     this.ellipsisButtonRef = ref;
   };
 
@@ -78,7 +80,7 @@ class Tasks extends React.Component {
     }
   };
 
-  hideLoader = delay => {
+  hideLoader = (delay) => {
     this.setState({ loaderFadeClass: "no-display" });
     if (delay) {
       setTimeout(() => {
@@ -93,13 +95,13 @@ class Tasks extends React.Component {
     if (this.state.modalsOpened.settings) {
       this.setState({
         settingsBackdropClass: "closed",
-        settingsEllipsisClass: null
+        settingsEllipsisClass: null,
       });
 
       setTimeout(() => {
         this.setState({
           modalsOpened: { ...this.state.modalsOpened, settings: false },
-          settingsBackdropClass: null
+          settingsBackdropClass: null,
         });
       }, 200);
     }
@@ -109,7 +111,7 @@ class Tasks extends React.Component {
     if (!this.state.modalsOpened.settings) {
       this.setState({
         modalsOpened: { settings: true },
-        settingsEllipsisClass: "selected"
+        settingsEllipsisClass: "selected",
       });
     }
   };
@@ -120,7 +122,7 @@ class Tasks extends React.Component {
   onModalOpen = (e, modalType) => {
     if (!this.state.modalsOpened.any) {
       this.setState({
-        modalsOpened: { any: true, [modalType]: true }
+        modalsOpened: { any: true, [modalType]: true },
       });
     }
   };
@@ -150,7 +152,7 @@ class Tasks extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           There are no tasks found.
@@ -159,7 +161,7 @@ class Tasks extends React.Component {
     }
 
     if (tasks && Object.keys(tasks).length !== 0) {
-      return tasks.map(task => (
+      return tasks.map((task) => (
         <div
           key={task.id}
           className={`task item list-header task-item-details`}
@@ -183,7 +185,7 @@ class Tasks extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           There are no tasks found.
@@ -239,7 +241,7 @@ class Tasks extends React.Component {
               }}
               deleteFunction={async () => {
                 await this.props.deleteAllTasks(
-                  this.props.googleAuth.userId,
+                  this.props.auth.userId,
                   this.props.project.id
                 );
                 this.dismissModalHandler();
@@ -268,7 +270,7 @@ class Tasks extends React.Component {
     setTimeout(() => {
       this.setState({
         modalsOpened,
-        backdropClass: null
+        backdropClass: null,
       });
     }, 201);
   };
@@ -308,7 +310,7 @@ class Tasks extends React.Component {
                   <button
                     ref={this.createButtonRef}
                     className="create-button"
-                    onClick={e => {
+                    onClick={(e) => {
                       this.onModalOpen(e, "create");
                     }}
                   >
@@ -329,73 +331,73 @@ class Tasks extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortTasksByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.project.tasks,
                             this.props.project.id
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort ascending (date)",
                         method: () => {
                           this.props.sortTasksByDate(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.project.tasks,
                             this.props.project.id
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort ascending (priority)",
                         method: () => {
                           this.props.sortTasksByPriority(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.project.tasks,
                             this.props.project.id
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortTasksByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (date)",
                         method: () => {
                           this.props.sortTasksByDate(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
                           );
-                        }
+                        },
                       },
 
                       {
                         text: "Sort descending (priority)",
                         method: () => {
                           this.props.sortTasksByPriority(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.project.tasks,
                             this.props.project.id,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Delete all tasks",
-                        method: e => {
+                        method: (e) => {
                           this.onModalOpen(e, "deleteAll");
                           this.handleSettingsClose();
-                        }
-                      }
+                        },
+                      },
                     ]}
                   />
                   {
@@ -422,21 +424,18 @@ class Tasks extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   console.log(state.selectedProject);
   return {
     project: state.selectedProject,
-    googleAuth: { ...state.googleAuth.user }
+    auth: { ...state.auth.user },
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchProject,
-    deleteAllTasks,
-    sortTasksByName,
-    sortTasksByDate,
-    sortTasksByPriority
-  }
-)(Tasks);
+export default connect(mapStateToProps, {
+  fetchProject,
+  deleteAllTasks,
+  sortTasksByName,
+  sortTasksByDate,
+  sortTasksByPriority,
+})(Tasks);

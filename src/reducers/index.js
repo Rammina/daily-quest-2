@@ -4,7 +4,7 @@ import projectsReducer from "./projectsReducer";
 import selectedProjectReducer from "./selectedProjectReducer";
 import finishedTasksReducer from "./finishedTasksReducer";
 import dueTodayReducer from "./dueTodayReducer";
-import googleAuthReducer from "./googleAuthReducer";
+import authReducer from "./authReducer";
 
 export default combineReducers({
   projects: projectsReducer,
@@ -12,5 +12,5 @@ export default combineReducers({
   finishedTasks: finishedTasksReducer,
   dueToday: dueTodayReducer,
   form: formReducer,
-  googleAuth: googleAuthReducer
+  auth: authReducer,
 });

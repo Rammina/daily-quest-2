@@ -3,29 +3,37 @@ import warningImg from "../../../images/warning.png";
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
-
+import { authSignIn, authSignOut } from "../../../actions";
 import { renderError, getErrorClass } from "../../../helpers";
+import history from "../../../history";
 
-import { CognitoAuthContext } from "../../AppContext";
+import { AuthContext } from "../../AppContext";
+
 import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class LoginForm extends React.Component {
   state = {
     showLoginError: false,
   };
-  static contextType = CognitoAuthContext;
+  static contextType = AuthContext;
 
   componentDidMount() {}
 
   onSubmit = async (formValues) => {
     // e.preventDefault();
     const { email, password } = formValues;
-
+    console.log("hello");
+    console.log(formValues);
     try {
-      await Auth.signIn(email, password);
+      const user = await Auth.signIn(email, password);
+      console.log(user.userSub);
+      await this.props.authSignIn({ userId: user.userSub });
       this.context.userHasAuthenticated(true);
+      history.push("/home");
     } catch (e) {
       alert(e.message);
     }
@@ -70,10 +78,6 @@ class LoginForm extends React.Component {
     );
   };
 
-  onSubmit = (formValues) => {
-    this.props.onSubmit(formValues);
-  };
-
   renderLoginError = () => {
     if (!this.state.showLoginError) {
       return null;
@@ -91,7 +95,7 @@ class LoginForm extends React.Component {
       <form id="login-form-form">
         <div id="login-form-field-div">
           <Field
-            name="name"
+            name="email"
             component={this.renderInput}
             type="text"
             props={{
@@ -101,7 +105,7 @@ class LoginForm extends React.Component {
                 maxLength: "30",
                 autoComplete: "off",
                 id: "login-form-name-field",
-                // autoFocus: true
+                autoFocus: true,
               },
               labelProps: {
                 class: "login form-label block",
@@ -118,6 +122,7 @@ class LoginForm extends React.Component {
               inputProps: {
                 placeholder: "Password",
                 className: "text-field form-name-field",
+                type: "password",
                 maxLength: "30",
                 autoComplete: "off",
                 id: "login-form-password-field",
@@ -134,11 +139,7 @@ class LoginForm extends React.Component {
               type="submit"
               className="form-submit modal-action-button"
               id="login-form-submit"
-              onClick={() => {
-                // show error for now because I have not set up the backend yet
-                // this.setState({ showLoginError: true });
-                this.props.handleSubmit(this.onSubmit);
-              }}
+              onClick={this.props.handleSubmit(this.onSubmit)}
               onKeyDown={(e) => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   // fill this up later
@@ -153,7 +154,21 @@ class LoginForm extends React.Component {
             {this.renderLoginError()}
           </div>
           <div className="login-page-button-container">
-            <GoogleAuth buttonClass="login-page" />
+            {/*
+  <GoogleAuth buttonClass="login-page" />
+            */}
+          </div>
+          <div
+            className="login-page-button-container link-text-container"
+            id="register-link-container"
+          >
+            <Link
+              id="register-text-link"
+              className="small-text-link"
+              to={`/register`}
+            >
+              Don't have an account? Register here.
+            </Link>
           </div>
         </div>
       </form>
@@ -163,7 +178,7 @@ class LoginForm extends React.Component {
 
 const validate = (formValues) => {
   const errors = {};
-  if (!formValues.name) {
+  if (!formValues.email) {
     errors.name = "Please input an email or username.";
   }
   if (!formValues.password) {
@@ -172,7 +187,12 @@ const validate = (formValues) => {
   return errors;
 };
 
+const loginForm = connect(null, {
+  authSignIn,
+  authSignOut,
+})(LoginForm);
+
 export default reduxForm({
   form: "loginForm",
   validate,
-})(LoginForm);
+})(loginForm);

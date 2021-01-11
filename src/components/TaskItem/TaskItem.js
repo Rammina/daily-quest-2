@@ -141,14 +141,14 @@ class TaskItem extends React.Component {
       }
 
       this.props.toggleTaskCheck(
-        this.props.googleAuth.userId,
+        this.props.auth.userId,
         this.props.projectId,
         this.props.taskId,
         target.checked
       );
       if (this.props.dueTodayIndex) {
         this.props.toggleDueTodayTaskCheck(
-          this.props.googleAuth.userId,
+          this.props.auth.userId,
           this.props.dueTodayIndex,
           target.checked
         );
@@ -239,20 +239,20 @@ class TaskItem extends React.Component {
               className="modal-action-button delete-confirm-button"
               onClick={async () => {
                 await this.props.deleteTask(
-                  this.props.googleAuth.userId,
+                  this.props.auth.userId,
                   this.props.projectId,
                   this.props.taskId
                 );
                 // indexes for both finished and today
                 if (this.props.finishedIndex) {
                   this.props.deleteFinishedTask(
-                    this.props.googleAuth.userId,
+                    this.props.auth.userId,
                     this.props.finishedIndex
                   );
                 }
                 if (this.props.dueTodayIndex) {
                   this.props.deleteDueTodayTask(
-                    this.props.googleAuth.userId,
+                    this.props.auth.userId,
                     this.props.dueTodayIndex
                   );
                 }
@@ -472,7 +472,7 @@ class TaskItem extends React.Component {
 const mapStateToProps = state => {
   return {
     project: state.selectedProject,
-    googleAuth: { ...state.googleAuth.user }
+    auth: { ...state.auth.user }
   };
 };
 

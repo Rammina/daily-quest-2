@@ -4,6 +4,7 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import history from "../../history";
 
 import TaskItem from "../TaskItem/TaskItem.js";
 import ListLoader from "../ListLoader/ListLoader";
@@ -17,7 +18,7 @@ import {
   deleteAllDueTodayTasks,
   sortDueTodayTasksByName,
   sortDueTodayTasksByDate,
-  sortDueTodayTasksByPriority
+  sortDueTodayTasksByPriority,
 } from "../../actions";
 import { ellipsifyString } from "../../helpers/index.js";
 
@@ -27,17 +28,17 @@ class DueToday extends React.Component {
       any: false,
       details: false,
       deleteAll: false,
-      settings: false
+      settings: false,
     },
     selectedTask: null,
     backdropClass: null,
     settingsBackdropClass: null,
     settingsEllipsisClass: null,
-    showLoader: true
+    showLoader: true,
   };
 
   // // using the callback version here because it's much more customizable
-  setEllipsisRef = ref => {
+  setEllipsisRef = (ref) => {
     this.ellipsisButtonRef = ref;
   };
 
@@ -51,8 +52,11 @@ class DueToday extends React.Component {
   };
 
   componentDidMount() {
+    if (!this.props.isSignedIn) {
+      history.push("/login-page");
+    }
     (async () => {
-      await this.props.fetchDueToday(this.props.googleAuth.userId);
+      await this.props.fetchDueToday(this.props.auth.userId);
       this.setState({ showLoader: false });
     })();
   }
@@ -63,12 +67,12 @@ class DueToday extends React.Component {
     if (this.state.modalsOpened.settings) {
       this.setState({
         settingsBackdropClass: "closed",
-        settingsEllipsisClass: null
+        settingsEllipsisClass: null,
       });
       setTimeout(() => {
         this.setState({
           modalsOpened: { ...this.state.modalsOpened, settings: false },
-          settingsBackdropClass: null
+          settingsBackdropClass: null,
         });
       }, 200);
     }
@@ -78,7 +82,7 @@ class DueToday extends React.Component {
     if (!this.state.modalsOpened.settings) {
       this.setState({
         modalsOpened: { settings: true },
-        settingsEllipsisClass: "selected"
+        settingsEllipsisClass: "selected",
       });
     }
   };
@@ -87,7 +91,7 @@ class DueToday extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     this.setState({
-      modalsOpened: { any: true, [modalType]: true }
+      modalsOpened: { any: true, [modalType]: true },
     });
   };
   renderTasks = () => {
@@ -103,7 +107,7 @@ class DueToday extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           LOADING...
@@ -142,7 +146,7 @@ class DueToday extends React.Component {
           justifyContent: "center",
           textAlign: "center",
           height: "3rem",
-          fontSize: "1.3rem"
+          fontSize: "1.3rem",
         }}
       >
         There are no tasks found.
@@ -169,7 +173,7 @@ class DueToday extends React.Component {
                 const deleteAllDueTodayTasks = async () => {
                   for (let task of tasks) {
                     await this.props.deleteTask(
-                      this.props.googleAuth.userId,
+                      this.props.auth.userId,
                       task.projectId,
                       task.id
                     );
@@ -199,7 +203,7 @@ class DueToday extends React.Component {
     setTimeout(() => {
       this.setState({
         modalsOpened,
-        backdropClass: null
+        backdropClass: null,
       });
     }, 201);
   };
@@ -237,66 +241,66 @@ class DueToday extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortDueTodayTasksByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.dueToday
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort ascending (time)",
                         method: () => {
                           this.props.sortDueTodayTasksByDate(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.dueToday
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort ascending (priority)",
                         method: () => {
                           this.props.sortDueTodayTasksByPriority(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.dueToday
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortDueTodayTasksByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.dueToday,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (time)",
                         method: () => {
                           this.props.sortDueTodayTasksByDate(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.dueToday,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (priority)",
                         method: () => {
                           this.props.sortDueTodayTasksByPriority(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.dueToday,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Delete all tasks",
-                        method: e => {
+                        method: (e) => {
                           this.onModalOpen(e, "deleteAll");
                           this.handleSettingsClose();
-                        }
-                      }
+                        },
+                      },
                     ]}
                   />
                 </div>
@@ -311,18 +315,15 @@ class DueToday extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { dueToday: state.dueToday, googleAuth: { ...state.googleAuth.user } };
+const mapStateToProps = (state) => {
+  return { dueToday: state.dueToday, auth: { ...state.auth.user } };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchDueToday,
-    deleteTask,
-    deleteAllDueTodayTasks,
-    sortDueTodayTasksByName,
-    sortDueTodayTasksByDate,
-    sortDueTodayTasksByPriority
-  }
-)(DueToday);
+export default connect(mapStateToProps, {
+  fetchDueToday,
+  deleteTask,
+  deleteAllDueTodayTasks,
+  sortDueTodayTasksByName,
+  sortDueTodayTasksByDate,
+  sortDueTodayTasksByPriority,
+})(DueToday);

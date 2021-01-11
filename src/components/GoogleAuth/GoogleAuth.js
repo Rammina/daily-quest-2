@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { googleSignIn, googleSignOut } from "../../actions";
-import { GoogleAuthContext } from "../AppContext";
+import { authSignIn, authSignOut } from "../../actions";
+import { AuthContext } from "../AppContext";
 import history from "../../history";
 
 class GoogleAuth extends React.Component {
-  static contextType = GoogleAuthContext;
+  static contextType = AuthContext;
 
   componentDidMount() {
     window.gapi.load("client:auth2", () => {
@@ -28,18 +28,19 @@ class GoogleAuth extends React.Component {
   onAuthChange = async (isSignedIn) => {
     // set the sign-in check to false
     if (this.context.signInChecked) {
-      this.context.setSignInChecked(false);
+      this.context.userHasAuthenticated(false);
     }
     this.context.showLoaderBeforeCheck();
     // sign in or sign out
     if (isSignedIn) {
-      await this.props.googleSignIn(this.auth.currentUser.get().getId());
+      await this.props.authSignIn(this.auth.currentUser.get().getId());
+      this.context.userHasAuthenticated(true);
       // get the URL parameter value
       if (window.location.pathname === "/login-page") {
         history.push("/home");
       }
     } else {
-      await this.props.googleSignOut();
+      await this.props.authSignOut();
       // only redirect if it is a valid pathname, otherwise let it show error 404
       if (
         window.location.pathname === "/" ||
@@ -54,16 +55,18 @@ class GoogleAuth extends React.Component {
       }
     }
     // make the loader fade after changing sign in status
-    this.context.setSignInChecked(true);
+    this.context.setAuthSignInChecked(true);
     this.context.fadeLoaderAfterCheck();
   };
 
   onSignInClick = () => {
     this.auth.signIn();
+    this.context.userHasAuthenticated(true);
   };
 
   onSignOutClick = () => {
     this.auth.signOut();
+    this.context.userHasAuthenticated(false);
   };
 
   renderGoogleSignButton = (text, cb) => {
@@ -117,9 +120,9 @@ class GoogleAuth extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { isSignedIn: state.googleAuth.isSignedIn };
+  return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(mapStateToProps, { googleSignIn, googleSignOut })(
+export default connect(mapStateToProps, { authSignIn, authSignOut })(
   GoogleAuth
 );

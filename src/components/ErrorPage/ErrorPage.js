@@ -78,11 +78,8 @@ class ErrorPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { isSignedIn: state.googleAuth.isSignedIn };
+const mapStateToProps = (state) => {
+  return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(
-  mapStateToProps,
-  {}
-)(ErrorPage);
+export default connect(mapStateToProps, {})(ErrorPage);

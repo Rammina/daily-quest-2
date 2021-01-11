@@ -81,6 +81,50 @@ ul {
   padding: 0.25rem;
 }
 
+.form-container {
+  /* position: relative; */
+  position: absolute;
+  /* display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; */
+  /* bottom: 5rem; */
+  left: 0;
+  top: 0;
+  margin: 0 auto;
+  padding: 1.8rem 0rem;
+  padding-top: 2.5rem;
+  /* width: calc(100vw - (100vw - 100%)); */
+  width: calc(100vw - (100vw - 100%) + 0.5rem);
+  min-height: calc(100vh + 15rem);
+  -webkit-box-shadow: 0 0 0 2px #beffff;
+  box-shadow: 0 0 0 2px #beffff;
+  background-color: #202530dd;
+  color: aliceblue;
+}
+
+.error.form-label.block {
+  bottom: 0;
+}
+
+.small-text-link {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1rem;
+  color: aliceblue;
+}
+
+.small-text-link:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+@media screen and (min-height: 450px) {
+  .form-container {
+    min-height: calc(87vh + 13rem);
+    padding-top: 6rem;
+  }
+}
 @media screen and (min-width: 670px) {
   .create-button {
     right: 0.8rem;
@@ -90,5 +134,29 @@ ul {
 @media screen and (min-width: 750px) {
   .create-button {
     right: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 650px) and (min-height: 650px) {
+  .form-container {
+    left: calc(10vw);
+    top: 6.8rem;
+    padding: 2.5rem 2rem;
+    /* padding-bottom: 2rem; */
+    width: calc(80vw);
+    min-height: 0;
+    height: auto;
+    /* max-height: 50rem; */
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 0 2px #beffffdd;
+    box-shadow: 0 0 0 2px #beffffdd;
+    background-color: #222732e4;
+  }
+}
+
+@media screen and (min-width: 900px) and (min-height: 650px) {
+  .form-container {
+    left: calc(50vw - 20rem);
+    width: 40rem;
   }
 }

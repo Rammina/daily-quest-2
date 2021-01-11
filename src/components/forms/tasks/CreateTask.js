@@ -40,7 +40,7 @@ class CreateTask extends React.Component {
     );
     const reformattedValues = { ...processedValues, date, time };
     await this.props.createTask(
-      this.props.googleAuth.userId,
+      this.props.auth.userId,
       this.props.id,
       reformattedValues
     );
@@ -60,7 +60,7 @@ class CreateTask extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    googleAuth: { ...state.googleAuth.user }
+    auth: { ...state.auth.user }
   };
 };
 

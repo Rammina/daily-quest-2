@@ -9,10 +9,11 @@ import {
   createProject,
   deleteAllProjects,
   sortProjectsByName,
-  sortProjectsByTasks
+  sortProjectsByTasks,
 } from "../../actions";
 import { objectToArray } from "../../helpers";
 import { Link } from "react-router-dom";
+import history from "../../history";
 
 import ListLoader from "../ListLoader/ListLoader";
 import ProjectItem from "../ProjectItem/ProjectItem.js";
@@ -35,27 +36,30 @@ class Projects extends React.Component {
         any: false,
         create: false,
         deleteAll: false,
-        settings: false
+        settings: false,
       },
       backdropClass: null,
       settingsBackdropClass: null,
       settingsEllipsisClass: null,
-      showLoader: true
+      showLoader: true,
     };
   }
 
   // static contextType = ElementsContext;
 
   componentDidMount() {
+    if (!this.props.isSignedIn) {
+      history.push("/login-page");
+    }
     (async () => {
-      await this.props.fetchProjects(this.props.googleAuth.userId);
+      await this.props.fetchProjects(this.props.auth.userId);
       this.setState({ showLoader: false });
     })();
   }
 
   componentDidUpdate() {}
 
-  setEllipsisRef = ref => {
+  setEllipsisRef = (ref) => {
     this.ellipsisButtonRef = ref;
   };
 
@@ -78,12 +82,12 @@ class Projects extends React.Component {
     if (this.state.modalsOpened.settings) {
       this.setState({
         settingsBackdropClass: "closed",
-        settingsEllipsisClass: null
+        settingsEllipsisClass: null,
       });
       setTimeout(() => {
         this.setState({
           modalsOpened: { ...this.state.modalsOpened, settings: false },
-          settingsBackdropClass: null
+          settingsBackdropClass: null,
         });
         console.log(this.state);
       }, 200);
@@ -94,20 +98,20 @@ class Projects extends React.Component {
     if (!this.state.modalsOpened.settings) {
       this.setState({
         modalsOpened: { settings: true },
-        settingsEllipsisClass: "selected"
+        settingsEllipsisClass: "selected",
       });
     }
   };
 
   handleDeleteAll = () => {
-    this.props.deleteAllProjects(this.props.googleAuth.userId);
+    this.props.deleteAllProjects(this.props.auth.userId);
   };
 
   onModalOpen = (event, modalType) => {
     event.preventDefault();
     event.stopPropagation();
     this.setState({
-      modalsOpened: { any: true, [modalType]: true }
+      modalsOpened: { any: true, [modalType]: true },
     });
   };
 
@@ -124,7 +128,7 @@ class Projects extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           There are no projects found.
@@ -133,7 +137,7 @@ class Projects extends React.Component {
     }
 
     if (Object.keys(projects).length >= 1) {
-      return projects.map(project => (
+      return projects.map((project) => (
         <Link
           to={`/projects/${project.id}`}
           key={project.id}
@@ -156,7 +160,7 @@ class Projects extends React.Component {
             justifyContent: "center",
             textAlign: "center",
             height: "3rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
           }}
         >
           There are no projects found.
@@ -225,7 +229,7 @@ class Projects extends React.Component {
     setTimeout(() => {
       this.setState({
         modalsOpened,
-        backdropClass: null
+        backdropClass: null,
       });
     }, 201);
   };
@@ -250,13 +254,13 @@ class Projects extends React.Component {
                 </div>
                 <div
                   style={{
-                    width: "9rem"
+                    width: "9rem",
                   }} /*className="action-button-container"*/
                 >
                   <button
                     className="create-button"
                     ref={this.createButtonRef}
-                    onClick={e => {
+                    onClick={(e) => {
                       this.onModalOpen(e, "create");
                       this.handleSettingsClose();
                     }}
@@ -279,48 +283,48 @@ class Projects extends React.Component {
                         text: "Sort ascending (name)",
                         method: () => {
                           this.props.sortProjectsByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.projects
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort ascending (tasks)",
                         method: () => {
                           this.props.sortProjectsByTasks(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.projects,
                             "ascending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (name)",
                         method: () => {
                           this.props.sortProjectsByName(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.projects,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Sort descending (tasks)",
                         method: () => {
                           this.props.sortProjectsByTasks(
-                            this.props.googleAuth.userId,
+                            this.props.auth.userId,
                             this.props.projects,
                             "descending"
                           );
-                        }
+                        },
                       },
                       {
                         text: "Delete all projects",
-                        method: e => {
+                        method: (e) => {
                           this.handleSettingsClose();
                           this.onModalOpen(e, "deleteAll");
-                        }
-                      }
+                        },
+                      },
                     ]}
                   />
                 </div>
@@ -335,19 +339,16 @@ class Projects extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     projects: state.projects,
-    googleAuth: { ...state.googleAuth.user }
+    auth: { ...state.auth.user },
   };
 };
-export default connect(
-  mapStateToProps,
-  {
-    fetchProjects,
-    createProject,
-    deleteAllProjects,
-    sortProjectsByName,
-    sortProjectsByTasks
-  }
-)(Projects);
+export default connect(mapStateToProps, {
+  fetchProjects,
+  createProject,
+  deleteAllProjects,
+  sortProjectsByName,
+  sortProjectsByTasks,
+})(Projects);
