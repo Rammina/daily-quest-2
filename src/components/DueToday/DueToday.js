@@ -4,7 +4,6 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import history from "../../history";
 
 import TaskItem from "../TaskItem/TaskItem.js";
 import ListLoader from "../ListLoader/ListLoader";
@@ -52,9 +51,6 @@ class DueToday extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.isSignedIn) {
-      history.push("/login-page");
-    }
     (async () => {
       await this.props.fetchDueToday(this.props.auth.userId);
       this.setState({ showLoader: false });
