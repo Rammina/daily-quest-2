@@ -80,7 +80,7 @@
 }
 
 .nav-item:hover {
-  text-shadow: 0 0 1px #aeffff;
+  /* text-shadow: 0 0 1px #aeffff; */
 }
 
 .nav-item:focus {
@@ -135,6 +135,17 @@ button.nav-menu.ui.primary.google.button {
   /* width: calc(100% - 0.5rem); */
 }
 
+#nav-menu-logout-button {
+  color: #f88;
+  position: absolute;
+  bottom: 3rem;
+}
+#nav-menu-logout-button:hover {
+  color: #fbb !important;
+  /* background-color: #f002; */
+  text-shadow: 0 0 0 #0000 !important;
+}
+
 @media screen and (min-width: 450px) {
   .nav-menu.ui.sidebar.vertical {
     width: 35vw !important;
@@ -162,7 +173,7 @@ button.nav-menu.ui.primary.google.button {
   }
 }
 
-@media screen and (min-width: 901px) {
+@media screen and (min-width: 900px) {
   #nav-menu-backdrop.visible {
     display: none;
   }
@@ -188,5 +199,10 @@ button.nav-menu.ui.primary.google.button {
     bottom: 0;
     border-radius: 3px;
     /* width:  */
+  }
+
+  #nav-menu-logout-button {
+    position: relative;
+    bottom: 0;
   }
 }

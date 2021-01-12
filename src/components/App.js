@@ -6,7 +6,6 @@ import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from "../history";
 
 import AuthenticatedRoute from "./AuthenticatedRoute";
-
 import AppLoader from "./AppLoader/AppLoader";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import Header from "./Header/Header";
@@ -263,9 +262,11 @@ class App extends React.Component {
               <Redirect to="/login-page" />
             )}
           </Route>
+
           <AuthContext.Provider value={authContextValue}>
             {/*<AppLoader loader={appLoaderProps} />*/}
             <div>
+              {/*only show the navigation bar if the user is signed in*/}
               {this.props.isSignedIn ? (
                 <NavContext.Provider value={navContextValue}>
                   <Header />
@@ -295,9 +296,6 @@ class App extends React.Component {
                   <Route>
                     <ErrorPage errorType="404" />
                   </Route>
-                  {!this.props.isSignedIn ? (
-                    <Redirect to="/login-page" />
-                  ) : null}
                 </Switch>
               </ElementsContext.Provider>
             </div>

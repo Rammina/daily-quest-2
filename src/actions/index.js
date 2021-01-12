@@ -461,60 +461,62 @@ export const fetchFinishedTasks = (userId) => {
       `/${userId || "guest"}/projects.json`
     );
     console.log(response.data);
-
-    // get rid of the sortBy property so it is not included in the data
-    const projects = _.omit({ ...response.data }, [
-      "finishedSortBy",
-      "sortBy",
-      "dueTodaySortBy",
-    ]);
-
     let finishedTasks = [];
-    console.log(projects);
-    // Process each project and retrieve each task
-    // First check that the project contains a task to avoid undefined errors
-    for (let projectKey in projects) {
-      if (projects.hasOwnProperty(projectKey)) {
-        if (projects[projectKey].tasks) {
-          console.log(projects[projectKey].tasks);
-          const tasks = projects[projectKey].tasks;
-          // Check each task and retrieve only those that have finished as true
-          for (let taskKey in tasks) {
-            if (tasks.hasOwnProperty(taskKey) && tasks[taskKey].finished) {
-              console.log(tasks[taskKey].finished);
-              tasks[taskKey].id = taskKey;
-              tasks[taskKey].projectId = projectKey;
-              tasks[taskKey].projectName = projects[projectKey].name;
-              finishedTasks = [...finishedTasks, tasks[taskKey]];
+    // only process if there is data in the first place
+    if (response.data) {
+      // get rid of the sortBy property so it is not included in the data
+      const projects = _.omit({ ...response.data }, [
+        "finishedSortBy",
+        "sortBy",
+        "dueTodaySortBy",
+      ]);
+
+      console.log(projects);
+      // Process each project and retrieve each task
+      // First check that the project contains a task to avoid undefined errors
+      for (let projectKey in projects) {
+        if (projects.hasOwnProperty(projectKey)) {
+          if (projects[projectKey].tasks) {
+            console.log(projects[projectKey].tasks);
+            const tasks = projects[projectKey].tasks;
+            // Check each task and retrieve only those that have finished as true
+            for (let taskKey in tasks) {
+              if (tasks.hasOwnProperty(taskKey) && tasks[taskKey].finished) {
+                console.log(tasks[taskKey].finished);
+                tasks[taskKey].id = taskKey;
+                tasks[taskKey].projectId = projectKey;
+                tasks[taskKey].projectName = projects[projectKey].name;
+                finishedTasks = [...finishedTasks, tasks[taskKey]];
+              }
             }
           }
         }
       }
-    }
 
-    // Guards against undefined errors
-    const sortBy = response.data.finishedSortBy
-      ? response.data.finishedSortBy
-      : false;
+      // Guards against undefined errors
+      const sortBy = response.data.finishedSortBy
+        ? response.data.finishedSortBy
+        : false;
 
-    // finishedSortBy property and check whether it is ascending or descending
-    if (sortBy.name) {
-      if (sortBy.name === "ascending") {
-        finishedTasks = finishedTasks.sort(compareValues("name"));
-      } else if (sortBy.name === "descending") {
-        finishedTasks = finishedTasks.sort(compareValues("name", "desc"));
-      }
-    } else if (sortBy.date) {
-      if (sortBy.date === "ascending") {
-        finishedTasks = finishedTasks.sort(compareValues("date"));
-      } else if (sortBy.date === "descending") {
-        finishedTasks = finishedTasks.sort(compareValues("date", "desc"));
-      }
-    } else if (sortBy.priority) {
-      if (sortBy.priority === "ascending") {
-        finishedTasks = finishedTasks.sort(comparePriorityValues());
-      } else if (sortBy.priority === "descending") {
-        finishedTasks = finishedTasks.sort(comparePriorityValues("desc"));
+      // finishedSortBy property and check whether it is ascending or descending
+      if (sortBy.name) {
+        if (sortBy.name === "ascending") {
+          finishedTasks = finishedTasks.sort(compareValues("name"));
+        } else if (sortBy.name === "descending") {
+          finishedTasks = finishedTasks.sort(compareValues("name", "desc"));
+        }
+      } else if (sortBy.date) {
+        if (sortBy.date === "ascending") {
+          finishedTasks = finishedTasks.sort(compareValues("date"));
+        } else if (sortBy.date === "descending") {
+          finishedTasks = finishedTasks.sort(compareValues("date", "desc"));
+        }
+      } else if (sortBy.priority) {
+        if (sortBy.priority === "ascending") {
+          finishedTasks = finishedTasks.sort(comparePriorityValues());
+        } else if (sortBy.priority === "descending") {
+          finishedTasks = finishedTasks.sort(comparePriorityValues("desc"));
+        }
       }
     }
 
@@ -650,66 +652,70 @@ export const fetchDueToday = (userId) => {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects.json`
     );
-
-    // remove sort related properties
-    const projects = _.omit({ ...response.data }, [
-      "finishedSortBy",
-      "sortBy",
-      "dueTodaySortBy",
-    ]);
-
     let dueToday = [];
-    console.log(projects);
-    // Process each project and retrieve each task
-    // First check that the project contains a task to avoid undefined errors
-    for (let projectKey in projects) {
-      if (projects.hasOwnProperty(projectKey)) {
-        if (projects[projectKey].tasks) {
-          console.log(projects[projectKey].tasks);
-          const tasks = projects[projectKey].tasks;
-          // Check each task and retrieve only those that have
-          // today as their deadline
-          for (let taskKey in tasks) {
-            if (tasks.hasOwnProperty(taskKey) && tasks[taskKey].date) {
-              if (
-                tasks.hasOwnProperty(taskKey) &&
-                isToday(new Date(tasks[taskKey].date.replace(/-/g, "/")))
-              ) {
-                console.log(tasks[taskKey].date);
-                tasks[taskKey].id = taskKey;
-                tasks[taskKey].projectId = projectKey;
-                tasks[taskKey].projectName = projects[projectKey].name;
-                dueToday = [...dueToday, tasks[taskKey]];
+    // only sort if there is data in the first place
+    if (response.data) {
+      // remove sort related properties
+      const projects = _.omit({ ...response.data }, [
+        "finishedSortBy",
+        "sortBy",
+        "dueTodaySortBy",
+      ]);
+
+      console.log(response);
+      console.log(response.data);
+      console.log(projects);
+      // Process each project and retrieve each task
+      // First check that the project contains a task to avoid undefined errors
+      for (let projectKey in projects) {
+        if (projects.hasOwnProperty(projectKey)) {
+          if (projects[projectKey].tasks) {
+            console.log(projects[projectKey].tasks);
+            const tasks = projects[projectKey].tasks;
+            // Check each task and retrieve only those that have
+            // today as their deadline
+            for (let taskKey in tasks) {
+              if (tasks.hasOwnProperty(taskKey) && tasks[taskKey].date) {
+                if (
+                  tasks.hasOwnProperty(taskKey) &&
+                  isToday(new Date(tasks[taskKey].date.replace(/-/g, "/")))
+                ) {
+                  console.log(tasks[taskKey].date);
+                  tasks[taskKey].id = taskKey;
+                  tasks[taskKey].projectId = projectKey;
+                  tasks[taskKey].projectName = projects[projectKey].name;
+                  dueToday = [...dueToday, tasks[taskKey]];
+                }
               }
             }
           }
         }
       }
-    }
 
-    // Guards against undefined errors
-    const sortBy = response.data.dueTodaySortBy
-      ? response.data.dueTodaySortBy
-      : false;
+      // Guards against undefined errors
+      const sortBy = response.data.dueTodaySortBy
+        ? response.data.dueTodaySortBy
+        : false;
 
-    // dueTodaySortBy property and check whether it is ascending or descending
-    if (sortBy.name) {
-      if (sortBy.name === "ascending") {
-        dueToday = dueToday.sort(compareValues("name"));
-      } else if (sortBy.name === "descending") {
-        dueToday = dueToday.sort(compareValues("name", "desc"));
-      }
-    } else if (sortBy.date) {
-      if (sortBy.date === "ascending") {
-        dueToday = dueToday.sort(compareValues("date"));
-      } else if (sortBy.date === "descending") {
-        dueToday = dueToday.sort(compareValues("date", "desc"));
-      }
-    } else if (sortBy.priority) {
-      if (sortBy.priority === "ascending") {
-        dueToday = dueToday.sort(comparePriorityValues());
-      } else if (sortBy.priority === "descending") {
-        dueToday = dueToday.sort(comparePriorityValues("desc"));
+      // dueTodaySortBy property and check whether it is ascending or descending
+      if (sortBy.name) {
+        if (sortBy.name === "ascending") {
+          dueToday = dueToday.sort(compareValues("name"));
+        } else if (sortBy.name === "descending") {
+          dueToday = dueToday.sort(compareValues("name", "desc"));
+        }
+      } else if (sortBy.date) {
+        if (sortBy.date === "ascending") {
+          dueToday = dueToday.sort(compareValues("date"));
+        } else if (sortBy.date === "descending") {
+          dueToday = dueToday.sort(compareValues("date", "desc"));
+        }
+      } else if (sortBy.priority) {
+        if (sortBy.priority === "ascending") {
+          dueToday = dueToday.sort(comparePriorityValues());
+        } else if (sortBy.priority === "descending") {
+          dueToday = dueToday.sort(comparePriorityValues("desc"));
+        }
       }
     }
 
@@ -861,21 +867,12 @@ export const sortDueTodayTasksByPriority = (
   };
 };
 
-//GoogleAuth functions
-export const authSignIn = (userId) => {
-  /*{
-    // console.log(`the original message is: ${userId}`);
-  // let encrypted = AES.encrypt(userId, "LaL1LuL3L0").toString();
-  // let encrypted = encrypt(userId, "LaL1LuL3L0");
-  // console.log(encrypted);
-  // let decrypted = AES.decrypt(encrypted, "LaL1LuL3L0");
-  // let decrypted = decrypt(encrypted, "LaL1LuL3L0");
-  console.log(`the decrypted message is: ${decryptedMsgToString(decrypted)}`);
-}*/
+//Auth functions
+export const authSignIn = ({ authMethod, userId }) => {
   return async function (dispatch) {
     dispatch({
       type: actionTypes.AUTH_SIGN_IN,
-      payload: { userId },
+      payload: { authMethod, userId },
     });
   };
 };

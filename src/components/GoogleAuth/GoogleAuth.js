@@ -5,6 +5,9 @@ import { AuthContext } from "../AppContext";
 import history from "../../history";
 
 class GoogleAuth extends React.Component {
+  state = {
+    initialized: false,
+  };
   static contextType = AuthContext;
 
   componentDidMount() {
@@ -21,6 +24,8 @@ class GoogleAuth extends React.Component {
           this.onAuthChange(this.auth.isSignedIn.get());
           // listen for any changes in sign in status, update state
           this.auth.isSignedIn.listen(this.onAuthChange);
+          // change the state so that it knows that it finished initializing
+          this.setState({ initialized: true });
         });
     });
   }
@@ -33,14 +38,16 @@ class GoogleAuth extends React.Component {
     this.context.showLoaderBeforeCheck();
     // sign in or sign out
     if (isSignedIn) {
-      await this.props.authSignIn(this.auth.currentUser.get().getId());
+      await this.props.authSignIn({
+        authMethod: "googleAuth",
+        userId: this.auth.currentUser.get().getId(),
+      });
       this.context.userHasAuthenticated(true);
       // get the URL parameter value
       if (window.location.pathname === "/login-page") {
         history.push("/home");
       }
     } else {
-      await this.props.authSignOut();
       // only redirect if it is a valid pathname, otherwise let it show error 404
       if (
         window.location.pathname === "/" ||
@@ -64,8 +71,9 @@ class GoogleAuth extends React.Component {
     this.context.userHasAuthenticated(true);
   };
 
-  onSignOutClick = () => {
-    this.auth.signOut();
+  onSignOutClick = async () => {
+    await this.auth.signOut();
+    await this.props.authSignOut();
     this.context.userHasAuthenticated(false);
   };
 
@@ -101,9 +109,11 @@ class GoogleAuth extends React.Component {
   };
 
   renderAuthButton = () => {
-    if (this.props.isSignedIn === null) {
+    if (!this.state.initialized) {
+      console.log("rendering null until auth state is initialized");
       return null;
-    } else if (this.props.isSignedIn) {
+    }
+    if (this.props.isSignedIn) {
       return this.renderGoogleSignButton("Sign Out", () => {
         this.onSignOutClick();
       });
@@ -120,9 +130,21 @@ class GoogleAuth extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { isSignedIn: state.auth.isSignedIn };
+  return {
+    isSignedIn: state.auth.isSignedIn,
+    authMethod: state.auth.authMethod,
+  };
 };
 
 export default connect(mapStateToProps, { authSignIn, authSignOut })(
   GoogleAuth
 );
+
+/*
+// this is for automatic logout based on auth change (instead of on onClick)
+if (!this.props.authMethod === null) {
+  console.log("this should sign out");
+  await this.props.authSignOut();
+}
+
+*/

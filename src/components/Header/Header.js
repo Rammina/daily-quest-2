@@ -9,10 +9,13 @@ import { NavContext } from "../AppContext";
 
 class Header extends React.Component {
   state = {
-    menuClass: "right menu",
+    menuClass:
+      window.innerWidth >= 900
+        ? "right menu"
+        : "ui inverted right vertical sidebar menu",
     hamburgerClicked: false,
     sidebarClassFromClick: "invisible",
-    hamburgerClass: "show"
+    hamburgerClass: "show",
   };
   static contextType = NavContext;
   // refs
@@ -26,9 +29,12 @@ class Header extends React.Component {
   };
 
   updateNavMenuClasses = () => {
+    console.log(window.innerWidth);
+    console.log(this.state.menuClass);
     if (this.state.menuClass) {
+      console.log("updating menu class based on width");
       const menuClass =
-        window.innerWidth > 900
+        window.innerWidth >= 900
           ? "right menu"
           : "ui inverted right vertical sidebar menu";
       if (menuClass !== this.state.menuClass) {
@@ -38,8 +44,10 @@ class Header extends React.Component {
   };
 
   updateHamburgerClasses = () => {
+    console.log(this.state.hamburgerClass);
     if (this.state.hamburgerClass) {
-      const hamburgerClass = window.innerWidth > 900 ? "hide" : "show";
+      console.log("updating menu class based on height");
+      const hamburgerClass = window.innerWidth >= 900 ? "hide" : "show";
       if (hamburgerClass !== this.state.hamburgerClass) {
         this.setState({ hamburgerClass });
       }
@@ -50,7 +58,7 @@ class Header extends React.Component {
     setTimeout(() => {
       this.setState({
         hamburgerClicked: true,
-        sidebarClassFromClick: "visible"
+        sidebarClassFromClick: "visible",
       });
     }, 200);
   };
@@ -59,7 +67,7 @@ class Header extends React.Component {
     setTimeout(() => {
       this.setState({
         hamburgerClicked: false,
-        sidebarClassFromClick: "invisible"
+        sidebarClassFromClick: "invisible",
       });
     }, 200);
   };

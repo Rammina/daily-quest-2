@@ -21,7 +21,9 @@ class LoginForm extends React.Component {
   };
   static contextType = AuthContext;
 
-  componentDidMount() {}
+  componentDidMount() {
+    // this.props.authSignIn("fake");
+  }
 
   onSubmit = async (formValues) => {
     // e.preventDefault();
@@ -30,8 +32,10 @@ class LoginForm extends React.Component {
     console.log(formValues);
     try {
       const user = await Auth.signIn(email, password);
-      console.log(user.userSub);
-      await this.props.authSignIn({ userId: user.userSub });
+      const userId = user.attributes.sub;
+      console.log(user);
+      console.log(userId);
+      await this.props.authSignIn({ userId, authMethod: "cognito" });
       this.context.userHasAuthenticated(true);
       history.push("/home");
     } catch (e) {
@@ -154,9 +158,7 @@ class LoginForm extends React.Component {
             {this.renderLoginError()}
           </div>
           <div className="login-page-button-container">
-            {/*
-  <GoogleAuth buttonClass="login-page" />
-            */}
+            <GoogleAuth buttonClass="login-page" />
           </div>
           <div
             className="login-page-button-container link-text-container"

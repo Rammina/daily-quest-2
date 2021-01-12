@@ -2,7 +2,9 @@ import "./NavMenu.css";
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { NavContext } from "../AppContext";
+import { authSignOut } from "../../actions";
 
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 
@@ -32,8 +34,31 @@ class NavMenu extends React.Component {
     return null;
   };
 
+  renderLogoutButton = () => {
+    if (this.props.auth.authMethod === "googleAuth") {
+      return (
+        <GoogleAuth
+          buttonClass="nav-menu"
+          setLastNavMenuItemRef={this.context.setLastNavMenuItemRef}
+          navMenuCloseButtonRef={this.context.navMenuCloseButtonRef}
+        />
+      );
+    } else if (this.props.auth.authMethod === "cognito") {
+      return (
+        <button
+          id="nav-menu-logout-button"
+          onClick={this.props.authSignOut}
+          className={`left item nav-item`}
+        >
+          Logout
+        </button>
+      );
+    }
+    return null;
+  };
+
   render() {
-    return (
+    return !this.props.auth.isSignedIn ? null : (
       <React.Fragment>
         <div
           data-test="component-nav-menu"
@@ -83,13 +108,7 @@ class NavMenu extends React.Component {
           >
             Finished Tasks
           </Link>
-          {/*
-          <GoogleAuth
-            buttonClass="nav-menu"
-            setLastNavMenuItemRef={this.context.setLastNavMenuItemRef}
-            navMenuCloseButtonRef={this.context.navMenuCloseButtonRef}
-          />
-          */}
+          {this.renderLogoutButton()}
         </div>
         <div
           data-test="nav-menu-backdrop"
@@ -102,4 +121,10 @@ class NavMenu extends React.Component {
   }
 }
 
-export default NavMenu;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { authSignOut })(NavMenu);

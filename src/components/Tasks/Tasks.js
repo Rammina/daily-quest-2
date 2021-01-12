@@ -12,8 +12,7 @@ import {
   sortTasksByDate,
   sortTasksByPriority,
 } from "../../actions";
-import { Link } from "react-router-dom";
-import history from "../../history";
+import { Link, withRouter } from "react-router-dom";
 
 import AppLoader from "../AppLoader/AppLoader";
 import ErrorPage from "../ErrorPage/ErrorPage";
@@ -43,9 +42,7 @@ class Tasks extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.isSignedIn) {
-      history.push("/login-page");
-    }
+    console.log(this.props);
     (async () => {
       await this.props.fetchProject(
         this.props.auth.userId,
@@ -438,4 +435,4 @@ export default connect(mapStateToProps, {
   sortTasksByName,
   sortTasksByDate,
   sortTasksByPriority,
-})(Tasks);
+})(withRouter(Tasks));

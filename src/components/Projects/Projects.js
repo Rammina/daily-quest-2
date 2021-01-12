@@ -13,7 +13,6 @@ import {
 } from "../../actions";
 import { objectToArray } from "../../helpers";
 import { Link } from "react-router-dom";
-import history from "../../history";
 
 import ListLoader from "../ListLoader/ListLoader";
 import ProjectItem from "../ProjectItem/ProjectItem.js";
@@ -48,9 +47,6 @@ class Projects extends React.Component {
   // static contextType = ElementsContext;
 
   componentDidMount() {
-    if (!this.props.isSignedIn) {
-      history.push("/login-page");
-    }
     (async () => {
       await this.props.fetchProjects(this.props.auth.userId);
       this.setState({ showLoader: false });
