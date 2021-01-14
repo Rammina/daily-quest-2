@@ -3,10 +3,13 @@ import warningImg from "../../../images/warning.png";
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
+import { returnErrors } from "../../../actions/errorActions";
 import { renderError, getErrorClass } from "../../../helpers";
+import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
 // import { AuthContext } from "../../AppContext";
 // import GoogleAuth from "../../GoogleAuth/GoogleAuth";
@@ -61,6 +64,15 @@ class RegisterForm extends React.Component {
     );
   };
 
+  renderErrorNotifications = () => {
+    const errorMessage = this.props.error.msg;
+    console.log(errorMessage);
+    if (errorMessage) {
+      return <ErrorNotifications message={errorMessage || null} />;
+    }
+    return null;
+  };
+
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
     // setIsLoading(true);
@@ -80,10 +92,8 @@ class RegisterForm extends React.Component {
       console.log(newUser);
       this.props.setNewUser({ email, password, userId });
     } catch (e) {
-      // note: this should have a custom error message show up on top of the form
-      // onError(e);
       console.log(e.message);
-
+      this.props.returnErrors(e.message, 400, "REGISTER_ERROR");
       // setIsLoading(false);
     }
     // this.props.onSubmit(formValues);
@@ -95,6 +105,7 @@ class RegisterForm extends React.Component {
         <h2 className="register-page-header">Register for an Account</h2>
         <form id="register-form-form">
           <div id="register-form-field-div">
+            {this.renderErrorNotifications()}
             <Field
               name="email"
               component={this.renderInput}
@@ -209,7 +220,15 @@ const validate = (formValues) => {
   return errors;
 };
 
+const mapStateToProps = (state) => ({
+  error: state.error,
+});
+
+const registerForm = connect(mapStateToProps, {
+  returnErrors,
+})(RegisterForm);
+
 export default reduxForm({
   form: "registerForm",
   validate,
-})(RegisterForm);
+})(registerForm);

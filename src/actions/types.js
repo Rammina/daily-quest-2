@@ -1,3 +1,2 @@
-export default const actionTypes = {
-	FETCH_POSTS: 'FETCH_POSTS',
-}
+export const FETCH_ERRORS = "FETCH_ERRORS";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";

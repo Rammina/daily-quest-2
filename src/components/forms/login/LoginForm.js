@@ -7,12 +7,14 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
-import { authSignIn, authSignOut } from "../../../actions";
+import { authSignIn } from "../../../actions";
+import { returnErrors } from "../../../actions/errorActions";
 import { renderError, getErrorClass } from "../../../helpers";
 
 import { AuthContext } from "../../AppContext";
 
 import GoogleAuth from "../../GoogleAuth/GoogleAuth";
+import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
 class LoginForm extends React.Component {
   state = {
@@ -27,19 +29,14 @@ class LoginForm extends React.Component {
   componentWillUnmount() {}
 
   onSubmit = async (formValues) => {
-    // e.preventDefault();
     const { email, password } = formValues;
-    console.log("hello");
-    console.log(formValues);
     try {
       const user = await Auth.signIn(email, password);
       const userId = user.attributes.sub;
-      console.log(user);
-      console.log(userId);
       await this.props.authSignIn({ userId, authMethod: "cognito" });
       this.context.userHasAuthenticated(true);
     } catch (e) {
-      alert(e.message);
+      this.props.returnErrors(e.message, 400, "LOGIN_ERROR");
     }
   };
 
@@ -82,6 +79,16 @@ class LoginForm extends React.Component {
     );
   };
 
+  renderErrorNotifications = () => {
+    const errorMessage = this.props.error.msg;
+    console.log(errorMessage);
+
+    if (errorMessage) {
+      return <ErrorNotifications message={errorMessage || null} />;
+    }
+    return null;
+  };
+
   renderLoginError = () => {
     if (!this.state.showLoginError) {
       return null;
@@ -98,6 +105,7 @@ class LoginForm extends React.Component {
     return (
       <form id="login-form-form">
         <div id="login-form-field-div">
+          {this.renderErrorNotifications()}
           <Field
             name="email"
             component={this.renderInput}
@@ -189,9 +197,13 @@ const validate = (formValues) => {
   return errors;
 };
 
-const loginForm = connect(null, {
+const mapStateToProps = (state) => ({
+  error: state.error,
+});
+
+const loginForm = connect(mapStateToProps, {
   authSignIn,
-  authSignOut,
+  returnErrors,
 })(LoginForm);
 
 export default reduxForm({

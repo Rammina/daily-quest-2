@@ -6,8 +6,10 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
+import { returnErrors } from "../../../actions/errorActions";
 import { renderError, getErrorClass } from "../../../helpers";
-import { authSignIn, authSignOut } from "../../../actions";
+import { authSignIn } from "../../../actions";
+import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
 // import history from "../../../history";
 
@@ -62,6 +64,15 @@ class ConfirmationForm extends React.Component {
     );
   };
 
+  renderErrorNotifications = () => {
+    const errorMessage = this.props.error.msg;
+    console.log(errorMessage);
+    if (errorMessage) {
+      return <ErrorNotifications message={errorMessage || null} />;
+    }
+    return null;
+  };
+
   onSubmit = async (formValues) => {
     // setIsLoading(true);
 
@@ -79,6 +90,7 @@ class ConfirmationForm extends React.Component {
       // history.push("/home");
     } catch (e) {
       console.log(e);
+      this.props.returnErrors(e.message, 400, "CONFIRMATION_ERROR");
       // onError(e);
       // setIsLoading(false);
     }
@@ -91,9 +103,10 @@ class ConfirmationForm extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h2 className="register-page-header">Enter the Confirmation Code</h2>
+        <h2 className="register-page-header">Enter Email Confirmation Code</h2>
         <form id="register-form-form">
           <div id="register-form-field-div">
+            {this.renderErrorNotifications()}
             <Field
               name="confirmation_code"
               component={this.renderInput}
@@ -109,7 +122,7 @@ class ConfirmationForm extends React.Component {
                 },
                 labelProps: {
                   class: "register form-label block",
-                  text: "Confirmation Code *",
+                  text: "Email Confirmation Code *",
                   id: "register-form-confirmation-code-label",
                 },
               }}
@@ -150,13 +163,13 @@ const validate = (formValues) => {
   return errors;
 };
 
-// const mapStateToProps = (state) => ({
-//
-// });
+const mapStateToProps = (state) => ({
+  error: state.error,
+});
 
-const confirmationForm = connect(null, {
+const confirmationForm = connect(mapStateToProps, {
   authSignIn,
-  authSignOut,
+  returnErrors,
 })(ConfirmationForm);
 
 export default reduxForm({

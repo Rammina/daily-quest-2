@@ -5,6 +5,7 @@ import selectedProjectReducer from "./selectedProjectReducer";
 import finishedTasksReducer from "./finishedTasksReducer";
 import dueTodayReducer from "./dueTodayReducer";
 import authReducer from "./authReducer";
+import errorReducer from "./errorReducer";
 
 export default combineReducers({
   projects: projectsReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   dueToday: dueTodayReducer,
   form: formReducer,
   auth: authReducer,
+  error: errorReducer,
 });
