@@ -3,9 +3,12 @@ import "./App.css";
 import React from "react";
 import { connect } from "react-redux";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
+import { Auth } from "aws-amplify";
 import history from "../history";
-
+import { authSignIn, authSignOut } from "../actions";
+// components
 import AuthenticatedRoute from "./AuthenticatedRoute";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
 import AppLoader from "./AppLoader/AppLoader";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import Header from "./Header/Header";
@@ -43,12 +46,17 @@ class App extends React.Component {
     // AWS amplify/auth + GoogleAuth
     isAuthenticated: false,
     authSignInChecked: false,
+    // session authentication (storage)
+    isAuthenticating: true,
     // loader
     showLoader: true,
     loaderFadeClass: null,
     // rerender Boolean
     rerenderBoolean: false,
   };
+  componentDidMount() {
+    this.onLoadAuthSetup();
+  }
 
   // functions used for retrieving context values
   getElementsContextValue = () => {
@@ -118,6 +126,27 @@ class App extends React.Component {
       fadeLoaderAfterCheck: this.fadeLoaderAfterCheck,
       showLoaderBeforeCheck: this.showLoaderBeforeCheck,
     };
+  };
+
+  onLoadAuthSetup = async () => {
+    try {
+      console.log("authentication setup...");
+      // const sessionData = await Auth.currentSession();
+      // console.log(sessionData);
+      // const user = await Auth.
+      const { attributes } = await Auth.currentAuthenticatedUser();
+      const userId = attributes.sub;
+      console.log(attributes);
+      console.log(attributes.sub);
+      // this.props.userHasAuthenticated(true);
+      this.props.authSignIn({ userId, authMethod: "cognito" });
+    } catch (e) {
+      if (e !== "No current user") {
+        console.log(e);
+      }
+    }
+
+    this.setState({ isAuthenticating: false });
   };
 
   // used to show the loader again
@@ -224,34 +253,6 @@ class App extends React.Component {
       fadeClass: this.state.loaderFadeClass,
     };
 
-    {
-      /*
-    if (!this.props.isSignedIn) {
-      return (
-        <React.Fragment>
-          <Router history={history}>
-            <AuthContext.Provider value={authContextValue}>
-              {this.renderGlobalGoogleAuth()}
-              <Route path="/" exact>
-                {this.props.isSignedIn ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <Redirect to="/login-page" />
-                )}
-              </Route>
-              <Switch>
-                <Route path="/login-page" exact component={LoginPage} />
-                <Route path="/register" exact component={Register} />
-                <Route>
-                  <ErrorPage errorType="404" />
-                </Route>
-              </Switch>
-            </AuthContext.Provider>
-          </Router>
-        </React.Fragment>
-      );
-    }*/
-    }
     return (
       <div data-test="component-app" className="ui container">
         <Router history={history}>
@@ -275,6 +276,12 @@ class App extends React.Component {
 
               <ElementsContext.Provider value={elementsContextValue}>
                 <Switch>
+                  <UnauthenticatedRoute path="/login-page" exact>
+                    <LoginPage />
+                  </UnauthenticatedRoute>
+                  <UnauthenticatedRoute path="/register" exact>
+                    <Register />
+                  </UnauthenticatedRoute>
                   <AuthenticatedRoute exact path="/home">
                     <Home />
                   </AuthenticatedRoute>
@@ -290,9 +297,6 @@ class App extends React.Component {
                   <AuthenticatedRoute exact path="/finished-tasks">
                     <FinishedTasks />
                   </AuthenticatedRoute>
-
-                  <Route path="/login-page" exact component={LoginPage} />
-                  <Route path="/register" exact component={Register} />
                   <Route>
                     <ErrorPage errorType="404" />
                   </Route>
@@ -310,4 +314,4 @@ const mapStateToProps = (state) => {
   return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(mapStateToProps, {})(App);
+export default connect(mapStateToProps, { authSignIn })(App);

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { NavContext } from "../AppContext";
 import { authSignOut } from "../../actions";
+import { Auth } from "aws-amplify";
 
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 
@@ -34,6 +35,11 @@ class NavMenu extends React.Component {
     return null;
   };
 
+  handleLogout = async () => {
+    await Auth.signOut();
+    this.props.authSignOut();
+  };
+
   renderLogoutButton = () => {
     if (this.props.auth.authMethod === "googleAuth") {
       return (
@@ -47,7 +53,7 @@ class NavMenu extends React.Component {
       return (
         <button
           id="nav-menu-logout-button"
-          onClick={this.props.authSignOut}
+          onClick={this.handleLogout}
           className={`left item nav-item`}
         >
           Logout

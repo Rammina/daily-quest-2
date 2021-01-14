@@ -9,7 +9,6 @@ import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { authSignIn, authSignOut } from "../../../actions";
 import { renderError, getErrorClass } from "../../../helpers";
-import history from "../../../history";
 
 import { AuthContext } from "../../AppContext";
 
@@ -25,6 +24,8 @@ class LoginForm extends React.Component {
     // this.props.authSignIn("fake");
   }
 
+  componentWillUnmount() {}
+
   onSubmit = async (formValues) => {
     // e.preventDefault();
     const { email, password } = formValues;
@@ -37,7 +38,6 @@ class LoginForm extends React.Component {
       console.log(userId);
       await this.props.authSignIn({ userId, authMethod: "cognito" });
       this.context.userHasAuthenticated(true);
-      history.push("/home");
     } catch (e) {
       alert(e.message);
     }

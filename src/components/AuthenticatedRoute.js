@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Redirect, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-// import { AuthContext } from "./AppContext";
 
 function AuthenticatedRoute(props) {
   const { children, ...rest } = props;
@@ -9,7 +8,6 @@ function AuthenticatedRoute(props) {
   console.log(props);
   console.log({ ...rest });
   const { pathname, search } = useLocation();
-  // const { isSignedIn } = useContext(AuthContext);
   console.log(props.isSignedIn);
   console.log(props.computedMatch.params);
   return (

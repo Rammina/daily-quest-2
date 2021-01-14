@@ -9,7 +9,7 @@ import { Auth } from "aws-amplify";
 import { renderError, getErrorClass } from "../../../helpers";
 import { authSignIn, authSignOut } from "../../../actions";
 
-import history from "../../../history";
+// import history from "../../../history";
 
 import { AuthContext } from "../../AppContext";
 // import GoogleAuth from "../../GoogleAuth/GoogleAuth";
@@ -76,7 +76,7 @@ class ConfirmationForm extends React.Component {
       console.log(userId);
       await this.props.authSignIn(userId);
       this.context.userHasAuthenticated(true);
-      history.push("/home");
+      // history.push("/home");
     } catch (e) {
       console.log(e);
       // onError(e);

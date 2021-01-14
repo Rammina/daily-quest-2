@@ -5,12 +5,17 @@ import { AuthContext } from "../AppContext";
 import history from "../../history";
 
 class GoogleAuth extends React.Component {
+  _isMounted = false;
   state = {
+    // isMounted: false,
     initialized: false,
   };
   static contextType = AuthContext;
 
   componentDidMount() {
+    this._isMounted = true;
+    console.log(`ismounted is now ${this._isMounted}`);
+    // this.setState({ isMounted: true });
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
@@ -25,9 +30,20 @@ class GoogleAuth extends React.Component {
           // listen for any changes in sign in status, update state
           this.auth.isSignedIn.listen(this.onAuthChange);
           // change the state so that it knows that it finished initializing
-          this.setState({ initialized: true });
+
+          // note :\colon this causes memory leak issues on redirect
+          console.log(`ismounted is now ${this._isMounted}`);
+          if (this._isMounted) {
+            this.setState({ initialized: true });
+          }
         });
     });
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+    console.log(`ismounted is now ${this._isMounted}`);
+    // this.setState({ isMounted: false, initialized: false });
+    // this.auth.isSignedIn.listen();
   }
 
   onAuthChange = async (isSignedIn) => {
@@ -43,23 +59,7 @@ class GoogleAuth extends React.Component {
         userId: this.auth.currentUser.get().getId(),
       });
       this.context.userHasAuthenticated(true);
-      // get the URL parameter value
-      if (window.location.pathname === "/login-page") {
-        history.push("/home");
-      }
     } else {
-      // only redirect if it is a valid pathname, otherwise let it show error 404
-      if (
-        window.location.pathname === "/" ||
-        window.location.pathname === "/home" ||
-        window.location.pathname === "/login-page" ||
-        window.location.pathname === "/projects" ||
-        window.location.pathname.includes("/projects/") ||
-        window.location.pathname === "/finished-tasks" ||
-        window.location.pathname === "/due-today"
-      ) {
-        history.push("/login-page");
-      }
     }
     // make the loader fade after changing sign in status
     this.context.setAuthSignInChecked(true);
