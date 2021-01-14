@@ -74,7 +74,7 @@ class ConfirmationForm extends React.Component {
       // get the user ID for cognito user
 
       console.log(userId);
-      await this.props.authSignIn(userId);
+      await this.props.authSignIn({ userId, authMethod: "cognito" });
       this.context.userHasAuthenticated(true);
       // history.push("/home");
     } catch (e) {

@@ -82,7 +82,7 @@ class RegisterForm extends React.Component {
     } catch (e) {
       // note: this should have a custom error message show up on top of the form
       // onError(e);
-      console.log(e);
+      console.log(e.message);
 
       // setIsLoading(false);
     }
