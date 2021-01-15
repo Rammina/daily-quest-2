@@ -30,6 +30,7 @@ class LoginForm extends React.Component {
 
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
+    this.context.showLoaderBeforeCheck();
     try {
       const user = await Auth.signIn(email, password);
       const userId = user.attributes.sub;
@@ -37,6 +38,8 @@ class LoginForm extends React.Component {
       this.context.userHasAuthenticated(true);
     } catch (e) {
       this.props.returnErrors(e.message, 400, "LOGIN_ERROR");
+    } finally {
+      this.context.fadeLoaderAfterCheck();
     }
   };
 
@@ -112,6 +115,7 @@ class LoginForm extends React.Component {
             type="text"
             props={{
               inputProps: {
+                name: "email",
                 placeholder: "Email Address/Username",
                 className: "text-field form-name-field",
                 maxLength: "30",
@@ -189,7 +193,7 @@ class LoginForm extends React.Component {
 const validate = (formValues) => {
   const errors = {};
   if (!formValues.email) {
-    errors.name = "Please input an email or username.";
+    errors.email = "Please input an email or username.";
   }
   if (!formValues.password) {
     errors.password = "Please input a password.";

@@ -11,9 +11,8 @@ import {
   // decryptedMsgToString
 } from "../helpers";
 import isToday from "date-fns/isToday";
-// import AES from "crypto-js/aes";
-// import history from "../history";
-
+import { clearErrors } from "./errorActions";
+// import { reset } from "redux-form";
 // List of action types to be used
 export const actionTypes = {
   // Project actions
@@ -435,6 +434,9 @@ export const sortTasksByPriority = (
     if (order === "descending") {
       // sort by priority descending
       sortedTasks = [...tasks.sort(comparePriorityValues("desc"))];
+    } else if (order === "ascending") {
+      // sort by priority ascending
+      sortedTasks = [...tasks.sort(comparePriorityValues())];
     }
     // save the sort setting in the database
     await firebaseDbRest.put(
@@ -443,8 +445,6 @@ export const sortTasksByPriority = (
         priority: order,
       }
     );
-    // sort by priority ascending
-    sortedTasks = [...tasks.sort(comparePriorityValues())];
 
     console.log(sortedTasks);
     dispatch({
@@ -874,6 +874,7 @@ export const authSignIn = ({ authMethod, userId }) => {
       type: actionTypes.AUTH_SIGN_IN,
       payload: { authMethod, userId },
     });
+    // dispatch(reset("registerForm"));
   };
 };
 

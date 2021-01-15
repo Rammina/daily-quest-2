@@ -20,11 +20,11 @@
 
 .login.block.form-label {
   display: block;
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
-  max-width: 21rem;
+  max-width: 20rem;
   margin-bottom: 0.3rem;
-  left: 0.4rem;
+  left: 0;
 }
 
 #login-form-name-label {
@@ -154,7 +154,7 @@ div.text-field.disabled {
   max-width: 20rem;
   margin: 0rem auto;
   font-size: 1.1rem;
-  left: 0.8rem;
+  left: 0;
   bottom: 1.1rem;
   font-family: "Raleway", sans-serif;
 }

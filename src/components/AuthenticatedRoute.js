@@ -4,12 +4,7 @@ import { connect } from "react-redux";
 
 function AuthenticatedRoute(props) {
   const { children, ...rest } = props;
-  console.log(children);
-  console.log(props);
-  console.log({ ...rest });
   const { pathname, search } = useLocation();
-  console.log(props.isSignedIn);
-  console.log(props.computedMatch.params);
   return (
     <Route {...rest}>
       {props.isSignedIn ? (

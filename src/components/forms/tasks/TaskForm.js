@@ -10,7 +10,7 @@ import {
   autoGrow,
   autoGrowValue,
   renderError,
-  getErrorClass
+  getErrorClass,
 } from "../../../helpers";
 
 import { ElementsContext } from "../../AppContext";
@@ -24,12 +24,12 @@ class TaskForm extends React.Component {
     this.state = {
       finished: this.props.initialValues
         ? this.props.initialValues.finished
-        : false
+        : false,
     };
   }
   static contextType = ElementsContext;
 
-  handleEnterKeyOnField = e => {
+  handleEnterKeyOnField = (e) => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form
     if (e.keyCode === 13) {
@@ -41,7 +41,7 @@ class TaskForm extends React.Component {
     }
   };
 
-  retrieveChecked = inputName => {
+  retrieveChecked = (inputName) => {
     return inputName === "finished" ? this.state.finished : undefined;
   };
 
@@ -65,7 +65,7 @@ class TaskForm extends React.Component {
           {...inputProps}
           {...input}
           className={`${inputProps.className} ${errorClass}`}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             this.handleEnterKeyOnField(e, input);
           }}
           checked={this.retrieveChecked(input.name)}
@@ -79,6 +79,8 @@ class TaskForm extends React.Component {
   renderTextArea = ({ input, meta, inputProps, labelProps }) => {
     const { disabled } = this.props;
     const errorClass = getErrorClass(meta);
+    const labelClass = labelProps.class || null;
+    const labelId = labelProps.id || null;
 
     // get rid of description placeholders
     if (input.name === "description" && !disabled) {
@@ -91,7 +93,7 @@ class TaskForm extends React.Component {
         <React.Fragment>
           <label
             htmlFor={inputProps.id}
-            className={`form-label block ${errorClass}`}
+            className={`form-label block ${errorClass} ${labelClass}`}
           >
             {labelProps.text}
           </label>
@@ -101,10 +103,10 @@ class TaskForm extends React.Component {
             rows={7}
             className={`${inputProps.className} ${errorClass}`}
             disabled={disabled || false}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               this.handleEnterKeyOnField(e, input);
             }}
-            onInput={e => autoGrow(e.target)}
+            onInput={(e) => autoGrow(e.target)}
             // onFocus={e => autoGrow(e.target)}
           ></textarea>
 
@@ -178,7 +180,7 @@ class TaskForm extends React.Component {
     return {};
   };
 
-  onSubmit = formValues => {
+  onSubmit = (formValues) => {
     this.props.onSubmit(formValues);
   };
 
@@ -198,12 +200,12 @@ class TaskForm extends React.Component {
                 id: "task-name-field",
                 maxLength: "30",
                 autoComplete: "off",
-                autoFocus: true
+                autoFocus: true,
               },
               labelProps: {
                 text: "Task Name *",
-                class: "form-label block"
-              }
+                class: "task form-label block",
+              },
             }}
           />
         </div>
@@ -217,12 +219,12 @@ class TaskForm extends React.Component {
                 className: "text-field form-description-field",
                 id: "task-description-field",
                 maxLength: "100",
-                autoComplete: "off"
+                autoComplete: "off",
               },
               labelProps: {
                 text: "Task Description",
-                class: "form-label block"
-              }
+                class: "task form-label block",
+              },
             }}
           />
         </div>
@@ -238,12 +240,12 @@ class TaskForm extends React.Component {
                   id: "task-date-field",
                   type: "date",
                   min: getCurrentDate(),
-                  required: true
+                  required: true,
                 },
                 labelProps: {
                   text: "Date",
-                  class: "form-label block"
-                }
+                  class: "task form-label block",
+                },
               }}
             />
           </div>
@@ -258,12 +260,12 @@ class TaskForm extends React.Component {
                   id: "task-time-field",
                   type: "time",
                   autoComplete: "off",
-                  required: true
+                  required: true,
                 },
                 labelProps: {
                   text: "Time",
-                  class: "form-label block"
-                }
+                  class: "task form-label block",
+                },
               }}
             />
           </div>
@@ -276,12 +278,12 @@ class TaskForm extends React.Component {
               inputProps: {
                 placeholder: "Task Priority",
                 className: "text-field form-priority-field",
-                id: "task-priority-field"
+                id: "task-priority-field",
               },
               labelProps: {
                 text: "Task Priority",
-                class: "form-label block"
-              }
+                class: "task form-label block",
+              },
             }}
           />
         </div>
@@ -290,12 +292,13 @@ class TaskForm extends React.Component {
             name="finished"
             component={this.renderInput}
             type="checkbox"
+            You
             props={{
               inputProps: {
                 className: "form-checkbox",
                 id: "task-form-checkbox",
                 type: "checkbox",
-                onClick: e => {
+                onClick: (e) => {
                   const target = e.target;
                   this.setState({ finished: !this.state.finished });
                   // if(this.props.toggleCheckbox) {}
@@ -303,13 +306,13 @@ class TaskForm extends React.Component {
                   setTimeout(() => {
                     target.focus();
                   }, 0);
-                }
+                },
               },
               labelProps: {
                 text: "Finished",
-                class: "form-label checkbox-label",
-                id: "task-form-checkbox-label"
-              }
+                class: "task form-label checkbox-label",
+                id: "task-form-checkbox-label",
+              },
             }}
           />
         </div>
@@ -337,7 +340,7 @@ class TaskForm extends React.Component {
             className="form-submit modal-action-button"
             id="task-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (e.key === "Tab" && !e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -361,7 +364,7 @@ class TaskForm extends React.Component {
   }
 }
 
-const validate = formValues => {
+const validate = (formValues) => {
   const errors = {};
   if (!formValues.name) {
     errors.name = "Please input a name.";
@@ -374,7 +377,7 @@ export default reduxForm({
   form: "taskForm",
   keepDirtyOnReinitialize: true,
   enableReinitialize: true,
-  validate
+  validate,
 })(TaskForm);
 
 // Format for date database retrieval

@@ -1,11 +1,12 @@
 import "./NavMenu.css";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { NavContext } from "../AppContext";
 import { authSignOut } from "../../actions";
 import { Auth } from "aws-amplify";
+import history from "../../history";
 
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 
@@ -15,21 +16,25 @@ class NavMenu extends React.Component {
   componentDidMount() {}
 
   projectsLinkClass = () => {
-    if (window.location.pathname.includes("projects")) {
+    const { pathname } = this.props.location;
+    // if (window.location.pathname.includes("projects")) {
+    if (pathname.includes("projects")) {
       return "selected";
     }
     return null;
   };
 
   dueTodayLinkClass = () => {
-    if (window.location.pathname.includes("due-today")) {
+    const { pathname } = this.props.location;
+    if (pathname.includes("due-today")) {
       return "selected";
     }
     return null;
   };
 
   finishedTasksLinkClass = () => {
-    if (window.location.pathname.includes("finished-tasks")) {
+    const { pathname } = this.props.location;
+    if (pathname.includes("finished-tasks")) {
       return "selected";
     }
     return null;
@@ -37,7 +42,8 @@ class NavMenu extends React.Component {
 
   handleLogout = async () => {
     await Auth.signOut();
-    this.props.authSignOut();
+    await this.props.authSignOut();
+    history.push("/login-page");
   };
 
   renderLogoutButton = () => {
@@ -133,4 +139,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { authSignOut })(NavMenu);
+export default connect(mapStateToProps, { authSignOut })(withRouter(NavMenu));

@@ -4,7 +4,7 @@ import warningImg from "../../../images/warning.png";
 import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, reset } from "redux-form";
 import { Auth } from "aws-amplify";
 import { returnErrors } from "../../../actions/errorActions";
 import { renderError, getErrorClass } from "../../../helpers";
@@ -75,7 +75,7 @@ class ConfirmationForm extends React.Component {
 
   onSubmit = async (formValues) => {
     // setIsLoading(true);
-
+    this.context.showLoaderBeforeCheck();
     try {
       const { email, password, userId } = this.props.newUser;
       console.log(this.props.newUser);
@@ -86,13 +86,17 @@ class ConfirmationForm extends React.Component {
 
       console.log(userId);
       await this.props.authSignIn({ userId, authMethod: "cognito" });
+
       this.context.userHasAuthenticated(true);
       // history.push("/home");
     } catch (e) {
       console.log(e);
+      console.log(e.message);
       this.props.returnErrors(e.message, 400, "CONFIRMATION_ERROR");
       // onError(e);
       // setIsLoading(false);
+    } finally {
+      this.context.fadeLoaderAfterCheck();
     }
     // event.preventDefault();
     // setIsLoading(true);

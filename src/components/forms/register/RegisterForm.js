@@ -7,11 +7,11 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
-import { returnErrors } from "../../../actions/errorActions";
+import { returnErrors, clearErrors } from "../../../actions/errorActions";
 import { renderError, getErrorClass } from "../../../helpers";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
-// import { AuthContext } from "../../AppContext";
+import { AuthContext } from "../../AppContext";
 // import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class RegisterForm extends React.Component {
@@ -20,7 +20,7 @@ class RegisterForm extends React.Component {
     // newUser: null,
     isLoading: false,
   };
-  // static contextType = AuthContext;
+  static contextType = AuthContext;
 
   componentDidMount() {}
 
@@ -73,15 +73,42 @@ class RegisterForm extends React.Component {
     return null;
   };
 
+  createErrorMsg = (message) => {
+    let errorMsg = null;
+    // error message that states password should have greater or equal to 6 characters
+    if (
+      message.includes("password") &&
+      message.includes("length greater than or equal to 6")
+    ) {
+      errorMsg = "Password must have 6 characters or more.";
+    } else if (
+      message.includes("Password") &&
+      message.includes("uppercase characters")
+    ) {
+      errorMsg = "Password must have an uppercase character.";
+    } else if (
+      message.includes("Password") &&
+      message.includes("numeric characters")
+    ) {
+      errorMsg = "Password must have a numeric character.";
+    } else if (
+      message.includes("Password") &&
+      message.includes("symbol characters")
+    ) {
+      errorMsg = "Password must have a symbol character.";
+    }
+    return errorMsg;
+  };
+
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
     // setIsLoading(true);
     console.log("registering user after submit");
     console.log(email);
+    this.context.showLoaderBeforeCheck();
     try {
       const newUser = await Auth.signUp({
         username: email,
-
         password: password,
         attributes: {
           email: email,
@@ -90,11 +117,21 @@ class RegisterForm extends React.Component {
       const userId = newUser.userSub;
       // setIsLoading(false);
       console.log(newUser);
-      this.props.setNewUser({ email, password, userId });
+      await this.props.setNewUser({ email, password, userId });
+      this.props.setShowConfirm(true);
+      this.props.clearErrors();
     } catch (e) {
+      console.log(e);
       console.log(e.message);
-      this.props.returnErrors(e.message, 400, "REGISTER_ERROR");
+      console.log(this.createErrorMsg(e.message));
+      this.props.returnErrors(
+        this.createErrorMsg(e.message) || e.message,
+        400,
+        "REGISTER_ERROR"
+      );
       // setIsLoading(false);
+    } finally {
+      this.context.fadeLoaderAfterCheck();
     }
     // this.props.onSubmit(formValues);
   };
@@ -226,9 +263,11 @@ const mapStateToProps = (state) => ({
 
 const registerForm = connect(mapStateToProps, {
   returnErrors,
+  clearErrors,
 })(RegisterForm);
 
 export default reduxForm({
   form: "registerForm",
+  // destroyOnUnmount: false,
   validate,
 })(registerForm);

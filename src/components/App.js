@@ -102,17 +102,16 @@ class App extends React.Component {
       setLastNavMenuItemRef: this.setLastNavMenuItemRef,
     };
   };
-  /*
+
   getAuthContextValue = () => {
     return {
       signInChecked: this.state.authSignInChecked,
       setSignInChecked: (isChecked) => {
-        this.setGoogleSignInChecked(isChecked);
+        this.setAuthSignInChecked(isChecked);
       },
-
     };
   };
-*/
+
   getAuthContextValue = () => {
     return {
       isAuthenticated: this.state.isAuthenticated,
@@ -176,7 +175,7 @@ class App extends React.Component {
     }
   };
 
-  // GoogleAuth functions
+  //Auth functions
   setAuthSignInChecked = (isChecked) => {
     this.setState({ authSignInChecked: isChecked });
   };
@@ -185,7 +184,12 @@ class App extends React.Component {
     if (!(window.location.pathname === "login-page")) {
       // render the GoogleAuth component outside login page
       // to initialize Google log in status
-      return <div style={{ display: "none" }}>{/*  <GoogleAuth />*/}</div>;
+      return (
+        <div style={{ display: "none" }}>
+          {" "}
+          <GoogleAuth />
+        </div>
+      );
     }
     return null;
   };
@@ -265,7 +269,8 @@ class App extends React.Component {
           </Route>
 
           <AuthContext.Provider value={authContextValue}>
-            {/*<AppLoader loader={appLoaderProps} />*/}
+            <AppLoader loader={appLoaderProps} />
+            {this.renderGlobalGoogleAuth()}
             <div>
               {/*only show the navigation bar if the user is signed in*/}
               {this.props.isSignedIn ? (

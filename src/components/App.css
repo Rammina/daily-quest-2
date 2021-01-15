@@ -82,20 +82,13 @@ ul {
 }
 
 .form-container {
-  /* position: relative; */
   position: absolute;
-  /* display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap; */
-  /* bottom: 5rem; */
   left: 0;
   top: 0;
   margin: 0 auto;
   padding: 1.8rem 0rem;
   padding-top: 2.5rem;
-  /* width: calc(100vw - (100vw - 100%)); */
-  width: calc(100vw - (100vw - 100%) + 0.5rem);
+  width: 100%;
   min-height: calc(100vh + 15rem);
   -webkit-box-shadow: 0 0 0 2px #beffff;
   box-shadow: 0 0 0 2px #beffff;

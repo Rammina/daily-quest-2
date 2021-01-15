@@ -11,6 +11,7 @@ class Register extends React.Component {
   state = {
     newUser: null,
     showLoader: true,
+    showConfirm: false,
   };
 
   componentDidMount() {
@@ -23,6 +24,10 @@ class Register extends React.Component {
 
   setNewUser = (newUser) => {
     this.setState({ newUser });
+  };
+
+  setShowConfirm = (bool) => {
+    this.setState({ showConfirm: bool });
   };
 
   render() {
@@ -46,10 +51,16 @@ class Register extends React.Component {
             e.stopPropagation();
           }}
         >
-          {this.state.newUser === null ? (
-            <RegisterForm setNewUser={this.setNewUser} />
+          {this.state.showConfirm === false ? (
+            <RegisterForm
+              setNewUser={this.setNewUser}
+              setShowConfirm={this.setShowConfirm}
+            />
           ) : (
-            <ConfirmationForm newUser={this.state.newUser} />
+            <ConfirmationForm
+              newUser={this.state.newUser}
+              setShowConfirm={this.setShowConfirm}
+            />
           )}
         </div>
       </div>

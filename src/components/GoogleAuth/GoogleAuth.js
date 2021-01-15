@@ -48,7 +48,7 @@ class GoogleAuth extends React.Component {
 
   onAuthChange = async (isSignedIn) => {
     // set the sign-in check to false
-    if (this.context.signInChecked) {
+    if (this.context.authSignInChecked) {
       this.context.userHasAuthenticated(false);
     }
     this.context.showLoaderBeforeCheck();
@@ -74,6 +74,7 @@ class GoogleAuth extends React.Component {
   onSignOutClick = async () => {
     await this.auth.signOut();
     await this.props.authSignOut();
+    history.push("/login-page");
     this.context.userHasAuthenticated(false);
   };
 
@@ -114,9 +115,15 @@ class GoogleAuth extends React.Component {
       return null;
     }
     if (this.props.isSignedIn) {
-      return this.renderGoogleSignButton("Sign Out", () => {
-        this.onSignOutClick();
-      });
+      return (
+        <button
+          id="nav-menu-logout-button"
+          onClick={this.onSignOutClick}
+          className={`left item nav-item`}
+        >
+          Logout
+        </button>
+      );
     } else {
       return this.renderGoogleSignButton("Sign In w/ Google", () => {
         this.onSignInClick();
