@@ -8,11 +8,13 @@ import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { authSignIn } from "../../../actions";
-import { returnErrors } from "../../../actions/errorActions";
+import { formShowLoader } from "../../../actions/loaderActions";
+import { returnErrors, clearErrors } from "../../../actions/errorActions";
 import { renderError, getErrorClass } from "../../../helpers";
 
 import { AuthContext } from "../../AppContext";
 
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
@@ -30,16 +32,20 @@ class LoginForm extends React.Component {
 
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
-    this.context.showLoaderBeforeCheck();
+
+    this.props.formShowLoader("loginForm", true);
     try {
       const user = await Auth.signIn(email, password);
       const userId = user.attributes.sub;
       await this.props.authSignIn({ userId, authMethod: "cognito" });
-      this.context.userHasAuthenticated(true);
+      this.context.showLoaderBeforeCheck();
+      this.props.clearErrors();
+      // this.context.userHasAuthenticated(true);
     } catch (e) {
       this.props.returnErrors(e.message, 400, "LOGIN_ERROR");
     } finally {
       this.context.fadeLoaderAfterCheck();
+      this.props.formShowLoader("loginForm", false);
     }
   };
 
@@ -104,6 +110,10 @@ class LoginForm extends React.Component {
     );
   };
 
+  renderLoader = () => {
+    return <LoadingSpinner showLoader={this.props.showLoader} />;
+  };
+
   render() {
     return (
       <form id="login-form-form">
@@ -116,7 +126,7 @@ class LoginForm extends React.Component {
             props={{
               inputProps: {
                 name: "email",
-                placeholder: "Email Address/Username",
+                placeholder: "Email Address",
                 className: "text-field form-name-field",
                 maxLength: "30",
                 autoComplete: "off",
@@ -125,7 +135,7 @@ class LoginForm extends React.Component {
               },
               labelProps: {
                 class: "login form-label block",
-                text: "Email Address / Username *",
+                text: "Email Address *",
                 id: "login-form-name-label",
               },
             }}
@@ -165,7 +175,7 @@ class LoginForm extends React.Component {
                 }
               }}
             >
-              Log In
+              {this.renderLoader()}Log In
             </button>
             {this.renderLoginError()}
           </div>
@@ -203,11 +213,14 @@ const validate = (formValues) => {
 
 const mapStateToProps = (state) => ({
   error: state.error,
+  showLoader: state.loader.showLoginFormLoader,
 });
 
 const loginForm = connect(mapStateToProps, {
   authSignIn,
   returnErrors,
+  clearErrors,
+  formShowLoader,
 })(LoginForm);
 
 export default reduxForm({

@@ -6,6 +6,7 @@ import finishedTasksReducer from "./finishedTasksReducer";
 import dueTodayReducer from "./dueTodayReducer";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
+import loaderReducer from "./loaderReducer.js";
 
 export default combineReducers({
   projects: projectsReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   form: formReducer,
   auth: authReducer,
   error: errorReducer,
+  loader: loaderReducer,
 });

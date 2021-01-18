@@ -8,10 +8,12 @@ import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { returnErrors, clearErrors } from "../../../actions/errorActions";
+import { formShowLoader } from "../../../actions/loaderActions";
 import { renderError, getErrorClass } from "../../../helpers";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
 import { AuthContext } from "../../AppContext";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 // import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class RegisterForm extends React.Component {
@@ -73,6 +75,10 @@ class RegisterForm extends React.Component {
     return null;
   };
 
+  renderLoader = () => {
+    return <LoadingSpinner showLoader={this.props.showLoader} />;
+  };
+
   createErrorMsg = (message) => {
     let errorMsg = null;
     // error message that states password should have greater or equal to 6 characters
@@ -102,10 +108,8 @@ class RegisterForm extends React.Component {
 
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
-    // setIsLoading(true);
-    console.log("registering user after submit");
-    console.log(email);
-    this.context.showLoaderBeforeCheck();
+    this.props.formShowLoader("registerForm", true);
+    // this.context.showLoaderBeforeCheck();
     try {
       const newUser = await Auth.signUp({
         username: email,
@@ -131,7 +135,8 @@ class RegisterForm extends React.Component {
       );
       // setIsLoading(false);
     } finally {
-      this.context.fadeLoaderAfterCheck();
+      this.props.formShowLoader("registerForm", false);
+      // this.context.fadeLoaderAfterCheck();
     }
     // this.props.onSubmit(formValues);
   };
@@ -149,7 +154,7 @@ class RegisterForm extends React.Component {
               type="text"
               props={{
                 inputProps: {
-                  placeholder: "Email Address/Username",
+                  placeholder: "Email Address",
                   className: "text-field form-name-field",
                   maxLength: "30",
                   autoComplete: "off",
@@ -158,7 +163,7 @@ class RegisterForm extends React.Component {
                 },
                 labelProps: {
                   class: "register form-label block",
-                  text: "Email Address / Username *",
+                  text: "Email Address *",
                   id: "register-form-name-label",
                 },
               }}
@@ -211,14 +216,10 @@ class RegisterForm extends React.Component {
                 onClick={this.props.handleSubmit(this.onSubmit)}
                 onKeyDown={(e) => {
                   if (e.key === "Tab" && !e.shiftKey) {
-                    // fill this up later
-                    // e.preventDefault();
-                    // e.stopPropagation();
-                    //
                   }
                 }}
               >
-                Register
+                {this.renderLoader()} Register
               </button>
             </div>
             <div
@@ -259,11 +260,13 @@ const validate = (formValues) => {
 
 const mapStateToProps = (state) => ({
   error: state.error,
+  showLoader: state.loader.showRegisterFormLoader,
 });
 
 const registerForm = connect(mapStateToProps, {
   returnErrors,
   clearErrors,
+  formShowLoader,
 })(RegisterForm);
 
 export default reduxForm({

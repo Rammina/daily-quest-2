@@ -6,7 +6,8 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm, reset } from "redux-form";
 import { Auth } from "aws-amplify";
-import { returnErrors } from "../../../actions/errorActions";
+import { returnErrors, clearErrors } from "../../../actions/errorActions";
+import { formShowLoader } from "../../../actions/loaderActions";
 import { renderError, getErrorClass } from "../../../helpers";
 import { authSignIn } from "../../../actions";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
@@ -14,6 +15,7 @@ import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 // import history from "../../../history";
 
 import { AuthContext } from "../../AppContext";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 // import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class ConfirmationForm extends React.Component {
@@ -73,22 +75,26 @@ class ConfirmationForm extends React.Component {
     return null;
   };
 
+  renderLoader = () => {
+    return <LoadingSpinner showLoader={this.props.showLoader} />;
+  };
+
   onSubmit = async (formValues) => {
     // setIsLoading(true);
-    this.context.showLoaderBeforeCheck();
+    this.props.formShowLoader("confirmationForm", true);
+
     try {
       const { email, password, userId } = this.props.newUser;
       console.log(this.props.newUser);
       console.log(email);
       await Auth.confirmSignUp(email, formValues.confirmation_code);
       await Auth.signIn(email, password);
+      this.context.showLoaderBeforeCheck();
       // get the user ID for cognito user
-
       console.log(userId);
       await this.props.authSignIn({ userId, authMethod: "cognito" });
-
       this.context.userHasAuthenticated(true);
-      // history.push("/home");
+      this.props.clearErrors();
     } catch (e) {
       console.log(e);
       console.log(e.message);
@@ -97,6 +103,7 @@ class ConfirmationForm extends React.Component {
       // setIsLoading(false);
     } finally {
       this.context.fadeLoaderAfterCheck();
+      this.props.formShowLoader("confirmationForm", false);
     }
     // event.preventDefault();
     // setIsLoading(true);
@@ -147,7 +154,7 @@ class ConfirmationForm extends React.Component {
                   }
                 }}
               >
-                Verify
+                {this.renderLoader()} Verify
               </button>
             </div>
           </div>
@@ -163,17 +170,19 @@ const validate = (formValues) => {
   if (!formValues.confirmation_code) {
     errors.confirmation_code = "Please input the confirmation code.";
   }
-
   return errors;
 };
 
 const mapStateToProps = (state) => ({
   error: state.error,
+  showLoader: state.loader.showConfirmationFormLoader,
 });
 
 const confirmationForm = connect(mapStateToProps, {
   authSignIn,
   returnErrors,
+  clearErrors,
+  formShowLoader,
 })(ConfirmationForm);
 
 export default reduxForm({
