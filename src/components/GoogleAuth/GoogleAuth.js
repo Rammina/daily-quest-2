@@ -7,7 +7,6 @@ import history from "../../history";
 class GoogleAuth extends React.Component {
   _isMounted = false;
   state = {
-    // isMounted: false,
     initialized: false,
   };
   static contextType = AuthContext;
@@ -15,7 +14,7 @@ class GoogleAuth extends React.Component {
   componentDidMount() {
     this._isMounted = true;
     console.log(`ismounted is now ${this._isMounted}`);
-    // this.setState({ isMounted: true });
+
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
@@ -31,7 +30,6 @@ class GoogleAuth extends React.Component {
           this.auth.isSignedIn.listen(this.onAuthChange);
           // change the state so that it knows that it finished initializing
 
-          // note :\colon this causes memory leak issues on redirect
           console.log(`ismounted is now ${this._isMounted}`);
           if (this._isMounted) {
             this.setState({ initialized: true });
@@ -42,8 +40,6 @@ class GoogleAuth extends React.Component {
   componentWillUnmount() {
     this._isMounted = false;
     console.log(`ismounted is now ${this._isMounted}`);
-    // this.setState({ isMounted: false, initialized: false });
-    // this.auth.isSignedIn.listen();
   }
 
   onAuthChange = async (isSignedIn) => {

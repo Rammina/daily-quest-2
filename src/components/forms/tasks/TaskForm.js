@@ -1,14 +1,8 @@
-// import "./TaskForm.css";
-
-import warningImg from "../../../images/warning.png";
-import submitImg from "../../../images/submit.png";
-
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import {
   getCurrentDate,
   autoGrow,
-  autoGrowValue,
   renderError,
   getErrorClass,
 } from "../../../helpers";
@@ -107,7 +101,6 @@ class TaskForm extends React.Component {
               this.handleEnterKeyOnField(e, input);
             }}
             onInput={(e) => autoGrow(e.target)}
-            // onFocus={e => autoGrow(e.target)}
           ></textarea>
 
           {renderError(meta, "task")}
@@ -301,7 +294,7 @@ class TaskForm extends React.Component {
                 onClick: (e) => {
                   const target = e.target;
                   this.setState({ finished: !this.state.finished });
-                  // if(this.props.toggleCheckbox) {}
+
                   target.blur();
                   setTimeout(() => {
                     target.focus();
@@ -351,11 +344,6 @@ class TaskForm extends React.Component {
               }
             }}
           >
-            {/* <img
-              src={submitImg}
-              alt="Submit Logo"
-              className="submit-icon-image"
-            ></img> */}
             <span className="submit-button-text">Submit</span>{" "}
           </button>
         </div>
@@ -379,16 +367,3 @@ export default reduxForm({
   enableReinitialize: true,
   validate,
 })(TaskForm);
-
-// Format for date database retrieval
-// YYYY-MM-DD
-// format for date input From form field
-// MM/DD/YYYY
-
-// The output needs to be changed to database format before posting it to firebase
-
-// Format for time database retrieval
-// HH:mm (military time)
-
-// format for time input from form field
-// HH:mmA

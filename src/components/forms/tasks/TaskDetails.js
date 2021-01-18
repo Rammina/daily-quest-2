@@ -3,7 +3,6 @@ import WrenchImg from "../../../images/wrench.png";
 
 import _ from "lodash";
 import React from "react";
-import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import TaskForm from "./TaskForm";
 
@@ -37,7 +36,7 @@ class TaskDetails extends React.Component {
               onClick={() => {
                 this.props.switchModal("delete");
               }}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   e.preventDefault();
                   e.stopPropagation();
@@ -72,7 +71,7 @@ class TaskDetails extends React.Component {
               onClick={() => {
                 this.props.switchModal("edit");
               }}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   e.preventDefault();
                   e.stopPropagation();
@@ -108,16 +107,10 @@ class TaskDetails extends React.Component {
     return null;
   };
 
-  onSubmit = async formValues => {
-    // await this.props.editProject(this.props.id, formValues);
-    this.props.onClose();
-  };
-
   render() {
     return (
       <React.Fragment>
         <TaskForm
-          // onSubmit={this.onSubmit}
           onClose={() => {
             this.props.onClose();
             if (this.props.focusTaskContent) {

@@ -1,5 +1,4 @@
 import "./Projects.css";
-import TrashImg from "../../images/trash.png";
 
 import _ from "lodash";
 import React from "react";
@@ -11,7 +10,6 @@ import {
   sortProjectsByName,
   sortProjectsByTasks,
 } from "../../actions";
-import { objectToArray } from "../../helpers";
 import { Link } from "react-router-dom";
 
 import ListLoader from "../ListLoader/ListLoader";
@@ -20,8 +18,6 @@ import Settings from "../Settings/Settings";
 import Modal from "../Modal/Modal";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import CreateProject from "../forms/projects/CreateProject";
-
-// import { ElementsContext } from "../AppContext";
 
 class Projects extends React.Component {
   constructor(props) {
@@ -43,8 +39,6 @@ class Projects extends React.Component {
       showLoader: true,
     };
   }
-
-  // static contextType = ElementsContext;
 
   componentDidMount() {
     (async () => {
@@ -251,7 +245,7 @@ class Projects extends React.Component {
                 <div
                   style={{
                     width: "9rem",
-                  }} /*className="action-button-container"*/
+                  }}
                 >
                   <button
                     className="create-button"

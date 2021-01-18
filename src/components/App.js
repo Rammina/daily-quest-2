@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import history from "../history";
-import { authSignIn, authSignOut } from "../actions";
+import { authSignIn } from "../actions";
 // components
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
@@ -21,12 +21,7 @@ import LoginPage from "./LoginPage/LoginPage";
 import Register from "./Register/Register";
 import GoogleAuth from "./GoogleAuth/GoogleAuth";
 
-import {
-  ElementsContext,
-  NavContext,
-  AuthContext,
-  // CognitoAuthContext,
-} from "./AppContext";
+import { ElementsContext, NavContext, AuthContext } from "./AppContext";
 
 class App extends React.Component {
   state = {
@@ -130,14 +125,12 @@ class App extends React.Component {
   onLoadAuthSetup = async () => {
     try {
       console.log("authentication setup...");
-      // const sessionData = await Auth.currentSession();
-      // console.log(sessionData);
-      // const user = await Auth.
+
       const { attributes } = await Auth.currentAuthenticatedUser();
       const userId = attributes.sub;
       console.log(attributes);
       console.log(attributes.sub);
-      // this.props.userHasAuthenticated(true);
+
       this.props.authSignIn({ userId, authMethod: "cognito" });
     } catch (e) {
       if (e !== "No current user") {
@@ -249,7 +242,6 @@ class App extends React.Component {
     const elementsContextValue = this.getElementsContextValue();
     const navContextValue = this.getNavContextValue();
     const authContextValue = this.getAuthContextValue();
-    // const cognitoAuthContextValue = this.getCognitoAuthContextValue();
 
     // AppLoader prop values
     const appLoaderProps = {

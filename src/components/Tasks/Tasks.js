@@ -1,28 +1,24 @@
 import "./Tasks.css";
-import TrashImg from "../../images/trash.png";
 
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import {
   fetchProject,
-  createTask,
   deleteAllTasks,
   sortTasksByName,
   sortTasksByDate,
   sortTasksByPriority,
 } from "../../actions";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-import AppLoader from "../AppLoader/AppLoader";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import TaskItem from "../TaskItem/TaskItem.js";
 import ListLoader from "../ListLoader/ListLoader";
 import DeleteAll from "../forms/commonModals/DeleteAll";
 import Modal from "../Modal/Modal";
 import Settings from "../Settings/Settings";
-import ModalCloseButton from "../Modal/common/ModalCloseButton";
-import ModalCancelButton from "../Modal/common/ModalCancelButton";
+
 import { ellipsifyString } from "../../helpers";
 
 import CreateTask from "../forms/tasks/CreateTask";
@@ -112,11 +108,8 @@ class Tasks extends React.Component {
       });
     }
   };
-  // This requires some editing for the task data structures
-  handleDeleteAll = () => {
-    // this.props.deleteAllProjects();
-  };
-  onModalOpen = (e, modalType) => {
+
+  onModalOpen = (modalType) => {
     if (!this.state.modalsOpened.any) {
       this.setState({
         modalsOpened: { any: true, [modalType]: true },
@@ -234,7 +227,6 @@ class Tasks extends React.Component {
                 setTimeout(() => {
                   this.focusEllipsisButton();
                 }, 200);
-                // this.handleSettingsClose();
               }}
               deleteFunction={async () => {
                 await this.props.deleteAllTasks(
@@ -245,7 +237,6 @@ class Tasks extends React.Component {
                 setTimeout(() => {
                   this.focusEllipsisButton();
                 }, 200);
-                // this.handleSettingsClose();
               }}
             />
           )}
@@ -275,7 +266,6 @@ class Tasks extends React.Component {
   render() {
     // render something else while this is loading
     if (this.state.showLoader) {
-      //note: replace this placeholder, and show a loader
       return <div className="tasks-container"></div>;
     }
     // if this project doesn't exist show an error 404 page
@@ -397,18 +387,6 @@ class Tasks extends React.Component {
                       },
                     ]}
                   />
-                  {
-                    // <button
-                    // onClick={e => this.onModalOpen(e, "deleteAll")}
-                    // className="task delete-button icon-button black"
-                    // >
-                    // <img
-                    // className="icon-image black"
-                    // src={TrashImg}
-                    // alt="Trash Can"
-                    // />
-                    // </button>
-                  }
                 </div>
               </div>
               {this.renderTasks()}

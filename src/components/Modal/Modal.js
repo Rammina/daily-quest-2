@@ -14,7 +14,7 @@ class Modal extends React.Component {
   componentDidMount() {}
   static contextType = ElementsContext;
 
-  onBackdropClick = event => {
+  onBackdropClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -25,11 +25,11 @@ class Modal extends React.Component {
     return ReactDOM.createPortal(
       <div
         ref={this.modalBackdrop}
-        onClick={e => this.onBackdropClick(e)}
+        onClick={(e) => this.onBackdropClick(e)}
         className={`backdrop ${this.props.backdropClass || null}`}
       >
         <section
-          onClick={event => {
+          onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
           }}
@@ -39,10 +39,7 @@ class Modal extends React.Component {
           role="dialog"
           aria-hidden="true"
         >
-          <ModalCloseButton
-            // setCloseButtonRef={this.props.setCloseButtonRef || null}
-            onClose={() => this.props.onDismiss()}
-          />
+          <ModalCloseButton onClose={() => this.props.onDismiss()} />
           {this.props.content()}
         </section>
       </div>,

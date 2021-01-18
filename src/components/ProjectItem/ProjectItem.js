@@ -20,9 +20,9 @@ class ProjectItem extends React.Component {
     modalsOpened: {
       any: false,
       edit: false,
-      delete: false
+      delete: false,
     },
-    backdropClass: null
+    backdropClass: null,
   };
 
   static contextType = ElementsContext;
@@ -30,8 +30,6 @@ class ProjectItem extends React.Component {
   // refs(outside constructor)
   editButtonRef = React.createRef();
   deleteButtonRef = React.createRef();
-
-  componentDidMount() {}
 
   // focus methods
   focusEditButton = () => {
@@ -74,7 +72,7 @@ class ProjectItem extends React.Component {
             <button
               ref={this.context.setModalProjectsDeleteButtonRef}
               className="modal-action-button delete-confirm-button"
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   e.preventDefault();
                   e.stopPropagation();
@@ -85,10 +83,7 @@ class ProjectItem extends React.Component {
                 }
               }}
               onClick={() =>
-                this.props.deleteProject(
-                  this.props.auth.userId,
-                  this.props.id
-                )
+                this.props.deleteProject(this.props.auth.userId, this.props.id)
               }
             >
               <img
@@ -161,7 +156,7 @@ class ProjectItem extends React.Component {
     setTimeout(() => {
       this.setState({
         modalsOpened,
-        backdropClass: null
+        backdropClass: null,
       });
     }, 201);
   };
@@ -171,10 +166,7 @@ class ProjectItem extends React.Component {
     const { project } = this.props;
     return (
       <React.Fragment>
-        <div
-          className="project content"
-          // key={`${this.props.project.name}-${this.props.project.id}`}
-        >
+        <div className="project content">
           <div className="item-flex project">
             <div className="description-text project">
               {ellipsifyString(project.name, 13)}
@@ -186,7 +178,7 @@ class ProjectItem extends React.Component {
               <button
                 ref={this.editButtonRef}
                 className="project edit-button icon-button"
-                onClick={e => {
+                onClick={(e) => {
                   this.onModalOpen(e, "edit");
                   this.props.closeSettings();
                 }}
@@ -196,7 +188,7 @@ class ProjectItem extends React.Component {
               <button
                 ref={this.deleteButtonRef}
                 className="project delete-button icon-button"
-                onClick={e => {
+                onClick={(e) => {
                   this.onModalOpen(e, "delete");
                   this.props.closeSettings();
                 }}
@@ -212,11 +204,8 @@ class ProjectItem extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { projects: state.projects, auth: { ...state.auth.user } };
 };
 
-export default connect(
-  mapStateToProps,
-  { deleteProject }
-)(ProjectItem);
+export default connect(mapStateToProps, { deleteProject })(ProjectItem);

@@ -17,7 +17,7 @@ class NavMenu extends React.Component {
 
   projectsLinkClass = () => {
     const { pathname } = this.props.location;
-    // if (window.location.pathname.includes("projects")) {
+
     if (pathname.includes("projects")) {
       return "selected";
     }

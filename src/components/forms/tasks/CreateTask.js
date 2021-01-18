@@ -39,7 +39,6 @@ class CreateTask extends React.Component {
       reformattedValues
     );
     this.props.onClose();
-    // this.props.fetchProject(this.props.match.params.id);
   };
 
   render() {

@@ -15,10 +15,6 @@ class Register extends React.Component {
   };
 
   componentDidMount() {
-    // redirect to homepage
-    if (this.props.isSignedIn) {
-      history.push("/home");
-    }
     this.setState({ showLoader: false });
   }
 
@@ -68,22 +64,4 @@ class Register extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { isSignedIn: state.auth.isSignedIn };
-};
-
 export default Register;
-
-/*
-renderRegisterError = () => {
-  if (!this.state.showRegisterError) {
-    return null;
-  }
-  return (
-    <div className={`register disconnected error`}>
-      <img className="error-image" src={warningImg} alt="warning sign"></img>
-      Unable to connect to server.
-    </div>
-  );
-};
-*/

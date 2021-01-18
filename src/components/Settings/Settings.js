@@ -7,14 +7,12 @@ import DownImg from "../../images/down-arrow.png";
 import _ from "lodash";
 import React from "react";
 import ReactDOM from "react-dom";
-// import Modal from "../Modal/Modal";
 
 import { ElementsContext } from "../AppContext";
 
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    // this.settingsButton = React.createRef();
   }
   static contextType = ElementsContext;
 
@@ -23,7 +21,7 @@ class Settings extends React.Component {
   };
   renderList = () => {
     // only return the reference for the first item if index = 0
-    const giveFirstItemRef = index => {
+    const giveFirstItemRef = (index) => {
       if (index === 0) {
         return this.context.setFirstSettingsItem;
       }
@@ -77,13 +75,13 @@ class Settings extends React.Component {
             <li className="settings-submenu-item" key={`0${index}`}>
               <button
                 ref={giveFirstItemRef(index)}
-                onClick={e => {
+                onClick={(e) => {
                   if (typeof item.method === "function") {
                     item.method(e);
                   }
                 }}
                 className={`settings-submenu-button ${this.props.backdropClass} ${lastItemClass}`}
-                onKeyDown={e => {
+                onKeyDown={(e) => {
                   // only applies to the first item
                   if (index === 0) {
                     if (e.key === "Tab" && e.shiftKey) {
@@ -118,7 +116,7 @@ class Settings extends React.Component {
       const focusEllipsisButton = this.props.focusEllipsisButton;
       return ReactDOM.createPortal(
         <div
-          onClick={e => {
+          onClick={(e) => {
             this.closeMenu();
             // guards against undefined errors
             if (focusEllipsisButton) {
@@ -128,7 +126,7 @@ class Settings extends React.Component {
           className={`backdrop settings ${this.props.backdropClass}`}
         >
           <section
-            onClick={event => {
+            onClick={(event) => {
               event.preventDefault();
               event.stopPropagation();
             }}
@@ -155,14 +153,14 @@ class Settings extends React.Component {
           className={`settings icon-button ${this.props.ellipsisClass}`}
           // Should open a modal on mobile and a drop-down on desktop view
           ref={this.props.setEllipsisRef}
-          onClick={e => {
+          onClick={(e) => {
             if (this.props.isModalOpen) {
               this.closeMenu();
             } else {
               this.props.openModal();
             }
           }}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             // only redirect focus if settings menu is open
             if (this.context.firstSettingsItem) {
               if (e.key === "Tab" && !e.shiftKey) {
