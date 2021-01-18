@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { fetchProject, editProject } from "../../../actions";
 import ProjectForm from "./ProjectForm";
 
-import ModalCloseButton from "../../Modal/common/ModalCloseButton";
-import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
-
 class EditProject extends React.Component {
   onSubmit = async (formValues) => {
     await this.props.editProject(

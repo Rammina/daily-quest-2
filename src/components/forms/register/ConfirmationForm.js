@@ -1,10 +1,7 @@
-// import "./ConfirmationForm.css";
-import warningImg from "../../../images/warning.png";
-
 import React from "react";
-import ReactDOM from "react-dom";
+
 import { connect } from "react-redux";
-import { Field, reduxForm, reset } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { returnErrors, clearErrors } from "../../../actions/errorActions";
 import { formShowLoader } from "../../../actions/loaderActions";
@@ -12,20 +9,18 @@ import { renderError, getErrorClass } from "../../../helpers";
 import { authSignIn } from "../../../actions";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
-// import history from "../../../history";
-
 import { AuthContext } from "../../AppContext";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
-// import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class ConfirmationForm extends React.Component {
   state = {
-    // showRegisterError: false,
     isLoading: false,
   };
   static contextType = AuthContext;
 
-  componentDidMount() {}
+  componentWillUnmount() {
+    this.props.clearErrors();
+  }
 
   handleEnterKeyOnField = (e) => {
     // This prevents submission bugging or refreshing upon pressing enter
@@ -34,7 +29,6 @@ class ConfirmationForm extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       if (e.target.type !== "checkbox") {
-        // this.props.handleSubmit(this.onSubmit)();
       }
     }
   };
@@ -80,7 +74,6 @@ class ConfirmationForm extends React.Component {
   };
 
   onSubmit = async (formValues) => {
-    // setIsLoading(true);
     this.props.formShowLoader("confirmationForm", true);
 
     try {
@@ -99,16 +92,10 @@ class ConfirmationForm extends React.Component {
       console.log(e);
       console.log(e.message);
       this.props.returnErrors(e.message, 400, "CONFIRMATION_ERROR");
-      // onError(e);
-      // setIsLoading(false);
     } finally {
       this.context.fadeLoaderAfterCheck();
       this.props.formShowLoader("confirmationForm", false);
     }
-    // event.preventDefault();
-    // setIsLoading(true);
-
-    // this.props.onSubmit(formValues);
   };
 
   render() {
@@ -147,10 +134,6 @@ class ConfirmationForm extends React.Component {
                 onClick={this.props.handleSubmit(this.onSubmit)}
                 onKeyDown={(e) => {
                   if (e.key === "Tab" && !e.shiftKey) {
-                    // fill this up later
-                    // e.preventDefault();
-                    // e.stopPropagation();
-                    //
                   }
                 }}
               >

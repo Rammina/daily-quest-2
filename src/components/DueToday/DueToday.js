@@ -57,8 +57,6 @@ class DueToday extends React.Component {
     })();
   }
 
-  componentDidUpdate() {}
-
   handleSettingsClose = () => {
     if (this.state.modalsOpened.settings) {
       this.setState({
@@ -120,8 +118,6 @@ class DueToday extends React.Component {
         >
           <TaskItem
             hideDate={true}
-            // Find a way to make checkbox toggle work
-            // hideCheckbox={true}
             task={task}
             taskId={task.id}
             dueTodayIndex={index + ""}
@@ -173,7 +169,6 @@ class DueToday extends React.Component {
                       task.projectId,
                       task.id
                     );
-                    // this.props.deleteFinishedTask(task.id);
                   }
                 };
                 await deleteAllDueTodayTasks();

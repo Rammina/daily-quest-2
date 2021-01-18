@@ -133,7 +133,6 @@ class FinishedTasks extends React.Component {
             finishedIndex={index + ""}
             projectId={task.projectId}
             projectName={ellipsifyString(task.projectName, 13)}
-            // hideActionButtons={true}
             hideEditButton={true}
             closeSettings={() => this.handleSettingsClose()}
           />
@@ -181,7 +180,6 @@ class FinishedTasks extends React.Component {
                       task.projectId,
                       task.id
                     );
-                    // this.props.deleteFinishedTask(task.id);
                   }
                 };
                 await deleteAllFinishedTasks();

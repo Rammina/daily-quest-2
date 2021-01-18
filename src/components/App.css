@@ -112,6 +112,11 @@ ul {
   color: white;
 }
 
+.error.error-container {
+  position: relative;
+  left: 0.5rem !important;
+}
+
 @media screen and (min-height: 450px) {
   .form-container {
     min-height: calc(87vh + 13rem);

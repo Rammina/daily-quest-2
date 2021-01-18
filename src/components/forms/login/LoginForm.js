@@ -2,7 +2,6 @@ import "./LoginForm.css";
 import warningImg from "../../../images/warning.png";
 
 import React from "react";
-import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
@@ -10,7 +9,7 @@ import { Auth } from "aws-amplify";
 import { authSignIn } from "../../../actions";
 import { formShowLoader } from "../../../actions/loaderActions";
 import { returnErrors, clearErrors } from "../../../actions/errorActions";
-import { renderError, getErrorClass } from "../../../helpers";
+import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 
 import { AuthContext } from "../../AppContext";
 
@@ -24,11 +23,9 @@ class LoginForm extends React.Component {
   };
   static contextType = AuthContext;
 
-  componentDidMount() {
-    // this.props.authSignIn("fake");
+  componentWillUnmount() {
+    this.props.clearErrors();
   }
-
-  componentWillUnmount() {}
 
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
@@ -40,7 +37,6 @@ class LoginForm extends React.Component {
       await this.props.authSignIn({ userId, authMethod: "cognito" });
       this.context.showLoaderBeforeCheck();
       this.props.clearErrors();
-      // this.context.userHasAuthenticated(true);
     } catch (e) {
       this.props.returnErrors(e.message, 400, "LOGIN_ERROR");
     } finally {
@@ -56,7 +52,6 @@ class LoginForm extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       if (e.target.type !== "checkbox") {
-        // this.props.handleSubmit(this.onSubmit)();
       }
     }
   };
@@ -168,10 +163,6 @@ class LoginForm extends React.Component {
               onClick={this.props.handleSubmit(this.onSubmit)}
               onKeyDown={(e) => {
                 if (e.key === "Tab" && !e.shiftKey) {
-                  // fill this up later
-                  // e.preventDefault();
-                  // e.stopPropagation();
-                  //
                 }
               }}
             >
@@ -203,11 +194,14 @@ class LoginForm extends React.Component {
 const validate = (formValues) => {
   const errors = {};
   if (!formValues.email) {
-    errors.email = "Please input an email or username.";
+    errors.email = "Please input an email.";
+  } else if (!validateEmail(formValues.email)) {
+    errors.email = "Invalid email address.";
   }
   if (!formValues.password) {
     errors.password = "Please input a password.";
   }
+
   return errors;
 };
 

@@ -1,30 +1,29 @@
 import "./RegisterForm.css";
-import warningImg from "../../../images/warning.png";
 
 import React from "react";
-import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { returnErrors, clearErrors } from "../../../actions/errorActions";
 import { formShowLoader } from "../../../actions/loaderActions";
-import { renderError, getErrorClass } from "../../../helpers";
+import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 import { AuthContext } from "../../AppContext";
-import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
-// import GoogleAuth from "../../GoogleAuth/GoogleAuth";
 
 class RegisterForm extends React.Component {
   state = {
     showRegisterError: false,
-    // newUser: null,
     isLoading: false,
   };
   static contextType = AuthContext;
 
   componentDidMount() {}
+  componentWillUnmount() {
+    this.props.clearErrors();
+  }
 
   handleEnterKeyOnField = (e) => {
     // This prevents submission bugging or refreshing upon pressing enter
@@ -33,7 +32,6 @@ class RegisterForm extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       if (e.target.type !== "checkbox") {
-        // this.props.handleSubmit(this.onSubmit)();
       }
     }
   };
@@ -109,7 +107,7 @@ class RegisterForm extends React.Component {
   onSubmit = async (formValues) => {
     const { email, password } = formValues;
     this.props.formShowLoader("registerForm", true);
-    // this.context.showLoaderBeforeCheck();
+
     try {
       const newUser = await Auth.signUp({
         username: email,
@@ -119,7 +117,6 @@ class RegisterForm extends React.Component {
         },
       });
       const userId = newUser.userSub;
-      // setIsLoading(false);
       console.log(newUser);
       await this.props.setNewUser({ email, password, userId });
       this.props.setShowConfirm(true);
@@ -133,12 +130,9 @@ class RegisterForm extends React.Component {
         400,
         "REGISTER_ERROR"
       );
-      // setIsLoading(false);
     } finally {
       this.props.formShowLoader("registerForm", false);
-      // this.context.fadeLoaderAfterCheck();
     }
-    // this.props.onSubmit(formValues);
   };
 
   render() {
@@ -244,11 +238,32 @@ class RegisterForm extends React.Component {
 const validate = (formValues) => {
   const errors = {};
   if (!formValues.email) {
-    errors.email = "Please input an email or username.";
+    errors.email = "Please input an email.";
+  } else if (!validateEmail(formValues.email)) {
+    errors.email = "Invalid email address.";
   }
   if (!formValues.password) {
     errors.password = "Please input a password.";
   }
+  // After null checking, check length
+  else if (formValues.password.length < 6) {
+    errors.password = "The password must be at least 6 characters.";
+  }
+  // Check for capital letters
+  else if (formValues.password.search(/[A-Z]/) < 0) {
+    errors.password = "The password must contain an uppercase letter.";
+  }
+  // Check for numbers
+  else if (formValues.password.search(/[0-9]/) < 0) {
+    errors.password = "The password must contain a number.";
+  }
+  // Check for special characters
+  else if (
+    !/[\s~`!@#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?()\._]/g.test(formValues.password)
+  ) {
+    errors.password = "The password must contain a special character.";
+  }
+
   if (!formValues.password2) {
     errors.password2 = "Please input a matching password.";
   } else if (formValues.password !== formValues.password2) {
@@ -271,6 +286,5 @@ const registerForm = connect(mapStateToProps, {
 
 export default reduxForm({
   form: "registerForm",
-  // destroyOnUnmount: false,
   validate,
 })(registerForm);

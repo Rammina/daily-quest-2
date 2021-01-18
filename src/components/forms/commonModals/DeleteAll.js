@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { capitalizeFirstLetter } from "../../../helpers";
 
 import TrashImg from "../../../images/trash.png";
@@ -43,15 +42,10 @@ class DeleteAll extends React.Component {
             <button
               ref={this.context.setModalDeleteAllButtonRef}
               className="modal-action-button delete-confirm-button"
-              // this needs the fire an action that deletes all
-              // of the items specified
               onClick={() => {
-                // projects should be required (implied if no arguments)
-                // a specific project key is the first argument
-                // key is the object key/URL
                 this.props.deleteFunction();
               }}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Tab" && !e.shiftKey) {
                   e.preventDefault();
                   e.stopPropagation();

@@ -5,14 +5,9 @@ import {
   comparePriorityValues,
   compareKeysInProp,
   objectToArray,
-  // cryptography functions
-  // encrypt,
-  // decrypt,
-  // decryptedMsgToString
 } from "../helpers";
 import isToday from "date-fns/isToday";
-import { clearErrors } from "./errorActions";
-// import { reset } from "redux-form";
+
 // List of action types to be used
 export const actionTypes = {
   // Project actions
@@ -83,7 +78,7 @@ export const fetchProjects = (userId) => {
       data = objectToArray(dataItemsOnly, "id");
       const sortBy = response.data.sortBy ? response.data.sortBy : false;
 
-      // sortby property and check whether it is ascending or descending
+      // sort by property and check whether it is ascending or descending
       if (sortBy.name) {
         if (sortBy.name === "ascending") {
           data = data.sort(compareValues("name"));
@@ -109,7 +104,7 @@ export const fetchProjects = (userId) => {
 };
 
 export const fetchProject = (userId, id) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects/${id}.json`
     );
@@ -160,7 +155,7 @@ export const fetchProject = (userId, id) => {
 
 export const createProject = (userId, formValues) => {
   console.log(formValues);
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     const response = await firebaseDbRest.post(
       `/${userId || "guest"}/projects.json`,
       formValues
@@ -176,7 +171,7 @@ export const createProject = (userId, formValues) => {
 };
 
 export const editProject = (userId, id, formValues) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${id}.json`,
       formValues
@@ -189,7 +184,7 @@ export const editProject = (userId, id, formValues) => {
 };
 
 export const deleteProject = (userId, id) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     console.log(`deleting ${id}`);
     await firebaseDbRest.delete(`/${userId || "guest"}/projects/${id}.json`);
 
@@ -201,7 +196,7 @@ export const deleteProject = (userId, id) => {
 };
 
 export const deleteAllProjects = (userId) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     await firebaseDbRest.delete(`/${userId || "guest"}/projects.json`);
     dispatch({
       type: actionTypes.DELETE_ALL_PROJECTS,
@@ -268,7 +263,7 @@ export const sortProjectsByTasks = (userId, projects, order = "ascending") => {
 
 // task action creators
 export const createTask = (userId, id, formValues) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     const response = await firebaseDbRest.post(
       `/${userId || "guest"}/projects/${id}/tasks.json`,
       formValues
@@ -284,7 +279,7 @@ export const createTask = (userId, id, formValues) => {
 };
 
 export const editTask = (userId, projectId, taskId, formValues) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
       formValues
@@ -298,7 +293,7 @@ export const editTask = (userId, projectId, taskId, formValues) => {
 };
 
 export const toggleTaskCheck = (userId, projectId, taskId, checkValue) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     const response = await firebaseDbRest.patch(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`,
       { finished: checkValue }
@@ -313,7 +308,7 @@ export const toggleTaskCheck = (userId, projectId, taskId, checkValue) => {
 };
 
 export const deleteTask = (userId, projectId, taskId) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     console.log(`deleting ${taskId}`);
     await firebaseDbRest.delete(
       `/${userId || "guest"}/projects/${projectId}/tasks/${taskId}.json`
@@ -326,7 +321,7 @@ export const deleteTask = (userId, projectId, taskId) => {
 };
 
 export const deleteAllTasks = (userId, projectId) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     await firebaseDbRest.delete(
       `/${userId || "guest"}/projects/${projectId}/tasks.json`
     );
@@ -455,7 +450,7 @@ export const sortTasksByPriority = (
 };
 // finished tasks action creators
 export const fetchFinishedTasks = (userId) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     // Retrieve all projects first from the database
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects.json`
@@ -530,7 +525,7 @@ export const fetchFinishedTasks = (userId) => {
 
 export const deleteFinishedTask = (taskIndex) => {
   console.log(taskIndex);
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     dispatch({
       type: actionTypes.DELETE_FINISHED_TASK,
       payload: taskIndex,
@@ -539,7 +534,7 @@ export const deleteFinishedTask = (taskIndex) => {
 };
 
 export const deleteAllFinishedTasks = () => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     dispatch({
       type: actionTypes.DELETE_ALL_FINISHED_TASKS,
     });
@@ -647,7 +642,7 @@ export const sortFinishedTasksByPriority = (
 
 // DUETODAY TASKS ACTION CREATORS
 export const fetchDueToday = (userId) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     // Retrieve all projects first from the database
     const response = await firebaseDbRest.get(
       `/${userId || "guest"}/projects.json`
@@ -727,7 +722,7 @@ export const fetchDueToday = (userId) => {
 };
 
 export const deleteDueTodayTask = (taskIndex) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     dispatch({
       type: actionTypes.DELETE_DUE_TODAY_TASK,
       payload: taskIndex,
@@ -736,7 +731,7 @@ export const deleteDueTodayTask = (taskIndex) => {
 };
 
 export const editDueTodayTask = (taskIndex, formValues) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     if (!isToday(formValues.date)) {
       dispatch({
         type: actionTypes.DELETE_DUE_TODAY_TASK,
@@ -752,7 +747,7 @@ export const editDueTodayTask = (taskIndex, formValues) => {
 };
 
 export const toggleDueTodayTaskCheck = (taskIndex, checkValue) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     dispatch({
       type: actionTypes.TOGGLE_DUE_TODAY_TASK_CHECK,
       payload: { checkValue, taskIndex },
@@ -761,7 +756,7 @@ export const toggleDueTodayTaskCheck = (taskIndex, checkValue) => {
 };
 
 export const deleteAllDueTodayTasks = () => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     dispatch({
       type: actionTypes.DELETE_ALL_DUE_TODAY_TASKS,
     });
@@ -874,7 +869,6 @@ export const authSignIn = ({ authMethod, userId }) => {
       type: actionTypes.AUTH_SIGN_IN,
       payload: { authMethod, userId },
     });
-    // dispatch(reset("registerForm"));
   };
 };
 

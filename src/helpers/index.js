@@ -53,6 +53,11 @@ export const standardToMilitary = function standardToMilitary(time) {
 
   return `${hour}:${minute}`;
 };
+// regular expression testing
+export const validateEmail = (email) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
 
 // // filetype functions
 // export const checkFileType = (regexp, file, cb) => {
@@ -88,7 +93,7 @@ export const renderError = (meta, sectionName) => {
   // Creates an error message if there is an error in the input field is touched
   if (error && touched) {
     return (
-      <div className={`${sectionName} error`}>
+      <div className={`${sectionName} error error-container`}>
         <img className="error-image" src={warningImg} alt="warning sign"></img>
         {error}
       </div>

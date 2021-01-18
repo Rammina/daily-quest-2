@@ -126,6 +126,18 @@
   padding: 0.1rem;
 }
 
+.project.error.error-container {
+  position: relative !important;
+
+  bottom: 1.2rem;
+}
+
+.task.error.error-container {
+  position: relative !important;
+
+  bottom: 0.6rem !important;
+}
+
 @media screen and (min-width: 450px) {
   #projects-list {
     width: 70vw;

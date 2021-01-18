@@ -1,5 +1,4 @@
 import { ACTION_SHOW_LOADER } from "./types";
-
 import { capitalizeFirstLetter } from "../helpers";
 
 export const formShowLoader = (

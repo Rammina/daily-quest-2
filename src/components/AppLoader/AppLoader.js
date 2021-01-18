@@ -4,10 +4,7 @@ import React from "react";
 import { AuthContext } from "../AppContext";
 
 class AppLoader extends React.Component {
-  state = {
-    // showLoader: true,
-    // loaderFadeClass: null
-  };
+  state = {};
 
   static contextType = AuthContext;
 
@@ -32,29 +29,6 @@ class AppLoader extends React.Component {
     }, 500);
   }
 
-  // fadeLoaderAfterCheck = () => {
-  //   setTimeout(() => {
-  //     console.log("hello");
-  //
-  //     if (this.context.signInChecked) {
-  //       this.setState({ loaderFadeClass: "no-display" });
-  //       this.hideLoader(300);
-  //     } else {
-  //       // this.fadeLoaderAfterCheck();
-  //     }
-  //   }, 500);
-  // };
-
-  // hideLoader = delay => {
-  //   if (delay) {
-  //     setTimeout(() => {
-  //       this.setState({ showLoader: false });
-  //     }, delay);
-  //   } else {
-  //     this.setState({ showLoader: false });
-  //   }
-  // };
-
   render() {
     if (!this.props.loader.show) {
       return null;
@@ -76,7 +50,6 @@ class AppLoader extends React.Component {
           </svg>
           <div className="loader-circles"></div>
         </div>
-        {/* <p className="loader-p">Loading...</p> */}
       </div>
     );
   }

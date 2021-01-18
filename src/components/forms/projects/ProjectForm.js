@@ -1,8 +1,6 @@
 import "./ProjectForm.css";
-import warningImg from "../../../images/warning.png";
 
 import React from "react";
-import ReactDOM from "react-dom";
 import { Field, reduxForm } from "redux-form";
 import { renderError, getErrorClass } from "../../../helpers";
 
@@ -11,13 +9,13 @@ import { ElementsContext } from "../../AppContext";
 
 class ProjectForm extends React.Component {
   state = {
-    autofocus: false
+    autofocus: false,
   };
   static contextType = ElementsContext;
 
   componentDidMount() {}
 
-  handleEnterKeyOnField = e => {
+  handleEnterKeyOnField = (e) => {
     // This prevents submission bugging or refreshing upon pressing enter
     // in an input field inside a form
     if (e.keyCode === 13) {
@@ -46,7 +44,7 @@ class ProjectForm extends React.Component {
           {...inputProps}
           {...input}
           className={`${inputProps.className} ${errorClass}`}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             this.handleEnterKeyOnField(e);
           }}
           autoFocus={inputProps.autoFocus || false}
@@ -56,7 +54,7 @@ class ProjectForm extends React.Component {
     );
   };
 
-  onSubmit = formValues => {
+  onSubmit = (formValues) => {
     this.props.onSubmit(formValues);
   };
 
@@ -75,13 +73,13 @@ class ProjectForm extends React.Component {
                 maxLength: "30",
                 autoComplete: "off",
                 id: "project-form-name-field",
-                autoFocus: true
+                autoFocus: true,
               },
               labelProps: {
                 class: "form-label block",
                 text: "Project Name *",
-                id: "project-form-name-label"
-              }
+                id: "project-form-name-label",
+              },
             }}
           />
         </div>
@@ -103,7 +101,7 @@ class ProjectForm extends React.Component {
             className="form-submit modal-action-button"
             id="project-form-submit"
             onClick={this.props.handleSubmit(this.onSubmit)}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (e.key === "Tab" && !e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -122,7 +120,7 @@ class ProjectForm extends React.Component {
   }
 }
 
-const validate = formValues => {
+const validate = (formValues) => {
   const errors = {};
   if (!formValues.name) {
     errors.name = "Please input a name for the project.";
@@ -132,5 +130,5 @@ const validate = formValues => {
 
 export default reduxForm({
   form: "projectForm",
-  validate
+  validate,
 })(ProjectForm);

@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { createProject } from "../../../actions";
 
 import ProjectForm from "./ProjectForm";
-import ModalCloseButton from "../../Modal/common/ModalCloseButton";
-import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 
 class CreateProject extends React.Component {
   onSubmit = async (formValues) => {
