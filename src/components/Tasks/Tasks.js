@@ -110,6 +110,7 @@ class Tasks extends React.Component {
   };
 
   onModalOpen = (modalType) => {
+    console.log(modalType);
     if (!this.state.modalsOpened.any) {
       this.setState({
         modalsOpened: { any: true, [modalType]: true },
@@ -185,6 +186,7 @@ class Tasks extends React.Component {
   };
 
   renderModal = () => {
+    console.log("modal opened is:");
     console.log(this.state.modalsOpened);
 
     if (this.state.modalsOpened.create) {
@@ -297,8 +299,9 @@ class Tasks extends React.Component {
                   <button
                     ref={this.createButtonRef}
                     className="create-button"
-                    onClick={(e) => {
-                      this.onModalOpen(e, "create");
+                    onClick={() => {
+                      console.log("Clicking create button");
+                      this.onModalOpen("create");
                     }}
                   >
                     +
@@ -381,7 +384,7 @@ class Tasks extends React.Component {
                       {
                         text: "Delete all tasks",
                         method: (e) => {
-                          this.onModalOpen(e, "deleteAll");
+                          this.onModalOpen("deleteAll");
                           this.handleSettingsClose();
                         },
                       },
