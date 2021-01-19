@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.de1f457b.chunk.css",
+    "main.js": "/static/js/main.4802fefe.chunk.js",
+    "main.js.map": "/static/js/main.4802fefe.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a328ea17.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a328ea17.js.map",
+    "static/js/2.39c24737.chunk.js": "/static/js/2.39c24737.chunk.js",
+    "static/js/2.39c24737.chunk.js.map": "/static/js/2.39c24737.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.245e6ea20a808741c6276623b7190906.js": "/precache-manifest.245e6ea20a808741c6276623b7190906.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.de1f457b.chunk.css.map": "/static/css/main.de1f457b.chunk.css.map",
+    "static/js/2.39c24737.chunk.js.LICENSE": "/static/js/2.39c24737.chunk.js.LICENSE",
+    "static/media/blue-girl.png": "/static/media/blue-girl.997c97c2.png",
+    "static/media/star.png": "/static/media/star.4cea2f76.png",
+    "static/media/Home.css": "/static/media/yumemi.a3c1f37d.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a328ea17.js",
+    "static/js/2.39c24737.chunk.js",
+    "static/css/main.de1f457b.chunk.css",
+    "static/js/main.4802fefe.chunk.js"
+  ]
+}
