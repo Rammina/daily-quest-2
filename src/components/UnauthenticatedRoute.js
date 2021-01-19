@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-// import { AuthContext } from "./AppContext";
 
 function querystring(name, url = window.location.href) {
   name = name.replace(/[[]]/g, "\\$&");
@@ -21,7 +20,7 @@ function querystring(name, url = window.location.href) {
 
 function UnauthenticatedRoute(props) {
   const { children, ...rest } = props;
-  // const { isSignedIn } = useContext(AuthContext);
+
   const redirect = querystring("redirect");
   return (
     <Route {...rest}>
