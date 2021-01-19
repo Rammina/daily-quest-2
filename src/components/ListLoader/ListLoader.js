@@ -10,7 +10,7 @@ class ListLoader extends React.Component {
     return (
       <div
         className={`list-loader-container ${
-          this.state.loaderFadeClass || null
+          this.props.loaderFadeClass || null
         }`}
       >
         <div className="list-loader-message-container">
