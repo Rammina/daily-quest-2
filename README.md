@@ -85,19 +85,19 @@ Tasks inside a project folder:
 
 <br/>
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1623822110/dq-tasks-desktop_uef5cl.png" alt="Tasks desktop image" width="960" height="500"/>
+<img src="https://res.cloudinary.com/rammina/image/upload/v1623822110/dq-tasks-desktop_uef5cl.png" alt="Tasks desktop image" width="960" height="400"/>
 
 List of projects: 
 
 <br/>
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1623822090/dq-projects-desktop_byeelg.png" alt="Projects desktop image" width="960" height="500"/>
+<img src="https://res.cloudinary.com/rammina/image/upload/v1623822090/dq-projects-desktop_byeelg.png" alt="Projects desktop image" width="960" height="400"/>
 
 Home page: 
 
 <br/>
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1623822133/dq-home-desktop_i4bzg4.png" alt="Home page desktop image" width="960" height="500"/>
+<img src="https://res.cloudinary.com/rammina/image/upload/v1623822133/dq-home-desktop_i4bzg4.png" alt="Home page desktop image" width="960" height="400"/>
 
 ## License
 
