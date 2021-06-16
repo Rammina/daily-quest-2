@@ -2,14 +2,13 @@
 
 ## Table of Contents
 
-- [Overview](https://github.com/Rammina/Amussement#overview)
-- [Features](https://github.com/Rammina/Amussement#features)
-- [Technologies Used](https://github.com/Rammina/Amussement#technologies-used)
-- [Installation](https://github.com/Rammina/Amussement#installation)
-  - [Front-end](https://github.com/Rammina/Amussement#frontend)
-- [Sample Images](https://github.com/Rammina/Amussement#sample-images)
-- [Dependencies](https://github.com/Rammina/Amussement#dependencies)
-- [License](https://github.com/Rammina/Amussement#license)
+- [Overview](https://github.com/Rammina/daily-quest-2#overview)
+- [Features](https://github.com/Rammina/daily-quest-2#features)
+- [Technologies Used](https://github.com/Rammina/daily-quest-2#technologies-used)
+- [Development Installation](https://github.com/Rammina/daily-quest-2#development-installation)
+- [Sample Images](https://github.com/Rammina/daily-quest-2#sample-images)
+- [Dependencies](https://github.com/Rammina/daily-quest-2#dependencies)
+- [License](https://github.com/Rammina/daily-quest-2#license)
 
 ## Overview
 
@@ -45,7 +44,6 @@ Online To-do list application, created using React, Redux, Firebase Realtime Dat
 ## Development Installation
 
 Clone this project locally and then follow the instructions below:
-
 
 To start the client application, go to the root folder:
 
