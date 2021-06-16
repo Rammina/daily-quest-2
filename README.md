@@ -25,21 +25,31 @@ Online To-do list application, created using React, Redux, Firebase Realtime Dat
 - Login with email and password
 - Login with GoogleAuth
 
+**To-Do List**
+
+- Create project
+- View project
+- Update project
+- Delete project
+
+- Create task
+- View task
+- Update task
+- Delete task
+
+- Sort projects by category
+- Sort projects ascendingly or descendingly
+- Sort tasks by category
+- Sort tasks ascendingly or descendingly
+
+- View tasks due today
+- View tasks finished
+
 ## Technologies Used
 
-<img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/> <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB"/> <img alt="Redux" src="https://img.shields.io/badge/redux-%23593d88.svg?&style=for-the-badge&logo=redux&logoColor=white"/> <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white"/> <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white"/>
-
-//NOTE: have may add these technology badges from shield website (-Rammina)
-
-- firebase
+<img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/> <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB"/> <img alt="Redux" src="https://img.shields.io/badge/redux-%23593d88.svg?&style=for-the-badge&logo=redux&logoColor=white"/> <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white"/> <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white"/> <img alt="Firebase" src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase"/> <img alt="AWS" src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white"/> <img alt="Google Cloud" src="https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white"/>
 - AWS cognito
 - GoogleAuth
-
-## Sample Images
-
-//NOTE: have may screenshot the daily quest features, in 16:9 aspect ratio of(-Rammina)
-//NOTE: preferably in both mobile and desktop versions (-Rammina)
-//NOTE: upload to cloudinary afterwards (-Rammina)
 
 ## Development Installation
 
@@ -68,6 +78,13 @@ To run the build process:
 ```bash
 npm run build
 ```
+
+## Sample Images
+
+**Under Construction, waiting for May's images**
+//NOTE: have may screenshot the daily quest features, in 16:9 aspect ratio of(-Rammina)
+//NOTE: preferably in both mobile and desktop versions (-Rammina)
+//NOTE: upload to cloudinary afterwards (-Rammina)
 
 ## License
 
