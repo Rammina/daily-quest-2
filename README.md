@@ -1,68 +1,76 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Daily Quest
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Overview](https://github.com/Rammina/Amussement#overview)
+- [Features](https://github.com/Rammina/Amussement#features)
+- [Technologies Used](https://github.com/Rammina/Amussement#technologies-used)
+- [Installation](https://github.com/Rammina/Amussement#installation)
+  - [Front-end](https://github.com/Rammina/Amussement#frontend)
+- [Sample Images](https://github.com/Rammina/Amussement#sample-images)
+- [Dependencies](https://github.com/Rammina/Amussement#dependencies)
+- [License](https://github.com/Rammina/Amussement#license)
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Online To-do list application, created using React, Redux, Firebase Realtime Database, GoogleAuth, and AWS Cognito. It allows users to create folders called Projects which consist of multiple Tasks. Each account has its own data which is stored online.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<b>LIVE LINK:</b>
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**User Authentication**
 
-### `npm run build`
+- Register with email and password
+- Email verification code
+- Login with email and password
+- Login with GoogleAuth
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technologies Used
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/> <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB"/> <img alt="Redux" src="https://img.shields.io/badge/redux-%23593d88.svg?&style=for-the-badge&logo=redux&logoColor=white"/> <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white"/> <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white"/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+//NOTE: have may add these technology badges from shield website (-Rammina)
 
-### `npm run eject`
+- firebase
+- AWS cognito
+- GoogleAuth
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Sample Images
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+//NOTE: have may screenshot the daily quest features, in 16:9 aspect ratio of(-Rammina)
+//NOTE: preferably in both mobile and desktop versions (-Rammina)
+//NOTE: upload to cloudinary afterwards (-Rammina)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Development Installation
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Clone this project locally and then follow the instructions below:
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To start the client application, go to the root folder:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd daily-quest-2
+```
 
-### Code Splitting
+Install dependencies by running:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```bash
+npm install
+```
 
-### Analyzing the Bundle Size
+Start the client application in development mode on port 3000 by running:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+```bash
+npm start
+```
 
-### Making a Progressive Web App
+To run the build process:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```bash
+npm run build
+```
 
-### Advanced Configuration
+## License
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[MIT](https://choosealicense.com/licenses/mit/)
