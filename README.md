@@ -81,10 +81,23 @@ npm run build
 
 ## Sample Images
 
-**Under Construction, waiting for May's images**
-//NOTE: have may screenshot the daily quest features, in 16:9 aspect ratio of(-Rammina)
-//NOTE: preferably in both mobile and desktop versions (-Rammina)
-//NOTE: upload to cloudinary afterwards (-Rammina)
+Tasks inside a project folder: 
+
+<br/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1623822110/dq-tasks-desktop_uef5cl.png" alt="Tasks desktop image" />
+
+List of projects: 
+
+<br/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1623822090/dq-projects-desktop_byeelg.png" alt="Projects desktop image" />
+
+Home page: 
+
+<br/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1623822133/dq-home-desktop_i4bzg4.png" alt="Home page desktop image" />
 
 ## License
 
