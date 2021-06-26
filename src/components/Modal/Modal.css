@@ -34,8 +34,8 @@
   margin: calc(35vh - 6.5rem) auto;
   padding: 2rem 0.5rem;
   background-color: #343637;
-  -webkit-box-shadow: 0 0 0 1px #fff2;
-  box-shadow: 0 0 0 1px #fff2;
+  -webkit-box-shadow: 0 0 0 1px #deffff99;
+  box-shadow: 0 0 0 1px #deffff99;
   border-radius: 5px;
   /*overflow: hidden;*/
   overflow-y: auto;
