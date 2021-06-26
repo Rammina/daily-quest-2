@@ -120,8 +120,6 @@
   bottom: 0rem;
   margin-bottom: 0.4rem;
   position: relative;
-  /* left: 0.5rem; */
-  text-shadow: 0px 1px 0px #beffff80;
 }
 
 .block.form-label {
@@ -422,7 +420,6 @@ div.text-field.disabled {
 .form-label.error,
 .block.form-label.error {
   color: #ffb0b0;
-  text-shadow: 0px 1px 0px #f778;
 }
 
 .error-image {

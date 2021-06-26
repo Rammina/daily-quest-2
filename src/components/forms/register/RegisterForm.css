@@ -181,9 +181,7 @@ div.text-field.disabled {
 .form-label.error,
 .block.form-label.error {
   color: #ffb0b0;
-  text-shadow: 0px 1px 0px #f778;
 }
-
 .error-image {
   position: relative;
   width: 1.5rem;
