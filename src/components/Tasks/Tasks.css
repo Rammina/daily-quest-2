@@ -38,7 +38,7 @@
 
 .item.task.list-header.first {
   z-index: 10;
-  background-color: rgb(197, 233, 194);
+  background-color: #deffff;
   border: none !important;
   border-top: 1rem solid #343947 !important;
   top: 3.5rem;
