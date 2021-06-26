@@ -56,7 +56,7 @@
 
 .text-field:disabled,
 .text-field.disabled {
-  background-color: #242937;
+  background-color: #343637;
   color: #eee;
   border: none;
   border-bottom: 1px solid #beffff;
