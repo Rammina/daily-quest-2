@@ -146,8 +146,6 @@ ul {
     height: auto;
     /* max-height: 50rem; */
     border-radius: 5px;
-    -webkit-box-shadow: 0 0 0 2px #beffffdd;
-    box-shadow: 0 0 0 2px #beffffdd;
     background-color: #222732e4;
   }
 }
