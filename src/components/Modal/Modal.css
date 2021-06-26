@@ -33,7 +33,7 @@
   max-width: 40rem;
   margin: calc(35vh - 6.5rem) auto;
   padding: 2rem 0.5rem;
-  background-color: #333;
+  background-color: #242937;
   -webkit-box-shadow: 0 0 0 1px #beffff66;
   box-shadow: 0 0 0 1px #beffff66;
   border-radius: 5px;
@@ -178,7 +178,7 @@
 
 .text-field:disabled,
 .text-field.disabled {
-  background-color: #333;
+  background-color: #242937;
   color: #eee;
   border: none;
   border-bottom: 1px solid #beffff;
