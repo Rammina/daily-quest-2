@@ -118,12 +118,12 @@
     width: 70vw;
     min-width: 310px;
     border-radius: 0 0 4px 4px;
-    -webkit-box-shadow: inset -1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      inset 1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      0px 1px 0px 0px rgba(221, 255, 221, 0.8);
-    box-shadow: inset -1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      inset 1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      0px 1px 0px 0px rgba(221, 255, 221, 0.8);
+    -webkit-box-shadow: inset -1px 0px 0px 0px #deffffcc,
+      inset 1px 0px 0px 0px #deffffcc,
+      0px 1px 0px 0px #deffffcc;
+    box-shadow: inset -1px 0px 0px 0px #deffffcc,
+      inset 1px 0px 0px 0px #deffffcc,
+      0px 1px 0px 0px #deffffcc;
   }
   .item.task.list-header.first {
     width: 70vw;

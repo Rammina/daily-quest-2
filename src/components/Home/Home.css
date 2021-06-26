@@ -1,7 +1,7 @@
 .home-container {
   padding-top: 3.3rem;
   min-height: 100vh;
-  /* max-width: 300px; */
+  /*
   background: linear-gradient(
     0deg,
     rgba(17, 19, 22, 1) 0%,
@@ -9,6 +9,8 @@
     rgb(101, 112, 126) 85%,
     rgb(130, 150, 180) 100%
   );
+  */
+  background: linear-gradient(0deg, #343947 0%, #141927 100%)
 }
 
 .home-welcome-container {

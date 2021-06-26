@@ -39,11 +39,11 @@
 
 @media screen and (min-width: 450px) {
   .list-loader-container {
-    -webkit-box-shadow: inset -1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      inset 1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      0px 1px 0px 0px rgba(221, 255, 221, 0.8);
-    box-shadow: inset -1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      inset 1px 0px 0px 0px rgba(221, 255, 221, 0.8),
-      0px 1px 0px 0px rgba(221, 255, 221, 0.8);
+    -webkit-box-shadow: inset -1px 0px 0px 0px #deffffcc,
+      inset 1px 0px 0px 0px #deffffcc,
+      0px 1px 0px 0px #deffffcc;
+    box-shadow: inset -1px 0px 0px 0px #deffffcc,
+      inset 1px 0px 0px 0px #deffffcc,
+      0px 1px 0px 0px #deffffcc;
   }
 }
