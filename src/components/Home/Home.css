@@ -10,7 +10,7 @@
     rgb(130, 150, 180) 100%
   );
   */
-  background: linear-gradient(0deg, #343947 0%, #141927 100%)
+  background: linear-gradient(0deg, #141927 0%, #343947 100%)
 }
 
 .home-welcome-container {
@@ -72,6 +72,7 @@ girlContainer.style.backgroundPosition = "50% 50%"; */
 }
 
 .home-paragraph-button:hover {
+  color: #ffc580;
   text-decoration: underline;
   cursor: pointer;
 }
