@@ -90,8 +90,8 @@ ul {
   padding-top: 2.5rem;
   width: 100%;
   min-height: calc(100vh + 15rem);
-  -webkit-box-shadow: 0 0 0 2px #beffff;
-  box-shadow: 0 0 0 2px #beffff;
+  -webkit-box-shadow: 0 0 0 2px #beffff88;
+  box-shadow: 0 0 0 2px #beffff88;
   background-color: #202530f8;
   color: aliceblue;
 }
