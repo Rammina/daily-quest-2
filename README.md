@@ -1,4 +1,3 @@
-<!-- this is a  -->
 # Daily Quest
 
 ## Table of Contents
