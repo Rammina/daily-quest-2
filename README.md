@@ -14,7 +14,7 @@
 
 Online To-do list application, created using React, Redux, Firebase Realtime Database, GoogleAuth, and AWS Cognito. It allows users to create folders called Projects which consist of multiple Tasks. Each account has its own data which is stored online.
 
-**LIVE LINK:** https://daily-quest-2.netlify.app/
+**LIVE LINK:** https://daily-quest-2.vercel.app/
 
 ## Features
 
